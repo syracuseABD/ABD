@@ -1,0 +1,42 @@
+\begin{theindex}
+
+  \item \textbf  {OMNIType Theory}, 3
+    \subitem Datatypes, 3
+    \subitem Theorems, 3
+      \subsubitem command_distinct_clauses, 3
+      \subsubitem command_one_one, 3
+      \subsubitem escCommand_distinct_clauses, 3
+      \subsubitem escOutput_distinct_clauses, 3
+      \subsubitem escState_distinct_clauses, 3
+      \subsubitem output_distinct_clauses, 4
+      \subsubitem output_one_one, 4
+      \subsubitem principal_one_one, 4
+      \subsubitem state_distinct_clauses, 4
+      \subsubitem state_one_one, 4
+
+  \indexspace
+
+  \item \textbf  {PBType Theory}, 11
+    \subitem Datatypes, 11
+    \subitem Theorems, 11
+      \subsubitem slCommand_distinct_clauses, 11
+      \subsubitem slOutput_distinct_clauses, 12
+      \subsubitem slState_distinct_clauses, 12
+
+  \indexspace
+
+  \item \textbf  {ssmPB Theory}, 4
+    \subitem Definitions, 4
+      \subsubitem secContext_def, 4
+      \subsubitem ssmPBStateInterp_def, 4
+    \subitem Theorems, 4
+      \subsubitem authenticationTest_cmd_reject_lemma, 4
+      \subsubitem authenticationTest_def, 4
+      \subsubitem authenticationTest_ind, 5
+      \subsubitem authenticationTest_TT_reject_lemma, 6
+      \subsubitem PBNS_def, 6
+      \subsubitem PBNS_ind, 7
+      \subsubitem PBOut_def, 8
+      \subsubitem PBOut_ind, 9
+
+\end{theindex}

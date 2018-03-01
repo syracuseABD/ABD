@@ -1,0 +1,24 @@
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:24: error: Structure (acl_infRules) has not been declared
+Found near open acl_infRules aclDrulesTheory aclrulesTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:24: error: Structure (aclDrulesTheory) has not been declared
+Found near open acl_infRules aclDrulesTheory aclrulesTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:24: error: Structure (aclrulesTheory) has not been declared
+Found near open acl_infRules aclDrulesTheory aclrulesTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:25: error: Structure (ssminfRules) has not been declared
+Found near
+  open ssminfRules satListTheory ssm11Theory OMNITypeTheory PBTypeTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:25: error: Structure (satListTheory) has not been declared
+Found near
+  open ssminfRules satListTheory ssm11Theory OMNITypeTheory PBTypeTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:25: error: Structure (ssm11Theory) has not been declared
+Found near
+  open ssminfRules satListTheory ssm11Theory OMNITypeTheory PBTypeTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:25: error: Structure (OMNITypeTheory) has not been declared
+Found near
+  open ssminfRules satListTheory ssm11Theory OMNITypeTheory PBTypeTheory
+/home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml:25: error: Structure (PBTypeTheory) has not been declared
+Found near
+  open ssminfRules satListTheory ssm11Theory OMNITypeTheory PBTypeTheory
+error in quse /home/sungoddess/Documents/PB/PatrolBaseOmni/ssmPBScript.sml : Fail "Static Errors"
+error in load ssmPBScript : Fail "Static Errors"
+Static Errors

@@ -1,0 +1,94 @@
+\newcommand{\HOLOMNITypeDate}{02 July 2017}
+\newcommand{\HOLOMNITypeTime}{22:51}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypescommand}
+\HOLFreeVar{command} = \HOLConst{ESCc} \HOLTyOp{escCommand} \HOLTokenBar{} \HOLConst{SLc} 'slCommand
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypescommand}{\UseVerbatim{HOLOMNITypeDatatypescommand}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesescCommand}
+\HOLFreeVar{escCommand} = \HOLConst{returnToBase} \HOLTokenBar{} \HOLConst{changeMission} \HOLTokenBar{} \HOLConst{resupply}
+           \HOLTokenBar{} \HOLConst{reactToContact}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesescCommand}{\UseVerbatim{HOLOMNITypeDatatypesescCommand}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesescOutput}
+\HOLFreeVar{escOutput} = \HOLConst{ReturnToBase} \HOLTokenBar{} \HOLConst{ChangeMission} \HOLTokenBar{} \HOLConst{Resupply}
+          \HOLTokenBar{} \HOLConst{ReactToContact}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesescOutput}{\UseVerbatim{HOLOMNITypeDatatypesescOutput}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesescState}
+\HOLFreeVar{escState} = \HOLConst{RTB} \HOLTokenBar{} \HOLConst{CM} \HOLTokenBar{} \HOLConst{RESUPPLY} \HOLTokenBar{} \HOLConst{RTC}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesescState}{\UseVerbatim{HOLOMNITypeDatatypesescState}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesoutput}
+\HOLFreeVar{output} = \HOLConst{ESCo} \HOLTyOp{escOutput} \HOLTokenBar{} \HOLConst{SLo} 'slOutput
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesoutput}{\UseVerbatim{HOLOMNITypeDatatypesoutput}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesprincipal}
+\HOLFreeVar{principal} = \HOLConst{SR} 'stateRole
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesprincipal}{\UseVerbatim{HOLOMNITypeDatatypesprincipal}}
+\begin{SaveVerbatim}{HOLOMNITypeDatatypesstate}
+\HOLFreeVar{state} = \HOLConst{ESCs} \HOLTyOp{escState} \HOLTokenBar{} \HOLConst{SLs} 'slState
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeDatatypesstate}{\UseVerbatim{HOLOMNITypeDatatypesstate}}
+\newcommand{\HOLOMNITypeDatatypes}{
+\HOLOMNITypeDatatypescommand\HOLOMNITypeDatatypesescCommand\HOLOMNITypeDatatypesescOutput\HOLOMNITypeDatatypesescState\HOLOMNITypeDatatypesoutput\HOLOMNITypeDatatypesprincipal\HOLOMNITypeDatatypesstate}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremscommandXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{ESCc} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{SLc} \HOLBoundVar{a\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremscommandXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremscommandXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremscommandXXoneXXone}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{ESCc} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{ESCc} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{SLc} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{SLc} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremscommandXXoneXXone}{\UseVerbatim{HOLOMNITypeTheoremscommandXXoneXXone}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsescCommandXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{returnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{changeMission} \HOLSymConst{\HOLTokenConj{}} \HOLConst{returnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{resupply} \HOLSymConst{\HOLTokenConj{}}
+   \HOLConst{returnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{reactToContact} \HOLSymConst{\HOLTokenConj{}} \HOLConst{changeMission} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{resupply} \HOLSymConst{\HOLTokenConj{}}
+   \HOLConst{changeMission} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{reactToContact} \HOLSymConst{\HOLTokenConj{}} \HOLConst{resupply} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{reactToContact}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsescCommandXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremsescCommandXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsescOutputXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{ReturnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{ChangeMission} \HOLSymConst{\HOLTokenConj{}} \HOLConst{ReturnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{Resupply} \HOLSymConst{\HOLTokenConj{}}
+   \HOLConst{ReturnToBase} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{ReactToContact} \HOLSymConst{\HOLTokenConj{}} \HOLConst{ChangeMission} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{Resupply} \HOLSymConst{\HOLTokenConj{}}
+   \HOLConst{ChangeMission} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{ReactToContact} \HOLSymConst{\HOLTokenConj{}} \HOLConst{Resupply} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{ReactToContact}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsescOutputXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremsescOutputXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsescStateXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLConst{RTB} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{CM} \HOLSymConst{\HOLTokenConj{}} \HOLConst{RTB} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{RESUPPLY} \HOLSymConst{\HOLTokenConj{}} \HOLConst{RTB} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{RTC} \HOLSymConst{\HOLTokenConj{}} \HOLConst{CM} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{RESUPPLY} \HOLSymConst{\HOLTokenConj{}}
+   \HOLConst{CM} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{RTC} \HOLSymConst{\HOLTokenConj{}} \HOLConst{RESUPPLY} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{RTC}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsescStateXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremsescStateXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsoutputXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{ESCo} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{SLo} \HOLBoundVar{a\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsoutputXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremsoutputXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsoutputXXoneXXone}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{ESCo} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{ESCo} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{SLo} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{SLo} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsoutputXXoneXXone}{\UseVerbatim{HOLOMNITypeTheoremsoutputXXoneXXone}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsprincipalXXoneXXone}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{SR} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{SR} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsprincipalXXoneXXone}{\UseVerbatim{HOLOMNITypeTheoremsprincipalXXoneXXone}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsstateXXdistinctXXclauses}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{ESCs} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{SLs} \HOLBoundVar{a\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsstateXXdistinctXXclauses}{\UseVerbatim{HOLOMNITypeTheoremsstateXXdistinctXXclauses}}
+\begin{SaveVerbatim}{HOLOMNITypeTheoremsstateXXoneXXone}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{ESCs} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{ESCs} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{SLs} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{SLs} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+\end{SaveVerbatim}
+\newcommand{\HOLOMNITypeTheoremsstateXXoneXXone}{\UseVerbatim{HOLOMNITypeTheoremsstateXXoneXXone}}
+\newcommand{\HOLOMNITypeTheorems}{
+\HOLThmTag{OMNIType}{command_distinct_clauses}\HOLOMNITypeTheoremscommandXXdistinctXXclauses
+\HOLThmTag{OMNIType}{command_one_one}\HOLOMNITypeTheoremscommandXXoneXXone
+\HOLThmTag{OMNIType}{escCommand_distinct_clauses}\HOLOMNITypeTheoremsescCommandXXdistinctXXclauses
+\HOLThmTag{OMNIType}{escOutput_distinct_clauses}\HOLOMNITypeTheoremsescOutputXXdistinctXXclauses
+\HOLThmTag{OMNIType}{escState_distinct_clauses}\HOLOMNITypeTheoremsescStateXXdistinctXXclauses
+\HOLThmTag{OMNIType}{output_distinct_clauses}\HOLOMNITypeTheoremsoutputXXdistinctXXclauses
+\HOLThmTag{OMNIType}{output_one_one}\HOLOMNITypeTheoremsoutputXXoneXXone
+\HOLThmTag{OMNIType}{principal_one_one}\HOLOMNITypeTheoremsprincipalXXoneXXone
+\HOLThmTag{OMNIType}{state_distinct_clauses}\HOLOMNITypeTheoremsstateXXdistinctXXclauses
+\HOLThmTag{OMNIType}{state_one_one}\HOLOMNITypeTheoremsstateXXoneXXone
+}

@@ -1,0 +1,89 @@
+\documentclass{book}
+\title{Certified Security by Design Applied to the Patrol Based\\
+  A Demonstration of CSBD Applicability to Military Operations}
+\author{Professor Shiu-Kai Chin, Lori Pickering, Jesse Nathanial Hall, YiHong Guo}
+\date{August 2017}
+
+\usepackage{634format}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\usepackage{subfiles}
+\usepackage{array}
+\usepackage{pdflscape}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+%\usepackage[usenames, dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{color}
+\graphicspath{ {diagrams/}{pictures/}{MethodsAP/picture/}{appendix/pictures/}{Intro/picture/} }
+\input{commands}
+
+\begin{document}
+\lstset{language=ML}
+\maketitle{}
+
+\tableofcontents{}
+
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\addcontentsline{toc}{chapter}{Preface}
+\chapter*{Preface}
+\label{cha:preface}
+\input{./preface/preface}
+
+\addcontentsline{toc}{chapter}{Acknowledgments}
+\chapter*{Acknowledgments}
+\label{cha:acknowledgments}
+  This project involved multiple people at multiple levels. The Principal Investigator was
+  Professor Shiu-Kai Chin of Syracuse University’s Department of Engineering and Computer Science.
+  Lori Pickering, Graduate Student at Syracuse University’s Department of Engineering and Computer
+  Science, primarily worked on the access-control logic (ACL) and higher order logic (HOL)
+  implementation of the patrol base. Together with Jesse Nathanial Hall, they constructed the
+  idea of translating the patrol base operations into state machines. Jesse, also a student at
+  Syracuse University in the iSchool and a Captain in the U.S. Army, was our subject matter expert.
+  Once Jesse and Lori decided on the state machine format, Jesse translated the patrol base operations
+  into this format. YiHong Guo came to the project near the end. Nevertheless, he contributed significantly
+  to the project. YiHong worked on organizing the documentation in LaTeX.
+
+\chapter{Summary}
+\label{cha:summary}
+
+
+\chapter{Introduction}
+\label{cha:introduction}
+\input{./Intro/Intro}
+
+\chapter{Methods, Assumptions, and Procedures}
+\label{cha:meth-assumpt-proc}
+\input{./MethodsAP/map}
+
+\chapter{Results and Discussions}
+\label{cha:results-discussions}
+\input{./HOLImplementation/HOLImplementation}
+% \input{../HOL/ssmPB/HOLReports/HOLPBType.tex}
+
+\chapter{Conclusions}
+\label{cha:conclusions}
+\input{./conclusion/designConclusions}
+
+\chapter{Recommendations}
+\label{cha:recommendations}
+\input{./recommendations/designRecommendations}
+
+\chapter{References}
+\label{cha:references}
+\input{./references/references}
+
+
+\appendix{}
+\renewcommand{\thechapter}{\Alph{chapter}}
+\input{./appendix/appendix}
+
+\end{document}

@@ -1,0 +1,9 @@
+
+\section{Design Conclusions}
+\label{sec:design-conclusions}
+
+PB operations were well defined by a state machine. The well-defined chain
+of command, roles, and associated tasks yielded easily identifiable states
+and sub states that have discrete beginning and ending points. Design
+constraints inherent in state machines are manageable at this level of
+granularity (i.e. top-level and sub state level).  

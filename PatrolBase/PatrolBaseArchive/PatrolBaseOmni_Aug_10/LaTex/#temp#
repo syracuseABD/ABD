@@ -1,0 +1,17 @@
+\item Each state machine implements a set of types that are defined in OMNIType.
+    OMNIType defines the datatype \textbf{command} which includes a constructor
+    and type for \textbf{SLc slCommand}.
+    \textbf{SLc} is the “state level command” constructor and the type is \textbf{slCommand}.
+    slCommand is a type that is to be further defined in each state machine.
+  \item Each state machine will implement a definition for \textbf{slCommand}.
+    In PBType, this is defined as follows:
+
+
+
+
+There are 6 ssmPB commands.
+    Except for \textbf{incomplete}, each command corresponds to a transition from one
+    state to the next state.\textbf{incomplete} is a command that that does not
+    change the state of the machine - a “not done” command.
+  \item Similarly, OMNIType defines the datatype \textbf{state} which has a “state level state”
+    constructor and type \textbf{SLs slState}.  In PBType, \textbf{slState} is defined as follows.

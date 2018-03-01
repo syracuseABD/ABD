@@ -1,0 +1,8 @@
+\ \\\ \\\ \\\\\\ \ \ \ \ \ Platoon patrol base (PB) operations are an
+essential part of many military
+operations. They provide Soldiers with a means to avoid enemy contact, rest,
+resupply, and conduct Squad level missions (Ranger Handbook 2011, 132).
+Although some might believe that a PB begins from an objective rally point
+(ORP), a PB must be planned for. Our PB software includes a state machine
+model for tasks that include planning, movement, as well as conducting both
+an ORP and PB.

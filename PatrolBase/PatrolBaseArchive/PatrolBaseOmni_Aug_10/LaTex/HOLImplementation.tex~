@@ -1,0 +1,97 @@
+
+\section*{Section Overview}
+\label{sec:section-overview}
+
+
+\section{PBTypeScript.sml}
+\label{sec:pbtypescript.sml-1}
+
+\ \\This file contains the datatype definitions used in ssmPB.\ \\
+\begin{description}
+\item[Datatype Definitions]\ 
+  \begin{itemize}
+    \item Each state machine implements a set of types that are defined in OMNIType.
+    OMNIType defines the datatype \textbf{command} which includes a constructor
+    and type for \textbf{SLc slCommand}.
+    \textbf{SLc} is the “state level command” constructor and the type is \textbf{slCommand}.
+    slCommand is a type that is to be further defined in each state machine.\ \\
+    \item Each state machine will implement a definition for \textbf{slCommand}.
+    In PBType, this is defined as follows:
+    \begin{align*}
+      slCommand\; =&\;\; crossLD\ \\
+                      &|\; conductORP\ \\
+                      &|\; moveToPB\ \\
+                      &|\; conductPB\ \\
+                      &|\; completePB\ \\
+                   &|\; incomplete
+    \end{align*}
+    There are 6 ssmPB commands.
+    Except for \textbf{incomplete}, each command corresponds to a transition from one
+    state to the next state.\textbf{incomplete} is a command that that does not
+    change the state of the machine -- a “not done” command.\ \\
+    \item Similarly, OMNIType defines the datatype \textbf{state} which has a “state level state”
+      constructor and type \textbf{SLs slState}.  In PBType, \textbf{slState} is defined as follows:
+      \begin{align*}
+        slState\; =&\;\; PLAN\_PB\ \\
+                      &|\; MOVE\_TO\_ORP\ \\
+                      &|\; CONDUCT\_ORP\ \\
+                      &|\; MOVE\_TO\_PB\ \\
+                      &|\; CONDUCT\_PB\ \\
+                   &|\; COMPLETE\_PB\ \\
+      \end{align*}
+    \item OMNIType defines the datatype \textbf{output} with the “state level output” constructor
+      and type as \textbf{SLo slOutput}.  In PBType, it is implemented as follows:
+      \begin{align*}
+        slOutput\; =&\;\; PlanPB\ \\
+                      &|\; MoveToORP\ \\
+                      &|\; ConductORP\ \\
+                      &|\; MoveToPB\ \\
+                      &|\; ConductPB\ \\
+                      &|\; CompletePB\ \\
+                      &|\; unAuthenticated\ \\
+      \end{align*}
+    \item OMNITtype defines the datatype \textbf{principal} which has “state role” constructor and
+      type \textbf{SR stateRole} as:
+      \begin{align*}
+        stateRole\; =&\;\; PlatoonLeader\ \\ \ \\
+        \end{align*}
+  \end{itemize}
+\end{description}
+
+\section{ssmPBScript.sml}
+\label{sec:ssmpbscript.sml}
+
+\begin{enumerate}
+\item \textbf{General Notes}
+  \begin{enumerate}
+  \item ssmPB is an acronym for “secure state machine patrol base”.  The “Script” notation
+    tells HOL that this is to be implemented as a theory.  “.sml” is the standard
+    file extension for poly ML type files.\ \\
+  \item The importance of ssmPB is two-fold:
+    \begin{itemize}
+    \item \textit{It implements the top-level state machine in HOL.}
+      \item \textit{It serves as a model for the implementation of subsequent state machines in the project.}\ \\
+      \end{itemize}
+    \item ssmPB uses ssm11 (secure state machine 1.1) as the general secure state machine which it
+      parameterizes.  That is, functions and datatypes in ssmPB are used as parameters in the ssm11
+      secure state machine.   ssmPB is the first state machine in the project that does this.  Thus,
+      it is used as a model for subsequent state machines.  Because of the similarity of all state
+      machines in the project, subsequent state machines can be a cut-n-paste adaptation of ssmPB,
+      with appropriate updates of datatype names.  Encapsulation of each state machine facilitates
+      the use of datatypes with the same name in different state machines.  Concerns about conflicts
+      among datatype names while integrating state machines (if time allows) were discussed.  This
+      should not pose a problem if time permits for the extension of the project to integration of
+      state machines.\ \\
+    \item iv.	Because ssmPB is a model for subsequent state machines, the details of ssmPB will
+      be described in more detail than for subsequent state machine descriptions.\ \\
+    \end{enumerate}
+  \item \textbf{Theory File Description}
+    \begin{enumerate}
+    \item After the appropriate comments and declaration of ssmPB as a structure, HOL must open theories which it depends on.
+      \begin{itemize}
+        \item sdlfksjd
+      \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+
+

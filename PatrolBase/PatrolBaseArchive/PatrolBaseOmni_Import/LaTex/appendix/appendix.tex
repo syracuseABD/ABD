@@ -1,0 +1,101 @@
+\begin{landscape}
+\chapter{State Machine Overview}
+\label{cha:state-mach-overv}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6]{appendix1.png}
+\end{figure}\\
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+
+\chapter{PB UML Class Diagram}
+\label{cha:pb-uml-class}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.5]{appendix2.png}
+\end{figure}\\
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+
+\chapter{PLAN_PB DFD Level 0}
+\label{cha:plan_pb-dfd-level}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.5]{appendix3.png}
+\end{figure}\\
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+\end{landscape}
+
+\chapter{Next State, Next Output Table}
+\label{cha:next-state-next}
+
+\begin{table}[h!]
+\begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{8em}|m{9em}|m{8em}|m{8em}|m{8em}|m{9em}|}
+                              \hline
+    \multicolumn{8}{|c|}{ }\\
+    \multicolumn{8}{|c|}{\textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{8}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & crossLD & conductORP & moveToPB & conductPB & completePB & incomeplete \\
+     \hline
+     & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{MOVE_TO_ORP}, MoveToORP & \rowcolor{lightgray}  &  &&& \cellcolor{white}\textcolor{cyan}{PLAN_PB}, PlanPB \\
+    \hline
+     & \cellcolor{cyan}MOVE_TO_ORP & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP & & & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_ORP}, MoveToORP \\
+    \hline
+     & \cellcolor{cyan}CONDUCT_ORP &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB & & & \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP \\
+    \hline
+     &\cellcolor{cyan} MOVE_TO_PB & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB && \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB \\
+    \hline
+     & \cellcolor{cyan}CONDUCT_PB & \rowcolor{lightgray}&&&& \cellcolor{white}\textcolor{cyan}{COMPLETE_PB}, CompletePB & \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB \\
+    \hline
+     & \cellcolor{cyan}COMPLETE_PB & \rowcolor{lightgray} &&&&& \\
+                              \hline
+
+ \end{tabular}
+ }
+\end{center}
+\end{table}
+
+\chapter{Source code for ssmPBScript.sml}
+\label{cha:source-code-ssmpbscr}
+
+The following code is from \emph{ssmPBScript.sml}
+\lstinputlisting{../HOL/ssmPB/ssmPBScript.sml}
+
+\chapter{Source code for PBTypeScript.sml}
+\label{cha:source-code-pbtyp}
+
+The following code is from \emph{PBTypeScript.sml}
+\lstinputlisting{../HOL/ssmPB/PBTypeScript.sml}
+
+\chapter{Symbols, Abbreviations, and Acronyms}
+\label{cha:list-symb-abbr}
+
+\begin{align*}
+&DFD\;\;\;\;\;&Data Flow Diagram\ \\
+&HHQ\;\;\;\;\;&Higher Headquarters\ \\ 
+&HOL\;\;\;\;\;&High Order Logic\ \\
+&LD\;\;\;\;\;&Line of Departure/Linear Departure\ \\
+&NMC\;\;\;\;\;&Non-Mission Capable\ \\
+&OPORD\;\;\;\;\;&Operation Order\ \\
+&PB\;\;\;\;\;&Patrol Base\ \\
+&PL\;\;\;\;\;&Platoon Leader\ \\
+&PolyML\;\;\;\;\;&Poly Metalanguage\ \\
+&PSG\;\;\;\;\;&Platoon Sergeant\ \\
+&TLP\;\;\;\;\;&Troop Leading Procedure\ \\
+&UML\;\;\;\;\;&Unified Modeling Language\ \\
+\end{align*}

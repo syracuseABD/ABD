@@ -1,0 +1,87 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLOMNIType}
+\input{HOLssmPB}
+\input{HOLPBType}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{OMNIType Theory}
+\index{OMNIType Theory@\textbf  {OMNIType Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLOMNITypeDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{OMNIType Theory@\textbf  {OMNIType Theory}!Datatypes}
+% .....................................
+
+\HOLOMNITypeDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{OMNIType Theory@\textbf  {OMNIType Theory}!Theorems}
+% .....................................
+
+\HOLOMNITypeTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{ssmPB Theory}
+\index{ssmPB Theory@\textbf  {ssmPB Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLssmPBDate \\[2pt]
+\textbf{Parent Theories:} PBType, ssm11, OMNIType
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{ssmPB Theory@\textbf  {ssmPB Theory}!Definitions}
+% .....................................
+
+\HOLssmPBDefinitions
+
+\subsection{Theorems}
+\index{ssmPB Theory@\textbf  {ssmPB Theory}!Theorems}
+% .....................................
+
+\HOLssmPBTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{PBType Theory}
+\index{PBType Theory@\textbf  {PBType Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLPBTypeDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{PBType Theory@\textbf  {PBType Theory}!Datatypes}
+% .....................................
+
+\HOLPBTypeDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{PBType Theory@\textbf  {PBType Theory}!Theorems}
+% .....................................
+
+\HOLPBTypeTheorems
+
+\HOLindex
+
+\end{document}

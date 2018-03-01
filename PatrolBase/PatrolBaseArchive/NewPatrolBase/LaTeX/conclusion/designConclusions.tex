@@ -1,0 +1,92 @@
+\section{Overall Conclusions}
+\label{sec:overall-conclusions}
+
+Overall, the project was a great idea. The initial challenges were in
+translating the patrol base operations into a design that could be
+implemented using ACL and then verified in HOL. At first, this seemed
+like a daunting task. Jesse was well-versed in the patrol base operations
+and the methods of the military. Lori was well-versed in the ACL and HOL.
+Yet, merging the two was not obvious at first. Once we decided on a state
+machine approach to solving the problem, everything ran smoothly. The
+beauty of the project was that it could be designed and built into any
+system that does check on equipment and the state of readiness of the
+patrol base operations at the platoon, squad, and soldier levels.
+
+\section{Future Work}
+\label{sec:future-work}
+
+This section discusses future work and other ideas from the perspective of each phase, the design phase and the implementation phase.
+
+\subsection{Design Phase}
+\label{sec:design-phase-1}
+
+PB operations were well defined by a state machine. The well-defined
+chain of command, roles, and associated tasks yielded easily identifiable
+states and sub states that have discrete beginning and ending points.
+Design constraints inherent in state machines are manageable at this level
+of granularity (i.e. top-level and sub state level).
+
+\subsection{Implementation Phase}
+\label{sec:implementation-phase-1}
+
+This section extrapolates on ideas for future work noted in the
+various sections above.
+
+\subsubsection{Integration}
+\label{sec:integration-2}
+
+One idea that I had an interest in exploring was integrating the
+state machines at either the top level or at each individual level.
+That is, I was interested in writing a sub-level secure state machine
+ssmSL that would transition from one secure state machine to the next.
+More specifically, the top-level states were PLAN_PB, MOVE_TO_ORP,
+CONDUCT_ORP, MOVE_TO_PB, CONDUCT_PB, and COMPLETE. Each of these states,
+save for the terminal state COMPLETE, was implemented at the sub-level
+as a secure state machine. Thus, each state in the top-level secure state
+machine was itself a secure state machine at the sub-level. These were
+each implemented in separate folders and separate “*.sml” files. Each
+of these were sub-folders in the “sub level” folder. The idea would be
+to generate a separate folder herein and a .sml file that would transition
+from the COMPLETE state of one sub-level secure state machine to the
+next sub-level secure state machine. And, so on. This could be done at
+the sub-sub-level as well. An alternative approach to the integration
+problem was to create an integrating secure state machine above the
+top-level state machine, in what was called the “OMNI” level state machine.
+
+\subsubsection{Alternatives and Additions}
+\label{sec:altern-addit}
+
+At the sub-sub-level we began to sway from the sub levels approach
+and consider defining platoon, squad, and soldier theories. These
+theories would define Boolean functions or datatypes that would
+indicated the degree of readiness of a platoon, squad, or soldier.
+For example, the platoon in a sub-sub-level secure state machine
+may require that the orders be read back to the headquarters to verify
+receipt and correctness. The platoon theory may contain a Boolean
+function ordersReadyReady = false (by default). To transition to the
+next state in the sub-sub-level state machine, ordersReadyReady = true, would be a condition required. This
+would likely be added to the security context list, but defined in the
+platoon theory file. Other such functions would be defined in the
+platoon, squad, and soldier theories as required to adequately represent
+the patrol base. The ideas were hashed out and would be reasonably
+straight forward to implement given sufficient time.
+
+\subsubsection{Cryptographic Authentication}
+\label{sec:crypt-auth}
+
+Our approach at assuming that “everybody knows who’s who” works
+for this project. However, if the patrol base were implemented in
+a [add a reference to what Jesse discussed], then authentication
+would require a password, key-card, or even a bar code on a soldiers
+iPhone. In this case, we would need to take our secure state machine
+to the next level and require cryptographic operations on identity.
+A parameterizable secure state machine that includes these features
+has already been worked out by Professor Shiu-Kai Chin. In analogy
+to the ssm11 that I modified from Professor Chin’s ssm1, there already
+exists an ssm2. ssm2 extends ssm1 to include cryptographic checks on
+identify. It could be used in the same manner as ssm1 (my modified
+version was ssm11) without appropriate changes to the project. That is,
+it wouldn’t be too much work to make the transition from the
+authenticate-by-visual to authenticate-by-password (or other form).
+This approach would lend itself well to the idea of [add a reference
+to what Jesse discussed], discussed in section “name of section.”

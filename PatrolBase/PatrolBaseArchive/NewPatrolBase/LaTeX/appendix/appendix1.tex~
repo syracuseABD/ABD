@@ -1,0 +1,70 @@
+\begin{landscape}
+\chapter{State Machine Overview}
+\label{cha:state-mach-overv}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.6]{appendix1.png}
+\end{figure}
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+
+\chapter{PB UML Class Diagram}
+\label{cha:pb-uml-class}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.5]{appendix2.png}
+\end{figure}
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+
+
+
+\chapter{PLAN_PB DFD Level 0}
+\label{cha:planpb-dfd-level-2}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.5]{appendix3.png}
+\end{figure}
+NOTE: A digital copy is available on the Syracuse University Google\textregistered
+Drive in both pdf and visio formats. The visio formatted document contains
+comments with descriptions, possible HOL implementation, and references
+to the Ranger Handbook (where applicable).
+\end{landscape}
+
+
+\chapter{Source code for ssmPBScript.sml}
+\label{cha:source-code-ssmpbscr}
+
+The following code is from \emph{ssmPBScript.sml}
+\lstinputlisting{../HOL/ssmPB/ssmPBScript.sml}
+
+\chapter{Source Code for PBTypeScript.sml}
+\label{cha:source-code-pbtyp}
+
+The following code is from \emph{PBTypeScript.sml}
+\lstinputlisting{../HOL/ssmPB/PBTypeScript.sml}
+
+\chapter{Symbols, Abbreviations, and Acronyms}
+\label{cha:symb-abbr-acronyms}
+
+\begin{align*}
+&DFD\;\;\;\;\;&Data Flow Diagram\ \\
+&HHQ\;\;\;\;\;&Higher Headquarters\ \\ 
+&HOL\;\;\;\;\;&High Order Logic\ \\
+&LD\;\;\;\;\;&Line of Departure/Linear Departure\ \\
+&NMC\;\;\;\;\;&Non-Mission Capable\ \\
+&OPORD\;\;\;\;\;&Operation Order\ \\
+&PB\;\;\;\;\;&Patrol Base\ \\
+&PL\;\;\;\;\;&Platoon Leader\ \\
+&PolyML\;\;\;\;\;&Poly Metalanguage\ \\
+&PSG\;\;\;\;\;&Platoon Sergeant\ \\
+&TLP\;\;\;\;\;&Troop Leading Procedure\ \\
+&UML\;\;\;\;\;&Unified Modeling Language\ \\
+\end{align*}

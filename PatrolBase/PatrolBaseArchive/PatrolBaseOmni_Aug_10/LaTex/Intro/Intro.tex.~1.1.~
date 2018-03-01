@@ -1,0 +1,26 @@
+Platoon patrol base (PB) operations are an essential part of many military operations.
+They provide Soldiers with a means to avoid enemy contact, rest, resupply, and conduct Squad
+level missions (Ranger Handbook 2011, 132). Although some might believe that a PB begins from
+an objective rally point (ORP), a PB must be planned for. Our PB software includes a state
+machine model for tasks that include planning, movement, as well as conducting both an ORP and PB.\\
+
+Any automation of the patrol base operations (for example Jesse? Professor Chin?) would require
+that the design of such system be certified as secure from the start. This approach should be
+applied to all systems. Yet, our aim in this project was to show that the certified security by
+design approach could be applied specifically to the patrol base operations because it is described
+in a manner that is similar to many other military operations. These operations will, no doubt,
+be automated in the future. Thus, this project should be viewed as a primer on how to tackle such
+an automation in a secure manner, from the start.\\
+
+The certified security by design approach involves taking the design of the automated system and
+using access-control logic (ACL) to prove that any action that takes place in the automated system
+is correctly executed and has the appropriate authorizations and authentications of those authorities.
+Computer-aided reasoning is used to verify that the system is secure. For this project, we used the
+higher order logic (HOL) theorem prover. HOL is a trusted and reliable system. It is commonly said by
+the HOL community that “HOL is never wrong.”\\
+
+The access-control logic (ACL) was developed by Professor Shiu-Kai Chin and Professor Susan Older of
+Syracuse University’s Department of Engineering and Computer Science. Specifics can be found in their
+text book titled Access Control, Security, and Trust. The definitions and theorems from the text were
+implemented in HOL by Professor Shiu-Kai Chin and Lockwood Morris. For reference a report of the datatypes
+, definitions, and theorems that were implemented in HOL are provided in Appendices ?

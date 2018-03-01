@@ -1,0 +1,413 @@
+\input{../HOL/ssmPB/HOLReports/HOLPBType.tex}
+\input{../HOL/ssmPB/HOLReports/HOLssmPB.tex}
+
+%\input{hi.tex}
+\section*{Section Overview}
+\label{sec:section-overview}
+
+
+\section{PBTypeScript.sml}
+\label{sec:pbtypescript.sml-1}
+
+\ \\This file contains the datatype definitions used in ssmPB.\ \\
+\begin{description}
+\item[Datatype Definitions]\ 
+  \begin{itemize}
+    \item Each state machine implements a set of types that are defined in OMNIType.
+    OMNIType defines the datatype \textbf{command} which includes a constructor
+    and type for \textbf{SLc slCommand}.
+    \textbf{SLc} is the “state level command” constructor and the type is \textbf{slCommand}.
+    slCommand is a type that is to be further defined in each state machine.\ \\
+    \item Each state machine will implement a definition for \textbf{slCommand}.
+    In PBType, this is defined as follows:
+    \begin{align*}
+    %   slCommand\; =&\;\; crossLD\ \\
+    %                  &|\; conductORP\ \\
+    %                   &|\; moveToPB\ \\
+    %                   &|\; conductPB\ \\
+    %                   &|\; completePB\ \\
+    %                   &|\; incomplete
+      \HOLFreeVar{slCommand} =&\;\; \HOLConst{crossLD}\ \\
+      &\HOLTokenBar{} \HOLConst{conductORP}\ \\
+      &\HOLTokenBar{} \HOLConst{moveToPB}\ \\
+      &\HOLTokenBar{} \HOLConst{conductPB}\ \\
+      &\HOLTokenBar{} \HOLConst{completePB}\ \\
+      &\HOLTokenBar{} \HOLConst{incomplete}
+    \end{align*}
+    There are 6 ssmPB commands.
+    Except for \textbf{incomplete}, each command corresponds to a transition from one
+    state to the next state.\textbf{incomplete} is a command that that does not
+    change the state of the machine -- a “not done” command.\ \\
+    \item Similarly, OMNIType defines the datatype \textbf{state} which has a “state level state”
+      constructor and type \textbf{SLs slState}.  In PBType, \textbf{slState} is defined as follows:
+      \begin{align*}
+        % slState\; =&\;\; PLAN\_PB\ \\
+        %               &|\; MOVE\_TO\_ORP\ \\
+        %               &|\; CONDUCT\_ORP\ \\
+        %               &|\; MOVE\_TO\_PB\ \\
+        %               &|\; CONDUCT\_PB\ \\
+        %               &|\; COMPLETE\_PB\ \\
+        \HOLFreeVar{slState} =&\;\; \HOLConst{PLAN_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{MOVE_TO_ORP}\ \\
+        &\HOLTokenBar{} \HOLConst{CONDUCT_ORP}\ \\
+        &\HOLTokenBar{} \HOLConst{MOVE_TO_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{CONDUCT_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{COMPLETE_PB}
+      \end{align*}
+
+    \item OMNIType defines the datatype \textbf{output} with the “state level output” constructor
+      and type as \textbf{SLo slOutput}.  In PBType, it is implemented as follows:
+      \begin{align*}
+        % slOutput\; =&\;\; PlanPB\ \\
+        %               &|\; MoveToORP\ \\
+        %               &|\; ConductORP\ \\
+        %               &|\; MoveToPB\ \\
+        %               &|\; ConductPB\ \\
+        %               &|\; CompletePB\ \\
+        %               &|\; unAuthenticated\ \\
+        \HOLFreeVar{slOutput} =&\;\; \HOLConst{PlanPB}\ \\
+        &\HOLTokenBar{} \HOLConst{MoveToORP}\ \\
+        &\HOLTokenBar{} \HOLConst{ConductORP}\ \\
+        &\HOLTokenBar{} \HOLConst{MoveToPB}\ \\
+        &\HOLTokenBar{} \HOLConst{ConductPB}\ \\
+        &\HOLTokenBar{} \HOLConst{CompletePB}\ \\
+        &\HOLTokenBar{} \HOLConst{unAuthenticated}
+      \end{align*}
+
+    \item OMNITtype defines the datatype \textbf{principal} which has “state role” constructor and
+      type \textbf{SR stateRole} as:
+      \begin{align*}
+        \HOLFreeVar{stateRole} = \HOLConst{PlatoonLeader}
+      \end{align*}
+  \end{itemize}
+\end{description}
+
+\section{ssmPBScript.sml}
+\label{sec:ssmpbscript.sml}
+
+\begin{enumerate}
+\item \textbf{General Notes}
+  \begin{enumerate}
+  \item ssmPB is an acronym for “secure state machine patrol base”.  The “Script” notation
+    tells HOL that this is to be implemented as a theory.  “.sml” is the standard
+    file extension for poly ML type files.\ \\
+  \item The importance of ssmPB is two-fold:
+    \begin{itemize}
+    \item \textit{It implements the top-level state machine in HOL.}
+      \item \textit{It serves as a model for the implementation of subsequent state machines in the project.}\ \\
+      \end{itemize}
+    \item ssmPB uses ssm11 (secure state machine 1.1) as the general secure state machine which it
+      parameterizes.  That is, functions and datatypes in ssmPB are used as parameters in the ssm11
+      secure state machine.   ssmPB is the first state machine in the project that does this.  Thus,
+      it is used as a model for subsequent state machines.  Because of the similarity of all state
+      machines in the project, subsequent state machines can be a cut-n-paste adaptation of ssmPB,
+      with appropriate updates of datatype names.  Encapsulation of each state machine facilitates
+      the use of datatypes with the same name in different state machines.  Concerns about conflicts
+      among datatype names while integrating state machines (if time allows) were discussed.  This
+      should not pose a problem if time permits for the extension of the project to integration of
+      state machines.\ \\
+    \item iv.	Because ssmPB is a model for subsequent state machines, the details of ssmPB will
+      be described in more detail than for subsequent state machine descriptions.\ \\
+    \end{enumerate}
+  \item \textbf{Theory File Description}
+    \begin{enumerate}
+    \item After the appropriate comments and declaration of ssmPB as a structure, HOL must open
+      theories which it depends on.
+      \begin{itemize}
+      \item \textit{open HolKernel Parse boolLib bossLib;}
+        \begin{itemize}
+          \item \textsl{These are included in ALL HOL theory definitions.}
+          \end{itemize}
+          \item \textit{open TypeBase listTheory optionTheory;}
+        \begin{itemize}
+        \item \textsl{These are theories that provide added functionality and theories for
+            use in the implementation of HOL theories in general.  They are provided with HOL.}
+        \end{itemize}
+        \item \textit{open acl_infRules aclDrulesTheory aclrulesTheory;}
+        \begin{itemize}
+        \item \textsl{These are the access-control logic files implemented by Prof.
+            Shiu-Kai Chin and Lockwood Morris.}
+        \end{itemize}
+        \item \textit{open satListTheory ssm11Theory ssminfRules;}
+        \begin{itemize}
+        \item \textsl{These are additional theories and rules that are used in the implmentation
+            of the state machines.  These were implemented by Prof. Shus-Kai Chin for his
+            CIS 634 course at Syracuse University.}
+        \end{itemize}
+        \item \textit{open OMNITypeTheory PBTypeTheory;}
+        \begin{itemize}
+        \item \textsl{OMNIType contains datatype definitions that are relevant to ALL state
+            machines in the project.  PBTypeTheory contains datatype definitions for ssmPB.}
+        \end{itemize}
+      \end{itemize}\ \\
+    \item PBNS_def , PBOut_def, and secContext_def
+      \begin{itemize}
+      \item \textsl{These are the \textbf{next state} and \textbf{next output} functions, \textbf{PBNS}
+        and PBOut respectively. They describe the behavior of the state machine. Each of these
+        functions takes two inputs, the current state followed by a command, and returns the next
+        state or the next output, respectively. For example, the transition from the \textbf{PLAN_PB}
+        state to the next state \textbf{MOVE_TO_ORP} is given by the ‘state level command” (SLc)
+        \textbf{crossLD}. In PBNS_def, this looks like:
+        {\large
+        \begin{align*}                                    
+          \textbf{\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{MOVE_TO_ORP}}
+        \end{align*}
+     }%
+    \item The description is similar for \textbf{PBOut}.   The state level command (SLc)
+      \textbf{crossLD} will produce the next output \textbf{MoveToORP}.
+      {\large
+        \begin{align*}
+          \textbf{\HOLConst{PBOut} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{MoveToORP}}
+        \end{align*}
+      }%
+    \item Each line in these definitions corresponds to a transition in the state machine.
+      This list is complete.  That is, all possible transitions are delineated.
+    \item Notice that there are three different types of commands (\textbf{exec}, \textbf{trap},
+      and \textbf{discard}) that precede each SLc type command.  These are “orders” descripted in
+      ssm11.  Because ssmPB is a “secure” state machine, each transition must not only be delineated
+      in the appropriate next state and next output functions, the command must be given by an
+      authenticated and authorized individual (referred to as a principal in the access-control
+      logic).  Further explanation follows.
+    \item \underline{Authentication}: Each secure state machine has a list of principals
+      (defined in datatype definition \textbf{stateRole} in PBType).  In ssmPB, this list
+      contains only one principal named \textbf{PlatoonLeader}.  Thus, \textbf{PlatoonLeader}
+      is the only authenticable principal in the ssmPB state machine.  Other state machines
+      may contain more than one authenticable principals.  Because only authenticable principals
+      can issue commands to the state machine, commands issued by non-authenticable principals
+      are “discarded.”  Hence, if a principal other than \textbf{PlatoonLeader} in ssmPB issues
+      a command, then that command it discarded.  For example, if the platoon sergeant issues
+      the SLc command \textbf{crossLD}  in ssmPB it would be represented in the next state function
+      \textbf{PBNS} as:
+      {\large
+        \begin{align*}
+          \textbf{(\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{discard} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{PLAN_PB})}
+        \end{align*}
+      }%
+      where the ssm11 order \textbf{discard} is used to indicate that this principal is not authenticated
+      (or the request is not formatted correctly.  See below.)
+    \item \underline{Authorized}: In addition to being authenticated, the principal must be
+      authorized to issue any given command.  This is covered in the security context of the
+      state machine.   The security context of ssmPB is defined in \textbf{secContext_def}.
+      Because there is only one authenticable principal in this state machine, namely
+      \textbf{PlatoonLeader}, and this principal is authorized on ALL SLc commands in ssmPB,
+      there is only one statement in \textbf{secContext_def}.  \textbf{PlattonLeader} is
+      authenticated via the “controls” statement, which indicates that \textbf{PlatoonLeader} “controls”
+      any SLc command in ssmPB.
+      {\large
+        \begin{align*}
+          \textbf{\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{controls} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLBoundVar{cmd}))}
+        \end{align*}
+      }%
+      Additional principals could be added to the \textbf{stateRole} datatype definition in
+      PBType and these principals could be given authority to execute some or all of the SLc
+      commands in this state machine.  These authorizations would be listed in \textbf{secContext_def}.
+      Only commands issued by a principal that is both authenticated AND authorized will be executed.
+      The \textbf{exec} command precedes commands issued by principals that are authenticated and
+      authorized.  For example, a command issued by \textbf{PlatoonLeader} to \textbf{crossLD}
+      would be executed causing the state machine to transition from the initial state
+      \textbf{PALN_PB} to the next state \textbf{MOVE_TO_ORP}.
+      {\large
+        \begin{align*}
+          \textbf{%PBNS\ PLAN\_PB\ (exec\ (SLc\ crossLD))\;} &=\; \textbf{MOVE\_TO\_ORP}
+          (\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{MOVE_TO_ORP})}
+        \end{align*}
+      }%
+    \item \underline{Additional considerations}:  Commands issued by principals that are
+      authenticated (i.e., listed in \textbf{stateRole}) but who are not authorized in
+      \textbf{secContext_def} for a specific command are “trapped.”  Because there are
+      no such additional principals in ssmPB, commands issued in ssmPB will not be trapped.
+      They will be either discarded or executed.  Nevertheless, trapped commands are
+      delineated in the next state and next output functions for completeness and in the
+      event that additional principals are added at a later date.  The \textbf{trap} order
+      represents such commands.  An example of a command issued  by an authenticated but
+      unauthorized principal to \textbf{crossLD} would be implemented as:
+       {\large
+        \begin{align*}
+          \textbf{%PBNS\ PLAN\_PB\ (trap\ (SLc\ crossLD))\;} &=\; \textbf{PLAN\_PB}
+          (\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{trap} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{PLAN_PB})}
+        \end{align*}
+      }%
+    \item \underline{Other}: Commands that are improperly formatted are also discard in the same
+      manner as are commands issued by unauthenticated principals.  \ \\
+    }\ \\
+  \end{itemize}
+\item authenticationTest_def
+  \begin{itemize}
+  \item \textit{This definition defines which types of requests (i.e., some principal  issues a
+      command) are authenticated and by whom, and which are not.  In the access-control logic, a
+      principal is declared to HOL by preceding it with the identifier \textbf{Name}.  Thus,
+      \textbf{Name PlatoonLeader} provides HOL with the name of the principal who is the subject
+      of the statement.  A request is indicated in the access-control logic by the identifier
+      \textbf{says}.  In ssmPB, \textbf{PlatoonLeader} is authenticated on commands.  That is,
+        \begin{align*}
+          \textbf{((Name\ PlatoonLeader)\ says\ (prop\ (cmd:(slCommand\ command)\ order))\;}
+        \end{align*}
+        Additional authenticable principals would be delineated in the same manner.
+        \textbf{authenticationTest_def} fails for all other requests.  This also includes
+        improperly formatted statemens.
+        \begin{align*}
+          \textbf{(authenticationTest\ \_\  =\ F)}
+          \end{align*}
+      }
+    \end{itemize}
+  \item ssmPBStateInterp_def
+    \begin{itemize}
+    \item \textit{This is a state interpretation function.  In ssmPB, it is effectively nil., \textbf{TT}
+      is true in the access-control logic.   In subsequent state machines, the state interpretation
+      function could be used describe differences in the behavior of the state machine for
+      specific states.  For example, if one state required a check-list be completed prior to
+      the execution of a transition from one state to the next, then it would be declared in
+      this function.\ \\}
+    \end{itemize}
+    \item secContext_def
+      \begin{itemize}
+        
+    \item \textit{In addition to listing authorities via the \textbf{controls} operator, additional
+      security-related definitions would be added here.} \ \\
+    \end{itemize}
+    \item PlatoonLeader_slCommand_lemma
+      \begin{itemize}
+    \item \textit{This lemma uses a tactical proof technique (backwards proof) to prove that
+      \textbf{PlatoonLeader} is authorized on any SLc command. }\ \\
+    \end{itemize}
+    \item PlatoonLeader_exec_slCommand_justified_thm
+      \begin{itemize}
+    \item \textit{This uses the lemma above to prove the biconditional that \textbf{PlattoonLeader}’s
+      commands are executed if and only if the command is authenticated and authorized.
+      \item WIth this theorem, it is easy to prove the following two theorems.}\ \\
+      \end{itemize}
+      \item PlatoonLeader_slCommand_verified_thm
+        \begin{itemize}
+    \item \textit{This theorem proves that if the \textbf{PlatoonLeader}’s command was executed,
+      then it must have been verified.   }\ \\
+    \end{itemize}
+    \item PlatoonLeader_justified_slCommand_exec_thm
+      \begin{itemize}
+    \item \textit{This theorem proves that if the  \textbf{PlatoonLeader}’s command was authorized,
+      then the command is executed.   } \ \\
+    \end{itemize}
+    \end{enumerate}
+  \end{enumerate}
+
+  \begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{8em}|m{9em}|m{8em}|m{8em}|m{8em}|m{9em}|}
+                              \hline
+    \multicolumn{8}{|c|}{ }\\
+    \multicolumn{8}{|c|}{\textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{8}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & crossLD & conductORP & moveToPB & conductPB & completePB & incomeplete \\
+     \hline
+     & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{MOVE_TO_ORP}, MoveToORP & \rowcolor{lightgray}  &  &&& \cellcolor{white}\textcolor{cyan}{PLAN_PB}, PlanPB \\
+    \hline
+     & \cellcolor{cyan}MOVE_TO_ORP & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP & & & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_ORP}, MoveToORP \\
+    \hline
+     & \cellcolor{cyan}CONDUCT_ORP &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB & & & \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP \\
+    \hline
+     &\cellcolor{cyan} MOVE_TO_PB & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB && \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB \\
+    \hline
+     & \cellcolor{cyan}CONDUCT_PB & \rowcolor{lightgray}&&&& \cellcolor{white}\textcolor{cyan}{COMPLETE_PB}, CompletePB & \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB \\
+    \hline
+     & \cellcolor{cyan}COMPLETE_PB & \rowcolor{lightgray} &&&&& \\
+    \hline
+  \end{tabular}}
+  \end{center}
+
+Next table
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel conductORP  
+  \begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{5em}|m{8em}|m{8em}|m{8em}|m{9em}|}
+                              \hline
+    \multicolumn{7}{|c|}{ }\\
+    \multicolumn{7}{|c|}{ConductORP \textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{7}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & secure & actionsIn & withdraw & complete & plIncomplete  \\
+     \hline
+     & \cellcolor{cyan}CONDUCT_ORP & \textcolor{cyan}{SECURE}, Secure & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP  \\
+    \hline
+     & \cellcolor{cyan}SECURE & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{ACTIONS_IN}, ActionsIn & & & \cellcolor{white}\textcolor{cyan}{SECURE}, Secure  \\
+    \hline
+     & \cellcolor{cyan}ACTIONS_IN &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{WITHDRAW}, Withdraw & & \cellcolor{white}\textcolor{cyan}{ACTIONS_IN}, ActionsIn  \\
+    \hline
+     &\cellcolor{cyan}WITHDRAW & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{WITHDRAW}, Withdraw \\
+    \hline
+
+  \end{tabular}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel conductPB  
+  \begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{9em}|m{9em}|m{8em}|m{9em}|}
+                              \hline
+    \multicolumn{7}{|c|}{ }\\
+    \multicolumn{7}{|c|}{ConductPB \textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{7}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & securePB & actionsInPB & withdrawPB & completePB & plIncompletePB  \\
+     \hline
+     & \cellcolor{cyan}CONDUCT_PB & \textcolor{cyan}{SECURE_PB}, SecurePB & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB  \\
+    \hline
+     & \cellcolor{cyan}SECURE_PB & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{ACTIONS_IN_PB}, ActionsInPB & & & \cellcolor{white}\textcolor{cyan}{SECURE_PB}, SecurePB  \\
+    \hline
+     & \cellcolor{cyan}ACTIONS_IN_PB &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{WITHDRAW_PB}, WithdrawPB & & \cellcolor{white}\textcolor{cyan}{ACTIONS_IN_PB}, ActionsInPB  \\
+    \hline
+     &\cellcolor{cyan}WITHDRAW_PB & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE_PB}, CompletePB & \cellcolor{white}\textcolor{cyan}{WITHDRAW_PB}, WithdrawPB \\
+    \hline
+
+  \end{tabular}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel MoveToORP  
+  \begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{7em}|m{9em}|m{8em}|m{9em}|}
+                              \hline
+    \multicolumn{7}{|c|}{ }\\
+    \multicolumn{7}{|c|}{MoveToORP \textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{7}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & pltForm & pltMove & pltSecureHalt & complete & incomplete  \\
+     \hline
+     & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{PLT_FORM}, PLTForm & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{PLAN_PB}, PLTPlan  \\
+    \hline
+     & \cellcolor{cyan}PLT_FORM & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove & & & \cellcolor{white}\textcolor{cyan}{PLT_FORM}, PLTForm  \\
+    \hline
+     & \cellcolor{cyan}PLT_MOVE &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{PLT_SECURE_HALT}, PLTSecureHalt & & \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove  \\
+    \hline
+     &\cellcolor{cyan}PLT_SECURE_HALT & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{PLT_SECURE_HALT}, PLTSecureHalt \\
+    \hline
+
+  \end{tabular}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel MoveToPB 
+  \begin{center}
+  \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{7em}|m{7em}|m{8em}|m{7em}|}
+                              \hline
+    \multicolumn{7}{|c|}{ }\\
+    \multicolumn{7}{|c|}{MoveToPB \textcolor{cyan}{Next State}, Next Output Table}\\
+    \multicolumn{7}{|c|}{ }\\
+    \hline\hline
+    & \cellcolor{cyan}State &&&&&\\
+    \hline
+     \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & pltForm & pltMove & pltHalt & complete & incomplete  \\
+     \hline
+     & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{PLT_FORM}, PLTForm & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{PLAN_PB}, PLTPlan  \\
+    \hline
+     & \cellcolor{cyan}PLT_FORM & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove & & & \cellcolor{white}\textcolor{cyan}{PLT_FORM}, PLTForm  \\
+    \hline
+     & \cellcolor{cyan}PLT_MOVE &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{PLT_HALT}, PLTSecureHalt & & \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove  \\
+    \hline
+     &\cellcolor{cyan}PLT_HALT & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{PLT_HALT}, PLTHalt \\
+    \hline
+
+  \end{tabular}}
+  \end{center}

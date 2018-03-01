@@ -1,0 +1,67 @@
+Save stuff here
+
+(* ==== Testing Here ====
+(* -------------------------------------------------------------------------- *)
+(* exec slCommand occurs if and only if PlatoonLeaders's command is           *)
+(* authenticated and authorized                                               *)
+(* -------------------------------------------------------------------------- *)
+val PlatoonLeader_exec_slCommand_justified_thm =
+let
+ val th1 =
+ ISPECL
+ [``authenticationTest:((slCommand command)order, stateRole,'d,'e)Form -> bool``,
+  ``(secContext slCommand):((slCommand command)order, stateRole,'d,'e)Form list``,
+  ``ssmPBStateInterp:(slState state)->
+                  ((slCommand command)order, stateRole,'d,'e)Form``,
+  ``Name PlatoonLeader``,``SLc slCommand``,
+  ``ins:((slCommand command)order,stateRole,'d,'e)Form list``,
+  ``s:(slState state)``,``outs:(slOutput output) list``]
+ TR_exec_cmd_rule
+in 
+ TAC_PROOF(([],
+    ``!(NS :state -> command trType -> state)
+         (Out :state -> command trType -> output)
+         (M :(command inst, 'b, principal, 'd, 'e) Kripke) (Oi :'d po)
+         (Os :'e po).
+        TR (M,Oi,Os) (exec (PR (privcmd :privcmd)))
+          (CFG (inputOK :(command inst, principal, 'd, 'e) Form -> bool)
+             (SM0StateInterp :state -> (command inst, principal, 'd, 'e) Form)
+             (certs (npriv :npriv) privcmd :
+                (command inst, principal, 'd, 'e) Form list)
+             (Name (Role Operator) says
+              (prop (SOME (PR privcmd) :command inst) :
+                 (command inst, principal, 'd, 'e) Form)::
+                  (ins :(command inst, principal, 'd, 'e) Form list)) (s :state)
+             (outs :output list))
+          (CFG (inputOK :(command inst, principal, 'd, 'e) Form -> bool)
+             (SM0StateInterp :state -> (command inst, principal, 'd, 'e) Form)
+             (certs npriv privcmd :
+                (command inst, principal, 'd, 'e) Form list) ins
+             (NS s (exec (PR privcmd)))
+             (Out s (exec (PR privcmd))::outs)) <=>
+        inputOK
+          (Name (Role Operator) says
+           (prop (SOME (PR privcmd) :command inst) :
+              (command inst, principal, 'd, 'e) Form)) /\
+        CFGInterpret (M,Oi,Os)
+          (CFG (inputOK :(command inst, principal, 'd, 'e) Form -> bool)
+             (SM0StateInterp :state -> (command inst, principal, 'd, 'e) Form)
+             (certs npriv privcmd :
+                (command inst, principal, 'd, 'e) Form list)
+             (Name (Role Operator) says
+              (prop (SOME (PR privcmd) :command inst) :
+                 (command inst, principal, 'd, 'e) Form)::ins) s outs) /\
+        (M,Oi,Os) sat
+        (prop (SOME (PR privcmd) :command inst) :
+           (command inst, principal, 'd, 'e) Form)``),
+ PROVE_TAC[th1,Operator_privcmd_lemma])
+end
+
+val _ =
+ save_thm
+ ("Operator_exec_privcmd_justified_thm",Operator_exec_privcmd_justified_thm)
+
+
+
+val _ = save_thm("Operator_privcmd_lemma",Operator_privcmd_lemma)
+==== End Testing Here ==== *)

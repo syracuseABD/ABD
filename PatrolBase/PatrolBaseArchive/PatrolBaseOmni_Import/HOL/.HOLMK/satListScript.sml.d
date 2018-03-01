@@ -1,0 +1,1 @@
+satListScript.uo: /usr/local/share/HOL/sigobj/HolKernel.ui /usr/local/share/HOL/sigobj/Parse.ui /usr/local/share/HOL/sigobj/TypeBase.ui /home/yihong/Documents/RESEARCH/HOL/ACL/acl_infRules.ui /usr/local/share/HOL/sigobj/boolLib.ui /usr/local/share/HOL/sigobj/bossLib.ui /usr/local/share/HOL/sigobj/listTheory.ui 

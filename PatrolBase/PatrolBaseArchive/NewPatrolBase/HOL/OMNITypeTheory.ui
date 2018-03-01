@@ -1,0 +1,6 @@
+$(HOLDIR)/sigobj/Overlay
+$(HOLDIR)/sigobj/Thm
+$(HOLDIR)/sigobj/term_grammar
+$(HOLDIR)/sigobj/type_grammar
+/media/sf_Shared_Ubuntu/Course/csbd/CVS_Editing/AFRL/ABD/PatrolBase/PatrolBaseOmni_Aug_10/HOL/OMNITypeTheory
+/media/sf_Shared_Ubuntu/Course/csbd/CVS_Editing/AFRL/ABD/PatrolBase/PatrolBaseOmni_Aug_10/HOL/OMNITypeTheory.sig
