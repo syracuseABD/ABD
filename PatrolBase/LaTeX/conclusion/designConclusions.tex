@@ -1,0 +1,26 @@
+We demonstrated that a non-automated system could be designed with the certified security
+by design (CSBD) approach.  Our initial goal was two-fold: translate the patrol base operations
+from the Ranger Manual into a structure to which the principle of complete mediation could be
+applied and then to verify those structures using the access-control logic (ACL) and the Higher
+Order Logic (HOL) theorem prover.  Once we decided on using a hierarchy of \emph{secure} state machines
+to describe the patrol base operations, our goal became to complete a vertical slice through the
+entire hierarchy.  This slice was to include translations of a vertical slice through the patrol
+base operations and to verify that slice in the ACL and HOL.  Translation of the vertical slice of
+the patrol base operations was completed.  The resulting hierarchy of \emph{secure} state machines was
+translated into diagrams and can be found in the appendix A.  Verification of the vertical slice
+in ACL and HOL was completed up to the sub-level.  Non-verified aspects of the project were
+discussed in the Future Work and Research.  Their verification is part of a master's thesis
+project for one of the participants of this project.  \\
+
+We found no significant impediments to our approach.  We considered several alternative ideas
+for applying the CSBD approach to the patrol base operations.  But, no other method was worked
+out in any detail worthy of inclusion in this documentation.  The only method that easily
+integrated the principle of complete mediation without obfuscating the process was the hierarchy
+of \emph{secure} state machines.\\
+
+Overall, we consider this project to be a great success.  This success could be replicated with other non-automated systems.  In addition, non-automated systems are likely to be automated to some extent in the future--at least in accountability applications.  The techniques employed in this project are directly applicable to such projects where security and accountability of personnel and materials are critical to mission success.  
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

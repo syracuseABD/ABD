@@ -1,0 +1,529 @@
+\section{Methods}
+\label{sec:methods}
+
+\ \ \ \ The doctrine reflected in our project was taken from the Ranger Handbook
+(Ranger Handbook 2011). Our first task was to reflect a patrol base (PB)
+in two-dimensional form so that we could analyze possible courses of action
+with regard to modularizing and parameterizing PB operations. Microsoft\textregistered
+Powerpoint was used for the initial sketches, which provided a visual
+reference for the entire PB from planning through actual withdrawal from
+the PB (see figure 3.1). The reasoning behind inclusion of a planning state
+was that our entire project was based on ensuring the proper execution of
+a PB, and proper execution begins with planning.\ \\\\
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\linewidth]{map31.png}
+  \caption{PB Phase Overview}
+\end{figure}
+After the PB was broken into phases, we began creating states that mimicked
+the phases outlined in the Powerpoint\textcopyright document (figure 3.1). Microsoft\textregistered
+Visio was used to illustrate the states, their order, and the commands that
+initiated movement from one state to another (figure 3.2). The decision to
+adopt a state machine as the method for rendering PB operations came from
+previous projects Dr. Shiu-Kai Chin had allowed our team to review. Projects
+programmed in Poly Meta Language (Poly/ML) and compiled with High Order
+Logic (HOL) seemed to lend themselves well to the state machine structure.\\ \\
+
+\subsection{The Implementation Approach}
+\label{sec:impl-appr-1}
+
+The goal was to represent the patrol base in a way that would be amiable to applying access-control
+logic (ACL) principles. The motive for this project was, in fact, to demonstrate the applicability
+of these principles to the mission assurance objective. Representing the patrol base in terms of
+state machines was easily implemented with computer-aided reasoning, in this case the HOL higher
+order logic theorem prover. The basic idea was to establish states, commands to transition from one
+state to another, and people who were authorized to make these commands. To do this, it was first
+necessary to translate the patrol base into discrete states. This was where the subject matter
+expertise of Jesse was crucial. The details were described in the section “add section title here.”
+
+\subsection{Hierarchy of State Machines}
+\label{sec:hier-state-mach-1}
+
+In this project, we decided on a hierarchy of state machines with a top-level state machine,
+sub-level state machines, and sub-sub-level state machines, etc. as the foundational approach.
+That is, we began with a top-level state machine consisting of 6 states. Each state (save for the
+terminal state) was yet another state machine at a sub-level. We called this a sub-level state machine.
+There was one sub-level state machine for each state in the top-level state machine. This produced at
+pyramid-like, top down structure. Adding yet another level, the sub-sub-level, produced a state
+machine for each state machine in the higher-up sub-level state machine. These were called the sub-sub-
+level state machines. Beyond this level, we considered alternative approaches. Although we discussed
+and worked out some strategies here, the project was simply too large for one summer. These ideas are
+discussed in the “Future Work” section.
+
+The reason for this pyramid-like approach was multi-fold.
+\begin{itemize}
+\item First, it was logical to look at the patrol base as a whole and design a basic,
+  top-level state machine that represented the most basic states. Going into too much
+  detail at first would be distracting and thus error-prone.
+\item Second, this approach facilitated a test of the state machine approach before
+  going into too much depth. It was easy to see at the top-level what would work and
+  what would not work.
+\item Third, it allowed for separation of tasks. Jesse’s expertise was in his knowledge
+  of the patrol base and his ability to work with Visio and other similar technologies.
+  Lori’s expertise was in her knowledge of the access-control logic (ACL) principles and
+  her ability to work with the higher order logic (HOL) theorem prover. Once a top-level
+  state machine was established, Jesse continued work on the delineation of the patrol base
+  into state machines while Lori began work on implementing the state machine(s) using the
+  ACL principals and HOL.
+\item Fourth, the modularization facilitated the concept of separation of implementation.
+  For example, if someone were to take the top-level state machine and delegate the sub-level
+  state machines to others, then they could all be integrated together at a later time. The
+  same could be said at the sub-level, and so on. The idea of integration is discussed further
+  in the “Future Works” section.
+\item Fifth, approaching the project one level at a time facilitated a step-by-step approach
+  to solving each new level of complexity while capitalizing on previous successes. Because of
+  the nature of HOL, once we solved one problem in the implementation of the patrol base, we could
+  rely on that solution. The next problem could then be isolated and attacked without back-tracking—
+  for the most part. We could add complexity as we approached it, in analogy to the complexity of
+  detail in the patrol base itself.
+\item Sixth, time constraints on the project were tight. As we delved into the sub-level
+  and sub-sub-level state machines, the level of detail that needed to be implemented in the
+  ACL and HOL became apparent. The outlooks for the project were exciting. And, at the same time,
+  we realized that a complete implementation of the patrol base in HOL would require more than one
+  summer. Thus, the level-by-level approach facilitated a view of what could be done based on
+  what had been done, demonstrating the practicality of the application of ACL and HOL to a patrol
+  base-like problem. This was our goal.
+\end{itemize}
+
+\subsection{The Secure State Machine}
+\label{sec:secure-state-machine-2}
+
+Again, the reason for the state machine approach was that it was the simplest
+way to represent a large project using ACL and implement it using HOL. If the
+patrol base was represented as a state machine, then the orders/commands could
+be represented as inputs into the states. This was what we did. We determined
+at each level, what should be considered a state and what order/command should
+be given to transition from that state to the next. For a basic state machine,
+this was all that was needed to represent the given level of complexity.
+However, in general, we were concerned with authentication and authorization.
+Who was giving the command and did that person have the authority to give that
+command? Thus, we needed the appropriate checks on identity (authentication)
+and authority to make the transition from one state to another. We needed not
+just a \textit{state machine} but a \textit{secure state machine}.\\
+
+For a secure state machine, we hiked up the complexity of our state machine model.
+We now only allowed a transition from one state to another if the order was given by
+someone (or something) that was authenticated and authorized. We called that someone
+(or something) in the access-control logic (ACL) a “principal.” For example, we
+authenticate (via visual recognition) a soldier as the platoon leader. We establish
+\textit{a priori} that the platoon leader had the authority to command a change from one
+state to another. Given those conditions, we wanted our state machine to make that
+change. More specifically, assume we were in the planning phase of the patrol base.
+We called this the PLAN_PB state. (To be consistent we denoted all states by capital
+letters.) In this state, the platoon leader said “cross the line of discrimination.”
+We abbreviated this command as “crossLD”. (We used primarily lower-case letters for
+commands.) Furthermore, we all knew that the platoon leader was authorized to give the
+command to cross the line of discrimination and begin the next phase of the patrol base.
+We called this next phase the MOVE_TO_ORP state. Under these circumstances, the access-
+control logic dictated that we transition from the PLAN_PB state to the MOVE_TO_ORP state.
+We did this for each state, using the ACL and HOL to verify the proper authentication and
+authority for each transition. This was the security by design approach.
+
+\subsection{Authentication}
+\label{sec:authentication-1}
+
+In the example above, the authentication of the principal (the platoon leader) was
+assumed to be common knowledge. This was easy for soldiers who
+could verify the identity of an individual via visual inspection or voice recognition.
+In the world of computers and/or wherein an individual was not known (such as a
+security gate check-point or a computer terminal), more formal methods of authentication
+were required. Although time constraints did not allow us to consider that for this
+project, the applicability of the secure state machine approach had already been
+demonstrated elsewhere using cryptographic functions, key cards, etc. This was also
+discussed in the “Future Work” section.\\
+
+For the purposes of this project, the authenticated persons were listed in an \textit{authentication test
+function}. This function was a list of the form:
+\begin{itemize}
+\item Platoon Leader says “someCommand” = true,
+\item Platoon Sergeant says “someCommand” = true,
+\item Anything else = false.
+\end{itemize}
+
+Additional principals could have been listed or deleted as needed by each secure
+state machine. Two principals were the maximum needed to the extent to which this
+project was implemented in HOL. Most states required only one principal, namely
+the platoon leader. Each secure state machine had its own \textit{authentication test
+function} with its own list of principals. In the implementation, if a principal
+other than those listed in the \textit{authentication test function} were to make a request,
+HOL would not allow the transition (or any other action) to occur.\\
+
+The top-level state machine was implemented with only one principal, namely the
+platoon leader. In other words, the platoon leader was responsible all that commands
+in the top-level state machine. When the sub-level state machines were implemented,
+two state machines included two principals each making commands, namely the platoon
+leader and the platoon sergeant. This caused some issues with HOL because of the
+nature of the biconditional. If an authenticated and authorized principal gives the
+command to change states then we proved in HOL that the transition should occur.
+On the converse, if the transition occurred then we also proved in HOL that an
+authenticated and authorized principal must have made the command. But, what if there
+were two authenticated and authorized principals? Which one made the command? The
+problem wasn’t overly challenging; however, it did require a different strategy than
+was used for the one principal secure state machines. The simplest approach was to
+allow each principal to control a specific set of commands. Thus, there were platoon
+leader commands and platoon sergeant commands. If a transition was made using a platoon
+leader command, then the platoon leader must have made the command. The same was true
+for the platoon sergeant. The biconditional problem was solved. Nevertheless, there
+were several other strategies which were explored and could have been implemented in
+other secure state machines to demonstrate the flexibility of HOL.
+
+\subsection{Authorization}
+\label{sec:authorization}
+
+In the ACL secure state machine approach, authentication was governed by a list of
+statements dictating who “controls” what and under what conditions that control was
+governed. This was essentially a list of trust assumptions, certificates, authorities,
+etc. For the level of complexity that was implemented in this project, access was
+dictated by a prescribed \textit{security context list}, consisting of statements such as
+“Platoon Leader \textbf{controls} crossLD”. In other words, this was the ACL representation
+of the policy stating that “the Platoon Leader has the authority to execute the
+command “’crossLD’.” Of course, representation of the statement in HOL was more complex.
+Nevertheless, it amounted to just this declaration of authority.\\
+
+An additional level of complexity was added to the \textit{security context} list of the ssmPlanPB
+state machine. It was also planned for other state machines at the sub-sub-level. This was
+necessary as the complexity of the project grew. In previously implemented secure state
+machines in the project, transitions from one state to another were sequential. To get from
+one state, the previous state must have been completed. For the ssmPlanPB state machine,
+the transition from the WARNO state to the COMPLETE state was to occur after the middle three
+states were completed. However, these states did not need to be completed in any order.
+But, all three states \textit{had to be completed} before transitioning to the COMPLETE state. The
+easiest implementation approach involved allowing a list of inputs to the state machine.
+For example, the transition from WARNO to COMPLETE was to occur only if a list of requests/commands,
+say [a,b,c], was given as input, where each letter represented a request (i.e., a = Platoon
+Leader says “state a is complete”). The order of this list was irrelevant. There were thus six
+permutations of the list that could be passed as input to the state machine. It worked.\\
+
+Nevertheless, the use of lists and permutations was not the most elegant solution and could
+cause problems in integrating state machines later on (see “future work”). Thus, a second version
+of the ssmPlanPB state machine was generated and named testssmPlanPB. This used the approach described next.\\
+
+Consider the case wherein the Platoon Leader (or other principal) had the authority to
+execute a command if and only if some set of conditions were met. For example, a, b, and
+c must have occur before the command could be executed. a, b, and c could have been the
+following statements: Platoon Leader says “state 2 is complete”; Platoon Sergeant says
+“state 3 is complete”; and Platoon Leader says “state 4 is complete”. Under those conditions,
+we wanted the Platoon Leader to have the authority to execute a change of state from WARNO
+to COMPLETE To do this in the ACL, a line in the \textit{security context} list would look like the following:
+\begin{itemize}
+\item Platoon Leader \textbf{says} “state 2 is complete” and
+\item Platoon Sergeant \textbf{says} “state 3 is complete” and
+\item Platoon Leader \textbf{says} “state 4 is complete” implies
+\item Platoon leader \textbf{controls} “complete”.
+\end{itemize}
+Thus, when the Platoon Leader says “complete”, our theorem prover would check the \textit{security
+context} list, check that all the conditions in the list were met, and then execute the transition
+if and only if all conditions were met. This was the approach implemented in testssmPlanPB.\\
+
+In addition, we knew because of the reliability of HOL that if the transition was executed, then
+all of the said conditions above were met, namely.\\
+
+\begin{itemize}
+\item If we are now in the state COMPLETE, then it is also true that
+\item Platoon Leader \textbf{says} “complete” is true (that is, the Platoon Leader made the request), and
+\item Platoon Leader \textbf{says} “state 2 is complete” is true, and
+\item Platoon Sergeant \textbf{says} “state 3 is complete” is true, and
+  \item Platoon Leader \textbf{says} “state 4 is complete” is also true.
+  \end{itemize}
+  Other conditions could have been added and were discussed for future work.
+
+\subsection{State Interpretation}
+\label{sec:state-interpretation}
+
+In addition to authentications and authorizations, the behavior of the state machine could have
+been controlled by the definitions that were state-dependents. This approach was briefly considered,
+in particular for the two-principal problem discussed above. However, time constraints favored the
+simpler approach discussed. Nevertheless, it was worth mentioning and could be explored if the project
+were to be extended.
+
+\subsection{Implementation of the Secure State Machine Model}
+\label{sec:impl-secure-state}
+
+For reasons pertaining to simplicity and experience, Professor Shiu-Kai Chin’s model of
+a secure state machine was employed to implement a parameterizable secure state machine in
+HOL. A few modifications were made by Lori Pickering. Parameterization allowed us to construct
+a functioning secure state machine and then use that for all the secure state machines in our
+project without re-proving recurring theorems. The secure state machine implementation was
+implemented in the file ssm11Script.sml. This documentation referred to it as ssm11 or ssm11Theory.
+\textit{ssm} is an acronym for “secure state machine.” This nomenclature was used throughout this project
+to indicate a secure state machine. For example, ssmPlanPB represented the “PlanPB” secure state
+machine, which was implemented in the ssmPlanPBScript.sml file. Note that all “theory” files in
+HOL were implemented in “nameScript.sml”. Once compiled with Holmake, they were included in
+subsequent theories and definitions as “nameTheory”.\\
+
+ssm11 had several functions that were necessary for the proper functioning of a secure state machine.
+First, it defined the types of allowed transition:
+\begin{itemize}
+\item exec: execute a command.
+  \begin{itemize}
+    \item This happened if and only if the command was given by an \textit{authenticated} and \textit{authorized} principal.
+    \end{itemize}
+  \item trap: trap a command.
+    \begin{itemize}
+    \item This happened if and only if the command was given by an \textit{authenticated} principal
+      who was \textit{NOT authorized} to give that command.
+    \end{itemize}
+  \item discard: discard the command.
+    \begin{itemize}
+    \item This happened if the principal was not authenticated. The command was also discarded
+      if it was not properly formatted.
+    \end{itemize}
+  \end{itemize}
+  (The names were selected by Professor Shiu-Kai Chin and were chosen based on his research with
+  virtual machines.)\\
+
+  How did HOL know how to interpret the state of the state machine, the security context, the input,
+  the output, the authentication test, and the state specific instructions? This was done by describing
+  a configuration representing the current state of the machine. The \textit{configuration} had the following
+  components:
+  \begin{itemize}
+  \item Authentication test function
+  \item Security context list
+  \item State interpretation function (state specific rules)
+  \item Current state
+  \item input
+  \item output
+  \end{itemize}
+  The authentication test function, security context list, and state interpretation function were
+  those described in the discussions above. The current state was simply the current state of the
+  machine, before transition. The input was typically the request, i.e., “Platoon Leader says someCommand.”
+  The output for this project was kept simple. The output for any transition was the name of the state
+  of the machine after transition. To distinguish it from the state, the outputs were denoted by an
+  initial capital letter followed by mostly lowercase letters, i.e., if the state machine transitioned
+  from PLAN_PB to MOVE_TO_ORP then the output would be “MoveToORP.” The difference between names of
+  outputs and names of inputs was that the input name because with a lowercase letter.\\
+
+  In addition, HOL needed to know what the configuration meant with respect to the ACL and HOL logic. A
+  \textit{configuration interpretation functions} was also included in ssm11. This function combined everything
+  into a list of ACL statements. HOL used these statements to prove things about the secure state machine.
+  To do this, HOL needed an additional theory named satListTheory, which helped HOL to interpret lists
+  in the ACL logic. This theory was written previously by Professor Shiu-Kai Chin.\\
+
+  Next, HOL needed to know how to deal with the state machine transitions. TR_rules, TR_cases, and TR_ind
+  are the three functions that were defined to do just this. These functions defined the behavior for
+  each of the transition types: exec, trap, and discard. Thus, for the transition type exec, the rules
+  was defined as follows:
+\begin{itemize}
+\item If the following are true
+  \begin{itemize}
+  \item \textit{authentication test function} for the input passes, and
+    \item \textit{configuration test function} for the configuration “passes”,
+    \end{itemize}
+  \item Then, define the following transition behavior for the exec command (note that this
+    takes the secure state machine from \textit{configuration 1} to \textit{configuration 2})
+    \begin{itemize}
+    \item Configuration 1;
+      \begin{itemize}
+      \item \textit{authentication test function}
+      \item \textit{configuration test function}
+      \item \textit{security context list}
+      \item \lbrack someComand, next command, etc\rbrack \;(input list)
+      \item Initial state
+        \item Output
+        \end{itemize}
+      \item Configuration 2
+        \begin{itemize}
+        \item \textit{authentication test function}
+        \item \textit{configuration test function}
+        \item \textit{security context list}
+        \item \lbrack next command, etc\rbrack \;(input list without initial input)
+        \item NS initial state (exec someCommand)
+          \item Out output (exec someCommand)
+        \end{itemize}
+    \end{itemize}
+  \end{itemize}
+  In essence, this definition told HOL how the configuration of the state machine changed from
+  \textit{configuration 1} to \textit{configuration 2} given the transition type exec was followed by a specific
+  command of type someCommand. Both explicit and implicit in the definition was the security context
+  (\textit{security context list}) with the proper authentications and authorities. The \textit{configuration test
+  function} includes the \textit{security context list} as a parameter.\\
+
+  The difference between the two configurations was defined by the \textit{NS} (next state) and \textit{Out} (next output)
+  functions. These functions take the current state and current output, respectively, and return the
+  next state and next output, respectively. \textit{NS} and \textit{Out} are the parameterizable functions. These are
+  defined in each secure state machine definition “ssmNameScript.sml” that uses (“includes”) ssm11.
+  In addition. the someCommand commands were define in the parameterizing secure state machine types
+  definition file “nameTypeScript.sml”. Similar definitions were defined for the \textit{trap} and \textit{discard}
+  transition types.
+  
+\subsection{Parameterization of the ssm11 secure state machine}
+\label{sec:param-ssm11-secure-1}
+
+The parametrizing secure state machines were implemented in two separate files. The first
+file was the types definition file “nameTypeScript.sml” and the second file was the secure
+state machine definition “ssmNameSctip.sml”. These are the parameteriz\textbf{ing} secure state machines,
+not the parameteriz\textbf{able} secure state machine ssm11. The did the following:
+
+\begin{itemize}
+\item nameTypeScript.sml
+  \begin{itemize}
+  \item Define the specific commands for each principal, the states for the state machine,
+    the output, and the principals for the state machine.
+  \end{itemize}
+\item ssmNameScript.sml
+  \begin{itemize}
+  \item Define the next state relations
+  \item Define the next output relations
+  \item Define the \textit{authentication test function}
+  \item Define the \textit{state interpretation function}
+  \item Prove that commands without principals are rejected.
+  \item Define the \textit{security context list}
+  \item Prove that a transition was made if and only if an authenticated and authorized
+    principal gave the command. This often required one or more lemmas to prove. In addition,
+    for multiple principals or different types of commands, more that one proof was needed.
+    \end{itemize}
+\end{itemize}
+
+The later theorem in ssmNameScript.sml was the culmination of all the previous theorems,
+definitions, and lists. It proved that the a command was executed by a principal if and
+only if that principal was authenticated and authorized and gave the request/command to
+make the transition. HOL performed all the necessary checks based on previous definitions
+and theorems, which is the beauty of HOL. Additional theorems could be proved as needed.
+Given more time, do such would prove useful depending on the intended application of the project.
+
+\subsection{Future Work -- Some Notes}
+\label{sec:future-work-some-1}
+
+\subsubsection{Integrating the secure state machines}
+\label{sec:integr-secure-state}
+
+One idea that I had an interest in exploring was integrating the state machines at
+either the top level or at each individual level. That is, I was interested in writing
+a sub-level secure state machine ssmSL that would transition from one secure state
+machine to the next. More specifically, the top-level states were PLAN_PB, MOVE_TO_ORP,
+CONDUCT_ORP, MOVE_TO_PB, CONDUCT_PB, and COMPLETE. Each of these states, save for the
+terminal state COMPLETE, was implemented at the sub-level as a secure state machine.
+Thus, each state in the top-level secure state machine was itself a secure state machine
+at the sub-level. These were each implemented in separate folders and separate “*.sml”
+files. Each of these were sub-folders in the “sub level” folder. The idea would be to
+generate a separate folder herein and a .sml file that would transition from the COMPLETE
+state of one sub-level secure state machine to the next sub-level secure state machine.
+And, so on. This could be done at the sub-sub-level as well. An alternative approach to
+the integration problem was to create an integrating secure state machine above the top-level
+state machine, in what was called the “OMNI” level state machine.
+
+\subsubsection{Alternatives to the sub-sub-sub-level state machine}
+\label{sec:alternatives-sub-sub}
+
+At the sub-sub-level we began to sway from the sub levels approach and consider defining
+platoon, squad, and soldier theories. These theories would define Boolean functions or
+datatypes that would indicated the degree of readiness of a platoon, squad, or soldier.
+For example, the platoon in a sub-sub-level secure state machine may require that the
+orders be read back to the headquarters to verify receipt and correctness. The platoon
+theory may contain a Boolean function \textit{ordersReadyReady} = false (by default). To transition
+to the next state in the sub-sub-level state machine, \textit{ordersReadyReady} = true, would be
+a condition required. This would likely be added to the \textit{security context list}, but defined
+in the platoon theory file. Other such functions would be defined in the platoon, squad,
+and soldier theories as required to adequately represent the patrol base. The ideas were
+hashed out and would be reasonably straight forward to implement given sufficient time.
+
+\subsubsection{Authentication}
+\label{sec:authentication-2}
+
+Our approach at assuming that “everybody knows who’s who” works for this project.
+However, if the patrol base were implemented in a [add a reference to what Jesse discussed],
+then authentication would require a password, key-card, or even a bar code on a soldiers
+iPhone. In this case, we would need to take our secure state machine to the next level and
+require cryptographic operations on identity. A parameterizable secure state machine that
+includes these features has already been worked out by Professor Shiu-Kai Chin. In anaology
+to the ssm11 that I modified from Professor Chin’s ssm1, there already exists an ssm2. ssm2
+extends ssm1 to include cryptographic checks on identify. It could be used in the same manner
+as ssm1 (my modified version was ssm11) without appropriate changes to the project. That is,
+it wouldn’t be too much work to make the transition from the authenticate-by-visual to
+authenticate-by-password (or other form). This approach would lend itself well to the idea
+of [add a reference to what Jesse discussed], discussed in section “name of section.”
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{map32.png}
+  \caption{PB Top Level States Overview}
+\end{figure}
+The states were organized into discrete subtasks, illustrated in figure 3.2
+with blue circles and the state’s name in the center. Each state had easily
+discernable actions for entering and exiting the state, given above the line
+connecting adjacent states. For simplicity, the majority of commands were
+just named after the state that would be initiated when the command was given
+(i.e. moveToPB initiates the MOVE_TO_PB state), with the exceptions of the
+PLAN_PB state which would be initiated by Higher Head Quarters (HHQ) when they
+transmitted an operations order (OPORD) and the MOVE_TO_ORP state which would be
+initiated by the command given by the Platoon Leader (PL) to cross the line of
+departure (LD).\\\\
+Each state was given a loop, labeled “incomplete,” which would simply
+allow the Platoon time to execute the tasks associated with each state.\\\\
+We recognized that the state machine we initially designed, here after
+referred to as top-level state machine, required alternate states that
+would represent conclusions other than a successful completion of a PB.
+Three scenarios were derived:
+\begin{enumerate}
+\item The Platoon received a new mission.
+\item The Platoon came under attack.
+\item The Platoon was rendered non-mission capable (NMC) by either
+  casualty (i.e. too many Soldiers fell ill or died), or lack of supplies.
+\end{enumerate}
+States corresponding to these scenarios were developed: “change mission,”
+“react to contact,” and “return to base” respectively (illustrated in figure
+3.3 with red circles). At any state in the PB top-level state machine, save
+for the “complete” state which represents a successful PB operation, these
+alternate termination states could be reached and essentially terminate the
+machines execution (see figure 3.3).\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.36]{map33.png}
+  \caption{PB Top Level Alternate States Overview}
+\end{figure}\\
+Each of the top-level states represented a number of explicit tasks that
+we extrapolated from the Ranger Handbook (Ranger Handbook 2011):
+\begin{itemize}
+\item The planning state for the PB (PLAN_PB) contained sub states
+  corresponding to the “Troop Leading Procedures” (TLPs) outlined in
+  chapter 2 section 1 of the Ranger Handbook (Ranger Handbook 2011, 23).
+\item Movement to the objective rally point (MOVE_TO_ORP) sub
+  states were crafted from chapter 6 (Ranger Handbook 2011, 101).
+\item Sub states corresponding to the were found in chapter 7,
+  section 20 (Ranger Handbook 2011, 131).
+\item “Move to PB” sub states were formed similarly to those in “move to ORP.”
+\item “Conduct PB” sub states were outlined by chapter 7 as well, section 21
+  (Ranger Handbook 2011, 132).
+\end{itemize}
+From this we were able to develop sub states for each of the top-level
+states (see figure 3.4).\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{map34.png}
+  \caption{PB Sub States Overview}
+\end{figure}\\
+These sub states (shown in light blue in figure 3.4) not only provided a
+finer granularity to the tasks within the PB, but also introduced new leadership
+roles. The top-level state machine was controlled by only the PL, the sub state
+machine had states that were initiated by the PL and the Platoon Sergeant (PSG)
+(see figure 3.4).\\ \\
+The sub states within the top-level state PLAN_PB presented another interesting
+characteristic: according to the Ranger Handbook section 2-1 many of the states
+could be executed in any order (Ranger Handbook 2011, 23). Specifically, out of
+the eight steps to the TLP, the last five (see figure 3.5) (Ranger Handbook 2011,
+23).\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=.255]{map35.PNG}
+  \caption{TLP Steps}
+\end{figure}\\
+We decided on a more logical, and smaller scale, approach. Issuing a complete order,
+step 6, would require that the PL had already done the recon and used terrain analysis
+to provide a complete plan. In the same regard, issuing a complete order, step 7,
+requires that you have completed step 6. Consequently, there were only three states
+within the top-level state PLAN_PB that would be allowed to initiate and terminate
+out of order: TENTATIVE_PLAN, INITIATE_MOVEMENT, and RECON corresponding to the TLP
+steps 3-5. These steps are outlined in orange in figure 3.6 below.\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=.4]{map36.png}
+  \caption{TLP PLAN_PB unordered sub states}
+\end{figure}\\ \\
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:
+
+%%made changes

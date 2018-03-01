@@ -1,0 +1,27 @@
+
+The purpose of CSBD is to describe (1) how a system operates, (2) what security in terms of authentication
+and authorization mean for envisioned scenarios in which the system operates, and (3) verify that the system
+ConOps (Concept of Operations) satisfies the property of complete mediation. CSBD, until now, described
+primarily electronic systems and protocols used in financial services.  Our goal in describing and analyzing
+Patrol Base Operations is to see if CSBD can describe other kinds of systems where security and command,
+control, and communications (C3) is crucial.\\
+
+For our purposes, our system (patrol base) can be defined as such:
+
+\begin{displayquote}
+  \“A patrol base is a position established when a patrol halts for an extended period of time, by means of securing
+  and occupying an appropriate location in order to (1) avoid detection, (2) hide, (3) maintain weapons and equipment,
+  (4) eat and rest, (5) plan and issue orders, and (6) conduct operations [Ranger Manual, 5-30].\”
+\end{displayquote}
+
+The configuration of men and materiel changes throughout the various phases of patrol bases. Security is
+constantly maintained throughout all configurations. We use CSBD to describe and verify patrol base configurations,
+patrol base C3 for configuration changes/phases, and for verifying the security of C3 for each phase or configuration.  
+
+
+
+
+%---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

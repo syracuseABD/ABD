@@ -1,0 +1,39 @@
+
+\section{Design Recommendations}
+\label{sec:design-recomm}
+
+The current level of documented states is limited to the top-level and
+first sub-level state machines. Exploration of further sub states to
+both ensure that the state machine is able to adequately model patrol
+base (PB) operations. A state machine model should include states down
+to the Soldier level, where applicable. Further sub states have been
+identified but, due to time constraints, were not able to be implemented
+(see APPENDIX A).\\\\
+Additional assurance could be attained by constructing types in Poly/ML
+for entities within PB operations. Constructing a Unified Modeling Language
+(UML) class diagram with types for Soldiers, units, roles, missions and
+their objectives, as well as equipment and supplies could provide a structure
+that functions in Poly/ML could check for additional confirmation that a
+state is complete (see APPENDIX B). These types would hold Boolean values
+as members of types that, when used with logical operations, would prove
+whether a state is complete or not. As the state diagram is being completed
+down to the individual Soldier level, referencing the UML class diagram and
+noting what Boolean members within types would indicate completion of the
+state will allow for more complete data structures when implementing the
+types in Poly/ML.\\\\
+Construction of a Data Flow Diagram (DFD) for sub state machines, i.e.
+those below the top-level state machine, provide design cues and illuminate
+possible problems. One problem that can be illuminated by use of a DFD is
+the need for iterative state execution: i.e. deficiencies are found in a
+later state that require a return to a previously completed state. For
+example, in our state machine the sub states of PLAN_PB require that
+INITIATE_MOVEMENT occur before SUPERVISE. If in the SUPERVISE state and
+the PL notices during rehearsals that additional supplies will be needed
+to complete the mission, he or she might have to order that the Platoon go
+back to the INITIATE_MOVEMENT state and collect up those supplies (see
+APPENDIX C, red line labeled “Deficiencies”).\\\\
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

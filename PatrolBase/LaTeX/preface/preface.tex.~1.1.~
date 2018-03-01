@@ -1,0 +1,58 @@
+
+\section*{Genesis}
+\label{sec:genesis}
+
+\section*{Purpose}
+\label{sec:purpose}
+
+The purpose of this document is to describe the project at hand.
+The purpose of the project is to demonstrate the applicability of the
+certified security by design approach using access-control logic (ACL)
+and the higher order logic (HOL) theorem prover to a project of the
+size and type of the patrol base. [Add stuff about how this could be
+used in stuff that Jesse spoke of. Or, if Jesse is not cooperating,
+ask professor Chin.]
+
+\section*{Limitations}
+\label{sec:limitations}
+This project has no limitations other than the time needed to represent
+the design phase of the project in the access-control logic (ACL) and
+implement that in the higher order logic (HOL) theorem prover.
+
+\section*{Scope}
+\label{sec:scope}
+
+This document describes the how the patrol base was represented as state
+machines and then implemented in the access-control logic (ACL) and higher
+order logic (HOL). Professor Shiu-Kai Chin is the Principal Investigator
+and is responsible for the project as a whole. Jesse Nathaniel Hall is the
+subject matter aspect. Lori Pickering is the access-control logic (ACL)
+and higher order logic (HOL) expert. YiHong Guo assists with organizing
+the documentation. This documentation is organized similarly to how the
+project unfolded. Jesse and I came together to figure out how to represent
+the patrol base. We decided on a state machine approach to organizing the
+information in the patrol base. After this initial phase, we each worked
+separately, Jesse on translating the patrol base into state machine and
+Lori into implementing this into ACL and HOL, coming together occasionally
+to clarify areas as necessary.
+
+The METHODS, ASSUMPTIONS, AND PROCEDURES Section is divided into three
+sections: 3.1 Overall Approach; 3.2 Design; and 3.3 Implementation. Section
+3.1 focuses primarily on the initiation of the project. Sections 3.2 and
+3.3 discuss the design and implementation phase, respectively, from the
+person who knows that section the best.
+
+The RESULTS AND DISCUSSIONS section is separated into 3 parts, similarly to
+section 3. This section shows the results of the METHODS, ASSUMPTIONS, AND
+PROCEDURES. Section 4.2 includes…[description based on what Jesse did]. It
+includes a step-by-step walk through one of the secure state machine
+implementations in HOL in section 4.3.
+
+The Conclusions section contains recommendations for future work in both the
+design phase (section 5.2.1) and the implementation phase (section 5.2.2).
+5.1 contains discussions about the project in general.
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

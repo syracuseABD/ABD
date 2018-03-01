@@ -1,0 +1,708 @@
+% \input{../HOL/ssmPB/HOLReports/HOLPBType.tex}
+% \input{../HOL/ssmPB/HOLReports/HOLssmPB.tex}
+
+% \section{Overall Results and Discussion}
+% \label{sec:over-results-disc}
+
+\chapter{Overall Results and Discussion}
+\label{cha:over-results-disc}
+
+The design phase of the patrol base was extensive.
+
+% \section{Design Results and Discussion}
+% \label{sec:design-results-disc}
+
+\chapter{Design Results and Discussion}
+\label{cha:design-results-disc}
+
+
+Jesse should discuss the design as a whole. Or indicate that the discussion here would follow
+along the same lines as the discussion in the Methods section.
+
+% \section{Implementation Results and Discussion}
+% \label{sec:impl-results-disc}
+
+\chapter{Implementation Results and Discussion}
+\label{cha:impl-results-disc}
+
+
+This section contains a more detailed description of one of the secure state machines. The ssmPB
+state machine was the first state machine implemented. It parameterized the ssm11 secure state machine.
+Subsequent state machines were designed in a similar matter, in almost a cut-and-paste manner.
+Exception were discussed in section 3.3. This discussion is intended to give the reader an understanding
+of the HOL implementation In more detail by providing a walk-through of the ssmPBScript.sml and PBTypeScript.sml
+files.
+
+% \subsection{ssm11Script.sml, satListScript.sml, and ssminfRules.sml}
+% \label{sec:ssm11scr-satl-ssminf}
+
+\section{ssm11Script.sml, satListScript.sml, and ssminfRules.sml}
+\label{sec:ssm11scr-satl-ssminf-1}
+
+
+% \subsubsection{General Description of Files}
+% \label{sec:gener-descr-files}
+
+\subsection{General Description of Files}
+\label{sec:gener-descr-files-2}
+
+These files include the parameterizable secure state machine along with supporting theorems.
+
+% \subsubsection{ssm11Script.sml}
+% \label{sec:ssm11script.sml}
+
+\subsection{ssm11Script.sml}
+\label{sec:ssm11script.sml-1}
+
+This is the parameterizable secure state machine. ssm11 is an acronym for “secure
+state machine version 1.1”. The first version was written by Professor Shiu-Kai Chin.
+ssm11 makes a few modifications to Dr. Chin’s original ssm1Thoery.\\
+
+This file defines the basic functions needed to implement a secure state machine
+in the Higher Order Logic (HOL) theorem prover.\\
+
+What follows, follows the order in the script file itself. For a list of datatypes
+and theorems based on datatype of theorem classification, see Appendix [add appendix
+for the HOLReportsOMNI pdf(OMNIReport.pdf)].\\
+
+\begin{itemize}
+\item All theorems starting with “val save_thm” save the theorem to the name in
+  quotes and defined by the name following.
+\item order
+  \begin{itemize}
+    \item[] \HOLFreeVar{order} = \HOLConst{SOME} 'command \HOLTokenBar{} \HOLConst{NONE}
+    \end{itemize}
+  \item order_distinct_clauses
+    \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a}. \HOLConst{SOME} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{NONE}
+    \end{itemize}
+    \item order_one_one
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{SOME} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{SOME} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+    \end{itemize}
+    \item trType
+  \begin{itemize}
+    \item[] \HOLFreeVar{trType} = \HOLConst{discard} 'command \HOLTokenBar{} \HOLConst{trap} 'command \HOLTokenBar{} \HOLConst{exec} 'command
+    \end{itemize}
+    \item trType_distinct_clauses
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{discard} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{trap} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}}\\ (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{discard} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{exec} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}}\\
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sp{\prime}} \HOLBoundVar{a}. \HOLConst{trap} \HOLBoundVar{a} \HOLSymConst{\HOLTokenNotEqual{}} \HOLConst{exec} \HOLBoundVar{a\sp{\prime}}
+ \end{itemize}
+ \item trType_one_one
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{discard} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{discard} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})) \HOLSymConst{\HOLTokenConj{}}\\
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{trap} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{trap} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})) \HOLSymConst{\HOLTokenConj{}}\\
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a} \HOLBoundVar{a\sp{\prime}}. (\HOLConst{exec} \HOLBoundVar{a} \HOLSymConst{=} \HOLConst{exec} \HOLBoundVar{a\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{a} \HOLSymConst{=} \HOLBoundVar{a\sp{\prime}})
+ \end{itemize}
+ \item configuration
+  \begin{itemize}
+    \item[] \HOLFreeVar{configuration} =
+    \HOLConst{CFG} (('command \HOLTyOp{order}, 'principal, 'd, 'e) \HOLTyOp{Form} -> \HOLTyOp{bool})\\
+        ('state -> ('command \HOLTyOp{order}, 'principal, 'd, 'e) \HOLTyOp{Form})\\
+        (('command \HOLTyOp{order}, 'principal, 'd, 'e) \HOLTyOp{Form} \HOLTyOp{list})\\
+        (('command \HOLTyOp{order}, 'principal, 'd, 'e) \HOLTyOp{Form} \HOLTyOp{list}) 'state\\
+        ('output \HOLTyOp{list})
+      \end{itemize}
+      \item configuration_one_one
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLBoundVar{a\sb{\mathrm{4}}} \HOLBoundVar{a\sb{\mathrm{5}}} \HOLBoundVar{a\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{2}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{3}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{4}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{5}}\sp{\prime}}.\\
+     (\HOLConst{CFG} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLBoundVar{a\sb{\mathrm{4}}} \HOLBoundVar{a\sb{\mathrm{5}}} \HOLSymConst{=} \HOLConst{CFG} \HOLBoundVar{a\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{2}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{3}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{4}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{5}}\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}}\\
+     (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{0}}\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{1}}\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{2}}\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{3}}\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{4}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{4}}\sp{\prime}}) \HOLSymConst{\HOLTokenConj{}}\\
+     (\HOLBoundVar{a\sb{\mathrm{5}}} \HOLSymConst{=} \HOLBoundVar{a\sb{\mathrm{5}}\sp{\prime}})
+      \end{itemize}
+       \item CFGInterpret_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})\\
+     (\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} (\HOLFreeVar{input}\HOLSymConst{::}\HOLFreeVar{ins})\\
+        \HOLFreeVar{state} \HOLFreeVar{outputStream}) \HOLSymConst{\HOLTokenEquiv{}}\\
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{satList} \HOLFreeVar{securityContext} \HOLSymConst{\HOLTokenConj{}} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{input} \HOLSymConst{\HOLTokenConj{}}\\
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{stateInterp} \HOLFreeVar{state}
+ \end{itemize}
+ \item TR_rules
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+       \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+      \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+      \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenImp{}}
+      \\\tab\HOLConst{TR} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{exec} \HOLBoundVar{cmd})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+           \\\tab\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenConj{}}
+   \\(\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+       \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+      \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+      \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenImp{}}
+      \\\tab\HOLConst{TR} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{trap} \HOLBoundVar{cmd})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+        \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+           \\\tab\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenConj{}}
+   \\\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp} \HOLBoundVar{cmd}
+      \HOLBoundVar{x} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+     \\\tab\HOLSymConst{\HOLTokenNeg{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{x} \HOLSymConst{\HOLTokenImp{}}
+     \\\tab\HOLConst{TR} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{discard} \HOLBoundVar{cmd})
+       \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab\tab(\HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s}
+          \HOLBoundVar{outs})
+       \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+          \\\tab\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))
+        \end{itemize}
+        \item TR_ind            
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sp{\prime}}.
+     \\(\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+         \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+        \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenImp{}}
+        \\\tab\HOLBoundVar{TR\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{exec} \HOLBoundVar{cmd})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab\HOLBoundVar{ins}
+             (\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenConj{}}
+     \\(\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+         \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+        \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenImp{}}
+        \\\tab\HOLBoundVar{TR\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{trap} \HOLBoundVar{cmd})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab\tab\HOLBoundVar{ins}
+             (\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenConj{}}
+     \\(\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+         \HOLBoundVar{cmd} \HOLBoundVar{x} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+        \\\tab\HOLSymConst{\HOLTokenNeg{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{x} \HOLSymConst{\HOLTokenImp{}}
+        \\\tab\HOLBoundVar{TR\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{discard} \HOLBoundVar{cmd})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab\tab(\HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s}
+             \HOLBoundVar{outs})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab\tab\HOLBoundVar{ins}
+             (\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})) \\\tab\tab\tab(\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs}))) \HOLSymConst{\HOLTokenImp{}}
+     \\\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}. \HOLConst{TR} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{TR\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}
+  \end{itemize}
+   \item TR_cases
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}.
+     \\\HOLConst{TR} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenEquiv{}}
+     \\(\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+         \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{exec} \HOLBoundVar{cmd}) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=}
+         \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=}
+         \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+           \\\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})) \HOLSymConst{\HOLTokenDisj{}}
+     \\(\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{P} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+         \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{trap} \HOLBoundVar{cmd}) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=}
+         \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+           \\\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab(\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=}
+         \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+           \\\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{trap} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+        \\\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          \\\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})) \HOLSymConst{\HOLTokenDisj{}}
+     \\\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{NS} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{Out} \HOLBoundVar{s} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp}
+        \HOLBoundVar{cmd} \HOLBoundVar{x} \HOLBoundVar{ins} \HOLBoundVar{outs}.
+       \\\tab(\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{discard} \HOLBoundVar{cmd}) \HOLSymConst{\HOLTokenConj{}}
+       \\\tab(\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=}
+        \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \\\tab\tab(\HOLBoundVar{x}\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s}
+          \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenConj{}}
+       \\\tab(\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=}
+        \HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+          \\\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{discard} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs})) \HOLSymConst{\HOLTokenConj{}}
+       \\\tab\HOLSymConst{\HOLTokenNeg{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{x}
+     \end{itemize}
+     \item rule0, rule1, rule2 (from Yihong: I don't see them in the .tex file)
+     \item TR_EQ_rules_thm
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{exec} \HOLFreeVar{cmd})
+      \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+         \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+      \\(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+         \\\tab\tab(\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{exec} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{exec} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+    \\\HOLFreeVar{authenticationTest} (\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+    \\\HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})
+      \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+         \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})) \HOLSymConst{\HOLTokenConj{}}
+   \\(\HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{trap} \HOLFreeVar{cmd})
+      \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+        \\\tab\tab (\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+      \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+         \\\tab\tab(\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{trap} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{trap} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+    \\\HOLFreeVar{authenticationTest} (\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+    \HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})
+      \\(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+         \\\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})) \HOLSymConst{\HOLTokenConj{}}
+   \\(\HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{discard} \HOLFreeVar{cmd})
+      \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \\\tab\tab(\HOLFreeVar{x}\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s}
+         \HOLFreeVar{outs})
+     \\\tab (\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+        \\\tab\tab (\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{discard} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{discard} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+    \\\HOLSymConst{\HOLTokenNeg{}}\HOLFreeVar{authenticationTest} \HOLFreeVar{x})
+  \end{itemize}
+  \item TRrule0
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{exec} \HOLFreeVar{cmd})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+        \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+        \\\tab\tab(\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{exec} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{exec} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+   \\\HOLFreeVar{authenticationTest} (\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+   \\\HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+        \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+      \end{itemize}
+      \item TRrule1
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{trap} \HOLFreeVar{cmd})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+        \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+        \\\tab\tab(\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{trap} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{trap} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+   \\\HOLFreeVar{authenticationTest} (\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+   \\\HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext}
+        \\\tab\tab(\HOLFreeVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s} \HOLFreeVar{outs})
+      \end{itemize}
+      \item TRrule2 (from Yihong: not in the .tex and script.sml file)
+      \item TR_discard_cmd_rule
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLConst{TR} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{discard} \HOLFreeVar{cmd})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \\\tab\tab(\HOLFreeVar{x}\HOLSymConst{::}\HOLFreeVar{ins}) \HOLFreeVar{s}
+        \HOLFreeVar{outs})
+     \\\tab(\HOLConst{CFG} \HOLFreeVar{authenticationTest} \HOLFreeVar{stateInterp} \HOLFreeVar{securityContext} \HOLFreeVar{ins}
+        \\\tab\tab(\HOLFreeVar{NS} \HOLFreeVar{s} (\HOLConst{discard} \HOLFreeVar{cmd})) (\HOLFreeVar{Out} \HOLFreeVar{s} (\HOLConst{discard} \HOLFreeVar{cmd})\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+   \\\HOLSymConst{\HOLTokenNeg{}}\HOLFreeVar{authenticationTest} \HOLFreeVar{x}
+ \end{itemize}
+ \item TR_exec_cmd_rule
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{authenticationTest} \HOLBoundVar{securityContext} \HOLBoundVar{stateInterp} \HOLBoundVar{P} \HOLBoundVar{cmd} \HOLBoundVar{ins} \HOLBoundVar{s} \HOLBoundVar{outs}.
+     \\\tab(\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        \\\tab\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          \\\tab\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+             \\\tab\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenImp{}}
+        \\\tab\tab(\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenImp{}}
+     \\\tab\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{NS} \HOLBoundVar{Out} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+       \\\tab\tab\tab\HOLConst{TR} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{exec} \HOLBoundVar{cmd})
+         \\\tab\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+            \\\tab\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs})
+         \\\tab\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext} \HOLBoundVar{ins}
+            \\\tab\tab\tab\tab(\HOLBoundVar{NS} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})) (\HOLBoundVar{Out} \HOLBoundVar{s} (\HOLConst{exec} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+       \\\tab\tab\HOLBoundVar{authenticationTest} (\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})) \HOLSymConst{\HOLTokenConj{}}
+       \\\tab\tab\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+         \\\tab\tab\tab(\HOLConst{CFG} \HOLBoundVar{authenticationTest} \HOLBoundVar{stateInterp} \HOLBoundVar{securityContext}
+            \\\tab\tab\tab\tab(\HOLBoundVar{P} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})\HOLSymConst{::}\HOLBoundVar{ins}) \HOLBoundVar{s} \HOLBoundVar{outs}) \HOLSymConst{\HOLTokenConj{}}
+       \\\tab\tab(\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd})
+     \end{itemize}
+     \item TR_trap_cmd_rule
+  \begin{itemize}
+    \item []
+      \end{itemize}
+    \end{itemize}
+
+\subsubsection{satListScript.sml}
+\label{sec:satlistscript.sml}
+
+This file contains supporting theorems needed to work with sat lists (“sat” represents
+“satisfies” in the access-control logic (ACL)).
+
+\begin{itemize}
+\item satList_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{formList}.\\\tab
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} \HOLBoundVar{formList} \HOLSymConst{\HOLTokenEquiv{}}\\\tab
+     \HOLConst{FOLDR} (\HOLTokenLambda{}\HOLBoundVar{x} \HOLBoundVar{y}. \HOLBoundVar{x} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{y}) \HOLConst{T} (\HOLConst{MAP} (\HOLTokenLambda{}\HOLBoundVar{f}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f}) \HOLBoundVar{formList})
+   \end{itemize}
+   \item satList_nil
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{satList} []
+    \end{itemize}
+    \item satList_conj
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.\\\tab
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}\\\tab
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} (\HOLBoundVar{l\sb{\mathrm{1}}} \HOLSymConst{++} \HOLBoundVar{l\sb{\mathrm{2}}})
+   \end{itemize}
+   \item satList_CONS
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{h} \HOLBoundVar{t} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.\\\tab
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} (\HOLBoundVar{h}\HOLSymConst{::}\HOLBoundVar{t}) \HOLSymConst{\HOLTokenEquiv{}}\\\tab (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{h} \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} \HOLBoundVar{t}
+    \end{itemize}
+  \end{itemize}
+
+% \subsubsection{ssminfRules.sml}
+% \label{sec:ssminfrules.sml}
+
+\subsection{ssminfRules.sml}
+\label{sec:ssminfrules.sml-1}
+
+This file contains supporting functions for ssm11.
+
+\begin{itemize}
+\item flip_imp
+\item flip_TR_rules
+\item TR_EQ_rules
+\item Distinct_clauses
+  \end{itemize}
+
+% \subsection{PBTypeScript.sml and ssmPBScript.sml}
+% \label{sec:pbtyp-ssmpbscr}
+
+\section{PBTypeScript.sml and ssmPBScript.sml}
+\label{sec:pbtyp-ssmpbscr-1}
+
+% \subsubsection{General description of files}
+% \label{sec:gener-descr-files-1}
+
+\subsection{General description of files}
+\label{sec:gener-descr-files-3}
+
+
+% \subsubsection{PBTypeScript.sml}
+% \label{sec:pbtypescript.sml}
+
+\subsection{PBTypeScript.sml}
+\label{sec:pbtypescript.sml-1}
+
+
+
+This file defines the basic datatypes for the ssmPB secure state machine.\\\\
+What follows, follows the order in the script file itself. For a list of datatypes
+and theorems based on datatype of theorem classification, see Appendix [add appendix
+for the HOLReportsOMNI pdf(OMNIReport.pdf)]
+
+  \begin{itemize}
+  \item slCommand
+   \begin{align*}
+    %   slCommand\; =&\;\; crossLD\ \\
+    %                  &|\; conductORP\ \\
+    %                   &|\; moveToPB\ \\
+    %                   &|\; conductPB\ \\
+    %                   &|\; completePB\ \\
+    %                   &|\; incomplete
+      \HOLFreeVar{slCommand} =&\;\; \HOLConst{crossLD}\ \\
+      &\HOLTokenBar{} \HOLConst{conductORP}\ \\
+      &\HOLTokenBar{} \HOLConst{moveToPB}\ \\
+      &\HOLTokenBar{} \HOLConst{conductPB}\ \\
+      &\HOLTokenBar{} \HOLConst{completePB}\ \\
+      &\HOLTokenBar{} \HOLConst{incomplete}
+    \end{align*}
+  State-level command. This datatype includes all the allowable state
+    transition commands. Each command takes the state machine from one state to
+    another. The one exception is the “incomplete” command which takes the state
+    machine from one state to that same state. This applies to all states except
+    for the terminal state COMPLETE.
+    \item slState
+      \begin{align*}
+        % slState\; =&\;\; PLAN\_PB\ \\
+        %               &|\; MOVE\_TO\_ORP\ \\
+        %               &|\; CONDUCT\_ORP\ \\
+        %               &|\; MOVE\_TO\_PB\ \\
+        %               &|\; CONDUCT\_PB\ \\
+        %               &|\; COMPLETE\_PB\ \\
+        \HOLFreeVar{slState} =&\;\; \HOLConst{PLAN_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{MOVE_TO_ORP}\ \\
+        &\HOLTokenBar{} \HOLConst{CONDUCT_ORP}\ \\
+        &\HOLTokenBar{} \HOLConst{MOVE_TO_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{CONDUCT_PB}\ \\
+        &\HOLTokenBar{} \HOLConst{COMPLETE_PB}
+      \end{align*}
+State-level state. This datatype describes all the states that are specific to this state machine.
+    \item slOutput
+      \begin{align*}
+        % slOutput\; =&\;\; PlanPB\ \\
+        %               &|\; MoveToORP\ \\
+        %               &|\; ConductORP\ \\
+        %               &|\; MoveToPB\ \\
+        %               &|\; ConductPB\ \\
+        %               &|\; CompletePB\ \\
+        %               &|\; unAuthenticated\ \\
+        \HOLFreeVar{slOutput} =&\;\; \HOLConst{PlanPB}\ \\
+        &\HOLTokenBar{} \HOLConst{MoveToORP}\ \\
+        &\HOLTokenBar{} \HOLConst{ConductORP}\ \\
+        &\HOLTokenBar{} \HOLConst{MoveToPB}\ \\
+        &\HOLTokenBar{} \HOLConst{ConductPB}\ \\
+        &\HOLTokenBar{} \HOLConst{CompletePB}\ \\
+        &\HOLTokenBar{} \HOLConst{unAuthenticated}
+      \end{align*}
+      State-level output. This datatype includes all outputs for the state machine. Each
+      output is description of the current state (or next state if a transition occurred).
+    \item stateRole
+      \begin{align*}
+        \HOLFreeVar{stateRole} = \HOLConst{PlatoonLeader}
+      \end{align*}
+      State role. This datatype is a list of all principals in this state machine. This particular state has only one principals, namely PlatoonLeader.
+  \end{itemize}
+
+
+% \subsubsection{ssmPBScript.sml}
+% \label{sec:ssmpbscript.sml-1}
+
+\subsection{ssmPBScript.sml}
+\label{sec:ssmpbscript.sml}
+
+This file describes the theorems and definitions for the ssmPB secure state machine.
+This is the top-level state machine for the patrol base. ssmPB is an acronym for “secure state machine patrol base”.\\
+
+What follows, follows the order in the script file itself. For a list of datatypes and
+theorems based on datatype of theorem classification, see Appendix [add appendix for the HOLReportsOMNI pdf(OMNIReport.pdf)]
+
+\begin{itemize}
+\item PBNS_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{MOVE_TO_ORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{PLAN_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{MOVE_TO_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{conductORP})) \HOLSymConst{=} \HOLConst{CONDUCT_ORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{MOVE_TO_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{MOVE_TO_ORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{CONDUCT_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{moveToPB})) \HOLSymConst{=} \HOLConst{MOVE_TO_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{CONDUCT_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{CONDUCT_ORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{MOVE_TO_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{conductPB})) \HOLSymConst{=} \HOLConst{CONDUCT_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{MOVE_TO_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{MOVE_TO_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{CONDUCT_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{completePB})) \HOLSymConst{=} \HOLConst{COMPLETE_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLConst{CONDUCT_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{CONDUCT_PB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBNS} \HOLFreeVar{s} (\HOLConst{trap} (\HOLConst{SLc} \HOLFreeVar{cmd})) \HOLSymConst{=} \HOLFreeVar{s}) \HOLSymConst{\HOLTokenConj{}}\ \\ (\HOLConst{PBNS} \HOLFreeVar{s} (\HOLConst{discard} (\HOLConst{SLc} \HOLFreeVar{cmd})) \HOLSymConst{=} \HOLFreeVar{s})
+ \end{itemize}
+ PBNS is the next state function for the PB (patrol base) top-level secure state machine.
+ The next state, next output table is shown in table 4.1. This table shows the current state in the header column. The
+ header row shows the commands. At the intersection of each row and column is the next
+ state and next output that results from giving that command while in that state. For
+ example, while in the PLAN_PB state, the command “crossLD” will take the state machine
+ from the PLAN_PB state to the MOVE_TO_ORP state. The corresponding output will be
+ “MoveToORP”. In general, the next output is the name of the state, formatted as an
+ initial capital letter with mostly lower-case letters. Where there is no entry, the
+ given command does not cause a change in the state machine. I.e., this is not an
+ allowable command. For example, while in the PLAN_PB state, if the command “moveToORP”
+ is given, then no transition occurs. I.e., this is not an allowable transition.
+ There is also no change in the output.\\\\
+ 
+%  \begin{table}[h!]
+% \begin{center}
+%   \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{8em}|m{9em}|m{8em}|m{8em}|m{8em}|m{9em}|}
+%                               \hline
+%     \multicolumn{8}{|c|}{ }\\
+%     \multicolumn{8}{|c|}{\textcolor{cyan}{Next State}, Next Output Table}\\
+%     \multicolumn{8}{|c|}{ }\\
+%     \hline\hline
+%     & \cellcolor{cyan}State &&&&&&\\
+%     \hline
+%      \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & crossLD & conductORP & moveToPB & conductPB & completePB & incomeplete \\
+%      \hline
+%      & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{MOVE_TO_ORP}, MoveToORP & \rowcolor{lightgray}  &  &&& \cellcolor{white}\textcolor{cyan}{PLAN_PB}, PlanPB \\
+%     \hline
+%      & \cellcolor{cyan}MOVE_TO_ORP & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP & & & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_ORP}, MoveToORP \\
+%     \hline
+%      & \cellcolor{cyan}CONDUCT_ORP &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB & & & \cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP \\
+%     \hline
+%      &\cellcolor{cyan} MOVE_TO_PB & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB && \cellcolor{white}\textcolor{cyan}{MOVE_TO_PB}, MoveToPB \\
+%     \hline
+%      & \cellcolor{cyan}CONDUCT_PB & \rowcolor{lightgray}&&&& \cellcolor{white}\textcolor{cyan}{COMPLETE_PB}, CompletePB & \cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB \\
+%     \hline
+%      & \cellcolor{cyan}COMPLETE_PB & \rowcolor{lightgray} &&&&& \\
+%     \hline
+% \end{tabular}}
+%     \end{center}
+%     \caption{Next State, Next Output Table}
+% \label{table:1}
+%   \end{table}\\
+
+\item PBOut_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLConst{PBOut} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{crossLD})) \HOLSymConst{=} \HOLConst{MoveToORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{PLAN_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{PlanPB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{MOVE_TO_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{conductORP})) \HOLSymConst{=} \HOLConst{ConductORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{MOVE_TO_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{MoveToORP}) \HOLSymConst{\HOLTokenConj{}}\  \\
+   (\HOLConst{PBOut} \HOLConst{CONDUCT_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{moveToPB})) \HOLSymConst{=} \HOLConst{MoveToPB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{CONDUCT_ORP} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{ConductORP}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{MOVE_TO_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{conductPB})) \HOLSymConst{=} \HOLConst{ConductPB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{MOVE_TO_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{MoveToPB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{CONDUCT_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{completePB})) \HOLSymConst{=} \HOLConst{CompletePB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLConst{CONDUCT_PB} (\HOLConst{exec} (\HOLConst{SLc} \HOLConst{incomplete})) \HOLSymConst{=} \HOLConst{ConductPB}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLFreeVar{s} (\HOLConst{trap} (\HOLConst{SLc} \HOLFreeVar{cmd})) \HOLSymConst{=} \HOLConst{unAuthorized}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{PBOut} \HOLFreeVar{s} (\HOLConst{discard} (\HOLConst{SLc} \HOLFreeVar{cmd})) \HOLSymConst{=} \HOLConst{unAuthenticated})
+ \end{itemize}
+ PBNS is the next output function for the PB (patrol base) top-level secure state
+ machine. The next state, next output table is shown in table 4.1. See description for PBNS.
+\item authenticationTest_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} (\HOLConst{authenticationTest} (\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{says} \HOLConst{prop} \HOLFreeVar{cmd}) \HOLSymConst{\HOLTokenEquiv{}} \HOLConst{T}) \HOLSymConst{\HOLTokenConj{}}\ \\
+   (\HOLConst{authenticationTest} \HOLConst{TT} \HOLSymConst{\HOLTokenEquiv{}} \HOLConst{F}) \HOLSymConst{\HOLTokenConj{}} (\HOLConst{authenticationTest} \HOLConst{FF} \HOLSymConst{\HOLTokenEquiv{}} \HOLConst{F})
+ \end{itemize}
+ This definition defines who the authenticated principals are in this secure
+ state machine. For ssmPB, the only authenticatable principal is PlatoonLeader.
+ This is the first part of the definition. The second part of the definition indicates
+ that all other principals are “F” or false. That is, no other principals will be authenticated.
+\item ssmPBStateInterp_def
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{state}. \HOLConst{ssmPBStateInterp} \HOLBoundVar{state} \HOLSymConst{=} \HOLConst{TT}
+    \end{itemize}
+    This definition describes conditions that are specific to each state. There are
+    no specific conditions based on state in ssmPB. Therefore, this function is true (TT) by default.
+  \item authenticationTest_cmd_reject_lemma
+    \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{cmd}. \HOLSymConst{\HOLTokenNeg{}}\HOLConst{authenticationTest} (\HOLConst{prop} (\HOLConst{SOME} \HOLBoundVar{cmd}))
+    \end{itemize}
+    This theorem proves that any command not given by a principal is rejected. This
+    follows directly from authenticationTest_def which sets PlatoonLeader says someCommand to
+    true and anything else to false.
+  \item secContext_def
+    \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{cmd}.
+     \HOLConst{secContext} \HOLBoundVar{cmd} \HOLSymConst{=}
+     [\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{controls} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLBoundVar{cmd}))]
+   \end{itemize}
+   This is the heart of the security context of the secure state machine. This is
+   where trust relations, policies, and conditions for authority are defined.
+   PlatoonLeader is the only authenticated principal to have authority on state
+   transitions. Therefore, there is only one entry in the security context list.
+   This entry states that the PlatoonLeader has the authority (controls) to make a
+   change in states using the slCommand type.
+ \item PlatoonLeader_slCommand_lemma
+   \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLConst{CFGInterpret} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os})\\
+     \tab(\HOLConst{CFG} \HOLConst{authenticationTest} \HOLConst{ssmPBStateInterp} \\\tab\tab(\HOLConst{secContext} \HOLFreeVar{slCommand})\\
+        \tab\tab(\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))\HOLSymConst{::}\\\tab\tab\tab\HOLFreeVar{ins}) \HOLFreeVar{s}
+        \HOLFreeVar{outs}) \HOLSymConst{\HOLTokenImp{}}\\
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))
+ \end{itemize}
+ This is a lemma developed to assist in proving the following theorem. It proves that,
+ given the input “PlatoonLeader says slCommand”, then slCommand is true. If slCommand is
+ true, then we can use this to prove that we are justified in making the transition
+ from one state to another.
+\item PlatoonLeader_exec_slCommand_justified_thm
+  \begin{itemize}
+    \item[] \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{NS} \HOLBoundVar{Out} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+     \\\HOLConst{TR} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{exec} (\HOLConst{SLc} \HOLFreeVar{slCommand}))
+       \\tab(\HOLConst{CFG} \HOLConst{authenticationTest} \HOLConst{ssmPBStateInterp} \\\tab\tab(\HOLConst{secContext} \HOLFreeVar{slCommand})
+          \\\tab\tab(\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))\HOLSymConst{::}\\\tab\tab\tab\HOLFreeVar{ins}) \HOLFreeVar{s}
+          \HOLFreeVar{outs})
+       \\\tab(\HOLConst{CFG} \HOLConst{authenticationTest} \HOLConst{ssmPBStateInterp} \\\tab\tab(\HOLConst{secContext} \HOLFreeVar{slCommand})
+          \HOLFreeVar{ins} \\\tab\tab(\HOLBoundVar{NS} \HOLFreeVar{s} (\HOLConst{exec} (\HOLConst{SLc} \HOLFreeVar{slCommand})))
+          \\\tab\tab(\HOLBoundVar{Out} \HOLFreeVar{s} (\HOLConst{exec} (\HOLConst{SLc} \HOLFreeVar{slCommand}))\HOLSymConst{::}\HOLFreeVar{outs})) \HOLSymConst{\HOLTokenEquiv{}}
+     \\\HOLConst{authenticationTest}
+       \\\tab(\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))) \HOLSymConst{\HOLTokenConj{}}
+     \\\HOLConst{CFGInterpret} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+       \\\tab(\HOLConst{CFG} \HOLConst{authenticationTest} \HOLConst{ssmPBStateInterp} \\\tab\tab(\HOLConst{secContext} \HOLFreeVar{slCommand})
+          \\\tab\tab(\HOLConst{Name} \HOLConst{PlatoonLeader} \HOLConst{says} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))\HOLSymConst{::}\\\tab\tab\tab\HOLFreeVar{ins}) \HOLFreeVar{s}
+          \HOLFreeVar{outs}) \HOLSymConst{\HOLTokenConj{}} \\(\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{SOME} (\HOLConst{SLc} \HOLFreeVar{slCommand}))
+        \end{itemize}
+        This theorem proves that a transition from one state to another
+        is executed IF AND ONLY IF “PlatoonLeader says slCommand”
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel conductORP  
+ %  \begin{center}
+%   \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{5em}|m{8em}|m{8em}|m{8em}|m{9em}|}
+%                               \hline
+%     \multicolumn{7}{|c|}{ }\\
+%     \multicolumn{7}{|c|}{ConductORP \textcolor{cyan}{Next State}, Next Output Table}\\
+%     \multicolumn{7}{|c|}{ }\\
+%     \hline\hline
+%     & \cellcolor{cyan}State &&&&&\\
+%     \hline
+%      \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & secure & actionsIn & withdraw & complete & plIncomplete  \\
+%      \hline
+%      & \cellcolor{cyan}CONDUCT_ORP & \textcolor{cyan}{SECURE}, Secure & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{CONDUCT_ORP}, ConductORP  \\
+%     \hline
+%      & \cellcolor{cyan}SECURE & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{ACTIONS_IN}, ActionsIn & & & \cellcolor{white}\textcolor{cyan}{SECURE}, Secure  \\
+%     \hline
+%      & \cellcolor{cyan}ACTIONS_IN &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{WITHDRAW}, Withdraw & & \cellcolor{white}\textcolor{cyan}{ACTIONS_IN}, ActionsIn  \\
+%     \hline
+%      &\cellcolor{cyan}WITHDRAW & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{WITHDRAW}, Withdraw \\
+%     \hline
+
+%   \end{tabular}}
+% \end{center}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel conductPB  
+%   \begin{center}
+%   \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{9em}|m{9em}|m{8em}|m{9em}|}
+%                               \hline
+%     \multicolumn{7}{|c|}{ }\\
+%     \multicolumn{7}{|c|}{ConductPB \textcolor{cyan}{Next State}, Next Output Table}\\
+%     \multicolumn{7}{|c|}{ }\\
+%     \hline\hline
+%     & \cellcolor{cyan}State &&&&&\\
+%     \hline
+%      \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & securePB & actionsInPB & withdrawPB & completePB & plIncompletePB  \\
+%      \hline
+%      & \cellcolor{cyan}CONDUCT_PB & \textcolor{cyan}{SECURE_PB}, SecurePB & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{CONDUCT_PB}, ConductPB  \\
+%     \hline
+%      & \cellcolor{cyan}SECURE_PB & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{ACTIONS_IN_PB}, ActionsInPB & & & \cellcolor{white}\textcolor{cyan}{SECURE_PB}, SecurePB  \\
+%     \hline
+%      & \cellcolor{cyan}ACTIONS_IN_PB &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{WITHDRAW_PB}, WithdrawPB & & \cellcolor{white}\textcolor{cyan}{ACTIONS_IN_PB}, ActionsInPB  \\
+%     \hline
+%      &\cellcolor{cyan}WITHDRAW_PB & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE_PB}, CompletePB & \cellcolor{white}\textcolor{cyan}{WITHDRAW_PB}, WithdrawPB \\
+%     \hline
+
+%   \end{tabular}}
+% \end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel MoveToORP  
+%   \begin{center}
+%   \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{7em}|m{9em}|m{8em}|m{9em}|}
+%                               \hline
+%     \multicolumn{7}{|c|}{ }\\
+%     \multicolumn{7}{|c|}{MoveToORP \textcolor{cyan}{Next State}, Next Output Table}\\
+%     \multicolumn{7}{|c|}{ }\\
+%     \hline\hline
+%     & \cellcolor{cyan}State &&&&&\\
+%     \hline
+%      \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & pltForm & pltMove & pltSecureHalt & complete & incomplete  \\
+%      \hline
+%      & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{PLT_FORM}, PLTForm & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{PLAN_PB}, PLTPlan  \\
+%     \hline
+%      & \cellcolor{cyan}PLT_FORM & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove & & & \cellcolor{white}\textcolor{cyan}{PLT_FORM}, PLTForm  \\
+%     \hline
+%      & \cellcolor{cyan}PLT_MOVE &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{PLT_SECURE_HALT}, PLTSecureHalt & & \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove  \\
+%     \hline
+%      &\cellcolor{cyan}PLT_SECURE_HALT & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{PLT_SECURE_HALT}, PLTSecureHalt \\
+%     \hline
+
+%   \end{tabular}}
+% \end{center}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  sublevel MoveToPB 
+%   \begin{center}
+%   \resizebox{\textwidth}{!}{\begin{tabular}{|m{5em}|c|m{7em}|m{7em}|m{7em}|m{8em}|m{7em}|}
+%                               \hline
+%     \multicolumn{7}{|c|}{ }\\
+%     \multicolumn{7}{|c|}{MoveToPB \textcolor{cyan}{Next State}, Next Output Table}\\
+%     \multicolumn{7}{|c|}{ }\\
+%     \hline\hline
+%     & \cellcolor{cyan}State &&&&&\\
+%     \hline
+%      \rowcolor{lime}Commands/ input &  \cellcolor{white}next state, next output  & pltForm & pltMove & pltHalt & complete & incomplete  \\
+%      \hline
+%      & \cellcolor{cyan}PLAN_PB & \textcolor{cyan}{PLT_FORM}, PLTForm & \rowcolor{lightgray}  &  &&\cellcolor{white}\textcolor{cyan}{PLAN_PB}, PLTPlan  \\
+%     \hline
+%      & \cellcolor{cyan}PLT_FORM & \rowcolor{lightgray}& \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove & & & \cellcolor{white}\textcolor{cyan}{PLT_FORM}, PLTForm  \\
+%     \hline
+%      & \cellcolor{cyan}PLT_MOVE &\rowcolor{lightgray} & & \cellcolor{white}\textcolor{cyan}{PLT_HALT}, PLTSecureHalt & & \cellcolor{white}\textcolor{cyan}{PLT_MOVE}, PLTMove  \\
+%     \hline
+%      &\cellcolor{cyan}PLT_HALT & \rowcolor{lightgray}&&& \cellcolor{white}\textcolor{cyan}{COMPLETE}, Complete & \cellcolor{white}\textcolor{cyan}{PLT_HALT}, PLTHalt \\
+%     \hline
+
+%   \end{tabular}}
+% \end{center}
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

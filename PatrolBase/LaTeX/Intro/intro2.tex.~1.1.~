@@ -1,0 +1,52 @@
+
+The purpose of CSBD is to describe (1) how a system operates, (2) what security in terms of authentication
+and authorization mean for envisioned scenarios in which the system operates, and (3) verify that the system
+ConOps (Concept of Operations) satisfies the property of complete mediation. CSBD, until now, described
+primarily electronic systems and protocols used in financial services.  Our goal in describing and analyzing
+Patrol Base Operations is to see if CSBD can describe other kinds of systems where security and command,
+control, and communications (C3) is crucial.\\
+
+For our purposes, our system (patrol base) can be defined as such:
+
+\begin{displayquote}
+  ``A patrol base is a position established when a patrol halts for an extended period of time, by means of securing
+  and occupying an appropriate location in order to (1) avoid detection, (2) hide, (3) maintain weapons and equipment,
+  (4) eat and rest, (5) plan and issue orders, and (6) conduct operations [Ranger Manual, 5-30].''
+\end{displayquote}
+
+The configuration of men and materiel changes throughout the various phases of patrol bases. Security is
+constantly maintained throughout all configurations. We use CSBD to describe and verify patrol base configurations,
+patrol base C3 for configuration changes/phases, and for verifying the security of C3 for each phase or configuration. \\ 
+
+The patrol base operations are clearly defined in the Ranger Handbook (Ranger Handbook 2011) .  Security is both
+explicit in the description of the operations and implicit in the command structure and standard operating procedures
+of the military. However, the patrol base operations are not defined with regard to systematics verification of the
+principle of complete mediation in mind.  That was the aim of this project.  \\
+
+The principle of complete mediation is stated in the well-cited peer-reviewed paper from Saltzer and Schroeder titled
+``The Protection of Information in Computer Systems.''
+
+\begin{displayquote}
+  ``Every access to every object must be checked for authority... It implies that a foolproof method of identifying the source of every request must be devised... If a change in authority occurs, such remembered results must be systematically updated.'' (1974) .
+\end{displayquote}
+
+For the patrol base operations, we identify the types of objects being accessed and the principals who need to access
+them.  For each of these principals, we determine the proper authentication and authorization required to satisfy the
+principle of complete mediation.  Complete mediation is verified using the access-control logic (ACL) described in
+\emph{Access Control, Security, and Trust: A Logical Approach}   and  the Higher Order Logic (HOL) theorem prover.\\
+
+We model the patrol base operations as a hierarchy of \emph{secure} state.  These \emph{secure} state machines are defined with
+a highly abstract description at the top-level \emph{secure} state machine and decreasing levels of abstraction down through
+the ranks to the lower level \emph{secure} state machines.  Lower level abstractions are modularized and based on the higher
+level \emph{secure} state machines states. \\
+
+In addition, we adhere to the principle of least privilege.  This principle states that access should be given to the
+fewest principals necessary to complete the mission objectives.  This works well with military operations because the
+military is accustom to a chain-of-command structure.  
+
+
+
+%---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

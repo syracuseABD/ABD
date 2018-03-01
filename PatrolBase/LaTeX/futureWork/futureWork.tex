@@ -1,0 +1,98 @@
+
+There were additional areas to continue with work on this project.
+
+\section*{Sub-sub-level}
+\label{sec:sub-sub-level}
+
+The sub-sub-level secure state machines were planned, but not verified in ACL and HOL.  The planning
+of the sub-sub-level secure state machines included translating them from the Ranger Manual and extensive
+discussion about how to verify them in the ACL and HOL.  These discussions included verification of
+supporting platoon, squad, and soldier theories (discussed below).  Several diagrams shown in figures
+?, ?, and ?  are sufficiently detailed that these levels are ready to be verified in the future.
+
+\section*{Platoon, Squad, and Soldier Theories}
+\label{sec:plat-squad-sold}
+
+Platoon, squad, and soldier theories were also planned, but not verified in ACL and HOL.  The plan
+was to use these theories to support the sub-sub-level \emph{secure} state machines.  They were to be developed
+along with the sub-sub-level \emph{secure} state machines.   Discussion of these theories was sufficient to define
+and verify the theories, although their correctness may require some further consultation with the subject
+matter expert.   In particular, ideas regarding these theories were discussed but the details were not fully
+worked out in terms of their verification in the ACL and HOL.\\
+
+Platoon, squad, and soldier theories were also planned, but not verified in ACL and HOL.  The plan was
+to use these theories to support the sub-sub-level \emph{secure} state machines.  They were to be developed
+along with the sub-sub-level \emph{secure} state machines.   Discussion of these theories was sufficient to
+define and verify the theories, although their correctness may require some further consultation with the
+subject matter expert.   In particular, ideas regarding these theories were discussed but the details were
+not fully worked out in terms of their verification in the ACL and HOL.
+
+\section*{Integration}
+\label{sec:integration}
+
+Integration of the \emph{secure} state machines at the sub-level was the next course of action planned for
+this project.  The secure state machines at the sub-level were modularized with a separate theory for each
+\emph{secure} state machine.  Integration of these sub-level states was discussed.  There were two approaches
+discussed.  The first approach was to integrate the top-level \emph{secure} state machine with the sub-level
+\emph{secure} state machines.  This means that the top-level \emph{secure} state machine would transition to
+the first state in the sub-level instead of the next state at the top level.  The sub-level \emph{secure}
+state machine would step through each state.  When the sub-level reached the COMPLETE state, it would transition
+to the next state in the top-level.    With this approach, the input for the top-level would require a list of
+input commands (that included all the input commands for the sub-level) before transitioning to the next state
+at the top-level.\\
+
+The second approach was to integrate the \emph{secure} state machines at the sub-level and transition from
+state machine to state machine and ignore the top-level.  With this approach, transition to the COMPLETE state
+in each sub-level \emph{secure} state machine would be required to transition to the first state in the next
+\emph{secure} state machine.  \\
+
+The former most method implied a utility to the top-level \emph{secure} state machine, other than a means to
+work with decreasing levels of abstraction in the design phase of the project.  But, it made it easier to track
+major phases in the overall state of the patrol base operations.  In addition, it only required one integrating
+\emph{secure} state machine, rather than one for each level of abstraction. \\
+
+The escape level commands require integration of the \emph{secure} state machine and should be verified once the
+integration method is verified.
+
+\section*{Notes to Automation and Authentication}
+\label{sec:notes-autom-auth}
+
+It did not escape our attention that the future is automation.  We entertained ideas about automation of the
+patrol base operations and how this project could be employed in that area.  In particular, we envisioned an
+accountability app worn by soldiers wherein they would scan equipment and indicate the level of readiness.
+For example, a soldier would scan his water bottle and indicate that it was at least two-thirds full.  If all
+the required equipment was deemed battle ready, then the app would transition to the BATTLE_READY state and
+submit the message "SoldierGIJane says battleReady" to her squad.  The squad, likewise, would have an app that
+transitioned to the BATTLE_READY state when the squad was ready.  The squad app would send the message "Squad
+says squadReady" to the platoon app.  A similar app would exist for the platoon.    A patrol base app would
+similarly keep track of the patrol base state based on information sent from the soldiers, leaders, or GPS
+devices traveling with the platoon.  All these apps could send information to central command and integrate
+that with additional information about the state of all operations.  In addition, analysts could use this
+intelligence to track operations and their success and to inform the leaders of the state of all things.
+But, of course...this is science fiction (or science future) and outside the scope of this project.
+
+\section*{Adding Complexity}
+\label{sec:adding-complexity}
+
+Several additions to the \emph{secure} state machines are possible and may be implemented as this project continues.
+For example, there already exists parameterizable \emph{secure} state machines that account for more complex authentication
+methods.  Cryptographic methods of authentication involving ID cards, passwords, etc., would be necessary for any
+application that automated accountability of personnel and materials.  The current ssm2 parameterizable \emph{secure}
+state machine developed prior to this project is similar to ssm1 but accounts for more complicated authentication
+techniques.  ssm2 could be overhauled and then applied to some of the sub-sub-level \emph{secure} state machines.
+This would serve to work-out the details at the sub-sub-level and prove they work (which they should).\\
+
+Another level of complexity yet involves adding people in roles as principals.  UAV does this.  For example,
+this project has the Platoon Leader issuing commands to make transitions among states.  Platoon Leader is a
+role and not a person.  Thus, we could increase the complexity by allowing for a soldier with a name, rank,
+and other individual information to take-on the role of the Platoon Leader.  In this case, it would be the
+soldier representing the Platoon Leader who issues commands.  Such models have also already been described
+in a parameterizable \emph{secure} state machine.\\
+
+In addition, we are currently working on implementing the ACL theories in Isabelle/HOL which is much easier
+to work with.  Some future theories in this project may be verified in Isabelle/HOL instead of HOL.
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:

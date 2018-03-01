@@ -1,0 +1,120 @@
+\documentclass{book}
+\title{Certified Security by Design Applied to the Patrol Based\\
+  A Demonstration of CSBD Applicability to Military Operations}
+\author{Professor Shiu-Kai Chin, Lori Pickering, Jesse Nathanial Hall, YiHong Guo}
+\date{August 2017}
+
+\usepackage{634format}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\usepackage{subfiles}
+\usepackage{array}
+\usepackage{pdflscape}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+%\usepackage[usenames, dvipsnames]{color}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor,soul}
+\usepackage{csquotes}
+\usepackage{pdfpages}
+%\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+%\addbibresource{./references/references.bib}
+\graphicspath{ {diagrams/}{pictures/}{MethodsAP/picture/}{appendix/pictures/}{Intro/picture/}{HOLImplementation/picture/} }
+\input{commands}
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+\begin{document}
+\lstset{language=ML}
+\maketitle{}
+
+\tableofcontents{}
+
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\part{Front Matter}
+\label{part:front-matter}
+
+
+\addcontentsline{toc}{chapter}{Preface}
+\chapter*{Preface}
+\label{cha:preface}
+\input{./preface/preface}
+
+\addcontentsline{toc}{chapter}{Acknowledgments}
+\chapter*{Acknowledgments}
+\label{cha:acknowledgments}
+\input{./acknowledgments/acknowledgments2}
+
+\addcontentsline{toc}{chapter}{Summary}
+\chapter*{Summary}
+\label{cha:summary-1}
+\input{./summary/summary}
+
+\addcontentsline{toc}{chapter}{Introduction}
+\chapter*{Introduction}
+\label{cha:introduction-1}
+%\input{./Intro/intro}
+\input{./Intro/intro2}
+
+\chapter{Methods, Assumptions, and Procedures}
+\label{cha:meth-assumpt-proc-1}
+\input{./MethodsAP/map2}
+
+\part{Results}
+\label{part:results-1}
+% \chapter{Methods, Assumptions, and Procedures}
+% \label{cha:meth-assumpt-proc}
+% \chapter{Results and Discussions}
+% \label{cha:results-discussions}
+%\part*{Results and Discussions}
+%\label{part:results-discussions}
+%\input{./HOLImplementation/HOLImplementation}
+%\input{./HOLImplementation/HOLImplementation2}
+\input{./HOLImplementation/FolderStructure}
+\input{./HOLImplementation/ACLandHolVerification}
+% \input{../HOL/ssmPB/HOLReports/HOLPBType.tex}
+
+\part{Back Matter}
+\label{part:back-matter}
+
+\addcontentsline{toc}{chapter}{Future Works and Research}
+\chapter*{Future Works and Research}
+\label{cha:future-works-rese}
+\input{./futureWork/futureWork}
+
+\addcontentsline{toc}{chapter}{Conclusions}
+\chapter*{Conclusions}
+\label{cha:conclusions}
+\input{./conclusion/designConclusions}
+
+\addcontentsline{toc}{chapter}{Recommendations}
+\chapter*{Recommendations}
+\label{cha:recommendations}
+\input{./recommendations/recommendation}
+
+
+\part{Appendices}
+\label{part:appendices}
+
+
+\addcontentsline{toc}{chapter}{Bibliography}
+%\chapter*{References}
+%\label{cha:references}
+%\bibliographystyle{unsrt}
+%\bibliography{./references/references}
+\input{./references/references.tex}
+
+
+\appendix{}
+\renewcommand{\thechapter}{\Alph{chapter}}
+\input{./appendix/appendix}
+
+\end{document}

@@ -1,0 +1,45 @@
+
+\section{Overall Approach}
+\label{sec:overall-approach}
+
+The overall approach was to apply a hierarchy of \emph{secure} state machines to describe the patrol
+base operations and verify them in the ACL and HOL.  To do this, it was focused on two things:
+translating the patrol base operations from the Ranger Manual  into the hierarchy of state machines
+and then verifying these in the access-control logic (ACL) using the Higher Order Logic (HOL)
+theorem prover.  These two tasks are described separately in this section.
+
+\section{The Hierarchy of \emph{Secure} State Machines}
+\label{sec:hier-emphs-state}
+
+We applied the principle of complete mediation to the patrol base operations using a hierarchy
+of \emph{secure} state machines.  Our decision was guided by the following logic.  First, a hierarchy
+of \emph{secure} state machines was a simple framework for abstracting the patrol base operations into
+levels.  Each level added a layer of complexity.   Each layer of complexity included more details
+about the patrol base operations.  Second, the hierarchy of \emph{secure} state machines was easy to
+modularize.  Each level of abstraction was modularized and each \emph{secure} state machine within a
+particular level was modularized.  Third, the principle of complete mediation was implicit in
+the \emph{secure} state machine structure.    Finally, the hierarchy of \emph{secure} state machines could
+build-off of previous HOL implementations.  A \emph{secure} state machine theory in HOL already existed
+and was tested.   This was the ssm11 parameterizable \emph{secure} state machines.  We modified this
+theory and used it.  \\
+
+The patrol base operations were clearly defined in the Ranger Manual  and the security principles
+were embedded within these definitions.  But, the patrol base operations were not defined with the
+principle of complete mediation in mind.  To adapt the operations, we first abstracted them into six
+states (or phases): planning state (PLAN_PB), move to the operational rally point (ORP) (MOVE_TO_ORP),
+conduct ORP operations (CONDUCT_ORP), move to the patrol base (MOVE_TO_PB), conduct the patrol base
+operations (CONDUCT_ORP), and complete the patrol base operations (COMPLETE_PB).  These six states
+and the transitions among them comprised the top-level state machine. A first draft of the top-level
+abstraction was shown in figure PHASES.\\
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\linewidth]{map31.png}
+  \caption{First separation of the patrol base operations into phases. These phases guided the structure of the
+  top-level \empth{secure} state machine}
+\end{figure}
+
+% ---- this points LaTeX to PatrolBaseDoc.tex ----
+% Local Variables:
+% TeX-master: "../PatrolBaseDoc"
+% End:
