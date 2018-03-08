@@ -1,0 +1,25 @@
+Exercise 7.3.3
+Create a function notExists term that operates on terms of the form ¬∃x.P(x) and
+returns ∀x.¬P(x)
+
+val someTerm = ``?z.Q z``;
+val (var,scope) = dest_exists someTerm;
+val scope2 = mk_neg scope;
+val allTerm = mk_forall (var, scope2);
+
+fun notExists someTerm =
+let
+ val someTerm = ``?z.Q z``
+ val (var,scope) = dest_exists someTerm
+ val scope2 = mk_neg scope
+in
+ mk_forall (var, scope2)
+end;
+
+
+(* -------------------------------------------------------------------------- *)
+(* Test case                                                                  *)
+(* -------------------------------------------------------------------------- *)
+
+notExists ``?z.Q z``;
+

@@ -1,0 +1,198 @@
+%% ---------------------------------------------------
+%% Notice that we use the "report" class instead of "article"
+%% ---------------------------------------------------
+\documentclass{report}
+
+\title{Sample Report Using EmitTeX Macros}
+\author{\textbf{Shiu-Kai Chin}}
+\date{\textbf{15 February 2017}}
+
+%% ---------------------------------------------------
+%% CSBDformat specifies the format of our reports
+%% ---------------------------------------------------
+\usepackage{634format}
+
+%% ---------------------------------------------------
+%% enumerate 
+%% ---------------------------------------------------
+\usepackage{enumerate}
+
+%% ---------------------------------------------------
+%% listings is used for including our source code in reports
+%% ---------------------------------------------------
+\usepackage{listings}
+\usepackage{textcomp}
+
+%% ---------------------------------------------------
+%% Packages for math environments
+%% ---------------------------------------------------
+\usepackage{amsmath}
+
+%% ---------------------------------------------------
+%% Packages for URLs and hotlinks in the table of contents
+%% and symbolic cross references using \ref
+%% ---------------------------------------------------
+\usepackage{hyperref}
+
+%% ---------------------------------------------------
+%% Packages for using HOL-generated macros and displays
+%% ---------------------------------------------------
+\usepackage{holtex}
+\usepackage{holtexbasic}
+\input{commands}
+\input{HOLexampleOne}
+
+\begin{document}
+
+%% --------------------------------------------------- the listings
+%% parameter "language" is set to "ML"
+%% ---------------------------------------------------
+\lstset{language=ML}
+
+
+\maketitle{}
+
+\begin{abstract}
+  We demonstrate using the EmitTeX structure functions in HOL to
+  typeset HOL terms, types, theorems, and theories. We use
+  \emph{example1} theory as our example theory to print.
+\end{abstract}
+
+\begin{acknowledgments}
+  We gratefully acknowledge the hard work, trust, and dedication of
+  our past students in the Syracuse University Cyber Engineering
+  Semester and the Air Force Research Laboratory's Advanced Course
+  (ACE) in Engineering Cybersecurity Boot Camp.  They bridged dreams
+  and reality.
+\end{acknowledgments}
+
+\tableofcontents{}
+
+\chapter{Executive Summary}
+\label{cha:executive-summary}
+
+\textbf{All requirements for this project are satisfied}.  In
+particular, we prove the example theorem, pretty print the HOL theory,
+and make use of the \emph{EmitTeX} structure to typeset HOL theorems
+in this report.
+
+The following theorems are proved and their corresponding \LaTeX{}
+macros used in this report.
+\begin{quote}
+  \HOLexampleOneTheorems
+\end{quote}
+
+\chapter{Proof of prob1Theorem}
+\label{cha:proof-prob1theorem}
+
+\section{Problem Statement}
+\label{sec:problem-statement}
+Our task is to prove the theorem \HOLexampleOneTheoremsprobOneTheorem
+
+Here it is again. \HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{p} \HOLBoundVar{q}. \HOLBoundVar{p} \HOLSymConst{\HOLTokenImp{}} (\HOLBoundVar{p} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{q}) \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{q}
+\section{HOL Code Proving prob1Theorem}
+\label{sec:hol-code-proving}
+
+
+\begin{lstlisting}[frame=trBL]
+val prob1Theorem =
+let
+  val th1 = ASSUME ``p:bool``
+  val th2 = ASSUME ``p ==> q``
+  val th3 = MP th2 th1
+  val terma = hd (hyp th2)
+  val th4 = DISCH terma th3
+  val termb = hd (hyp th1)
+  val th5 = DISCH termb th4
+in
+  GENL [``p:bool``,``q:bool``] th5
+end  
+\end{lstlisting}
+
+\section{Session Transcript}
+\label{sec:session-transcript}
+
+\setcounter{sessioncount}{0}
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> val prob1Theorem =
+let
+  val th1 = ASSUME ``p:bool``
+  val th2 = ASSUME ``p ==> q``
+  val th3 = MP th2 th1
+  val terma = hd (hyp th2)
+  val th4 = DISCH terma th3
+  val termb = hd (hyp th1)
+  val th5 = DISCH termb th4
+in
+  GENL [``p:bool``,``q:bool``] th5
+end;;;;
+# # # # # # # # # # # val prob1Theorem =
+   |- !p q. p ==> (p ==> q) ==> q:
+   thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\chapter{Proof of demoTheorem}
+\label{cha:proof-demotheorem}
+
+\section{Problem Statement}
+\label{sec:problem-statement-1}
+
+Our task is to prove the following theorem using \texttt{PROVE}.
+\HOLexampleOneTheoremsdemoTheorem
+
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{p} \HOLBoundVar{q}. \HOLBoundVar{p} \HOLSymConst{\HOLTokenImp{}} (\HOLBoundVar{p} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{q}) \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{q}
+
+
+\section{HOL Code Proving demoTheorem}
+\label{sec:hol-code-proving-1}
+
+\begin{lstlisting}[frame=trBL]
+val demoTheorem = PROVE [] (concl prob1Theorem);  
+\end{lstlisting}
+
+\section{Session Transcript}
+\label{sec:session-transcript-1}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+> val demoTheorem = PROVE [] (concl prob1Theorem);
+Meson search level: ....
+val demoTheorem =
+   |- !p q. p ==> (p ==> q) ==> q:
+   thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+%% ------------------------------------------
+%% Change to letters for appendix
+%% ------------------------------------------
+
+%% ------------------------------------------
+%% this restarts the section numbering
+%% ------------------------------------------
+\appendix{} 
+
+
+%% ------------------------------------------
+% label using capital letters
+%% ------------------------------------------
+\renewcommand{\thechapter}{\Alph{chapter}} 
+
+\chapter{Source Code for example1Script}
+\label{cha:source-code-sample}
+
+The following code is from \emph{example1Script.sml}, which is located
+in a different subdirectory than this file.
+\lstinputlisting{../example1Script.sml}
+
+
+
+\end{document}

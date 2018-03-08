@@ -1,0 +1,6 @@
+$(HOLDIR)/sigobj/Overlay
+$(HOLDIR)/sigobj/Thm
+$(HOLDIR)/sigobj/term_grammar
+$(HOLDIR)/sigobj/type_grammar
+/media/sf_Shared_Ubuntu/Course/csbd/week3/sampleTheory/example1Theory
+/media/sf_Shared_Ubuntu/Course/csbd/week3/sampleTheory/example1Theory.sig

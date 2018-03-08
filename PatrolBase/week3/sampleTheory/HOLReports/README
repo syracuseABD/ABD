@@ -1,0 +1,42 @@
+(* -------------------------------------------------------------------------- *)
+(* Things to remember when creating pretty-printed reports of HOL theories    *)
+(*                                                                            *)
+(* Author: Shiu-Kai Chin                                                      *)
+(* -------------------------------------------------------------------------- *)
+1. Create as a SUBDIRECTORY in the folder containing your HOL script files
+   a folder for your pretty-printed reports of HOL theories.  I name my
+   folder HOLReports
+
+2. In the HOLReports folder you must have the following:
+   a. Holmakefile, which contains INCLUDES set to the locations of all
+      the HOL theories you want to print out.  In this case it's the parent
+      subdirectory ../
+   b. holtexbasic.sty, which is found in your HOL installation subdirectory
+      (search in /usr/local/share/HOL). LaTeX needs this file
+   c. holtex.sty, also needed by LaTeX and found in your HOL installation
+      subdirectory
+
+3. The file documentation.sml is run by HOL and loads the theories you
+   want to pretty-print.  It also loads the EmitTeX structure that
+   defines the pretty-printing functions we need.
+   a. The first time you write your own documentation.sml file, I
+      suggest you execute it within HOL interactively to test it.
+
+4. Makefile, which defines the scripts needed to delete old reports and
+   recompile LaTeX files to build new reports.
+   a. Note: the "clean" option in my Makefile assumes that all
+      pretty-printed report names end with "Report". This way
+      rm -f *Report.* effectively deletes all old reports.
+   b. Note: HOL-generated LaTeX files that define LaTeX macros for
+      each type definition, definition, and theorem in a theory start
+      with "HOL". This way rm -f HOL*.* removes all old HOL-generated
+      LaTeX files.
+   c. If you're new to writing these scripts, try executing them
+      line by line first to test them out.
+
+5. Remember to execute Holmake in your parent subdirectory that contains
+   the HOL source code script files.
+
+6. Remember to do make clean to delete old reports prior to doing make.
+   Otherwise, your new version of your reports will not be created because
+   the pretty-printing functions will not overwrite old report files.
