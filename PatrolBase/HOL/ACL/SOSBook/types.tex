@@ -1,0 +1,437 @@
+
+\chapter{Using Type Definitions in HOL}
+\label{chap:types}
+
+\section{An Algebraic Model of Cryptographic Operations}
+\label{sec:crypto-ops}
+
+% %% HOl/LaTeX files for SecureMessages from HOL/ACL/Examples/SecureMessages
+\input{/home/skchin/Documents/RESEARCH/HOL/ACL/Examples/SecureMessages/HOLReports/HOLcipher}
+
+\begin{figure}[t]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \HOLcipherDatatypescontents
+    \bluetext{[getMessage\_def]}\vspace*{-0.1in}
+    \HOLcipherDefinitionsgetMessageXXdef
+  \end{minipage}
+  \caption{Contents and Content Accessor Functions}
+  \label{fig:contents}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \HOLcipherDatatypesSymKey
+    \HOLcipherDatatypessymMsg
+    \bluetext{[deciphS\_def]}\vspace*{-0.1in}
+    \HOLcipherDefinitionsdeciphSXXdef
+  \end{minipage}
+
+  \caption{cipher Theory: Symmetric Key Operations}
+  \label{fig:cipher-theory-symmetric}
+\end{figure}
+
+When devising and assuring systems, reasoning about operations and
+their sequencing is crucial. For cryptographic operations, where
+asymmetric, symmetric, and cryptographic hash functions are viewed as
+components, we focus on their \emph{properties} as opposed to their
+algorithmic details.
+
+Figures~\ref{fig:public key}, \ref{fig:private key}, \ref{fig:digital
+  signature}, and \ref{fig:signature verification} in
+Chapter~\ref{cha:pki} show public-key cryptographic operations for
+encryption, decryption, signature generation, and signature
+verification. At the level of the access-control logic, cryptographic
+operations only allow us to determine which principal made a statement
+or sent a message. Figure~\ref{fig:dig-sig-proof} is an example.
+Specifically, if a received message passes its integrity check, we can
+conclude who sent the message, e.g., $Ellen \says m$, if we know that
+$K_{Ellen} \speaksfor Ellen$. The access-control logic alone does not
+have sufficient expressive power to describe the cryptographic
+operations and their sequencing in Figures~\ref{fig:public key},
+\ref{fig:private key}, \ref{fig:digital signature}, and
+\ref{fig:signature verification}.
+
+However, it is important to know that a proposed signature integrity
+checking scheme will work at the level of sequencing various
+cryptographic operations on various message fields. To address this
+need, we use algebraic types in HOL to describe structures and
+properties of cryptographic operations. In this section, we give
+detailed examples of how this is done.
+
+For symmetrically encrypted messages we do the following:
+\begin{enumerate}
+\item Define the datatype \emph{contents}, which has two forms: (a)
+  \emph{plain message}, used in cases where we can determine the
+  unencrypted message, and (b) \emph{unknown}, used in cases where we
+  cannot determine the unencrypted contents. In the first case,
+  \emph{plain} is a \emph{polymorphic} type operator that takes any
+  message type \emph{'message}. In the second case, \emph{unknown} is
+  a type operator that takes no arguments and is also of type
+  \emph{'message}. This is shown in Figure~\ref{fig:contents}.
+\item Define the accessor function \emph{getMessage} as
+  \emph{getMessage(plain msg) = msg}. This is shown in
+  Figure~\ref{fig:contents}.
+\item Define \emph{symmetric} encryption keys as a type \emph{SymKey},
+  which has the form \emph{sym number}, i.e., a type operator
+  \emph{sym} operating on arguments of type \emph{num}. This is shown
+  in Figure~\ref{fig:cipher-theory-symmetric}.
+\item Define symmetrically encrypted messages to be of type
+  \emph{symMsg}, which are created by using the type operator
+  \emph{Es} applied to a symmetric key \emph{SymKey} followed by
+  \emph{message\_contents}.  This is shown in
+  Figure~\ref{fig:cipher-theory-symmetric}.
+\item Finally, we define the accessor function \emph{deciphS} whose
+  definition mimics exactly the properties of symmetric-key
+  decryption, i.e., if the same key is used to both encrypt and
+  decrypt messages, then the original plain text is
+  accessible. Otherwise, the decryption result is \emph{unknown}. The
+  definition is shown in Figure~\ref{fig:cipher-theory-symmetric}.
+\end{enumerate}
+
+
+
+In the HOL session below, we see the types created by \emph{plain} and
+the type of the argument returned by \emph{getMessage}.  We also see
+from the theorem that \emph{getMessage} returns the plain text of a
+message. Notice that the value of $getMessage \;unknown$ is
+\emph{undefined}. Thus, it is usually a sign that something is wrong
+if we ever need to determine the value of $getMessage \;unknown$.
+
+\setcounter{sessioncount}{0}
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- type_of ``plain (msg:'message)``;
+> val it = ``:'message contents``
+     : hol_type
+- type_of ``getMessage(plain (msg:'message))``;
+> val it = ``:'message`` : hol_type
+- REWRITE_RULE[getMessage_def](ASSUME``x = getMessage(plain(msg:'message))``);
+> val it =
+     [.] |- (x :'message) = (msg :'message)
+     : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+
+The HOL session below shows the types \emph{SymKey} and \emph{symMsg}
+created by \emph{sym} and \emph{Es}, respectively.  The theorem shows
+that the original message contents is retrieved when decrypting with
+the same key used for encryption.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- type_of ``sym (dek:num)``;
+> val it = ``:SymKey`` : hol_type
+- type_of ``Es (sym (dek:num)) (plain (msg:'message))``;
+> val it = ``:'message symMsg`` :
+- REWRITE_RULE
+  [deciphS_def] 
+  (ASSUME
+  ``x = deciphS (sym (dek :num))(Es (sym (dek:num)) (plain (msg:'message)))``);
+> val it =
+     [.] |- (x :'message contents) = plain (msg :'message)
+     : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+For asymmetric or public-key cryptographic operations we take a
+similar approach to that used for symmetric-key cryptography.
+\begin{enumerate}
+\item As before, \emph{'message contents} are operated on with public
+  keys to created asymmetrically encrypted messages.
+\item Public keys \emph{pKey} have a bit more abstract representation
+  than symmetric keys. As public (and their corresponding private)
+  keys are associated with principals, public and private keys are
+  associated with principals: \emph{pubK principal} or \emph{privK
+    principal}.  This is shown in Figure~\ref{fig:public-key}.
+\end{enumerate}
+
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \HOLcipherDatatypespKey
+    \HOLcipherDatatypesasymMsg
+    \bluetext{[deciphP\_def]}\vspace*{-0.1in}
+    \HOLcipherDefinitionsdeciphPXXdef
+  \end{minipage}
+  \caption{Public Keys, Datatypes, and Decryption}
+  \label{fig:public-key}
+\end{figure}
+
+We develop a structure and algebra for public-key
+operations. Figure~\ref{fig:public-key} shows the datatypes for public
+keys (\emph{pKey}) and asymmetrically encrypted messages
+(\emph{asymMsg}), and the definition \emph{deciphP\_def} for
+public-key decryption. In our model, public keys are associated with
+\emph{principals}, in this case represented with the type variable
+\texttt{'princ}---deliberately chosen to be the same as the type
+variable name used for principals in our HOL implementation of the
+access-control logic. Our model of asymmetric cryptographic keys is to
+have public and private keys indexed by principals, e.g., \emph{pubK
+  Alice} and \emph{privK Alice}. Asymmetrically encrypted contents are
+encrypted using either public or private keys, e.g., \emph{Ea (pubK
+  Alice) (plain msg)}. Asymmetrically encrypted contents can be
+retrieved only if the corresponding private or public key is
+used. Otherwise, the message contents are \emph{unknown}.
+
+The HOL session below shows the types \emph{pKey} and \emph{asymMsg}
+created by \emph{pubK}, \emph{privK}, and \emph{Ea}.  The theorem
+shows that the message contents is retrieved when using the
+corresponding private or public key.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- type_of ``pubK (Alice:'princ)``;
+> val it = ``:'princ pKey`` : hol_type
+- type_of ``privK (Alice:'princ)``;
+> val it = ``:'princ pKey`` : hol_type
+- type_of ``Ea (pubK (Alice:'princ))(plain (msg:'message))``;
+> val it = ``:('message, 'princ) asymMsg`` : hol_type
+- REWRITE_RULE[deciphP_def]
+  (ASSUME
+   ``x = deciphP (privK (Alice:'princ))
+          (Ea (pubK (Alice:'princ))(plain (msg:'message)))``);
+> val it =
+     [.] |- (x :'message contents) = plain (msg :'message) : thm
+- REWRITE_RULE[deciphP_def]
+  (ASSUME
+   ``x = deciphP (pubK (Alice:'princ))
+          (Ea (privK (Alice:'princ))(plain (msg:'message)))``);
+> val it =
+     [.] |- (x :'message contents) = plain (msg :'message) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \HOLcipherDatatypesdigest
+    \bluetext{[sign\_def]}\vspace*{-0.1in}
+    \HOLcipherDefinitionssignXXdef
+    \bluetext{[signVerify\_def]}\vspace*{-0.1in}
+    \HOLcipherDefinitionssignVerifyXXdef
+  \end{minipage}
+  \caption{Hash and Signature Definitions}
+  \label{fig:hash-signature}
+\end{figure}
+
+The last set of datatypes and definitions associated with
+cryptographic operations deals with digital
+signatures. Figure~\ref{fig:hash-signature} shows the definition of
+the datatype \emph{digest}, and digital signature functions
+\emph{sign\_def} and \emph{signVerify\_def}. The \emph{digest}
+datatype models cryptographic hashes by the use of the \emph{hash}
+constructor function applied to arguments of type \emph{'message
+  contents}. Digital signatures are created using \emph{sign}, which
+uses public-key encryption to encrypt message digests, i.e.,
+\emph{hash (msg:'message)}, with a principal \emph{P}'s private key,
+\emph{privK P}. Digital signatures are checked using
+\emph{signVerify}, which deciphers the encrypted message digest using
+principal \emph{P}'s public key \emph{pubK P} and compares the result
+with the digest of the message contents received.
+
+The HOL session below shows the type of message digests and the result
+of applying the signature verification function to signed
+messages. The theorem shows that when \emph{signVerify} is applied to
+\emph{sign} with the appropriate keys and message digests,
+\emph{signVerify} evaluates to \emph{true}.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- type_of ``hash (plain (msg:'message))``;
+> val it = ``:'message digest`` : hol_type
+- type_of ``sign (Alice:'princ)(hash(plain (msg:'message)))``;
+> val it =
+    ``:('message digest, 'princ) asymMsg`` : hol_type
+- REWRITE_RULE [signVerify_def,sign_def,deciphP_def]
+  (ASSUME
+   ``signVerify
+     (Alice:'princ)
+     (sign (Alice:'princ)(hash(plain (msg:'message))))
+     (plain (msg:'message))``);
+> val it =  [.] |- T : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \tealtext{[deciphS\_clauses]}\vspace*{-0.1in}
+    \HOLcipherTheoremsdeciphSXXclauses
+    \tealtext{[deciphP\_clauses]}\vspace*{-0.1in}
+    \HOLcipherTheoremsdeciphPXXclauses
+    \tealtext{[signVerifyOK]}\vspace*{-0.1in}
+    \HOLcipherTheoremssignVerifyOK
+    \tealtext{[signVerify\_11]}\vspace*{-0.1in}
+    \HOLcipherTheoremssignVerifyXXOneOne
+  \end{minipage}
+  \caption{Theorems for Symmetric, Asymmetric, and Signature Operations}
+  \label{fig:cipher-theorems}
+\end{figure}
+
+Finally, Figure~\ref{fig:cipher-theorems} lists four theorems for
+symmetric, asymmetric, and signature operations. A summary of the four
+theorems is as follows.
+\begin{enumerate}[{-}]
+\item \tealtext{[deciphS\_clauses]} This theorem states that (1)
+  \emph{deciphS k} inverts \emph{Es k}, and (2) if \emph{deciphS k1}
+  inverts \emph{deciphS k2} that it must be the case that \emph{k1} and
+  \emph{k2} are identical.
+\item \tealtext{[deciphP\_clauses]} This theorem states that (1)
+  \emph{deciphP (pubK P)} and \emph{deciphP (privK P} inverts \emph{Es
+    (privK P} and \emph{Es (pubK P)}, respectively, (2) if
+  \emph{deciphP k} inverts \emph{Es (privK P)} then \emph{k} must be
+  \emph{pubK P}, and (3) if \emph{deciphP k} inverts \emph{Es (pubK
+    p)} then \emph{k} must be \emph{privK P}.
+\item \tealtext{[signVerifyOK]} This theorem states that a message
+  signature created by \emph{sign} will pass the message integrity
+  checking function \emph{signVerify} when the corresponding public
+  keys and message contents are supplied.
+\item \tealtext{[signVerify\_11]} This theorem states that whenever
+  the message integrity check is satisfied, then the received message
+  is the message that was hashed to generate the digital signature.
+\end{enumerate}
+
+\section{Linking Message and Certificate Structures to Cryptographic Operations and Interpretations}
+\label{sec:structure-interpretation}
+
+We now look at how to make formal connections among concepts of
+operations, specific message and certificate structures, the semantics
+of messages and certificates, and cryptographic operations. Connecting
+CONOPS to messages, certificates, cryptographic operations, and
+semantics amounts to a \emph{refinement} of conceptual descriptions to
+concrete implementations.
+
+% As a concrete example, we refine the example command and control
+% CONOPS introduced in Chapter~\ref{cha:c2conops} to include specific
+% message and certificate structures, and their interpretations in the
+% access-control logic.  The foundational theories for mission commands,
+% roles, and staff remain the same as shown in
+% Figures~\ref{fig:command-theory}, \ref{fig:mission-roles}, and
+% \ref{fig:mission-staff}. To these theories we add Cipher Theory as
+% described in Section~\ref{sec:crypto-ops}.
+
+A \emph{Message} is intended to communicate \emph{Orders} securely.  
+
+\input{/home/skchin/Documents/RESEARCH/HOL/ACL/Examples/SecureMessages/HOLReports/HOLrevisedMissionKeys}
+
+\begin{figure}[tb]
+  \centering
+  \HOLrevisedMissionKeysDatatypesmissionCA
+  \HOLrevisedMissionKeysDatatypesmissionPrincipals
+  \HOLrevisedMissionKeysDatatypesmissionStaffCA
+  \caption{Revised Mission Keys Theory}
+  \label{fig:revised-mission-keys}
+\end{figure}
+
+\input{/home/skchin/Documents/RESEARCH/HOL/ACL/Examples/SecureMessages/HOLReports/HOLmessageCertificate}
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \HOLmessageCertificateDatatypesOrders
+    \HOLmessageCertificateDatatypesOrigin
+    \HOLmessageCertificateDatatypesRole
+    \HOLmessageCertificateDatatypesDestination
+    \HOLmessageCertificateDatatypesMessage
+    \bluetext{[checkMSG\_def]}\vspace*{-0.1in}
+    \HOLmessageCertificateDefinitionscheckMSGXXdef
+    \bluetext{[Emsg\_def]}\vspace*{-0.1in}
+    \HOLmessageCertificateDefinitionsEmsgXXdef
+    \bluetext{[msat\_def]}\vspace*{-0.1in}
+    \HOLmessageCertificateDefinitionsmsatXXdef
+  \end{minipage}
+
+  \caption{messageCertificate Theory: Datatypes and Definitions for Command Messages}
+  \label{fig:messageCertificate-messages}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{1.0\linewidth}
+    \tealtext{[checkMSGOK]}\vspace*{-0.1in}
+    \HOLmessageCertificateTheoremscheckMSGOK
+    % \tealtext{[msgInterp\_thm]}\vspace*{-0.1in}
+    % \HOLmessageCertificateTheoremsmsgInterpXXthm
+    \tealtext{[msgSat\_thm]}\vspace*{-0.1in}
+    \HOLmessageCertificateTheoremsmsgSatXXthm
+  \end{minipage}
+  \caption{messageCertificate Theory: Message Theorems}
+  \label{fig:messageCertificate-message-theorems}
+\end{figure}
+
+Figure~\ref{fig:messageCertificate-messages} shows the datatype
+definition for \emph{Messages}. The structure of messages is as
+follows.
+\begin{enumerate}
+\item \emph{Origin} identifying who sent the message
+\item \emph{Role} in which sender is acting
+\item \emph{Destination} identifying who is the intended recipient
+\item \emph{Data encryption key} encrypted with the recipients public key
+\item \emph{Command} symmetrically encrypted with the data encryption key
+\item \emph{Digital signature} computed by encrypting the hash of the
+  command with the sender's private key
+\end{enumerate}
+
+A sample message given the datatypes in
+Figure~\ref{fig:messageCertificate-messages} is shown in the following
+HOL session.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val order = 
+  ``MSG (From Alice) (As BFC) (To Carol)(Ea (pubK Carol)(plain (sym dek)))
+        (Es (sym dek)(plain (MC go)))(sign Alice (hash(plain(MC go))))``;
+> val order =
+    ``MSG (From Alice) (As BFC) (To Carol)
+        (Ea (pubK Carol) (plain (sym (dek :num))))
+        (Es (sym dek) (plain (MC go))) (sign Alice (hash (plain (MC go))))``
+     : term
+- SPECL 
+  [``Carol``,``dek:num``,``Alice``,``BFO``,``MC go``,
+   ``M:(commands,'world,missionPrincipals,'Int,'Sec) Kripke``,
+   ``Oi:'Int po``,``Os:'Sec po``] msgSat_thm;
+> val it =
+    |- ((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),
+        (Oi :'Int po),(Os :'Sec po)) sat
+       Name (MKey (pubK (KStaff Alice))) quoting Name (MRole BFO) says
+       (prop (MC go) :(commands, missionPrincipals, 'Int, 'Sec) Form) <=>
+       (M,Oi,Os) msat
+       MSG (From Alice) (As BFO) (To Carol)
+         (Ea (pubK Carol) (plain (sym (dek :num))))
+         (Es (sym dek) (plain (MC go))) (sign Alice (hash (plain (MC go))))
+     : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\clearpage{}
+
+
+% ---- this points LaTeX to book.tex ---- 
+% Local Variables: 
+% TeX-master: "book"
+% End:
+
+
+%  LocalWords:  Coq Nuprl ACL bool hol num accessor FST SND dest mk
+%  LocalWords:  Deconstructor ty vartype disj eq forall cond xs ys th
+%  LocalWords:  deconstructor AndImp ImpImp VLSI certifiers HOL's pre
+% LocalWords:  boolean Kripke thm sequents booleans DISCH REFL ELIM
+% LocalWords:  ANTISYM GENL ISPEC ISPECL indices HD SUC rl CONV Modus
+% LocalWords:  listTheory reduceLib Tollens ConstructiveDilemma TAC
+% LocalWords:  ABSORP subgoals tacticals fn destructor tac subgoal
+%  LocalWords:  ASM THENL Ponens Disch SML ASSUM Contrapositives SYM
+%  LocalWords:  contrapositive online sequent's DeMorgan's

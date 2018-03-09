@@ -1,0 +1,72 @@
+\newcommand{\HOLsosZeroDate}{20 August 2016}
+\newcommand{\HOLsosZeroTime}{12:51}
+\begin{SaveVerbatim}{HOLsosZeroDefinitionsTRZeroXXdef}
+\HOLTokenTurnstile{} \HOLConst{TR0} \HOLSymConst{=}
+   (\HOLTokenLambda{}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}.
+      \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}}.
+        (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}.
+           (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+              (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{STBY}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})) \HOLSymConst{\HOLTokenDisj{}}
+           (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+              (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{STBY}) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})) \HOLSymConst{\HOLTokenImp{}}
+           \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroDefinitionsTRZeroXXdef}{\UseVerbatim{HOLsosZeroDefinitionsTRZeroXXdef}}
+\newcommand{\HOLsosZeroDefinitions}{
+\HOLDfnTag{sos0}{TR0_def}\HOLsosZeroDefinitionsTRZeroXXdef
+}
+\begin{SaveVerbatim}{HOLsosZeroTheoremsSOSZeroXXSecurityXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}}.
+     \HOLConst{TR0} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLBoundVar{M\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroTheoremsSOSZeroXXSecurityXXthm}{\UseVerbatim{HOLsosZeroTheoremsSOSZeroXXSecurityXXthm}}
+\begin{SaveVerbatim}{HOLsosZeroTheoremsTRZeroXXcases}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}.
+     \HOLConst{TR0} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{STBY}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})) \HOLSymConst{\HOLTokenDisj{}}
+     \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+       (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{STBY}) \HOLSymConst{\HOLTokenConj{}}
+       (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroTheoremsTRZeroXXcases}{\UseVerbatim{HOLsosZeroTheoremsTRZeroXXcases}}
+\begin{SaveVerbatim}{HOLsosZeroTheoremsTRZeroXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{STBY} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{RDY} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}. \HOLConst{TR0} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroTheoremsTRZeroXXind}{\UseVerbatim{HOLsosZeroTheoremsTRZeroXXind}}
+\begin{SaveVerbatim}{HOLsosZeroTheoremsTRZeroXXrules}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}} \HOLConst{TR0} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{STBY} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}} \HOLConst{TR0} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{RDY} \HOLConst{STBY}
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroTheoremsTRZeroXXrules}{\UseVerbatim{HOLsosZeroTheoremsTRZeroXXrules}}
+\begin{SaveVerbatim}{HOLsosZeroTheoremsTRZeroXXstrongind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{STBY} \HOLConst{RDY}) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{RDY} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}. \HOLConst{TR0} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{TR\sb{\mathrm{0}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsosZeroTheoremsTRZeroXXstrongind}{\UseVerbatim{HOLsosZeroTheoremsTRZeroXXstrongind}}
+\newcommand{\HOLsosZeroTheorems}{
+\HOLThmTag{sos0}{SOS0_Security_thm}\HOLsosZeroTheoremsSOSZeroXXSecurityXXthm
+\HOLThmTag{sos0}{TR0_cases}\HOLsosZeroTheoremsTRZeroXXcases
+\HOLThmTag{sos0}{TR0_ind}\HOLsosZeroTheoremsTRZeroXXind
+\HOLThmTag{sos0}{TR0_rules}\HOLsosZeroTheoremsTRZeroXXrules
+\HOLThmTag{sos0}{TR0_strongind}\HOLsosZeroTheoremsTRZeroXXstrongind
+}

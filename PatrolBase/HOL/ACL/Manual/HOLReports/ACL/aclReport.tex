@@ -1,0 +1,111 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLaclfoundation}
+\input{HOLaclsemantics}
+\input{HOLaclrules}
+\input{HOLaclDrules}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{aclfoundation Theory}
+\index{aclfoundation Theory@\textbf  {aclfoundation Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLaclfoundationDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{aclfoundation Theory@\textbf  {aclfoundation Theory}!Datatypes}
+% .....................................
+
+\HOLaclfoundationDatatypes
+
+\subsection{Definitions}
+\index{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions}
+% .....................................
+
+\HOLaclfoundationDefinitions
+
+\subsection{Theorems}
+\index{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems}
+% .....................................
+
+\HOLaclfoundationTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{aclsemantics Theory}
+\index{aclsemantics Theory@\textbf  {aclsemantics Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLaclsemanticsDate \\[2pt]
+\textbf{Parent Theories:} aclfoundation
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions}
+% .....................................
+
+\HOLaclsemanticsDefinitions
+
+\subsection{Theorems}
+\index{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems}
+% .....................................
+
+\HOLaclsemanticsTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{aclrules Theory}
+\index{aclrules Theory@\textbf  {aclrules Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLaclrulesDate \\[2pt]
+\textbf{Parent Theories:} aclsemantics
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{aclrules Theory@\textbf  {aclrules Theory}!Definitions}
+% .....................................
+
+\HOLaclrulesDefinitions
+
+\subsection{Theorems}
+\index{aclrules Theory@\textbf  {aclrules Theory}!Theorems}
+% .....................................
+
+\HOLaclrulesTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{aclDrules Theory}
+\index{aclDrules Theory@\textbf  {aclDrules Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLaclDrulesDate \\[2pt]
+\textbf{Parent Theories:} aclrules
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems}
+% .....................................
+
+\HOLaclDrulesTheorems
+
+\HOLindex
+
+\end{document}

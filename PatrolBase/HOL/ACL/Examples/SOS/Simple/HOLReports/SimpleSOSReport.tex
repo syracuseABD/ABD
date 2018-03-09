@@ -1,0 +1,91 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLfoundation}
+\input{HOLsosZero}
+\input{HOLsosOne}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{foundation Theory}
+\index{foundation Theory@\textbf  {foundation Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLfoundationDate \\[2pt]
+\textbf{Parent Theories:} aclDrules
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{foundation Theory@\textbf  {foundation Theory}!Datatypes}
+% .....................................
+
+\HOLfoundationDatatypes
+
+\subsection{Definitions}
+\index{foundation Theory@\textbf  {foundation Theory}!Definitions}
+% .....................................
+
+\HOLfoundationDefinitions
+
+\subsection{Theorems}
+\index{foundation Theory@\textbf  {foundation Theory}!Theorems}
+% .....................................
+
+\HOLfoundationTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{sos0 Theory}
+\index{sos0 Theory@\textbf  {sos0 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLsosZeroDate \\[2pt]
+\textbf{Parent Theories:} foundation
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{sos0 Theory@\textbf  {sos0 Theory}!Definitions}
+% .....................................
+
+\HOLsosZeroDefinitions
+
+\subsection{Theorems}
+\index{sos0 Theory@\textbf  {sos0 Theory}!Theorems}
+% .....................................
+
+\HOLsosZeroTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{sos1 Theory}
+\index{sos1 Theory@\textbf  {sos1 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLsosOneDate \\[2pt]
+\textbf{Parent Theories:} sos0
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{sos1 Theory@\textbf  {sos1 Theory}!Definitions}
+% .....................................
+
+\HOLsosOneDefinitions
+
+\subsection{Theorems}
+\index{sos1 Theory@\textbf  {sos1 Theory}!Theorems}
+% .....................................
+
+\HOLsosOneTheorems
+
+\HOLindex
+
+\end{document}

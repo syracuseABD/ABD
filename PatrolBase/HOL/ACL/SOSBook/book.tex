@@ -1,0 +1,311 @@
+\documentclass[final]{our-book}
+% %% Partial processing for IA1
+% \includeonly{preface,introduction,holLogic,c2conops,pki}
+
+
+
+%%%%%%%%%%%
+
+
+\usepackage{makeidx}
+% \usepackage{index}
+\usepackage{our-multind}
+
+\usepackage{times, mathptm}
+\usepackage{sunil}
+\usepackage{amsmath}
+% \usepackage{times,amsmath}
+\usepackage[thmmarks,amsmath]{ntheorem}
+%\usepackage{multicol}
+\usepackage{apalike}
+\usepackage{xspace}
+\usepackage{pifont}
+\usepackage{float}
+\floatstyle{ruled}
+\restylefloat{figure}
+
+\usepackage{array}
+\usepackage{delarray}
+
+\usepackage{fancybox}
+%% the following two packages are needed to properly annotate exercises 
+%% on both odd and even pages
+\usepackage{mparhack}
+\usepackage{chngpage}  
+
+%% the following packages are for source code listings
+\usepackage{listings}
+\usepackage{textcomp}
+
+% %% the following for simulating typed text
+% \usepackage{fancyvrb}
+
+%\includeonly{introduction}
+%\includeonly{networkedAC}
+%\includeonly{coreRules,basicACconcepts}
+
+
+%% Added 5 Nov 2004
+%%
+%% The following code will enable both LaTeX (and dvips) and PDF LaTeX
+%% to work on the same files, making both our lives much happier.
+%%
+\ifx\pdfoutput\undefined
+\usepackage[dvips]{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\pdfcompresslevel=9
+\fi
+% if using pdflatex, we must use our .pdf images instead of .(e?)ps
+\ifx\pdfoutput\undefined
+\else
+\DeclareGraphicsExtensions{.pdf,.gif,.jpg} % the formats we have images in
+\fi
+
+%\usepackage[dvipsnames,usenames]{color}
+\usepackage[svgnames]{xcolor}
+
+%% for colored text
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyantext}[1]{\textcolor{cyan}{#1}}
+\newcommand{\magtext}[1]{\textcolor{magenta}{#1}}
+\newcommand{\greentext}[1]{\textcolor{green}{#1}}
+\newcommand{\tealtext}[1]{\textcolor{teal}{#1}}
+\newcommand{\olivetext}[1]{\textcolor{olive}{#1}}
+\newcommand{\standout}[1]{\textcolor{orange}{#1}}
+
+\newcommand{\seq}[2]{\ensuremath{\set{#1} \vdash {#2}}}
+\newcommand{\seqs}[2]{\ensuremath{#1 \vdash {#2}}}
+\newcommand{\sq}[1]{\ensuremath{\vdash {#1}}}
+
+\newcommand{\goal}[2]{\ensuremath{\set{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\goals}[2]{\ensuremath{{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\gls}[1]{\ensuremath{\text{ ?-- }\;{#1}}}
+
+% \renewcommand{\irule}[3]
+%     {\ensuremath{{\displaystyle \frac{#1}{#2}}\quad \infname{#3}}}
+\newcommand{\tac}[3]{
+  \ensuremath{\begin{tabular}{c}
+    {#1}\\\hline\hline{#2}
+  \end{tabular}\quad}{#3}}
+
+
+%\usepackage{fancyheadings}
+\usepackage{amssymb, amsmath}
+\usepackage{enumerate}
+
+% \usepackage{float}
+% %\floatstyle{ruled}
+% \floatstyle{boxed}
+% \restylefloat{figure}
+% \restylefloat{table}
+
+
+% %\usepackage{theorem}
+
+%% get parts to show up correctly in the table of contents
+\makeatletter
+
+\let\toc@draw\relax
+\def\l@part#1#2{%
+ \toc@draw
+ \gdef\toc@draw{\draw@part{\large #1}{\large #2}}}
+
+%% following looks like \draw@chapter from sunil.sty
+%% only change was in vertical spacing, which is sufficient
+%% to prevent bad page break in toc
+\def\draw@part#1#2{%
+ \addpenalty{-\@highpenalty}%
+    \addvspace{2.25em \@plus\p@}%
+%  \vskip1em plus\p@
+  \@tempdima1.5em
+  \begingroup
+    \parindent\z@\rightskip\@pnumwidth
+    \parfillskip-\rightskip
+    \bfseries
+    \leavevmode
+    \advance\leftskip\@tempdima
+    \hskip-\leftskip
+    {#1\hfil}\nobreak
+      \if@pdf
+      \else
+        \hfil\nobreak\hb@xt@\@pnumwidth{\hss #2}%
+\fi
+    \par
+    {\it\draw@authors}%
+    \penalty\@highpenalty\endgroup}
+
+\makeatother
+%%%%%%%%%%%%%%%%%
+
+\newtheorem{master}{Master}[section]
+{%\theoremsymbol{\rule{.7ex}{1.8ex}}
+  \theoremsymbol{\ensuremath{\Diamond}}
+  \theoremstyle{break}
+  \theoremheaderfont{\bfseries\slshape}
+  \theorembodyfont{\upshape}
+  \theoremprework{\bigskip}
+  \theorempostwork{\bigskip}
+%  \theoremindent1em
+  \newtheorem{examp}{Example}[chapter]
+}
+
+{  
+  \theorembodyfont{\itshape}
+  {
+    \theoremsymbol{\rule{.7ex}{.7ex}}
+    \newtheorem{defin}{Definition}[chapter]
+  }
+  \newtheorem{thmexercise}{Exercise}[section]  
+}
+
+%  \theoremprework{\bigskip}
+
+
+
+%----the environment for labeled exercises---------------------
+
+
+\newcommand{\appn}{\ding{46}}
+\newcommand{\analysis}{\includegraphics[width=1.5em]{Figures/exerciseLabels/mag-glass}} 
+\newcommand{\synthesis}{\includegraphics[width=1.5em]{Figures/exerciseLabels/hammer}} 
+\newcommand{\eval}{\includegraphics[width=1.5em]{Figures/exerciseLabels/scales}} 
+
+\renewenvironment{definition}{\begin{defin}}{\end{defin}}
+\renewenvironment{example}{\begin{examp}}{\end{examp}}
+\newenvironment{exercise}[1][\appn]{\begin{thmexercise}\ %
+    \checkoddpage
+    \ifcpoddpage \reversemarginpar \fi
+    \marginpar{\hfill #1}%
+    \renewcommand{\theenumi}{\alph{enumi}}%
+}
+{\renewcommand{\theenumi}{\roman{enumi}}%
+ \end{thmexercise}}
+
+
+\newcommand{\sue}[1]{\textbf{\textsf{#1}}}
+\newcommand{\suebox}[1]{%
+  \fbox{\parbox[t]{4.5in}{\textsc{Note to Self:} 
+      \begin{center}
+        \ \\ #1 \ \\ \ 
+      \end{center}}}}
+
+\newcommand{\chinbox}[1]{%
+  \fbox{\parbox[t]{4.5in}{\textsc{Note to Self:} 
+      \begin{center}
+        #1
+      \end{center}}}}
+
+%% counters for use in pki.tex
+%% had to be added here to allow piecemeal compilation of book.tex
+\newcounter{count} \newcounter{restart} 
+
+%%===Index related commands=====
+%% main index
+\newcommand{\mainindex}[1]{\index{book}{#1}}
+%% symbol index
+\newcommand{\symindex}[1]{\index{symbol}{#1}}
+
+%% create the index
+% \makeindex
+\makeindex{symbol}
+\makeindex{book}
+
+
+
+% %%----------
+% %% HOL stuff
+% %%----------
+
+\input{commands}
+% \input{pic-macros}
+\input{ref-macros}
+% \usepackage{proof}
+
+% %%% IMPORTANT! Package chngpage will clash with package underscore
+% %%% unless strings option is used with underscore and \newcplabel is
+% %%% protected (as described in underscore package information
+% %%% written by Donald Arseneau). The protection is shown below.
+
+\newcommand{\UnderscoreCommands}{%
+  \do\newcplabel
+}
+\usepackage[strings]{underscore}
+\usepackage{holtex}
+
+
+\begin{document}
+% %% get table/figure numbers to print properly in float lists
+% \renewcommand*\l@figure{\@dottedtocline{1}{1.5em}{1in}}
+% \renewcommand*\l@table{\l@figure}
+
+
+
+\title{Transition Systems, Access Control, Security, and Trust: A
+  Logical Approach \\
+\ \\ \textsc{Draft: Do Not Distribute }
+}
+
+\author{Shiu-Kai Chin and Susan Older}
+
+\maketitle
+
+
+%%%% Now to the real stuff...
+\frontmatter
+\thispagestyle{empty}
+
+\begin{center}
+  \textit{To the engineers and computer scientists who design and
+    deliver the systems on which we depend} \\
+\end{center}
+
+\clearpage
+\input{our-content-macros.tex}
+
+%% from proofreader: table of contents should be on page vii
+\setcounter{page}{6}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\include{preface}
+\mainmatter
+\include{introduction}
+
+\part{Preliminaries}
+
+\include{acLogic}
+\include{pki}
+\include{transitionLogic}
+\include{holLogic}
+\include{types}
+
+\part{Command and Control}
+
+\include{c2conops}
+
+% \part{HOL Implementations}
+
+\part{Transition Systems with Security Concerns}
+\include{transitionSystems}
+\include{simpleVM}
+
+\appendix
+\include{logicSummary}
+\include{aclHOL}
+\include{aclFoundationCode}
+
+\markright{Bibliography}
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{book}
+\bibliographystyle{our-apalike}
+
+\printindex{book}{General Index}
+
+\end{document}
+

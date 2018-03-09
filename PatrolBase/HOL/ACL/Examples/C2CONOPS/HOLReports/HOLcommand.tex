@@ -1,0 +1,16 @@
+\newcommand{\HOLcommandDate}{20 August 2016}
+\newcommand{\HOLcommandTime}{11:38}
+\begin{SaveVerbatim}{HOLcommandDatatypescommands}
+\HOLFreeVar{commands} = \HOLConst{MC} \HOLTyOp{missionCommands} \HOLTokenBar{} \HOLConst{WC} \HOLTyOp{weaponCommands}
+\end{SaveVerbatim}
+\newcommand{\HOLcommandDatatypescommands}{\UseVerbatim{HOLcommandDatatypescommands}}
+\begin{SaveVerbatim}{HOLcommandDatatypesmissionCommands}
+\HOLFreeVar{missionCommands} = \HOLConst{go} \HOLTokenBar{} \HOLConst{nogo}
+\end{SaveVerbatim}
+\newcommand{\HOLcommandDatatypesmissionCommands}{\UseVerbatim{HOLcommandDatatypesmissionCommands}}
+\begin{SaveVerbatim}{HOLcommandDatatypesweaponCommands}
+\HOLFreeVar{weaponCommands} = \HOLConst{launch} \HOLTokenBar{} \HOLConst{abort}
+\end{SaveVerbatim}
+\newcommand{\HOLcommandDatatypesweaponCommands}{\UseVerbatim{HOLcommandDatatypesweaponCommands}}
+\newcommand{\HOLcommandDatatypes}{
+\HOLcommandDatatypescommands\HOLcommandDatatypesmissionCommands\HOLcommandDatatypesweaponCommands}

@@ -1,0 +1,271 @@
+\newcommand{\HOLaclsemanticsDate}{19 January 2017}
+\newcommand{\HOLaclsemanticsTime}{15:38}
+\begin{SaveVerbatim}{HOLaclsemanticsDefinitionsEfnXXdef}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{TT} \HOLSymConst{=} \ensuremath{\cal{U}}(:'v)) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{FF} \HOLSymConst{=} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{p}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{prop} \HOLBoundVar{p}) \HOLSymConst{=} \HOLConst{intpKS} \HOLBoundVar{M} \HOLBoundVar{p}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{notf} \HOLBoundVar{f}) \HOLSymConst{=} \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenInter{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{orf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+      (\ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLConst{\HOLTokenInter{}}
+      (\ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}})) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{f}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f}) \HOLSymConst{=}
+      \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{Q}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{Q}) \HOLSymConst{=}
+      \HOLKeyword{if} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{Q} \HOLConst{RSUBSET} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{f}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f}) \HOLSymConst{=}
+      \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{} \HOLConst{\HOLTokenUnion{}}
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}) \HOLSymConst{=}
+      \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF}
+      \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) (\HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q}) \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{} \HOLConst{\HOLTokenUnion{}}
+      \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{Q} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}} \HOLBoundVar{intl\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intl\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{intl\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}} \HOLBoundVar{intl\sb{\mathrm{1}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intl\sb{\mathrm{2}}} \HOLConst{eqi} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLSymConst{=}
+      (\HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+       \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLConst{\HOLTokenInter{}}
+      \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}} \HOLBoundVar{secl\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secl\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{secl\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}} \HOLBoundVar{secl\sb{\mathrm{1}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secl\sb{\mathrm{2}}} \HOLConst{eqs} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLSymConst{=}
+      (\HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+       \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLConst{\HOLTokenInter{}}
+      \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{eqn} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{=} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+      \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{lte} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+      \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLeq{}} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{lt} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLt{}} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsDefinitionsEfnXXdef}{\UseVerbatim{HOLaclsemanticsDefinitionsEfnXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsDefinitionsJextXXdef}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{s}. \HOLConst{Jext} \HOLBoundVar{J} (\HOLConst{Name} \HOLBoundVar{s}) \HOLSymConst{=} \HOLBoundVar{J} \HOLBoundVar{s}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLBoundVar{P\sb{\mathrm{2}}}.
+      \HOLConst{Jext} \HOLBoundVar{J} (\HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{meet} \HOLBoundVar{P\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{RUNION} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLBoundVar{P\sb{\mathrm{2}}}. \HOLConst{Jext} \HOLBoundVar{J} (\HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{quoting} \HOLBoundVar{P\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{2}}} \HOLConst{O} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsDefinitionsJextXXdef}{\UseVerbatim{HOLaclsemanticsDefinitionsJextXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsDefinitionsLifnXXdef}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{l}. \HOLConst{Lifn} \HOLBoundVar{M} (\HOLConst{iLab} \HOLBoundVar{l}) \HOLSymConst{=} \HOLBoundVar{l}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{name}. \HOLConst{Lifn} \HOLBoundVar{M} (\HOLConst{il} \HOLBoundVar{name}) \HOLSymConst{=} \HOLConst{imapKS} \HOLBoundVar{M} \HOLBoundVar{name}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsDefinitionsLifnXXdef}{\UseVerbatim{HOLaclsemanticsDefinitionsLifnXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsDefinitionsLsfnXXdef}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{l}. \HOLConst{Lsfn} \HOLBoundVar{M} (\HOLConst{sLab} \HOLBoundVar{l}) \HOLSymConst{=} \HOLBoundVar{l}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{name}. \HOLConst{Lsfn} \HOLBoundVar{M} (\HOLConst{sl} \HOLBoundVar{name}) \HOLSymConst{=} \HOLConst{smapKS} \HOLBoundVar{M} \HOLBoundVar{name}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsDefinitionsLsfnXXdef}{\UseVerbatim{HOLaclsemanticsDefinitionsLsfnXXdef}}
+\newcommand{\HOLaclsemanticsDefinitions}{
+\HOLDfnTag{aclsemantics}{Efn_def}\HOLaclsemanticsDefinitionsEfnXXdef
+\HOLDfnTag{aclsemantics}{Jext_def}\HOLaclsemanticsDefinitionsJextXXdef
+\HOLDfnTag{aclsemantics}{Lifn_def}\HOLaclsemanticsDefinitionsLifnXXdef
+\HOLDfnTag{aclsemantics}{Lsfn_def}\HOLaclsemanticsDefinitionsLsfnXXdef
+}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsandfXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenInter{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsandfXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsandfXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremscontrolsXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{f}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f}) \HOLSymConst{=}
+     \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{} \HOLConst{\HOLTokenUnion{}}
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremscontrolsXXdef}{\UseVerbatim{HOLaclsemanticsTheoremscontrolsXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremscontrolsXXsays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{f}.
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f}) \HOLSymConst{=} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{f})
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremscontrolsXXsays}{\UseVerbatim{HOLaclsemanticsTheoremscontrolsXXsays}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsdomiXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}} \HOLBoundVar{intl\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intl\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{intl\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+     \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsdomiXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsdomiXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsdomsXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}} \HOLBoundVar{secl\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secl\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{secl\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+     \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsdomsXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsdomsXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqfXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+     (\ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLConst{\HOLTokenInter{}}
+     (\ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqfXXdef}{\UseVerbatim{HOLaclsemanticsTheoremseqfXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqfXXimpf}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} ((\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLConst{andf} (\HOLBoundVar{f\sb{\mathrm{2}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{1}}}))
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqfXXimpf}{\UseVerbatim{HOLaclsemanticsTheoremseqfXXimpf}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqiXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}} \HOLBoundVar{intl\sb{\mathrm{1}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intl\sb{\mathrm{2}}} \HOLConst{eqi} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLSymConst{=}
+     (\HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLConst{\HOLTokenInter{}}
+     \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Oi} (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{1}}}) (\HOLConst{Lifn} \HOLBoundVar{M} \HOLBoundVar{intl\sb{\mathrm{2}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+     \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqiXXdef}{\UseVerbatim{HOLaclsemanticsTheoremseqiXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqiXXdomi}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{intL\sb{\mathrm{1}}} \HOLBoundVar{intL\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intL\sb{\mathrm{1}}} \HOLConst{eqi} \HOLBoundVar{intL\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{intL\sb{\mathrm{2}}} \HOLConst{domi} \HOLBoundVar{intL\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{intL\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{intL\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqiXXdomi}{\UseVerbatim{HOLaclsemanticsTheoremseqiXXdomi}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqnXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{eqn} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{=} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqnXXdef}{\UseVerbatim{HOLaclsemanticsTheoremseqnXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqsXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}} \HOLBoundVar{secl\sb{\mathrm{1}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secl\sb{\mathrm{2}}} \HOLConst{eqs} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLSymConst{=}
+     (\HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+      \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLConst{\HOLTokenInter{}}
+     \HOLKeyword{if} \HOLConst{repPO} \HOLBoundVar{Os} (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{1}}}) (\HOLConst{Lsfn} \HOLBoundVar{M} \HOLBoundVar{secl\sb{\mathrm{2}}}) \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+     \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqsXXdef}{\UseVerbatim{HOLaclsemanticsTheoremseqsXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremseqsXXdoms}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{secL\sb{\mathrm{1}}} \HOLBoundVar{secL\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secL\sb{\mathrm{1}}} \HOLConst{eqs} \HOLBoundVar{secL\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{secL\sb{\mathrm{2}}} \HOLConst{doms} \HOLBoundVar{secL\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{secL\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{secL\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremseqsXXdoms}{\UseVerbatim{HOLaclsemanticsTheoremseqsXXdoms}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsFFXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{FF} \HOLSymConst{=} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsFFXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsFFXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsimpfXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsimpfXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsimpfXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsltXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{lt} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLt{}} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsltXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsltXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremslteXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLBoundVar{numExp\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLConst{lte} \HOLBoundVar{numExp\sb{\mathrm{2}}}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLBoundVar{numExp\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLeq{}} \HOLBoundVar{numExp\sb{\mathrm{2}}} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v) \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremslteXXdef}{\UseVerbatim{HOLaclsemanticsTheoremslteXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsmeetXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLBoundVar{P\sb{\mathrm{2}}}. \HOLConst{Jext} \HOLBoundVar{J} (\HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{meet} \HOLBoundVar{P\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{RUNION} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsmeetXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsmeetXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsnameXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{s}. \HOLConst{Jext} \HOLBoundVar{J} (\HOLConst{Name} \HOLBoundVar{s}) \HOLSymConst{=} \HOLBoundVar{J} \HOLBoundVar{s}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsnameXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsnameXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsnotfXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{notf} \HOLBoundVar{f}) \HOLSymConst{=} \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsnotfXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsnotfXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsorfXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{orf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsorfXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsorfXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremspropXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{p}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{prop} \HOLBoundVar{p}) \HOLSymConst{=} \HOLConst{intpKS} \HOLBoundVar{M} \HOLBoundVar{p}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremspropXXdef}{\UseVerbatim{HOLaclsemanticsTheoremspropXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsquotingXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}} \HOLBoundVar{P\sb{\mathrm{2}}}. \HOLConst{Jext} \HOLBoundVar{J} (\HOLBoundVar{P\sb{\mathrm{1}}} \HOLConst{quoting} \HOLBoundVar{P\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{2}}} \HOLConst{O} \HOLConst{Jext} \HOLBoundVar{J} \HOLBoundVar{P\sb{\mathrm{1}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsquotingXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsquotingXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsrepsXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}) \HOLSymConst{=}
+     \ensuremath{\cal{U}}(:'v) \HOLConst{DIFF}
+     \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) (\HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q}) \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{} \HOLConst{\HOLTokenUnion{}}
+     \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{Q} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsrepsXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsrepsXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremssaysXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{f}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f}) \HOLSymConst{=}
+     \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremssaysXXdef}{\UseVerbatim{HOLaclsemanticsTheoremssaysXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsspeaksXXforXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{P} \HOLBoundVar{Q}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{Q}) \HOLSymConst{=}
+     \HOLKeyword{if} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{Q} \HOLConst{RSUBSET} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLKeyword{then} \ensuremath{\cal{U}}(:'v)
+     \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsspeaksXXforXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsspeaksXXforXXdef}}
+\begin{SaveVerbatim}{HOLaclsemanticsTheoremsTTXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}. \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{TT} \HOLSymConst{=} \ensuremath{\cal{U}}(:'v)
+\end{SaveVerbatim}
+\newcommand{\HOLaclsemanticsTheoremsTTXXdef}{\UseVerbatim{HOLaclsemanticsTheoremsTTXXdef}}
+\newcommand{\HOLaclsemanticsTheorems}{
+\HOLThmTag{aclsemantics}{andf_def}\HOLaclsemanticsTheoremsandfXXdef
+\HOLThmTag{aclsemantics}{controls_def}\HOLaclsemanticsTheoremscontrolsXXdef
+\HOLThmTag{aclsemantics}{controls_says}\HOLaclsemanticsTheoremscontrolsXXsays
+\HOLThmTag{aclsemantics}{domi_def}\HOLaclsemanticsTheoremsdomiXXdef
+\HOLThmTag{aclsemantics}{doms_def}\HOLaclsemanticsTheoremsdomsXXdef
+\HOLThmTag{aclsemantics}{eqf_def}\HOLaclsemanticsTheoremseqfXXdef
+\HOLThmTag{aclsemantics}{eqf_impf}\HOLaclsemanticsTheoremseqfXXimpf
+\HOLThmTag{aclsemantics}{eqi_def}\HOLaclsemanticsTheoremseqiXXdef
+\HOLThmTag{aclsemantics}{eqi_domi}\HOLaclsemanticsTheoremseqiXXdomi
+\HOLThmTag{aclsemantics}{eqn_def}\HOLaclsemanticsTheoremseqnXXdef
+\HOLThmTag{aclsemantics}{eqs_def}\HOLaclsemanticsTheoremseqsXXdef
+\HOLThmTag{aclsemantics}{eqs_doms}\HOLaclsemanticsTheoremseqsXXdoms
+\HOLThmTag{aclsemantics}{FF_def}\HOLaclsemanticsTheoremsFFXXdef
+\HOLThmTag{aclsemantics}{impf_def}\HOLaclsemanticsTheoremsimpfXXdef
+\HOLThmTag{aclsemantics}{lt_def}\HOLaclsemanticsTheoremsltXXdef
+\HOLThmTag{aclsemantics}{lte_def}\HOLaclsemanticsTheoremslteXXdef
+\HOLThmTag{aclsemantics}{meet_def}\HOLaclsemanticsTheoremsmeetXXdef
+\HOLThmTag{aclsemantics}{name_def}\HOLaclsemanticsTheoremsnameXXdef
+\HOLThmTag{aclsemantics}{notf_def}\HOLaclsemanticsTheoremsnotfXXdef
+\HOLThmTag{aclsemantics}{orf_def}\HOLaclsemanticsTheoremsorfXXdef
+\HOLThmTag{aclsemantics}{prop_def}\HOLaclsemanticsTheoremspropXXdef
+\HOLThmTag{aclsemantics}{quoting_def}\HOLaclsemanticsTheoremsquotingXXdef
+\HOLThmTag{aclsemantics}{reps_def}\HOLaclsemanticsTheoremsrepsXXdef
+\HOLThmTag{aclsemantics}{says_def}\HOLaclsemanticsTheoremssaysXXdef
+\HOLThmTag{aclsemantics}{speaks_for_def}\HOLaclsemanticsTheoremsspeaksXXforXXdef
+\HOLThmTag{aclsemantics}{TT_def}\HOLaclsemanticsTheoremsTTXXdef
+}

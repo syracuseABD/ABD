@@ -1,0 +1,1570 @@
+
+\chapter{Access-Control Logic Tactics in HOL}
+\label{cha:access-control-logic-tactics}
+
+\section{ACL\_CONJ\_TAC}
+\label{sec:acl-conj-tac}
+\index{ACL\_CONJ\_TAC}
+
+\DOC{ACL\_CONJ\_TAC}{ACL\_CONJ\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_CONJ_TAC : ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+\SYNOPSIS
+Reduces an ACL conjunctive goal to two separate subgoals.
+
+\DESCRIBE
+When applied to a goal \texttt{A ?- (M,Oi,Os) sat t1 andf t2}, reduces it to the two subgoals corresponding to each conjunct separately.
+\begin{verbatim}
+          A ?- (M,Oi,Os) sat t1 andf t2
+   =============================================  ACL_CONJ_TAC
+   A ?- (M,Oi,Os) sat t1   A ?- (M,Oi,Os) sat t2
+\end{verbatim}
+
+\FAILURE
+Fails unless the conclusion of the goal is an ACL conjunction.
+
+\EXAMPLE
+Applying \texttt{ACL\_CONJ\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p andf q
+         ------------------------------------
+           0.  (M,Oi,Os) sat q
+           1.  (M,Oi,Os) sat p
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+produces the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat q
+    ------------------------------------
+      0.  (M,Oi,Os) sat q
+      1.  (M,Oi,Os) sat p
+    
+    
+    (M,Oi,Os) sat p
+    ------------------------------------
+      0.  (M,Oi,Os) sat q
+      1.  (M,Oi,Os) sat p
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+The implementation is as follows
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_CONJ_TAC (asl,term) =
+let
+  val (tuple,conj) = dest_sat term
+  val (conj1,conj2) = dest_andf conj
+  val conjTerm1 = mk_sat (tuple,conj1)
+  val conjTerm2 = mk_sat (tuple,conj2)
+in
+ ([(asl,conjTerm1),(asl,conjTerm2)], 
+  fn [th1,th2] => ACL_CONJ th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_DISJ1\_TAC}
+
+\index{ACL\_DISJ1\_TAC}
+
+\DOC{ACL\_DISJ1\_TAC}{ACL\_DISJ1\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_DISJ1_TAC : ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Selects the left disjunct of an ACL disjunctive goal.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat t1 orf t2}, the tactic \texttt{ACL\_DISJ1\_TAC} reduces it to the subgoal corresponding to the left disjunct.
+\begin{verbatim}
+      A ?- (M,Oi,Os) sat t1 orf t2
+    ================================  ACL_DISJ1_TAC
+        A ?- (M,Oi,Os) sat t1
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL disjunction.
+
+\EXAMPLE
+Applying \texttt{ACL\_DISJ1\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p orf q
+         ------------------------------------
+           (M,Oi,Os) sat p
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat p
+    ------------------------------------
+      (M,Oi,Os) sat p
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DISJ1_TAC (asl,term) =
+let
+  val (tuple,disj) = dest_sat term
+  val (disj1,disj2) = dest_orf disj
+  val disjTerm1 = mk_sat (tuple,disj1)
+in
+  ([(asl,disjTerm1)], fn [th] => ACL_DISJ1 disj2 th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_DISJ2\_TAC}
+\ENDDOC
+
+\section{ACL\_DISJ2\_TAC}
+
+\index{ACL\_DISJ2\_TAC}
+
+\DOC{ACL\_DISJ2\_TAC}{ACL\_DISJ2\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_DISJ2_TAC : ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Selects the right disjunct of an ACL disjunctive goal.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat t1 orf t2}, the tactic \texttt{ACL\_DISJ2\_TAC} reduces it to the subgoal corresponding to the right disjunct.
+\begin{verbatim}
+      A ?- (M,Oi,Os) sat t1 orf t2
+    =================================  ACL_DISJ2_TAC
+        A ?- (M,Oi,Os) sat t2
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL disjunction.
+
+\EXAMPLE
+Applying \texttt{ACL\_DISJ2\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p orf q
+         ------------------------------------
+           (M,Oi,Os) sat q
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat q
+    ------------------------------------
+      (M,Oi,Os) sat q
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DISJ2_TAC (asl,term) =
+let
+  val (tuple,disj) = dest_sat term
+  val (disj1,disj2) = dest_orf disj
+  val disjTerm2 = mk_sat (tuple,disj2)
+in
+  ([(asl,disjTerm2)], fn [th] => ACL_DISJ2 disj1 th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_DISJ1\_TAC}
+\ENDDOC
+
+\section{ACL\_MP\_TAC}
+
+\index{ACL\_MP\_TAC}
+
+\DOC{ACL\_MP\_TAC}{ACL\_MP\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_MP_TAC : thm -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Reduces a goal to an ACL implication from a known theorem.
+
+\DESCRIBE When applied to the theorem \texttt{A' |- (M,Oi,Os) sat s} and the goal \texttt{A ?- (M,Oi,Os) sat t}, the tactic \texttt{ACL\_MP\_TAC} reduces the goal to \texttt{A ?- (M,Oi,Os) sat s impf t}. Unless A' is a subset of A, this is an invalid tactic.
+\begin{verbatim}
+           A ?- (M,Oi,Os) sat t
+    =================================  ACL_MP_TAC (A' |- s)
+        A ?- (M,Oi,Os) sat s impf t
+\end{verbatim}
+
+\FAILURE 
+Fails unless A' is a subset of A.
+
+\EXAMPLE
+Applying \texttt{ACL\_MP\_TAC} to the theorem \texttt{(M,Oi,Os) sat q |- (M,Oi,Os) sat q} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p
+         ------------------------------------
+           (M,Oi,Os) sat q
+           (M,Oi,Os) sat q impf p
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat q impf p
+    ------------------------------------
+      (M,Oi,Os) sat q impf p
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_MP_TAC thb (asl,term) =
+let
+  val (tuple,form) = dest_sat term
+  val (ntuple,nform) = dest_sat (concl thb)
+  val newForm = mk_impf (nform,form)
+  val newTerm = mk_sat (tuple,newForm)
+  val predTerm = mk_sat (tuple,nform)
+in
+    ([(asl,newTerm)], fn [th] => ACL_MP thb th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_AND\_SAYS\_RL\_TAC}
+
+\index{ACL\_AND\_SAYS\_RL\_TAC}
+
+\DOC{ACL\_AND\_SAYS\_RL\_TAC}{ACL\_AND\_SAYS\_RL\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_AND_SAYS_RL_TAC : ('a * term) -> (('a * term) list * (thm list ->  thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Rewrites a goal with $meet$ to two $says$ statements.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat p meet q says f}, returns a new subgoal in the form \texttt{A ?- (M,Oi,Os) sat (p says f) andf (q says f)}.
+\begin{verbatim}
+    A ?- (M,Oi,Os) sat p meet q says f
+  =======================================  ACL_AND_SAYS_RL_TAC
+   A ?- (M,Oi,Os) sat (p says f) 
+                          andf (q says f)
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is in the form \texttt{p meet q says f}.
+
+\EXAMPLE
+Applying \texttt{ACL\_AND\_SAYS\_RL\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p meet q says f
+         ------------------------------------
+           (M,Oi,Os) sat p says f andf q says f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat p says f andf q says f
+    ------------------------------------
+      (M,Oi,Os) sat p says f andf q says f
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_AND_SAYS_RL_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (princs,prop) = dest_says form
+ val (princ1,princ2) = dest_meet princs
+ val conj1 = mk_says (princ1,prop)
+ val conj2 = mk_says (princ2,prop)
+ val conj = mk_andf (conj1,conj2)
+ val newTerm = mk_sat (tuple,conj)
+in
+ ([(asl,newTerm)], fn [th] => AND_SAYS_RL th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_AND\_SAYS\_LR\_TAC}
+\ENDDOC
+
+\section{ACL\_AND\_SAYS\_LR\_TAC}
+
+\index{ACL\_AND\_SAYS\_LR\_TAC}
+
+\DOC{ACL\_AND\_SAYS\_LR\_TAC}{ACL\_AND\_SAYS\_LR\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_AND_SAYS_LR_TAC : ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Rewrites a goal with conjunctive $says$ statements into a $meet$ statement.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat (p says f) andf (q says f)}, returns a new subgoal in the form \texttt{A ?- (M,Oi,Os) sat p meet q says f}.
+\begin{verbatim}
+  A ?- (M,Oi,Os) sat (p says f) 
+                        andf (q says f)
+ ========================================  ACL_AND_SAYS_LR_TAC
+   A ?- (M,Oi,Os) sat p meet q says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is in the form \texttt{(p says f) andf (q says f)}.
+
+\EXAMPLE
+Applying \texttt{ACL\_AND\_SAYS\_LR\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p says f andf q says f
+         ------------------------------------
+           (M,Oi,Os) sat p meet q says f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat p meet q says f
+    ------------------------------------
+      (M,Oi,Os) sat p meet q says f
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_AND_SAYS_LR_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (conj1,conj2) = dest_andf form
+ val (princ1,prop) = dest_says conj1
+ val (princ2,_) = dest_says conj2
+ val princs = mk_meet (princ1,princ2)
+ val newForm = mk_says (princs,prop)
+ val newTerm = mk_sat (tuple,newForm)
+in
+ ([(asl,newTerm)], fn [th] => AND_SAYS_LR th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_CONTROLS\_TAC}
+
+\index{ACL\_CONTROLS\_TAC}
+
+\DOC{ACL\_CONTROLS\_TAC}{ACL\_CONTROLS\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_CONTROLS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Reduces a goal to corresponding $controls$ and $says$ subgoals.
+
+\DESCRIBE When applied to a $princ$ \texttt{p} and a goal \texttt{A ?- (M,Oi,Os) sat f}, returns a two new subgoals in the form \texttt{A ?- (M,Oi,Os) sat p controls f} and \texttt{A ?- (M,Oi,Os) sat p says f}.
+\begin{verbatim}
+         A ?- (M,Oi,Os) sat f
+  =======================================  ACL_CONTROLS_TAC p
+      A ?- (M,Oi,Os) sat p controls f     
+      A ?- (M,Oi,Os) sat p says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is a form type and $p$ is a principle.
+
+\EXAMPLE
+Applying \texttt{ACL\_CONTROLS\_TAC} to principle $p$ and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat f
+         ------------------------------------
+           0.  (M,Oi,Os) sat p says f
+           1.  (M,Oi,Os) sat p controls f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat p says f
+    ------------------------------------
+      0.  (M,Oi,Os) sat p says f
+      1.  (M,Oi,Os) sat p controls f
+    
+    
+    (M,Oi,Os) sat p controls f
+    ------------------------------------
+      0.  (M,Oi,Os) sat p says f
+      1.  (M,Oi,Os) sat p controls f
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_CONTROLS_TAC princ (asl,term) = 
+let
+ val (tuple,form) = dest_sat term
+ val newControls = mk_controls (princ,form)
+ val newTerm1 = mk_sat (tuple,newControls)
+ val newSays = mk_says (princ,form)
+ val newTerm2 = mk_sat (tuple,newSays)
+in
+ ([(asl,newTerm1),(asl,newTerm2)], fn [th1,th2] => CONTROLS th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_DC\_TAC}
+
+\index{ACL\_DC\_TAC}
+
+\DOC{ACL\_DC\_TAC}{ACL\_DC\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_DC_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+
+\SYNOPSIS
+Reduces a goal to corresponding $controls$ and $speaks\_for$ subgoals.
+
+\DESCRIBE When applied to a principal \texttt{q} and a goal \texttt{A ?- (M,Oi,Os) sat p controls f}, returns a two new subgoals in the form \texttt{A ?- (M,Oi,Os) sat p speaks_for q} and \texttt{A ?- (M,Oi,Os) sat q controls f}.
+\begin{verbatim}
+       A ?- (M,Oi,Os) sat p controls f
+  =======================================  ACL_DC_TAC q
+      A ?- (M,Oi,Os) sat p speaks_for q     
+      A ?- (M,Oi,Os) sat q controls  f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL controls statement and $q$ is a principle.
+
+\EXAMPLE
+Applying \texttt{ACL\_DC\_TAC} to principal $q$ and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p controls f
+         ------------------------------------
+           0.  (M,Oi,Os) sat q controls f
+           1.  (M,Oi,Os) sat p speaks_for q
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat q controls f
+    ------------------------------------
+      0.  (M,Oi,Os) sat q controls f
+      1.  (M,Oi,Os) sat p speaks_for q
+    
+    
+    (M,Oi,Os) sat p speaks_for q
+    ------------------------------------
+      0.  (M,Oi,Os) sat q controls f
+      1.  (M,Oi,Os) sat p speaks_for q
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DC_TAC princ2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (princ1,prop) = dest_controls form
+ val formType = type_of form
+ val speaksFor = ``(^princ1 speaks_for ^princ2)
+                                   :^(ty_antiq formType)``
+ val newTerm1 = mk_sat (tuple,speaksFor)
+ val newControls = mk_controls (princ2,prop)
+ val newTerm2 = mk_sat (tuple,newControls)
+in
+ ([(asl,newTerm1),(asl,newTerm2)], fn [th1,th2] => DC th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_DOMI\_TRANS\_TAC}
+
+\index{ACL\_DOMI\_TRANS\_TAC}
+
+\DOC{ACL\_DOMI\_TRANS\_TAC}{ACL\_DOMI\_TRANS\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_DOMI_TRANS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+\SYNOPSIS
+Reduces a goal to two subgoals using the transitive property of integrity levels.
+
+\DESCRIBE When applied to an integrity level \texttt{l2} and a goal \texttt{A ?- (M,Oi,Os) sat l1 domi l3}, returns a two new subgoals in the form \texttt{A ?- (M,Oi,Os) sat l1 domi l2} and \texttt{A ?- (M,Oi,Os) sat l2 domi l3}.
+\begin{verbatim}
+      A ?- (M,Oi,Os) sat l1 domi l3
+  ======================================  ACL_DOMI_TRANS_TAC l2
+      A ?- (M,Oi,Os) sat l1 domi l2     
+      A ?- (M,Oi,Os) sat l2 domi l3
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL domi statement and \texttt{l2} is an integrity level.
+
+\EXAMPLE
+Applying \texttt{ACL\_DOMI\_TRANS\_TAC} to integrity level \texttt{l2} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat l1 domi l3
+         ------------------------------------
+           0.  (M,Oi,Os) sat l2 domi l3
+           1.  (M,Oi,Os) sat l1 domi l2
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat l2 domi l3
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 domi l3
+      1.  (M,Oi,Os) sat l1 domi l2
+    
+    
+    (M,Oi,Os) sat l1 domi l2
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 domi l3
+      1.  (M,Oi,Os) sat l1 domi l2
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DOMI_TRANS_TAC iLev2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (iLev1,iLev3) = dest_domi form
+ val formType = type_of form
+ val newDomi1 = ``(^iLev1 domi ^iLev2):^(ty_antiq formType)``
+ val newTerm1 = mk_sat (tuple,newDomi1)
+ val newDomi2 = ``(^iLev2 domi ^iLev3):^(ty_antiq formType)``
+ val newTerm2 = mk_sat (tuple,newDomi2)
+in
+ ([(asl,newTerm1),(asl,newTerm2)], fn [th1,th2] 
+                                        => DOMI_TRANS th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_DOMS\_TRANS\_TAC}
+
+\index{ACL\_DOMS\_TRANS\_TAC}
+
+\DOC{ACL\_DOMS\_TRANS\_TAC}{ACL\_DOMS\_TRANS\_TAC\hfill(acl\_infRules)}
+
+\small{
+\begin{lstlisting}[breaklines]
+ACL_DOMS_TRANS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}}\egroup
+
+\SYNOPSIS
+Reduces a goal to two subgoals using the transitive property of security levels.
+
+\DESCRIBE When applied to a security level \texttt{l2} and a goal \texttt{A ?- (M,Oi,Os) sat l1 doms l3}, returns a two new subgoals in the form \texttt{A ?- (M,Oi,Os) sat l1 doms l2} and \texttt{A ?- (M,Oi,Os) sat l2 doms l3}.
+\begin{verbatim}
+      A ?- (M,Oi,Os) sat l1 doms l3
+  ======================================  ACL_DOMS_TRANS_TAC l2
+      A ?- (M,Oi,Os) sat l1 doms l2     
+      A ?- (M,Oi,Os) sat l2 doms l3
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL doms statement and \texttt{l2} is a security level.
+
+\EXAMPLE
+Applying \texttt{ACL\_DOMS\_TRANS\_TAC} to security level \texttt{l2} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat l1 doms l3
+         ------------------------------------
+           0.  (M,Oi,Os) sat l2 doms l3
+           1.  (M,Oi,Os) sat l1 doms l2
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat l2 doms l3
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 doms l3
+      1.  (M,Oi,Os) sat l1 doms l2
+    
+    
+    (M,Oi,Os) sat l1 doms l2
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 doms l3
+      1.  (M,Oi,Os) sat l1 doms l2
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DOMS_TRANS_TAC sLev2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (sLev1,sLev3) = dest_doms form
+ val formType = type_of form
+ val newDoms1 = ``(^sLev1 doms ^sLev2):^(ty_antiq formType)``
+ val newTerm1 = mk_sat (tuple,newDoms1)
+ val newDoms2 = ``(^sLev2 doms ^sLev3):^(ty_antiq formType)``
+ val newTerm2 = mk_sat (tuple,newDoms2)
+in
+ ([(asl,newTerm1),(asl,newTerm2)], fn [th1,th2] 
+                                        => DOMS_TRANS th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_HS\_TAC}
+
+\index{ACL\_HS\_TAC}
+
+\DOC{ACL\_HS\_TAC}{ACL\_HS\_TAC\hfill(acl\_infRules)}
+
+\small
+\begin{lstlisting}[breaklines]
+ACL_HS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}\egroup
+
+\SYNOPSIS
+Reduces a goal to two subgoals using the transitive property of ACL implications.
+
+\DESCRIBE When applied to an ACL formula \texttt{f2} and a goal \texttt{A ?- (M,Oi,Os) sat f1 impf f3}, returns a two new subgoals in the form \texttt{A ?- (M,Oi,Os) sat f1 impf f2} and \texttt{A ?- (M,Oi,Os) sat f2 impf f3}.
+\begin{verbatim}
+       A ?- (M,Oi,Os) sat f1 impf f3
+  =======================================  ACL_HS_TAC f2
+      A ?- (M,Oi,Os) sat f1 impf f2     
+      A ?- (M,Oi,Os) sat f2 impf f3
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL implication and \texttt{f2} is an ACL formula.
+
+\EXAMPLE
+Applying \texttt{ACL\_HS\_TAC} to ACL formula \texttt{f2} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat f1 impf f3
+         ------------------------------------
+           0.  (M,Oi,Os) sat f2 impf f3
+           1.  (M,Oi,Os) sat f1 impf f2
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat f2 impf f3
+    ------------------------------------
+      0.  (M,Oi,Os) sat f2 impf f3
+      1.  (M,Oi,Os) sat f1 impf f2
+    
+    
+    (M,Oi,Os) sat f1 impf f2
+    ------------------------------------
+      0.  (M,Oi,Os) sat f2 impf f3
+      1.  (M,Oi,Os) sat f1 impf f2
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_HS_TAC f2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (f1,f3) = dest_impf form
+ val newImpf1 = mk_impf (f1,f2)
+ val newTerm1 = mk_sat (tuple,newImpf1)
+ val newImpf2 = mk_impf (f2,f3)
+ val newTerm2 = mk_sat (tuple,newImpf2)
+in
+ ([(asl,newTerm1),(asl,newTerm2)], fn [th1,th2] => HS th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_IDEMP\_SPEAKS\_FOR\_TAC}
+
+\index{ACL\_IDEMP\_SPEAKS\_FOR\_TAC}
+
+\DOC{ACL\_IDEMP\_SPEAKS\_FOR\_TAC}{\small ACL\_IDEMP\_SPEAKS\_FOR\_TAC\hfill(acl\_infRules)}
+
+\small
+\begin{lstlisting}[breaklines]
+ACL_IDEMP_SPEAKS_FOR_TAC : ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}\egroup
+
+
+\SYNOPSIS
+Proves a goal of the form p speaks_for p.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat p speaks\_for p}, it will prove the goal.
+\begin{verbatim}
+   A ?- (M,Oi,Os) sat p speaks_for p
+  ===================================  ACL_IDEMP_SPEAKS_FOR_TAC
+
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form p speaks_for p.
+
+\EXAMPLE
+Applying \texttt{ACL\_IDEMP\_SPEAKS\_FOR\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p speaks_for p
+    
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following result:
+\begin{holboxed}
+\begin{verbatim}
+    Initial goal proved.
+    |- (M,Oi,Os) sat p speaks_for p
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_IDEMP_SPEAKS_FOR_TAC (asl,term) = 
+let
+ val (tuple,form) = dest_sat term
+ val (princ1,princ2) = dest_speaks_for form
+ val th1 = IDEMP_SPEAKS_FOR princ1
+ val tupleType = type_of tuple
+ val (_,[kripketype,_]) = dest_type tupleType
+ val (_,[_,btype,_,_,_]) = dest_type kripketype
+ val formType = type_of form
+ val (_,[proptype,princtype,inttype,sectype]) = dest_type formType
+ val th2 = INST_TYPE [``:'a`` |-> proptype, ``:'b`` |-> btype, 
+                      ``:'d`` |-> inttype, ``:'e`` |-> sectype] th1
+in
+ ([], fn xs => th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_IL\_DOMI\_TAC}
+
+\index{ACL\_IL\_DOMI\_TAC}
+
+\DOC{ACL\_IL\_DOMI\_TAC}{ACL\_IL\_DOMI\_TAC\hfill(acl\_infRules)}
+
+\small
+\begin{lstlisting}[breaklines]
+ACL_IL_DOMI_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}\egroup
+
+
+\SYNOPSIS
+Reduces a goal comparing integrity levels of two principals to three subgoals.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat il q domi il p}, integrity levels \texttt{l2} and \texttt{l1} it will return 3 subgoals.
+\begin{verbatim}
+       A ?- (M,Oi,Os) sat il q domi il p
+  =======================================  ACL_IL_DOMI_TAC
+      A ?- (M,Oi,Os) sat l2 domi l1
+      A ?- (M,Oi,Os) sat il q eqi l2
+      A ?- (M,Oi,Os) sat il p eqi l1
+
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form il q domi il p.
+
+\EXAMPLE
+Applying \texttt{ACL\_IDEMP\_SPEAKS\_FOR\_TAC} to integrity levels \texttt{l2}, \texttt{l1} and  the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat il q domi il p
+         ------------------------------------
+           0.  (M,Oi,Os) sat l2 domi l1
+           1.  (M,Oi,Os) sat il q eqi l2
+           2.  (M,Oi,Os) sat il p eqi l1
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following three subgoals:
+\begin{holboxed}
+\begin{verbatim}
+3 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat l2 domi l1
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 domi l1
+      1.  (M,Oi,Os) sat il q eqi l2
+      2.  (M,Oi,Os) sat il p eqi l1
+    
+    
+    (M,Oi,Os) sat il p eqi l1
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 domi l1
+      1.  (M,Oi,Os) sat il q eqi l2
+      2.  (M,Oi,Os) sat il p eqi l1
+    
+    
+    (M,Oi,Os) sat il q eqi l2
+    ------------------------------------
+      0.  (M,Oi,Os) sat l2 domi l1
+      1.  (M,Oi,Os) sat il q eqi l2
+      2.  (M,Oi,Os) sat il p eqi l1
+    
+    3 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_IL_DOMI_TAC ilev1 ilev2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term 
+ val formtype = type_of form
+ val (ilevprinc1,ilevprinc2) = dest_domi form
+ val princ1eq = ``(^ilevprinc1 eqi ^ilev1):^(ty_antiq formtype)``
+ val subgoal1 = mk_sat (tuple,princ1eq)
+ val princ2eq = ``(^ilevprinc2 eqi ^ilev2):^(ty_antiq formtype)``
+ val subgoal2 = mk_sat (tuple,princ2eq)
+ val ilevdomi = ``(^ilev1 domi ^ilev2):^(ty_antiq formtype)``
+ val subgoal3 = mk_sat (tuple,ilevdomi)
+in
+ ([(asl,subgoal1),(asl,subgoal2),(asl,subgoal3)], 
+   fn [th1,th2,th3] => IL_DOMI th2 th1 th3)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_MONO\_SPEAKS\_FOR\_TAC}
+
+\index{ACL\_MONO\_SPEAKS\_FOR\_TAC}
+
+\DOC{ACL\_MONO\_SPEAKS\_FOR\_TAC}{\small ACL\_MONO\_SPEAKS\_FOR\_TAC\hfill(acl\_infRules)}
+
+\small
+\begin{lstlisting}[breaklines]
+ACL_MONO_SPEAKS_FOR_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))
+\end{lstlisting}\egroup
+
+\SYNOPSIS
+Reduces a goal to corresponding $speaks\_for$ subgoals.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat (p quoting q) speaks_for (p' quoting q')}, it will return 2 subgoals.
+\begin{verbatim}
+  A ?- (M,Oi,Os) sat (p quoting q) speaks_for (p' quoting q')
+  ===========================================================  ACL_MONO_SPEAKS_FOR_TAC
+           A ?- (M,Oi,Os) sat p speaks_for p'
+           A ?- (M,Oi,Os) sat q speaks_for q'
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form (p quoting q) speaks_for (p' quoting q').
+
+\EXAMPLE
+Applying \texttt{ACL\_MONO\_SPEAKS\_FOR\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p quoting q speaks_for p' quoting q'
+         ------------------------------------
+           0.  (M,Oi,Os) sat q speaks_for q'
+           1.  (M,Oi,Os) sat p speaks_for p'
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following two subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat q speaks_for q'
+    ------------------------------------
+      0.  (M,Oi,Os) sat q speaks_for q'
+      1.  (M,Oi,Os) sat p speaks_for p'
+    
+    
+    (M,Oi,Os) sat p speaks_for p'
+    ------------------------------------
+      0.  (M,Oi,Os) sat q speaks_for q'
+      1.  (M,Oi,Os) sat p speaks_for p'
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_MONO_SPEAKS_FOR_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val formtype = type_of form
+ val (quote1,quote2) = dest_speaks_for form
+ val (princ1,princ2) = dest_quoting quote1
+ val (princ1',princ2') = dest_quoting quote2
+ val speaksfor1 = ``(^princ1 speaks_for ^princ1'):^(ty_antiq formtype)``
+ val subgoal1 = mk_sat (tuple,speaksfor1)
+ val speaksfor2 = ``(^princ2 speaks_for ^princ2'):^(ty_antiq formtype)``
+ val subgoal2 = mk_sat (tuple,speaksfor2)
+in
+ ([(asl,subgoal1),(asl,subgoal2)], fn [th1,th2] => MONO_SPEAKS_FOR th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_MP\_SAYS\_TAC}
+
+\index{ACL\_MP\_SAYS\_TAC}
+
+\DOC{ACL\_MP\_SAYS\_TAC}{ACL\_MP\_SAYS\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_MP_SAYS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Proves a goal of the form \texttt{A ?- (M,Oi,Os) sat (p says (f1 impf f2)) impf ((p says f1) impf (p says f2))}
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat (p says (f1 impf f2)) impf ((p says f1) impf (p says f2))}, it will prove the goal.
+\begin{verbatim}
+  A ?- (M,Oi,Os) sat 
+        (p says (f1 impf f2)) impf 
+         ((p says f1) impf (p says f2))
+  ======================================= ACL_MP_SAYS_TAC
+
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form (p says (f1 impf f2)) impf ((p says f1) impf (p says f2)).
+
+\EXAMPLE
+Applying \texttt{ACL\_MP\_SAYS\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p says (f1 impf f2) impf p says f1 impf p says f2
+    
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following result:
+\begin{holboxed}
+\begin{verbatim}
+    Initial goal proved.
+    |- (M,Oi,Os) sat p says (f1 impf f2) impf p says f1 impf p says f2
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_MP_SAYS_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (saysterm,_) = dest_impf form
+ val (princ,impterm) = dest_says saysterm
+ val (f1,f2) = dest_impf impterm
+  val tupleType = type_of tuple
+ val (_,[kripketype,_]) = dest_type tupleType
+ val (_,[_,btype,_,_,_]) = dest_type kripketype
+ val th1 = MP_SAYS princ f1 f2
+ val th2 = INST_TYPE [``:'b`` |-> btype] th1
+in
+ ([], fn xs => th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_QUOTING\_LR\_TAC}
+
+\index{ACL\_QUOTING\_LR\_TAC}
+
+\DOC{ACL\_QUOTING\_LR\_TAC}{ACL\_QUOTING\_LR\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_QUOTING_LR_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Reduces a $says$ goal to corresponding $quoting$ subgoal.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat p says q says f}, it will return 1 subgoal.
+\begin{verbatim}
+   A ?- (M,Oi,Os) sat p says q says f
+  ======================================= ACL_QUOTING_LR_TAC
+   A ?- (M,Oi,Os) sat p quoting q says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form p says q says f.
+
+\EXAMPLE
+Applying \texttt{ACL\_QUOTING\_LR\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p says q says f
+         ------------------------------------
+           (M,Oi,Os) sat p quoting q says f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat p quoting q says f
+    ------------------------------------
+      (M,Oi,Os) sat p quoting q says f
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_QUOTING_LR_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (princ1,saysterm) = dest_says form
+ val (princ2,f) = dest_says saysterm
+ val quotingterm = mk_quoting (princ1,princ2)
+ val newform = mk_says (quotingterm,f)
+ val subgoal = mk_sat (tuple,newform)
+in
+ ([(asl,subgoal)], fn [th] => QUOTING_LR th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_QUOTING\_RL\_TAC}
+
+\index{ACL\_QUOTING\_RL\_TAC}
+
+\DOC{ACL\_QUOTING\_RL\_TAC}{ACL\_QUOTING\_RL\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_QUOTING_RL_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Reduces a $quoting$ goal to corresponding $says$ subgoal.
+
+\DESCRIBE When applied to a goal \texttt{A ?- (M,Oi,Os) sat p quoting q says f}, it will return 1 subgoal.
+\begin{verbatim}
+   A ?- (M,Oi,Os) sat p quoting q says f
+  ======================================= ACL_QUOTING_RL_TAC
+   A ?- (M,Oi,Os) sat p says q says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula of the form p quoting q says f.
+
+\EXAMPLE
+Applying \texttt{ACL\_QUOTING\_RL\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p quoting q says f
+         ------------------------------------
+           (M,Oi,Os) sat p says q says f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat p says q says f
+    ------------------------------------
+      (M,Oi,Os) sat p says q says f
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_QUOTING_RL_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (quotingterm,f) = dest_says form
+ val (princ1,princ2) = dest_quoting quotingterm
+ val saysterm = mk_says (princ2,f)
+ val newform = mk_says (princ1,saysterm)
+ val subgoal = mk_sat (tuple,newform)
+in
+ ([(asl,subgoal)], fn [th] => QUOTING_RL th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_REPS\_TAC}
+
+\index{ACL\_REPS\_TAC}
+
+\DOC{ACL\_REPS\_TAC}{ACL\_REPS\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_REPS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Reduces a goal to the corresponding $reps$ subgoals.
+
+\DESCRIBE When applied to principals \texttt{p}, \texttt{q} and a goal \texttt{A ?- (M,Oi,Os) sat f}, it will return 3 subgoals.
+\begin{verbatim}
+         A ?- (M,Oi,Os) sat f
+  ======================================== ACL_REPS_TAC
+      A ?- (M,Oi,Os) sat q controls f
+    A ?- (M,Oi,Os) sat p quoting q says f
+       A ?- (M,Oi,Os) sat reps p q f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula.
+
+\EXAMPLE
+Applying \texttt{ACL\_REPS\_TAC} to principals \texttt{p}, \texttt{q} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat f
+         ------------------------------------
+           0.  (M,Oi,Os) sat q controls f
+           1.  (M,Oi,Os) sat p quoting q says f
+           2.  (M,Oi,Os) sat reps p q f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following 3 subgoals:
+\begin{holboxed}
+\begin{verbatim}
+3 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat q controls f
+    ------------------------------------
+      0.  (M,Oi,Os) sat q controls f
+      1.  (M,Oi,Os) sat p quoting q says f
+      2.  (M,Oi,Os) sat reps p q f
+    
+    
+    (M,Oi,Os) sat p quoting q says f
+    ------------------------------------
+      0.  (M,Oi,Os) sat q controls f
+      1.  (M,Oi,Os) sat p quoting q says f
+      2.  (M,Oi,Os) sat reps p q f
+    
+    
+    (M,Oi,Os) sat reps p q f
+    ------------------------------------
+      0.  (M,Oi,Os) sat q controls f
+      1.  (M,Oi,Os) sat p quoting q says f
+      2.  (M,Oi,Os) sat reps p q f
+    
+    3 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_REPS_TAC princ1 princ2 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val repterm = mk_reps (princ1,princ2,form)
+ val subgoal1 = mk_sat (tuple,repterm)
+ val quotingterm = mk_quoting (princ1,princ2)
+ val saysterm = mk_says (quotingterm,form)
+ val subgoal2 = mk_sat (tuple,saysterm)
+ val controlsterm = mk_controls (princ2,form)
+ val subgoal3 = mk_sat (tuple,controlsterm)
+in
+ ([(asl,subgoal1),(asl,subgoal2),(asl,subgoal3)], fn [th1,th2,th3] => REPS th1 th2 th3)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_REP\_SAYS\_TAC}
+
+\index{ACL\_REP\_SAYS\_TAC}
+
+\DOC{ACL\_REP\_SAYS\_TAC}{ACL\_REP\_SAYS\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_REP_SAYS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Reduces a $says$ goal to the corresponding $reps$ subgoals.
+
+\DESCRIBE When applied to principal \texttt{p} and a goal \texttt{A ?- (M,Oi,Os) sat q says f}, it will return 2 subgoals.
+\begin{verbatim}
+         A ?- (M,Oi,Os) sat q says f
+  ======================================== ACL_REP_SAYS_TAC
+    A ?- (M,Oi,Os) sat p quoting q says f
+       A ?- (M,Oi,Os) sat reps p q f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula in the form of q says f.
+
+\EXAMPLE
+Applying \texttt{ACL\_REP\_SAYS\_TAC} to principal \texttt{p} and the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat q says f
+         ------------------------------------
+           0.  (M,Oi,Os) sat p quoting q says f
+           1.  (M,Oi,Os) sat reps p q f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following 2 subgoals:
+\begin{holboxed}
+\begin{verbatim}
+2 subgoals:
+> val it =
+    
+    (M,Oi,Os) sat p quoting q says f
+    ------------------------------------
+      0.  (M,Oi,Os) sat p quoting q says f
+      1.  (M,Oi,Os) sat reps p q f
+    
+    
+    (M,Oi,Os) sat reps p q f
+    ------------------------------------
+      0.  (M,Oi,Os) sat p quoting q says f
+      1.  (M,Oi,Os) sat reps p q f
+    
+    2 subgoals
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_REP_SAYS_TAC princ1 (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (princ2,f) = dest_says form
+ val repsterm = mk_reps (princ1,princ2,f)
+ val subgoal1 = mk_sat (tuple,repsterm)
+ val quotingterm = mk_quoting (princ1,princ2)
+ val saysterm = mk_says (quotingterm,f)
+ val subgoal2 = mk_sat (tuple,saysterm)
+in
+ ([(asl,subgoal1),(asl,subgoal2)], fn [th1,th2] => REP_SAYS th1 th2)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+\section{ACL\_SAYS\_TAC}
+
+\index{ACL\_SAYS\_TAC}
+
+\DOC{ACL\_SAYS\_TAC}{ACL\_SAYS\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_SAYS_TAC : term -> ('a * term) -> (('a * term) list * (thm list -> thm))|}\egroup
+
+
+\SYNOPSIS
+Reduces a $says$ goal to the corresponding subgoal.
+
+\DESCRIBE When applied to principal a goal \texttt{A ?- (M,Oi,Os) sat p says f}, it will return 1 subgoal.
+\begin{verbatim}
+    A ?- (M,Oi,Os) sat p says f
+  =============================== ACL_SAYS_TAC
+       A ?- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the goal is an ACL formula in the form of p says f.
+
+\EXAMPLE
+Applying \texttt{ACL\_SAYS\_TAC} to the following goal:
+\begin{holboxed}
+\begin{verbatim}
+    1. Incomplete goalstack:
+         Initial goal:
+    
+         (M,Oi,Os) sat p says f
+         ------------------------------------
+           (M,Oi,Os) sat f
+    
+     : proofs
+\end{verbatim}
+\end{holboxed}
+yields the following subgoal:
+\begin{holboxed}
+\begin{verbatim}
+1 subgoal:
+> val it =
+    
+    (M,Oi,Os) sat f
+    ------------------------------------
+      (M,Oi,Os) sat f
+     : proof
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_SAYS_TAC (asl,term) =
+let
+ val (tuple,form) = dest_sat term
+ val (princ,f) = dest_says form
+ val subgoal = mk_sat (tuple,f)
+in
+ ([(asl,subgoal)], fn [th] => SAYS princ th)
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\ENDDOC
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "aclHOLManual"
+%%% End:

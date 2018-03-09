@@ -1,0 +1,37 @@
+\newcommand{\HOLgasDate}{28 July 2013}
+\newcommand{\HOLgasTime}{16:26}
+\begin{SaveVerbatim}{HOLgasDatatypesAction}
+\HOLFreeVar{Action} = Act of Op \HOLTokenProd{} 'apn Princ
+\end{SaveVerbatim}
+\newcommand{\HOLgasDatatypesAction}{\UseVerbatim{HOLgasDatatypesAction}}
+\begin{SaveVerbatim}{HOLgasDatatypesOp}
+\HOLFreeVar{Op} = Put \HOLTokenBar{} Take
+\end{SaveVerbatim}
+\newcommand{\HOLgasDatatypesOp}{\UseVerbatim{HOLgasDatatypesOp}}
+\newcommand{\HOLgasDatatypes}{
+\HOLgasDatatypesAction\HOLgasDatatypesOp}
+\begin{SaveVerbatim}{HOLgasTheoremsPumpOneXXtoXXPGC}
+\HOLTokenTurnstile{} (\HOLFreeVar{M},\HOLFreeVar{Oi},\HOLFreeVar{Os}) sat Name \HOLFreeVar{Pump\sb{\mathrm{1}}} says prop (Act (Put,Name \HOLFreeVar{PGC})) \HOLTokenImp{}
+   (\HOLFreeVar{M},\HOLFreeVar{Oi},\HOLFreeVar{Os}) sat
+   il \HOLFreeVar{Pump\sb{\mathrm{1}}} domi il \HOLFreeVar{PGC} impf
+   Name \HOLFreeVar{Pump\sb{\mathrm{1}}} controls prop (Act (Put,Name \HOLFreeVar{PGC})) \HOLTokenImp{}
+   (\HOLFreeVar{M},\HOLFreeVar{Oi},\HOLFreeVar{Os}) sat il \HOLFreeVar{Pump\sb{\mathrm{1}}} eqi iLab Prem \HOLTokenImp{}
+   (\HOLFreeVar{M},\HOLFreeVar{Oi},\HOLFreeVar{Os}) sat il \HOLFreeVar{PGC} eqi iLab Prem \HOLTokenImp{}
+   (\HOLFreeVar{M},\HOLFreeVar{Oi},\HOLFreeVar{Os}) sat prop (Act (Put,Name \HOLFreeVar{PGC}))
+\end{SaveVerbatim}
+\newcommand{\HOLgasTheoremsPumpOneXXtoXXPGC}{\UseVerbatim{HOLgasTheoremsPumpOneXXtoXXPGC}}
+\begin{SaveVerbatim}{HOLgasTheoremsPumpOneXXtoXXRGC}
+\HOLTokenTurnstile{} (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat
+   Name \HOLFreeVar{Pump\sb{\mathrm{1}}} says prop (Act (Put,Name \HOLFreeVar{RGC})) \HOLTokenImp{}
+   (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat
+   il \HOLFreeVar{Pump\sb{\mathrm{1}}} domi il \HOLFreeVar{RGC} impf
+   Name \HOLFreeVar{Pump\sb{\mathrm{1}}} controls prop (Act (Put,Name \HOLFreeVar{RGC})) \HOLTokenImp{}
+   (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat il \HOLFreeVar{RGC} eqi iLab Reg \HOLTokenImp{}
+   (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat il \HOLFreeVar{Pump\sb{\mathrm{1}}} eqi iLab Prem \HOLTokenImp{}
+   (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat prop (Act (Put,Name \HOLFreeVar{RGC}))
+\end{SaveVerbatim}
+\newcommand{\HOLgasTheoremsPumpOneXXtoXXRGC}{\UseVerbatim{HOLgasTheoremsPumpOneXXtoXXRGC}}
+\newcommand{\HOLgasTheorems}{
+\HOLThmTag{gas}{Pump1_to_PGC}\HOLgasTheoremsPumpOneXXtoXXPGC
+\HOLThmTag{gas}{Pump1_to_RGC}\HOLgasTheoremsPumpOneXXtoXXRGC
+}

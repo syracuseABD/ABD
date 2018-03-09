@@ -1,0 +1,3371 @@
+
+\chapter{Access-Control Logic Inference Rules in HOL}
+\label{cha:access-control-logic}
+
+\section{ACL\_ASSUM}
+\label{sec:acl-assum}
+\index{ACL\_ASSUM}
+
+% \begin{verbatim}
+% (***********************************************************
+% * ACL_ASSUM
+% *
+% * ACL_ASSUM : term -> thm
+% *
+% * SYNOPSIS
+% * Introduces an assumption in the access-control logic
+% *
+% * DESCRIPTION
+% * When applied to a term f, which must have type Form,
+% * ACL_ASSUM introduces a theorem 
+% * (M,Oi,Os) sat f |- (M,Oi,Os) sat f.
+% *
+% *
+% *     -----------------------------  ACL_ASSUM f
+% *    (M,Oi,Os) sat f |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails unless f has type Form.
+% ***********************************************************)
+
+% \end{verbatim}
+
+% \begin{holboxed}
+%   \begin{Large}
+%     \texttt{\textbf{ACL\_ASSUM
+% }}\hfill{}\texttt{\textbf{(acl\_infRules)}}    
+%   \end{Large}
+% \end{holboxed}
+% \begin{verbatim}
+% ACL_ASSUM : term -> thm
+% \end{verbatim}
+
+\DOC{ACL\_ASSUM}{ACL\_ASSUM\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_ASSUM : term -> thm|}\egroup
+
+\SYNOPSIS
+Introduces an assumption in the access-control logic.
+
+\DESCRIBE
+When applied to a term $f$, which must have type Form,
+\texttt{ACL\_ASSUM} introduces a theorem 
+\begin{verbatim}
+(M,Oi,Os) sat f |- (M,Oi,Os) sat f.
+
+
+     ---------------------------------  ACL_ASSUM f
+    (M,Oi,Os) sat f |- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE
+Fails unless $f$ has type Form.
+
+\EXAMPLE
+The following application:
+\begin{holboxed}
+\begin{verbatim}
+- val a1 = 
+      ACL_ASSUM 
+      ``(Token:'c Princ) says (Role says f:('a,'c,'d,'e)Form)``;
+\end{verbatim}
+\end{holboxed}
+produces the following result:
+\begin{holboxed}
+\begin{verbatim}
+val a1 =  [.] |- (M,Oi,Os) sat Token says Role says f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+The implementation is as follows
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_ASSUM f = 
+let
+ val f_type = type_of f
+ val f_type_parts = dest_type f_type
+ val [prop_type, name_type, integ_type, sec_type] = snd f_type_parts
+ val M_type = 
+   mk_type ("Kripke",
+            [prop_type, ``:'b``, name_type, integ_type, sec_type])
+ val term = 
+   Term`((M : ^(ty_antiq M_type)),(Oi : ^(ty_antiq integ_type) po),
+         (Os : ^(ty_antiq sec_type) po)) sat ^f`
+ in
+   ASSUME term
+ end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_ASSUM2
+\ENDDOC
+
+\section{ACL\_ASSUM2}
+
+\index{ACL\_ASSUM2}
+% (***********************************************************
+% * ACL_ASSUM2
+% *
+% * ACL_ASSUM : term -> term -> term -> thm
+% *
+% * SYNOPSIS
+% * Introduces an assumption in the access-control logic
+% * given a formula f, and partial orderings on integrity
+% * labels Oi and security labels Os
+% *
+% * DESCRIPTION
+% * When applied to a term f, which must have type Form,
+% * Oi of type integ_type po, and Os of type sec_type po,
+% * ACL_ASSUMs introduces a theorem 
+% * (M,Oi,Os) sat f |- (M,Oi,Os) sat f.
+% *
+% *     -----------------------------  ACL_ASSUM2 f Oi Os
+% *    (M,Oi,Os) sat f |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails unless f has type Form, and Oi and Os have types
+% * integ_type po and sec_type po, respectively
+% ***********************************************************)
+% \begin{holboxed}
+%   \begin{Large}
+%     \textbf{ACL_ASSUM2}\hfill{}\texttt{\textbf{(acl\_infRules)}}
+%   \end{Large}
+% \end{holboxed}
+
+% \begin{verbatim}
+% ACL_ASSUM2 : term -> term -> term -> thm
+% \end{verbatim}
+
+\DOC{ACL\_ASSUM}{ACL\_ASSUM2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_ASSUM2 : term -> term -> term -> thm|}\egroup
+
+
+\SYNOPSIS
+Introduces an assumption in the access-control logic
+given a formula $f$, and partial orderings on integrity
+labels $O_i$ and security labels $O_s$.
+
+\DESCRIBE When applied to a term $f$, which must have type Form, $O_i$
+of type \texttt{integ_type po}, and $O_s$ of type \texttt{sec_type
+  po}, ACL_ASSUMs introduces a theorem \texttt{(M,Oi,Os) sat f |-
+  (M,Oi,Os) sat f}.
+\begin{verbatim}
+
+    ----------------------------------  ACL_ASSUM2 f Oi Os
+    (M,Oi,Os) sat f |- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE Fails unless $f$ has type Form, and $O_i$ and $O_s$ have
+types \texttt{integ\_type po} and \texttt{sec\_type po}, respectively.
+
+\EXAMPLE
+The following application of \texttt{ACL\_ASSUM2}:
+\begin{holboxed}
+\begin{verbatim}
+- ACL_ASSUM2 
+   ``(Token:'c Princ) says (Role says f:('a,'c,'d,'e)Form)`` 
+   ``Int_order:'d po`` 
+   ``Sec_Order:'e po``;
+\end{verbatim}
+\end{holboxed}
+yields the following result:
+\begin{holboxed}
+\begin{verbatim}
+> val it =  
+  [.] |- (M,Int_order,Sec_Order) sat Token says Role says f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_ASSUM2 f Oi Os = 
+let
+ val f_type = type_of f
+ val f_type_parts = dest_type f_type
+ val [prop_type, name_type, integ_type, sec_type] = snd f_type_parts
+ val M_type = 
+   mk_type ("Kripke",
+            [prop_type, ``:'b``, name_type, integ_type, sec_type])
+ val term = 
+   Term`((M : ^(ty_antiq M_type)),(^Oi : ^(ty_antiq integ_type) po),
+         (^Os : ^(ty_antiq sec_type) po)) sat ^f`
+ in
+   ASSUME term
+ end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_ASSUM}
+\ENDDOC
+
+\section{ACL\_CONJ}
+
+\index{ACL\_CONJ}
+
+% (***********************************************************
+% * ACL_CONJ
+% *
+% * ACL_CONJ : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Introduces a conjunction in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *     A1 |- (M,Oi,Os) sat f1   A2 |- (M,Oi,Os) sat f2
+% *     -------------------------------------------------  ACL_CONJ
+% *                         A1 u A2 |- (M,Oi,Os) sat f1 andf f2
+% *
+% * FAILURE
+% * Fails unless both theorems are of the form A |- (M,Oi,Os) sat f.
+% ***********************************************************)
+% \begin{holboxed}
+%   \begin{Large}
+%     \textbf{\texttt{ACL\_CONJ}}\hfill{}\textbf{\texttt{(acl\_infRules)}}
+%   \end{Large}
+% \end{holboxed}
+
+% \begin{verbatim}
+% ACL_CONJ : thm -> thm -> thm
+% \end{verbatim}
+
+\DOC{ACL\_CONJ}{ACL\_CONJ\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_CONJ : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Introduces a conjunction in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+
+  A1 |- (M,Oi,Os) sat f1   A2 |- (M,Oi,Os) sat f2
+  ------------------------------------------------- ACL_CONJ
+          A1 u A2 |- (M,Oi,Os) sat f1 andf f2
+\end{verbatim}
+
+\FAILURE 
+Fails unless both theorems are of the form \texttt{A |- (M,Oi,Os) sat
+f} and their types are the same.  
+
+\EXAMPLE
+The following example shows the conjunction of two theorems.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``p:('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat p : thm
+- val th2 = ACL_ASSUM ``q:('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat q : thm
+- ACL_CONJ th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat p andf q : thm
+\end{verbatim}
+\end{holboxed}
+
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_CONJ th1 th2 = 
+   MATCH_MP(MATCH_MP (SPEC_ALL Conjunction) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_SIMP1, ACL\_SIMP2
+\ENDDOC
+
+\section{ACL\_DISJ1}
+
+\index{ACL\_DISJ1}
+
+
+% (***********************************************************
+% * ACL_DISJ1
+% *
+% * ACL_DISJ1 : term -> thm -> thm
+% *
+% * SYNOPSIS
+% * Introduces a right disjunct into the conclusion of an access-control
+% * logic theorem
+% *
+% * DESCRIPTION
+% *
+% *               A |- (M,Oi,Os) sat f1
+% *         --------------------------  ACL_DISJ1 f2
+% *          A |- (M,Oi,Os) sat f1 orf f2
+% *
+% * FAILURE
+% * Fails unless the input theorem is a disjunction in the
+% * access-control logic and the types of f1 and f2 are the same.
+% ***********************************************************)
+% \begin{holboxed}
+%   \begin{Large}
+%     \textbf{\texttt{ACL\_DISJ1}}\hfill{}\textbf{\texttt{(acl\_infRules)}}
+%   \end{Large}
+% \end{holboxed}
+% \begin{verbatim}
+% ACL_DISJ1 : term -> thm -> thm
+% \end{verbatim}
+
+\DOC{ACL\_DISJ1}{ACL\_DISJ1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_DISJ1 : term -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Introduces a right disjunct into the conclusion of an access-control
+logic theorem.
+
+\DESCRIBE
+\begin{verbatim}
+
+     A |- (M,Oi,Os) sat f1
+  ----------------------------  ACL_DISJ1 f2
+  A |- (M,Oi,Os) sat f1 orf f2
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a disjunction in the
+access-control logic and the types of f1 and f2 are the same.
+
+\EXAMPLE 
+The following introduces a \emph{right} disjunct \emph{q} to
+a theorem \texttt{[.] |- (M,Oi,Os) sat p}.
+\begin{holboxed}
+\begin{verbatim}
+- val th = ACL_ASSUM ``p:('propVar,'pName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat p : thm
+- ACL_DISJ1 ``q:('propVar,'pName,'Int,'Sec)Form`` th;
+> val it =  [.] |- (M,Oi,Os) sat p orf q : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DISJ1 f th = 
+let
+ val f_type = type_of f
+ val term = Term`f2:^(ty_antiq f_type)`
+in
+ SPEC f (GEN term (MATCH_MP (SPEC_ALL Disjunction1) th))
+end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_DISJ2
+\ENDDOC
+
+\section{ACL\_DISJ2}
+
+\index{ACL\_DISJ2}
+  
+
+% (***********************************************************
+% * ACL_DISJ2
+% *
+% * ACL_DISJ2 : term -> thm -> thm
+% *
+% * SYNOPSIS
+% * Introduces a left disjunct into the conclusion of an access-control
+% * logic theorem
+% *
+% * DESCRIPTION
+% *
+% *               A |- (M,Oi,Os) sat f2
+% *         --------------------------  ACL_DISJ2 f1
+% *          A |- (M,Oi,Os) sat f1 orf f2
+% *
+% * FAILURE
+% * Fails unless the input theorem is a disjunction in the
+% * access-control logic and the types of f1 and f2 are the same.
+% ***********************************************************)
+\DOC{ACL\_DISJ2}{ACL\_DISJ2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_DISJ2 : term -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Introduces a left disjunct into the conclusion of an access-control
+logic theorem.
+
+\DESCRIBE
+\begin{verbatim}
+
+    A |- (M,Oi,Os) sat f2
+ ----------------------------  ACL_DISJ2 f1
+ A |- (M,Oi,Os) sat f1 orf f2
+\end{verbatim}
+
+
+\FAILURE
+Fails unless the input theorem is a disjunction in the
+access-control logic and the types of f1 and f2 are the same.
+
+\EXAMPLE
+The following introduces a \emph{left} disjunct \emph{q} to
+a theorem \texttt{[.] |- (M,Oi,Os) sat p}.
+\begin{holboxed}
+\begin{verbatim}
+> val th =  [.] |- (M,Oi,Os) sat p : thm
+- ACL_DISJ2 ``q:('propVar,'pName,'Int,'Sec)Form`` th;
+> val it =  [.] |- (M,Oi,Os) sat q orf p : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DISJ2 f th = 
+let
+ val f_type = type_of f
+ val term = Term`f1:^(ty_antiq f_type)`
+in
+ SPEC f (GEN term (MATCH_MP (SPEC_ALL Disjunction2) th))
+end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_DISJ1
+\ENDDOC
+
+\section{ACL\_DN}
+
+\index{ACL\_DN}
+ 
+% (***********************************************************
+% * ACL_DN
+% *
+% * ACL_DN : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies double negation to formula in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A |- (M,Oi,Os) sat notf(notf f)
+% *         ---------------------------  ACL_DN
+% *               A |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails unless the input theorem is a double negation in the
+% * access-control logic
+% ***********************************************************)
+
+\DOC{ACL\_DN}{ACL_DN\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_DN : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies double negation to a theorem in the access-control logic.
+
+\DESCRIPTION
+\begin{verbatim}
+
+  A |- (M,Oi,Os) sat notf(notf f)
+  ------------------------------- ACL_DN
+        A |- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a double negation in the
+access-control logic.
+
+\EXAMPLE The following example shows the double negation being removed
+from $\neg\neg(K_{Alice} \speaksfor Alice$.
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+  ACL_ASSUM 
+  ``(notf (notf 
+   (K_Alice speaksfor Alice))):('propVar, 'pName, 'Int, 'Sec)Form``;
+<<HOL message: inventing new type variable names: 'a, 'b>>
+> val th =  
+   [.] |- (M,Oi,Os) sat notf (notf (K_Alice speaksfor Alice)) : thm
+- ACL_DN th;
+> val it =  [.] |- (M,Oi,Os) sat K_Alice speaksfor Alice : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_DN th = MATCH_MP (SPEC_ALL Double_Negation) th;
+\end{verbatim}
+\end{holboxed}
+
+\ENDDOC
+  
+\section{ACL\_MP}
+
+\index{ACL\_MP}
+% (***********************************************************
+% * ACL_MP
+% *
+% * ACL_MP : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Implements Modus Ponens in the access-control logic
+% *
+% * DESCRIPTION
+% * When applied to theorems A1 |- (M,Oi,Os) sat f1 and
+% * A2 |- (M,Oi,Os) sat f1 impf f2 in the access-control logic,
+% * ACL_MP introduces a theorem A1 u A2 |- (M,Oi,Os) sat f2.
+% *
+% *     A1 |- (M,Oi,Os) sat f1   A2 |- (M,Oi,Os) sat f1 impf f2
+% *     -------------------------------------------------  ACL_MP
+% *                         A1 u A2 |- (M,Oi,Os) sat f2
+% *
+% * FAILURE
+% * Fails unless f1 in the first theorem is the same as f1 in the second
+% * theorem.
+% ***********************************************************)
+
+\DOC{ACL\_MP}{ACL\_MP\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_MP : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Implements Modus Ponens in the access-control logic.
+
+\DESCRIBE
+When applied to theorems \texttt{A1 |- (M,Oi,Os) sat f1} and
+\texttt{A2 |- (M,Oi,Os) sat f1 impf f2} in the access-control logic,
+\texttt{ACL_MP} introduces a theorem\\ \texttt{A1 u A2 |- (M,Oi,Os) sat
+  f2}.
+
+\begin{verbatim}
+ A1 |- (M,Oi,Os) sat f1   A2 |- (M,Oi,Os) sat f1 impf f2
+ -------------------------------------------------------  ACL_MP
+                 A1 u A2 |- (M,Oi,Os) sat f2
+\end{verbatim}
+
+\FAILURE 
+Fails unless f1 in the first theorem is the same as f1 in the
+second theorem.  
+
+\EXAMPLE
+The following illustrates the application of \texttt{ACL\_MP} to two
+theorems, \texttt{th1} and \texttt{th2}.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``p:('a,'c,'d,'e)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat p : thm
+- val th2 = ACL_ASSUM ``(p impf q):('a,'c,'d,'e)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat p impf q : thm
+- ACL_MP th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat q : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_MP th1 th2 = 
+    MATCH_MP (MATCH_MP (SPEC_ALL Modus_Ponens) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+MP\_SAYS, ACL\_MT
+\ENDDOC
+
+\section{ACL\_MT}
+
+\index{ACL\_MT}
+
+% (***********************************************************
+% * ACL_MT
+% *
+% * ACL_MT : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Implements Modus Tollens in the access-control logic
+% *
+% * DESCRIPTION
+% * When applied to theorems A1 |- (M,Oi,Os) sat notf f2 and
+% * A2 |- (M,Oi,Os) sat f1 impf f2 in the access-control logic,
+% * ACL_MT introduces a theorem A1 u A2 |- (M,Oi,Os) sat notf f1.
+% *
+% *     A1 |- (M,Oi,Os) sat f1 impf f2    A2 |- (M,Oi,Os) sat notf f2
+% *     ------------------------------------------------------  ACL_MT
+% *                         A1 u A2 |- (M,Oi,Os) sat notf f1
+% *
+% * FAILURE
+% * Fails unless f2 in the first theorem is the same as f2 in the second
+% * theorem.
+% ***********************************************************)
+\DOC{ACL\_MT}{ACL\_MT\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_MT : thm -> thm -> thm|}\egroup
+
+
+\SYNOPSIS
+Implements Modus Tollens in the access-control logic.
+
+\DESCRIBE
+When applied to theorems \texttt{A1 |- (M,Oi,Os) sat notf f2} and
+\texttt{A2 |- (M,Oi,Os) sat f1 impf f2} in the access-control logic,
+\texttt{ACL_MT} introduces a theorem \texttt{A1 u A2 |- (M,Oi,Os) sat notf f1}.
+\begin{verbatim}
+ A1 |- (M,Oi,Os) sat f1 impf f2    
+ A2 |- (M,Oi,Os) sat notf f2
+ -------------------------------- ACL_MT
+ A1 u A2 |- (M,Oi,Os) sat notf f1
+\end{verbatim}
+
+\FAILURE
+Fails unless $f_2$ in the first theorem is the same as $f_2$ in the second
+theorem and the types are consistent.
+
+\EXAMPLE
+In the following example, \texttt{th1} corresponds to $p \implies q$
+in the access-control logic, and \texttt{th2} corresponds to $\neg
+q$. By \texttt{ACL\_MT} we can conclude $\neg p$.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``(p impf q):('propvar,'pname,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat p impf q : thm
+- val th2 = ACL_ASSUM ``(notf q):('propvar,'pname,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat notf q : thm
+- ACL_MT th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat notf p : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_MT th1 th2 = 
+  MATCH_MP (MATCH_MP (SPEC_ALL Modus_Tollens) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_MP
+\ENDDOC
+
+\section{ACL\_SIMP1}
+
+\index{ACL\_SIMP1}
+
+% (***********************************************************
+% * ACL_SIMP1
+% *
+% * ACL_SIMP1 : thm -> thm
+% *
+% * SYNOPSIS
+% * Extracts left conjunct of a theorem in the access-control logic.
+% *
+% * DESCRIPTION
+% *
+% *     A |- (M,Oi,Os) sat f1 andf f2
+% *     --------------------------  ACL_SIMP1
+% *          A |- (M,Oi,Os) sat f1
+% *
+% * FAILURE
+% * Fails unless the input theorem is a conjunction in the
+% * access-control logic.
+% ***********************************************************)
+\DOC{ACL\_SIMP1}{ACL\_SIMP1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_SIMP1 : thm -> thm|}\egroup
+
+\SYNOPSIS
+Extracts left conjunct of a theorem in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+
+     A |- (M,Oi,Os) sat f1 andf f2
+     ----------------------------- ACL_SIMP1
+          A |- (M,Oi,Os) sat f1
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a conjunction in the
+access-control logic.
+
+\EXAMPLE The following example shows the application of
+\texttt{ACL\_SIMP1} to the theorem $(M,O_i,O_s) \models p \wedge q$ in
+the access-control logic.
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+    ACL_ASSUM ``(p andf q):('propvar,'princName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat p andf q : thm
+- ACL_SIMP1 th;
+> val it =  [.] |- (M,Oi,Os) sat p : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_SIMP1 th = MATCH_MP (SPEC_ALL Simplification1) th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_SIMP2
+\ENDDOC
+
+\section{ACL\_SIMP2}
+
+\index{ACL\_SIMP2}
+
+% (***********************************************************
+% * ACL_SIMP2
+% *
+% * ACL_SIMP2 : thm -> thm
+% *
+% * SYNOPSIS
+% * Extracts right conjunct of a theorem in the access-control logic.
+% *
+% * DESCRIPTION
+% *
+% *     A |- (M,Oi,Os) sat f1 andf f2
+% *     --------------------------  ACL_SIMP2
+% *          A |- (M,Oi,Os) sat f2
+% *
+% * FAILURE
+% * Fails unless the input theorem is a conjunction in the
+% * access-control logic.
+% ***********************************************************)
+\DOC{ACL\_SIMP2}{ACL\_SIMP2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_SIMP2 : thm -> thm|}\egroup
+
+
+\SYNOPSIS
+Extracts left conjunct of a theorem in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+
+     A |- (M,Oi,Os) sat f1 andf f2
+     ----------------------------- ACL_SIMP2
+          A |- (M,Oi,Os) sat f2
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a conjunction in the
+access-control logic.
+
+\EXAMPLE The following example shows the application of
+\texttt{ACL\_SIMP2} to the theorem $(M,O_i,O_s) \models p \wedge q$ in
+the access-control logic.
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+    ACL_ASSUM ``(p andf q):('propvar,'princName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat p andf q : thm
+- ACL_SIMP2 th;
+> val it =  [.] |- (M,Oi,Os) sat q : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_SIMP2 th = MATCH_MP (SPEC_ALL Simplification2) th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_SIMP1
+\ENDDOC
+
+\section{ACL\_TAUT}
+
+\index{ACL\_TAUT}
+
+% (***********************************************************
+% * ACL_TAUT
+% *
+% * ACL_TAUT : term -> thm
+% *
+% * SYNOPSIS
+% * Attempts to prove a proposition f in the access-control logic
+% * is true in all Kripke models (M,Oi,Os).
+% *
+% * DESCRIPTION
+% * When applied to a term f, which must have type Form,
+% * ACL_TAUT attempts to prove (M,Oi,Os) sat f.
+% *
+% *     ----------------  ACL_TAUT f
+% *     |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails if f is not a tautology.
+% ***********************************************************)
+\DOC{ACL\_TAUT}{ACL\_TAUT\hfill(acl\_infRules)}  
+
+\noindent{\small\verb|ACL_TAUT : term -> thm|}\egroup
+
+\SYNOPSIS
+Attempts to prove a proposition $f$ in the access-control logic
+is true in all Kripke models $(M,O_i,O_s)$.
+
+\DESCRIBE When applied to a term $f$, which must have type Form,
+\texttt{ACL\_TAUT} attempts to prove \texttt{(M,Oi,Os) sat f}.
+\begin{verbatim}
+
+     ------------------  ACL_TAUT f
+     |- (M,Oi,Os) sat f
+
+\end{verbatim}
+\FAILURE
+Fails if f is not a tautology.
+
+\EXAMPLE
+The application of \texttt{ACL\_TAUT} as shown below
+\begin{holboxed}
+\begin{verbatim}
+- ACL_TAUT ``(p orf notf p):('a,'c,'d,'e)Form``;
+\end{verbatim}
+\end{holboxed}
+yields the result
+\begin{holboxed}
+\begin{verbatim}
+> val it = |- (M,Oi,Os) sat p orf notf p : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun ACL_TAUT f =
+let
+ val f_type = type_of f
+ val f_type_parts = dest_type f_type
+ val [prop_type, name_type, integ_type, sec_type] = snd f_type_parts
+ val M_type = 
+   mk_type ("Kripke",
+            [prop_type, ``:'b``, name_type, integ_type, sec_type])
+ val term = 
+   Term`((M : ^(ty_antiq M_type)),(Oi : ^(ty_antiq integ_type) po),
+         (Os : ^(ty_antiq sec_type) po)) sat ^f`
+ in
+    TAC_PROOF(([],term),ACL_TAUT_TAC)
+ end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_TAUT\_TAC}
+\ENDDOC
+
+\section{ACL\_TAUT\_TAC}
+
+\index{ACL\_TAUT\_TAC}
+
+% (******* This tactic is from Lockwood Morris************)
+% (* modified by skc with the substitution of DECIDE_TAC   *)
+% (* for TAUT_TAC. DECIDE_TAC has superceded TAUT_TAC *)
+% (***********************************************************
+% * ACL_TAUT_TAC
+% * 
+% * ACL_TAUT_TAC : tactic
+% *
+% * SYNOPSIS
+% * Invoke decision procedures to prove propositional formulas
+% * and partial order relations in the access-control logic.
+% *
+% * DESCRIPTION
+% * When given a propositional formula f in the access-control logic
+% * using only notf, andf, orf, impf, eqf,  eqn, lte, and lt, 
+% * ACL_TAUT_TAC attempts to prove f true in all Kripke structures
+% * (M,Oi,Os).
+% *
+% *     A ?- (M,Oi,Os) sat f
+% *    =================== ACL_TAUT_TAC 
+% *     A |-  (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails if f is not a propositional tautology, e.g., p and notf p.
+% ***********************************************************)
+\DOC{ACL\_TAUT\_TAC}{ACL\_TAUT\_TAC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|ACL_TAUT_TAC : tactic|}\egroup
+
+\SYNOPSIS Invoke decision procedures to prove propositional formulas
+and partial order relations in the access-control logic.
+
+\DESCRIBE When given a propositional formula $f$ in the access-control
+logic using only notf, andf, orf, impf, eqf, eqn, lte, and lt,
+\texttt{ACL_TAUT_TAC} attempts to prove $f$ true in all Kripke
+structures $(M,O_i,O_s)$.
+\begin{verbatim}
+     A ?- (M,Oi,Os) sat f
+    ====================== ACL_TAUT_TAC 
+     A |-  (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE
+Fails if $f$ is not a propositional tautology, e.g., p and notf p.
+
+\EXAMPLE
+The use of \texttt{ACL\_TAUT\_TAC} within the following proof
+\begin{holboxed}
+\begin{verbatim}
+- TAC_PROOF 
+  (([],``(M:('a,'b,'c,'d,'e)Kripke,Int_Order:'d po, Sec_Order:'e po) 
+          sat (p orf notf p):('a,'c,'d,'e)Form``),
+         ACL_TAUT_TAC);
+\end{verbatim}
+\end{holboxed}
+yields the following result
+\begin{holboxed}
+\begin{verbatim}
+> val it = |- (M,Int_Order,Sec_Order) sat p orf notf p : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+val ACL_TAUT_TAC =
+    REWRITE_TAC 
+    [sat_allworld, world_T, world_F, world_not, 
+     world_and, world_or, world_imp, world_eq,
+     world_eqn, world_lte, world_lt]
+    THEN DECIDE_TAC;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{ACL\_TAUT}
+\ENDDOC
+
+\section{AND\_SAYS\_RL}
+
+\index{AND\_SAYS\_RL}
+
+% (***********************************************************
+% * AND_SAYS_RL
+% *
+% * AND_SAYS_RL : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies A rule to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *    th [(P says f) andf (Q says f)/A]
+% *  ------------------------- AND_SAYS_RL
+% *  th [P meet Q says f/A]
+% *
+% * FAILURE
+% * Fails unless the input theorem is of the form 
+% * P says f  andf Q says f.
+% ***********************************************************)
+\DOC{AND_SAYS_RL}{AND_SAYS_RL\hfill(acl\_infRules)}
+
+\noindent{\small\verb|AND_SAYS_RL : thm -> thm|}\egroup
+
+
+\SYNOPSIS
+Applies And_Says_Eq theorem to rewrite terms
+
+\DESCRIBE
+
+\begin{verbatim}
+   A |- (M,Oi,Os) sat (P says f) andf (Q says f)
+ ---------------------------------------------- AND_SAYS_RL
+        A |- (M,Oi,Os) sat P meet Q says f
+\end{verbatim}
+
+\FAILURE Fails unless the input theorem is of the form P says f andf Q
+says f and all types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM 
+   ``((P says f) andf (Q says f)):('Prop,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat P says f andf Q says f : thm
+- val th2 = AND_SAYS_RL th1;
+> val th2 =  [.] |- (M,Oi,Os) sat P meet Q says f : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun AND_SAYS_RL th = REWRITE_RULE [GSYM(SPEC_ALL And_Says_Eq)] th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+AND\_SAYS\_LR
+\ENDDOC
+
+\section{AND\_SAYS\_LR}
+
+\index{AND\_SAYS\_LR}
+
+% (***********************************************************
+% * AND_SAYS_LR
+% *
+% * AND_SAYS_LR : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies And_Says_Eq theorem to rewrite terms
+% *
+% * DESCRIPTION
+% *    A |- (M,Oi,Os) sat (P meet Q says f)
+% *  ----------------------------------------- AND_SAYS_LR
+% *  A |- (M,Oi,Os) sat P says f andf Q says f
+% *
+% * FAILURE
+% * Fails unless the input theorem is of the form 
+% * P says f  andf Q says f.
+% ***********************************************************)
+
+\DOC{AND_SAYS_LR}{AND_SAYS_LR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|AND_SAYS_LR : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies And_Says_Eq theorem to rewrite terms
+
+\DESCRIBE
+
+\begin{verbatim}
+   A |- (M,Oi,Os) sat (P meet Q says f)
+ ----------------------------------------- AND_SAYS_LR
+ A |- (M,Oi,Os) sat P says f andf Q says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless the input theorem is of the form P meet Q says f and all
+types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM 
+   ``(P meet Q says f):('Prop,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat P meet Q says f : thm
+- val th2 = AND_SAYS_LR th1;
+> val th2 =  [.] |- (M,Oi,Os) sat P says f andf Q says f : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun AND_SAYS_LR th = REWRITE_RULE [SPEC_ALL And_Says_Eq] th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+AND\_SAYS\_RL
+\ENDDOC
+
+\section{CONTROLS}
+
+\index{CONTROLS}
+
+% (***********************************************************
+% * CONTROLS
+% *
+% * CONTROLS : thm->thm -> thm
+% *
+% * SYNOPSIS
+% * Deduces formula f if the principal who says f also controls f.
+% *
+% * DESCRIPTION
+% *
+% *     A1 |- (M,Oi,Os) sat P controls f   A2 |- (M,Oi,Os) sat P says f
+% *     --------------------------------------------------------  CONTROLS
+% *                         A1 u A2 |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails unless the theorems match in terms of principals and formulas
+% * in the access-control logic.
+% ***********************************************************)
+\DOC{CONTROLS}{CONTROLS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|CONTROLS : thm->thm -> thm|}\egroup
+
+
+\SYNOPSIS Deduces formula f if the principal who \texttt{says} f also
+\texttt{controls} f.
+
+\DESCRIBE
+\begin{verbatim}
+  A1 |- (M,Oi,Os) sat P controls f   
+    A2 |- (M,Oi,Os) sat P says f
+  -------------------------------- CONTROLS
+     A1 u A2 |- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE
+Fails unless the theorems match in terms of principals and formulas
+in the access-control logic.
+
+\EXAMPLE
+The following is an example of Alice controlling and saying f.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(Alice controls f):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat Alice controls f : thm
+- val th2 = 
+   ACL_ASSUM ``(Alice says f):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Alice says f : thm
+- CONTROLS th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun CONTROLS th1 th2 = 
+   MATCH_MP (MATCH_MP (SPEC_ALL Controls) th2) th1;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+DC, REPS
+\ENDDOC
+
+\section{DC}
+
+\index{DC}
+
+% (***********************************************************
+% * DC
+% *
+% * DC : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies Derived Controls rule to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *  A1 |- (M,Oi,Os) sat P speaks_for Q   A2 |- (M,Oi,Os) sat Q controls f
+% *  -------------------------------------------------------------- DC
+% *               A1 u A2 |- (M,Oi,Os) sat P controls f
+% *
+% * FAILURE
+% * Fails unless the input theorems match in their corresponding principal
+% * names
+% ***********************************************************)
+\DOC{DC}{DC\hfill(acl\_infRules)}
+
+\noindent{\small\verb|DC : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies Derived Controls rule to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+    A1 |- (M,Oi,Os) sat P speaks_for Q   
+     A2 |- (M,Oi,Os) sat Q controls f
+  ------------------------------------- DC
+  A1 u A2 |- (M,Oi,Os) sat P controls f
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorems match in their corresponding principal
+names.
+
+\EXAMPLE
+
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM 
+   ``(Alice speaks_for Bob):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat Alice speaks_for Bob : thm
+- val th2 = 
+   ACL_ASSUM ``(Bob controls f):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Bob controls f : thm
+- DC th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat Alice controls f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun DC th1 th2 = 
+   MATCH_MP(MATCH_MP (SPEC_ALL Derived_Controls) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+CONTROLS, SPEAKS_FOR
+\ENDDOC
+
+\section{DOMI\_TRANS}
+
+\index{DOMI\_TRANS}
+
+% (***********************************************************
+% * DOMI_TRANS
+% *
+% * DOMI_TRANS : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies transitivity of domi to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *  A1 |- (M,Oi,Os) sat l1 domi l2   A2 |- (M,Oi,Os) sat l2 domi l3
+% *  -------------------------------------------------------- DOMI_TRANS
+% *               A1 u A2 |- (M,Oi,Os) sat l1 domi l3
+% *
+% * FAILURE
+% * Fails unless the input theorems match in their corresponding terms
+% * and types.
+% ***********************************************************)
+\DOC{DOMI_TRANS}{DOMI_TRANS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|DOMI_TRANS : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies transitivity of domi to theorems in the access-control logic.
+
+\DESCRIBE
+
+\begin{verbatim}
+     A1 |- (M,Oi,Os) sat l1 domi l2
+     A2 |- (M,Oi,Os) sat l2 domi l3
+  ----------------------------------- DOMI_TRANS
+  A1 u A2 |- (M,Oi,Os) sat l1 domi l3
+\end{verbatim}
+
+
+\FAILURE 
+
+Fails unless the input theorems match in their corresponding
+terms and types.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(l1 domi l2):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat l1 domi l2 : thm
+- val th2 = 
+   ACL_ASSUM ``(l2 domi l3):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat l2 domi l3 : thm
+- DOMI_TRANS th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat l1 domi l3 : thm
+\end{verbatim}
+\end{holboxed}
+
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun DOMI_TRANS th1 th2 =
+     MATCH_MP(MATCH_MP (SPEC_ALL domi_transitive) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+DOMS\_TRANS, IL\_DOMI, SL\_DOMS
+\ENDDOC
+
+\section{DOMS\_TRANS}
+
+\index{DOMS\_TRANS}
+
+% (***********************************************************
+% * DOMS_TRANS
+% *
+% * DOMS_TRANS : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies transitivity of doms to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *  A1 |- (M,Oi,Os) sat l1 doms l2   A2 |- (M,Oi,Os) sat l2 doms l3
+% *  -------------------------------------------------------- DOMS_TRANS
+% *               A1 u A2 |- (M,Oi,Os) sat l1 doms l3
+% *
+% * FAILURE
+% * Fails unless l1, l2, and l3 match appropriately and have the
+% * same type.
+% ***********************************************************)
+\DOC{DOMS_TRANS}{DOMS_TRANS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|DOMS_TRANS : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies transitivity of doms to theorems in the access-control logic.
+
+\DESCRIBE
+
+\begin{verbatim}
+     A1 |- (M,Oi,Os) sat l1 doms l2   
+     A2 |- (M,Oi,Os) sat l2 doms l3
+  ----------------------------------- DOMS_TRANS
+  A1 u A2 |- (M,Oi,Os) sat l1 doms l3
+\end{verbatim}
+
+\FAILURE
+Fails unless l1, l2, and l3 match appropriately and have the
+same type.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(l1 doms l2):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat l1 doms l2 : thm
+- val th2 = 
+   ACL_ASSUM ``(l2 doms l3):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat l2 doms l3 : thm
+- DOMS_TRANS th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat l1 doms l3 : thm
+\end{verbatim}
+\end{holboxed}
+
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun DOMS_TRANS th1 th2 =
+      MATCH_MP(MATCH_MP (SPEC_ALL doms_transitive) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+DOMI\_TRANS, SL\_DOMS, IL\_DOMI
+\ENDDOC
+
+\section{EQF\_ANDF1}
+
+\index{EQF\_ANDF1}
+
+\DOC{EQF\_ANDF1}{EQF\_ANDF1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQF_ANDF1 : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS 
+Applies eqf_andf1 to substitute an equivalent term for
+another in the left conjunct.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'  
+   A2 |- (M,Oi,Os) sat f andf g 
+---------------------------------- EQF_ANDF1
+A1 u A2 |- (M,Oi,Os) sat f' andf g
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a conjunction.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_ANDF1_Test =
+let
+ val th1 = ACL_ASSUM``(p1 eqf p1'):('a,'c,'d,'e)Form``
+ val th2 = ACL_ASSUM``(p1 andf p2):('a,'c,'d,'e)Form``
+ val th3 = EQF_ANDF1 th1 th2
+ val th4 = DISCH (hd(hyp th2)) th3
+in
+ DISCH(hd(hyp th1)) th4
+end;
+> val EQF_ANDF1_Test =
+    |- (M,Oi,Os) sat p1 eqf p1' ==>
+       (M,Oi,Os) sat p1 andf p2 ==>
+       (M,Oi,Os) sat p1' andf p2
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_ANDF1 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_andf1 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+\SEEALSO
+EQF\_ANDF2
+
+\ENDDOC
+
+\section{EQF\_ANDF2}
+
+\index{EQF\_ANDF2}
+
+\DOC{EQF\_ANDF2}{EQF\_ANDF2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQF_ANDF2 : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS 
+Applies eqf_andf2 to substitute an equivalent term for
+another in the right conjunct.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat g andf f
+---------------------------------- EQF_ANDF2
+A1 u A2 |- (M,Oi,Os) sat g andf f'
+\end{verbatim}
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a conjunction.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_ANDF2_Test =
+let
+ val th1 = ACL_ASSUM``(p2 eqf p2'):('a,'c,'d,'e)Form``
+ val th2 = ACL_ASSUM``(p1 andf p2):('a,'c,'d,'e)Form``
+ val th3 = EQF_ANDF2 th1 th2
+ val th4 = DISCH (hd(hyp th2)) th3
+in
+ DISCH(hd(hyp th1)) th4
+end;
+> val EQF_ANDF2_Test =
+    |- (M,Oi,Os) sat p2 eqf p2' ==>
+       (M,Oi,Os) sat p1 andf p2 ==>
+       (M,Oi,Os) sat p1 andf p2'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_ANDF2 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_andf2 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+\SEEALSO
+EQF\_ANDF1
+
+\ENDDOC
+
+\section{EQF\_CONTROLS}
+
+\index{EQF\_CONTROLS}
+
+\DOC{EQF\_CONTROLS}{EQF\_CONTROLS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQF_CONTROLS : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS 
+Applies eqf_controls to substitute an equivalent term $f'$ for
+$f$ in the term $P \says f$.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat P controls f
+-------------------------------------- EQF_CONTROLS
+A1 u A2 |- (M,Oi,Os) sat P controls f'
+\end{verbatim}
+
+\FAILURE 
+Fails unless the first theorem is an equivance and the second
+theorem is a conjunction.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_CONTROLS_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(P controls f):('a,'c,'d,'e)Form``
+  val th3 = EQF_CONTROLS th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_CONTROLS_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat P controls f ==>
+       (M,Oi,Os) sat P controls f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_CONTROLS th1 th2 =
+let
+ val th3 = MATCH_MP eqf_controls th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_SAYS
+\ENDDOC
+
+\section{EQF\_EQF1}
+
+\index{EQF\_EQ}
+
+\DOC{EQF\_EQF1}{EQF\_EQF1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQF_EQF1 : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS 
+Applies eqf_controls to substitute $f'$ for $f$ in the term $f \equiv g$.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat f eqf g
+--------------------------------- EQF_EQF1
+A1 u A2 |- (M,Oi,Os) sat f' eqf g
+\end{verbatim}
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem is
+a equivalence.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_EQF1_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(f eqf g):('a,'c,'d,'e)Form``
+  val th3 = EQF_EQF1 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_EQF1_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat f eqf g ==>
+       (M,Oi,Os) sat f' eqf g
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_EQF1 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_eqf1 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_EQF2
+
+\ENDDOC
+
+\section{EQF\_EQF2}
+
+\index{EQF\_EQF2}
+
+\DOC{EQF\_EQF2}{EQF\_EQF2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQF_EQF2 : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS 
+Applies eqf_controls to substitute $f'$ for $f$ in the term $f \equiv g$.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat g eqf f
+---------------------------------- EQF_EQF2
+A1 u A2 |- (M,Oi,Os) sat g eqf f'
+\end{verbatim}
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem is
+a equivalence.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_EQF2_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(g eqf f):('a,'c,'d,'e)Form``
+  val th3 = EQF_EQF2 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_EQF2_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat g eqf f ==>
+       (M,Oi,Os) sat g eqf f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_EQF2 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_eqf2 th1
+in
+ MATCH_MP th3 th2
+end
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_EQF1
+
+\ENDDOC
+
+\section{EQF\_IMPF1}
+% \label{sec:eqf_impf1}
+
+\index{EQF\_IMPF1}
+% (* -------------------------------------------------------------------------- *)
+% (* EQF_IMPF1                                                                  *)
+% (*                                                                            *)
+% (* EQF_IMPF1 : thm -> thm -> thm                                              *)
+% (*                                                                            *)
+% (* SYNOPSIS                                                                   *)
+% (* Applies eqf_impf1 to substitute an equivalent term for another in the left *)
+% (* side of an implication                                                     *)
+% (*                                                                            *)
+% (* DESCRIPTION                                                                *)
+% (*                                                                            *)
+% (*    A1 |- (M,Oi,Os) sat f eqf f'                                            *)
+% (*    A2 |- (M,Oi,Os) sat f impf g                                            *)
+% (* ---------------------------------- EQF_IMPF1                               *)
+% (* A1 u A2 |- (M,Oi,Os) sat f' impf g                                         *)
+% (*                                                                            *)
+% (* FAILURE                                                                    *)
+% (* Fails unless the first theorem is an equivance and the second theorem is   *)
+% (* an implication.  Fails unless all the types are consistent.                *)
+% (* -------------------------------------------------------------------------- *)
+
+\DOC{EQF\_IMPF1}{EQF\_IMPF1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQN_IMPF1 : thm -> thm -> thm |}\egroup
+
+\SYNOPSIS 
+Applies eqf\_impf1 to substitute an equivalent term for
+another in the left side of an implication.
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat f impf g
+---------------------------------- EQF_IMPF1
+A1 u A2 |- (M,Oi,Os) sat f' impf g
+\end{verbatim}
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_IMPF1_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(f impf g):('a,'c,'d,'e)Form``
+  val th3 = EQF_IMPF1 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_IMPF1_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat f impf g ==>
+       (M,Oi,Os) sat f' impf g
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_IMPF1 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_impf1 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_IMPF2
+
+\ENDDOC
+
+\section{EQF\_IMPF2}
+
+\index{EQF\_IMPF2}
+% (* -------------------------------------------------------------------------- *)
+% (* EQF_IMPF2                                                                  *)
+% (*                                                                            *)
+% (* EQF_IMPF2 : thm -> thm -> thm                                              *)
+% (*                                                                            *)
+% (* SYNOPSIS                                                                   *)
+% (* Applies eqf_impf2 to substitute an equivalent term for another in the right*)
+% (* side of an implication.                                                    *)
+% (*                                                                            *)
+% (* DESCRIPTION                                                                *)
+% (*                                                                            *)
+% (*    A1 |- (M,Oi,Os) sat f eqf f'                                            *)
+% (*    A2 |- (M,Oi,Os) sat g impf f                                            *)
+% (* ---------------------------------- EQF_IMPF2                               *)
+% (* A1 u A2 |- (M,Oi,Os) sat g impf f'                                         *)
+% (*                                                                            *)
+% (* FAILURE                                                                    *)
+% (* Fails unless the first theorem is an equivance and the second theorem is   *)
+% (* an implication.  Fails unless all the types are consistent.                *)
+% (* -------------------------------------------------------------------------- *)
+
+
+\DOC{EQF\_IMPF2}{EQF\_IMPF2\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_IMPF2 : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat g impf f
+---------------------------------- EQF_IMPF2
+A1 u A2 |- (M,Oi,Os) sat g impf f'
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is an implication.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_IMPF2_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(g impf f):('a,'c,'d,'e)Form``
+  val th3 = EQF_IMPF2 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_IMPF2_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat g impf f ==>
+       (M,Oi,Os) sat g impf f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_IMPF2 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_impf2 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+\SEEALSO
+EQF\_IMPF1
+
+\ENDDOC
+
+\section{EQF\_NOTF}
+
+\index{EQF\_NOTF}
+
+\DOC{EQF\_NOTF}{EQF\_NOTF\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_NOTF : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat notf f
+---------------------------------- EQF_NOTF
+A1 u A2 |- (M,Oi,Os) sat notf f'
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a negation.  Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_NOTF_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(notf f):('a,'c,'d,'e)Form``
+  val th3 = EQF_NOTF th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;;
+> val EQF_NOTF_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat notf f ==>
+       (M,Oi,Os) sat notf f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_NOTF th1 th2 =
+let
+ val th3 = MATCH_MP eqf_notf th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+% \SEEALSO
+
+\ENDDOC
+
+\section{EQF\_ORF1}
+
+\index{EQF\_ORF1}
+
+\DOC{EQF\_ORF1}{EQF\_ORF1\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_ORF1 : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat f orf g
+--------------------------------- EQF_ORF1
+A1 u A2 |- (M,Oi,Os) sat f' orf g
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a disjunction. Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_ORF1_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(f orf g):('a,'c,'d,'e)Form``
+  val th3 = EQF_ORF1 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_ORF1_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat f orf g ==>
+       (M,Oi,Os) sat f' orf g
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_ORF1 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_orf1 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_ORF2
+
+\ENDDOC
+
+\section{EQF\_ORF2}
+
+\index{EQF\_ORF2}
+
+\DOC{EQF\_ORF2}{EQF\_ORF2\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_ORF2 : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat g orf f
+--------------------------------- EQF_ORF2
+A1 u A2 |- (M,Oi,Os) sat g orf f'
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a disjunction. Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_ORF2_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(g orf f):('a,'c,'d,'e)Form``
+  val th3 = EQF_ORF2 th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_ORF2_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat g orf f ==>
+       (M,Oi,Os) sat g orf f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_ORF2 th1 th2 =
+let
+ val th3 = MATCH_MP eqf_orf2 th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+EQF\_ORF1
+
+\ENDDOC
+
+\section{EQF\_REPS}
+
+\index{EQF\_REPS}
+
+\DOC{EQF\_REPS}{EQF\_REPS\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_REPS : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat reps P Q f
+------------------------------------ EQF_REPS
+A1 u A2 |- (M,Oi,Os) sat reps P Q f'
+\end{verbatim}
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a delegation. Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_REPS_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(reps P Q f):('a,'c,'d,'e)Form``
+  val th3 = EQF_REPS th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_REPS_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat reps P Q f ==>
+       (M,Oi,Os) sat reps P Q f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_REPS th1 th2 =
+let
+ val th3 = MATCH_MP eqf_reps th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+% \SEEALSO
+
+\ENDDOC
+
+
+\section{EQF\_SAYS}
+
+\index{EQF\_SAYS}
+
+\DOC{EQF\_SAYS}{EQF\_SAYS\hfill(acl\_infrules)}
+
+\noindent{\small\verb|EQF_SAYS : thm -> thm -> thm|}\egroup
+
+\DESCRIBE
+\begin{verbatim}
+   A1 |- (M,Oi,Os) sat f eqf f'
+   A2 |- (M,Oi,Os) sat P says f
+---------------------------------- EQF_SAYS
+A1 u A2 |- (M,Oi,Os) sat P says f'
+\end{verbatim}
+
+\FAILURE
+Fails unless the first theorem is an equivance and the second theorem
+is a says statement. Fails unless all the types are consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val EQF_SAYS_Test =
+let
+  val th1 = ACL_ASSUM``(f eqf f'):('a,'c,'d,'e)Form``
+  val th2 = ACL_ASSUM``(P says f):('a,'c,'d,'e)Form``
+  val th3 = EQF_SAYS th1 th2
+  val th4 = DISCH(hd(hyp th2)) th3
+in
+  DISCH(hd(hyp th1)) th4
+end;
+> val EQF_SAYS_Test =
+    |- (M,Oi,Os) sat f eqf f' ==>
+       (M,Oi,Os) sat P says f ==>
+       (M,Oi,Os) sat P says f'
+     : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQF_SAYS th1 th2 =
+let
+ val th3 = MATCH_MP eqf_says th1
+in
+ MATCH_MP th3 th2
+end
+\end{verbatim}
+\end{holboxed}
+
+% \SEEALSO
+
+\ENDDOC
+
+
+\section{EQN\_EQN}
+
+\index{EQN\_EQN}
+
+% (***********************************************************
+% * EQN_EQN
+% *
+% * EQN_EQN : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies eqn_eqn to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A1 |- (M,Oi,Os) sat c1 eqn n1
+% *         A2 |- (M,Oi,Os) sat c2 eqn n2  
+% *         A3 |- (M,Oi,Os) sat n1 eqn n2
+% *  -------------------------------------------- EQN_EQN
+% *  A1 u A2 u A3 |- (M,Oi,Os) sat c1 eqn c2
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the three
+% * theorems.
+% ***********************************************************)
+\DOC{EQN\_EQN}{EQN\_EQN\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQN_EQN : thm -> thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies eqn\_eqn to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+        A1 |- (M,Oi,Os) sat c1 eqn n1
+        A2 |- (M,Oi,Os) sat c2 eqn n2  
+        A3 |- (M,Oi,Os) sat n1 eqn n2
+ --------------------------------------- EQN_EQN
+ A1 u A2 u A3 |- (M,Oi,Os) sat c1 eqn c2
+\end{verbatim}
+
+\FAILURE Fails unless the types are consistent among the three
+theorems.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``c1 eqn n1``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th1 =  [.] |- (M,Oi,Os) sat c1 eqn n1 : thm
+- val th2 = ACL_ASSUM ``c2 eqn n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th2 =  [.] |- (M,Oi,Os) sat c2 eqn n2 : thm
+- val th3 = ACL_ASSUM ``n1 eqn n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th3 =  [.] |- (M,Oi,Os) sat n1 eqn n2 : thm
+- EQN_EQN th1 th2 th3;
+> val it =  [...] |- (M,Oi,Os) sat c1 eqn c2 : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQN_EQN th1 th2 th3 =
+   MATCH_MP (MATCH_MP (MATCH_MP eqn_eqn th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{EQN\_LT, EQN\_LTE}
+\ENDDOC
+
+\section{EQN\_LT}
+
+\index{EQN\_LT}
+
+
+% (***********************************************************
+% * EQN_LT
+% *
+% * EQN_LT : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies eqn_lt to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A1 |- (M,Oi,Os) sat c1 eqn n1
+% *         A2 |- (M,Oi,Os) sat c2 eqn n2  
+% *         A3 |- (M,Oi,Os) sat n1 lt n2
+% *  -------------------------------------------- EQN_LT
+% *  A1 u A2 u A3 |- (M,Oi,Os) sat c1 lt c2
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the three
+% * theorems.
+% ***********************************************************)
+\DOC{EQN\_LT}{EQN\_LT\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQN_LT : thm -> thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies eqn\_lt to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+         A1 |- (M,Oi,Os) sat c1 eqn n1
+         A2 |- (M,Oi,Os) sat c2 eqn n2  
+         A3 |- (M,Oi,Os) sat n1 lt n2
+  -------------------------------------------- EQN_LT
+  A1 u A2 u A3 |- (M,Oi,Os) sat c1 lt c2
+\end{verbatim}
+
+\FAILURE Fails unless the types are consistent among the three
+theorems.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``c1 eqn n1``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th1 =  [.] |- (M,Oi,Os) sat c1 eqn n1 : thm
+- val th2 = ACL_ASSUM ``c2 eqn n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th2 =  [.] |- (M,Oi,Os) sat c2 eqn n2 : thm
+- val th3 = ACL_ASSUM ``n1 lt n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th3 =  [.] |- (M,Oi,Os) sat n1 lt n2 : thm
+- EQN_LT th1 th2 th3;
+> val it =  [...] |- (M,Oi,Os) sat c1 lt c2 : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQN_LT th1 th2 th3 =
+   MATCH_MP (MATCH_MP (MATCH_MP eqn_lt th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+\texttt{EQN\_LTE, EQN\_EQN}
+\ENDDOC
+
+\section{EQN\_LTE}
+
+\index{EQN\_LTE}
+
+% (***********************************************************
+% * EQN_LTE
+% *
+% * EQN_LTE : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies eqn_lte to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A1 |- (M,Oi,Os) sat c1 eqn n1
+% *         A2 |- (M,Oi,Os) sat c2 eqn n2  
+% *         A3 |- (M,Oi,Os) sat n1 lte n2
+% *  -------------------------------------------- EQN_LTE
+% *  A1 u A2 u A3 |- (M,Oi,Os) sat c1 lte c2
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the three
+% * theorems.
+% ***********************************************************)
+\DOC{EQN\_LTE}{EQN\_LTE\hfill(acl\_infRules)}
+
+\noindent{\small\verb|EQN_LTE : thm -> thm -> thm -> thm|}\egroup
+
+
+\SYNOPSIS
+Applies eqn\_lte to theorems in the access-control logic
+
+\DESCRIBE
+\begin{verbatim}
+
+         A1 |- (M,Oi,Os) sat c1 eqn n1
+         A2 |- (M,Oi,Os) sat c2 eqn n2  
+         A3 |- (M,Oi,Os) sat n1 lte n2
+  -------------------------------------------- EQN_LTE
+  A1 u A2 u A3 |- (M,Oi,Os) sat c1 lte c2
+\end{verbatim}
+\FAILURE
+
+Fails unless the types are consistent amount the three theorems.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``c1 eqn n1``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th1 =  [.] |- (M,Oi,Os) sat c1 eqn n1 : thm
+- val th2 = ACL_ASSUM ``c2 eqn n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th2 =  [.] |- (M,Oi,Os) sat c2 eqn n2 : thm
+- val th3 = ACL_ASSUM ``n1 lte n2``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+> val th3 =  [.] |- (M,Oi,Os) sat n1 lte n2 : thm
+- EQN_LTE th1 th2 th3;
+> val it =  [...] |- (M,Oi,Os) sat c1 lte c2 : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun EQN_LTE th1 th2 th3 =
+   MATCH_MP (MATCH_MP (MATCH_MP eqn_lte th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+\SEEALSO
+
+\texttt{EQN\_LT, EQN\_EQN}
+\ENDDOC
+
+\section{HS}
+
+\index{HS}
+
+% (***********************************************************
+% * HS
+% *
+% * HS : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies hypothetical syllogism to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *  A1 |- (M,Oi,Os) sat f1 impf f2   A2 |- (M,Oi,Os) sat f2 impf f3
+% *  -------------------------------------------------------- HS
+% *               A1 u A2 |- (M,Oi,Os) sat f1 impf f3
+% *
+% * FAILURE
+% * Fails unless the input theorems match in their consequent and
+% * antecedent in access-control logic
+% ***********************************************************)
+\DOC{HS}{HS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|HS : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies hypothetical syllogism to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+     A1 |- (M,Oi,Os) sat f1 impf f2
+     A2 |- (M,Oi,Os) sat f2 impf f3
+  ----------------------------------- HS
+  A1 u A2 |- (M,Oi,Os) sat f1 impf f3
+\end{verbatim}
+
+\FAILURE 
+Fails unless the input theorems match in their consequent and
+antecedent in the access-control logic, and their types are the same.
+
+\EXAMPLE
+The following is an example of hypothetical syllogism applied to $p
+\implies q$ and $q \implies r$.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(p impf q):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat p impf q : thm
+- val th2 = 
+   ACL_ASSUM ``(q impf r):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat q impf r : thm
+- HS th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat p impf r : thm
+\end{verbatim}
+
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun HS th1 th2 = 
+   MATCH_MP(MATCH_MP (SPEC_ALL Hypothetical_Syllogism) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_MP, ACL\_MT, MP\_SAYS
+\ENDDOC
+
+\section{IDEMP\_SPEAKS\_FOR}
+
+\index{IDEMP\_SPEAKS\_FOR}
+% (***********************************************************
+% * IDEMP_SPEAKS_FOR
+% *
+% * IDEMP_SPEAKS_FOR : term -> thm
+% *
+% * SYNOPSIS
+% * Specializes Idemp_Speaks_For to principal P
+% *
+% * DESCRIPTION
+% *  
+% *  ------------------- IDEMP_SPEAKS_FOR P
+% *   |- P speaks_for P
+% *
+% * FAILURE
+% * Fails unless the term is a principal
+% ***********************************************************)
+% fun IDEMP_SPEAKS_FOR term = ISPEC term (GEN ``P:'c Princ``(SPEC_ALL Idemp_Speaks_For));
+\DOC{IDEMP_SPEAKS_FOR}{IDEMP_SPEAKS_FOR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|IDEMP_SPEAKS_FOR : term -> thm|}\egroup
+
+\SYNOPSIS
+Specializes Idemp_Speaks_For to principal P
+
+\DESCRIBE
+
+\begin{verbatim}
+ --------------------------------- IDEMP_SPEAKS_FOR P
+  |- (M,Oi,Os) sat P speaks_for P
+\end{verbatim}
+
+\FAILURE
+Fails unless the term is a principal
+
+\EXAMPLE
+Introduces \texttt{P speaks\_for P}. We can change the type variables with INST_TYPE.
+\begin{holboxed}
+  \begin{scriptsize}
+\begin{verbatim}
+- val th1 = IDEMP_SPEAKS_FOR ``P:'pName Princ``;
+> val th1 =
+     []
+    |- ((M :('a, 'b, 'pName, 'd, 'e) Kripke),(Oi :'d po),(Os :'e po)) sat
+       (((P :'pName Princ) speaks_for P) :('a, 'pName, 'd, 'e) Form) : thm
+- val th2 = 
+   INST_TYPE [``:'a`` |-> ``:'Prop``, ``:'d`` |-> ``:'Int``, ``:'e`` |-> ``:'Sec`` ] th1;
+
+> val th2 =
+     []
+    |- ((M :('Prop, 'b, 'pName, 'Int, 'Sec) Kripke),(Oi :'Int po),
+        (Os :'Sec po)) sat
+       (((P :'pName Princ) speaks_for P) :('Prop, 'pName, 'Int, 'Sec) Form) :
+  thm
+\end{verbatim}
+  \end{scriptsize}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun IDEMP_SPEAKS_FOR term = 
+  ISPEC term (GEN ``P:'c Princ``(SPEC_ALL Idemp_Speaks_For));
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+SPEAKS\_FOR, MONO\_SPEAKS\_FOR
+
+\ENDDOC
+
+\section{IL\_DOMI}
+
+\index{IL\_DOMI}
+
+
+% (***********************************************************
+% * IL_DOMI
+% *
+% * IL_DOMI : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies il_doms to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A1 |- (M,Oi,Os) sat il P eqi l1
+% *         A2 |- (M,Oi,Os) sat il Q eqi l2  
+% *         A3 |- (M,Oi,Os) sat l2 domi l1
+% *  ---------------------------------- IL_DOMI
+% *  A1 u A2 u A3 |- (M,Oi,Os) sat il Q domi il P
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the three
+% * theorems.
+% ***********************************************************)
+\DOC{IL\_DOMI}{IL\_DOMI\hfill(acl\_infRules)}
+
+\noindent{\small\verb|IL_DOMI : thm -> thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies \emph{il\_domi} to theorems in the access-control logic.
+
+\DESCRIBE
+
+\begin{verbatim}
+         A1 |- (M,Oi,Os) sat il P eqi l1
+         A2 |- (M,Oi,Os) sat il Q eqi l2  
+         A3 |- (M,Oi,Os) sat l2 domi l1
+  -------------------------------------------- IL_DOMI
+  A1 u A2 u A3 |- (M,Oi,Os) sat il Q domi il P
+\end{verbatim}
+
+\FAILURE
+Fails unless the types are consistent among the three
+theorems.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+val th1 = 
+   ACL_ASSUM 
+   ``((il Alice) eqi l1):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat il Alice eqi l1 : thm
+- val th2 = 
+   ACL_ASSUM ``((il Bob) eqi l2):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat il Bob eqi l2 : thm
+- val levelsRelation = 
+   ACL_ASSUM ``(l2 domi l1):('propVar,'pName,'Int,'Sec)Form``;
+> val levelsRelation =  [.] |- (M,Oi,Os) sat l2 domi l1 : thm
+- IL_DOMI th1 th2 levelsRelation;
+> val it =  [...] |- (M,Oi,Os) sat il Bob domi il Alice : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun IL_DOMI th1 th2 th3 =
+   MATCH_MP (MATCH_MP (MATCH_MP il_domi th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+DOMI\_TRANS, DOMS\_TRANS, SL\_DOMS
+\ENDDOC
+
+\section{MONO\_SPEAKS\_FOR}
+
+\index{MONO\_SPEAKS\_FOR}
+
+% (***********************************************************
+% * MONO_SPEAKS_FOR
+% *
+% * MONO_SPEAKS_FOR : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies Mono_speaks_for to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *         A1 |- (M,Oi,Os) sat P speaks_for P'
+% *         A2 |- (M,Oi,Os) sat Q speaks_for Q'
+% *  ----------------------------------------------------------------- MONO_SPEAKS_FOR
+% *  A1 u A2 |- (M,Oi,Os) sat (P quoting Q) speaks_for (P' quoting Q')
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the two
+% * theorems.
+% ***********************************************************)
+% fun MONO_SPEAKS_FOR th1 th2 =
+%    (MATCH_MP (MATCH_MP Mono_speaks_for th1) th2);
+\DOC{MONO\_SPEAKS\_FOR}{MONO\_SPEAKS\_FOR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|MONO_SPEAKS_FOR : thm -> thm -> thm|}\egroup
+
+
+\SYNOPSIS
+Applies Mono_speaks_for to theorems in the access-control logic
+
+\DESCRIBE
+
+\begin{scriptsize}
+\begin{verbatim}
+      A1 |- (M,Oi,Os) sat P speaks_for P'
+      A2 |- (M,Oi,Os) sat Q speaks_for Q'
+ ------------------------------------------------------------------ MONO_SPEAKS_FOR
+  A1 u A2 |- (M,Oi,Os) sat (P quoting Q) speaks_for (P' quoting Q')
+\end{verbatim}
+\end{scriptsize}
+
+
+\FAILURE 
+Fails unless the types are consistent among the two theorems.
+
+\EXAMPLE
+\begin{holboxed}
+  \begin{scriptsize}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``(P speaks_for P'):('Prop,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat P speaks_for P' : thm
+- val th2 = ACL_ASSUM ``(Q speaks_for Q'):('Prop,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Q speaks_for Q' : thm
+- MONO_SPEAKS_FOR th1 th1;
+> val it =  [.] |- (M,Oi,Os) sat P quoting P speaks_for P' quoting P' : thm
+\end{verbatim}
+  \end{scriptsize}
+
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun MONO_SPEAKS_FOR th1 th2 =
+   (MATCH_MP (MATCH_MP Mono_speaks_for th1) th2);
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+SPEAKS\_FOR, IDEMP\_SPEAKS\_FOR, TRANS\_SPEAKS\_FOR
+\ENDDOC
+
+\section{MP\_SAYS}
+
+\index{MP\_SAYS}
+
+
+
+% (***********************************************************
+% * MP_SAYS
+% *
+% * MP_SAYS : term -> term -> term -> thm
+% *
+% * SYNOPSIS
+% * implements MP Says rule 
+% *
+% * DESCRIPTION
+% *
+% *  ----------------------------------------------------  MP_SAYS P f1 f2
+% *  |- (M,Oi,Os) sat (P says (f1 impf f2)) impf
+% *     ((P says f1) impf (P says f2))
+% *
+% * FAILURE
+% * Fails unless princ is a principal, f1 and f2 are terms in the
+% * access-control logic, and the types of princ, f1, and f2
+% * are all consistent.
+% ***********************************************************)
+\DOC{MP\_SAYS}{MP\_SAYS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|MP_SAYS : term -> term -> term -> thm|}\egroup
+
+\SYNOPSIS
+Implements the \emph{MP Says} rule.
+
+\DESCRIBE
+
+\begin{verbatim}
+
+ ----------------------------------- MP_SAYS P f1 f2
+ |- (M,Oi,Os) sat 
+     (P says (f1 impf f2)) impf 
+      ((P says f1) impf (P says f2))
+\end{verbatim}
+
+\FAILURE 
+Fails unless $princ$ is a principal, $f_1$ and $f_2$ are
+terms in the access-control logic, and the types of $princ$, $f_1$,
+and $f_2$ are all consistent.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- MP_SAYS ``Alice:'name Princ`` ``p:('propvar,'name,'Int,'Sec)Form`` 
+          ``q:('propvar,'name,'Int,'Sec)Form``;
+> val it =
+  |- (M,Oi,Os) sat
+     Alice says (p impf q) impf Alice says p impf Alice says q : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun MP_SAYS princ f1 f2 = 
+let
+ val f1_type = type_of f1
+ val f1_type_parts = dest_type f1_type
+ val [prop_type, name_type, integ_type, sec_type] = 
+     snd f1_type_parts
+ val M_type = 
+   mk_type ("Kripke",
+            [prop_type, ``:'b``, name_type, integ_type, sec_type])
+ in
+   ISPECL
+   [``M : ^(ty_antiq M_type)``,``Oi : ^(ty_antiq integ_type) po``,
+    ``Os : ^(ty_antiq sec_type) po``, princ, f1, f2]
+   MP_Says
+ end;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+ACL\_MP, SAYS
+\ENDDOC
+
+\section{QUOTING\_LR}
+
+\index{QUOTING\_LR}
+
+% (***********************************************************
+% * QUOTING_LR
+% *
+% * QUOTING_LR : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies quoting rule to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *               th [P quoting Q says f/A]
+% *  -----------------------------QUOTING_LR
+% *               th [P says Q says f/A]
+% *
+% * FAILURE
+% * Fails unless the input theorem is of the form P quoting Q
+% * says f.
+% ***********************************************************)
+\DOC{QUOTING\_LR}{QUOTING\_LR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|QUOTING_LR : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies quoting rule to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+ th [P quoting Q says f/A]
+ ------------------------- QUOTING_LR
+   th [P says Q says f/A]
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem 
+the access-control logic.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+   ACL_ASSUM 
+   ``(Alice quoting Bob says f):('propVar,'pName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat Alice quoting Bob says f : thm
+- QUOTING_LR th;
+> val it =  [.] |- (M,Oi,Os) sat Alice says Bob says f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun QUOTING_LR th = REWRITE_RULE [SPEC_ALL Quoting_Eq] th;
+\end{verbatim}
+\end{holboxed}
+
+
+\SEEALSO
+QUOTING\_RL
+\ENDDOC
+
+\section{QUOTING\_RL}
+
+\index{QUOTING\_RL}
+
+% (***********************************************************
+% * QUOTING_RL
+% *
+% * QUOTING_RL : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies quoting rule to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *               th [P says Q says f/A]
+% *  -----------------------------QUOTING_RL
+% *               th [P quoting Q says f/A]
+% *
+% * FAILURE
+% * Fails unless the input theorem is of the form P quoting Q
+% * says f.
+% ***********************************************************)
+\DOC{QUOTING\_RL}{QUOTING\_RL\hfill(acl\_infRules)}
+
+\noindent{\small\verb|QUOTING_RL : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies quoting rule to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+  th [P says Q says f/A]
+ ------------------------- QUOTING_RL
+ th [P quoting Q says f/A]
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem 
+the access-control logic.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+   ACL_ASSUM 
+   ``(Alice says Bob says f):('propVar,'pName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat Alice says Bob says f : thm
+- QUOTING_RL th;
+> val it =  [.] |- (M,Oi,Os) sat Alice quoting Bob says f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun QUOTING_RL th = REWRITE_RULE [GSYM(SPEC_ALL Quoting_Eq)] th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+QUOTING\_LR
+\ENDDOC
+
+\section{REPS}
+
+\index{REPS}
+
+
+% (***********************************************************
+% * REPS
+% *
+% * REPS : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Concludes statement f given theorems on delegation, quoting, and 
+% * jurisdiction.
+% *
+% * DESCRIPTION
+% *
+% * A1 |- (M,Oi,Os) sat reps P Q f  A2 |- (M,Oi,Os) sat (P quoting Q) says f
+% *                            A3 |- (M,Oi,Os) sat Q controls f
+% *     --------------------------------------------------------  REPS
+% *                             A1 u A2 u A3 |- (M,Oi,Os) sat f
+% *
+% * FAILURE
+% * Fails unless M, Oi, Os, P, Q, and f match in all three theorems.
+% ***********************************************************)
+\DOC{REPS}{REPS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|REPS : thm -> thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Concludes statement f given theorems on delegation, quoting, and 
+jurisdiction.
+
+\DESCRIBE
+\begin{verbatim}
+
+        A1 |- (M,Oi,Os) sat reps P Q f  
+   A2 |- (M,Oi,Os) sat (P quoting Q) says f
+       A3 |- (M,Oi,Os) sat Q controls f
+   ---------------------------------------- REPS
+       A1 u A2 u A3 |- (M,Oi,Os) sat f
+\end{verbatim}
+
+\FAILURE 
+Fails unless M, Oi, Os, P, Q, and f match in all three
+theorems and their types are the same.  
+
+\EXAMPLE The following example shows Alice as Bob's delegate
+requesting $f$ on Bob's behalf and deriving $f$ based on the
+\texttt{REPS} rule.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(reps Alice Bob f):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat reps Alice Bob f : thm
+- val th2 = 
+   ACL_ASSUM 
+   ``((Alice quoting Bob) says f):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Alice quoting Bob says f : thm
+- val th3 = 
+   ACL_ASSUM ``(Bob controls f):('propVar,'pName,'Int,'Sec)Form``;
+> val th3 =  [.] |- (M,Oi,Os) sat Bob controls f : thm
+- REPS th1 th2 th3;
+> val it =  [...] |- (M,Oi,Os) sat f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun REPS th1 th2 th3 = 
+    MATCH_MP(MATCH_MP (MATCH_MP (SPEC_ALL Reps) th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+REP\_SAYS
+\ENDDOC
+
+\section{REP\_SAYS}
+
+\index{REP\_SAYS}
+
+% (***********************************************************
+% * REP_SAYS
+% *
+% * REP_SAYS : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Concludes statement f given theorems on delegation, quoting, and 
+% * jurisdiction.
+% *
+% * DESCRIPTION
+% *
+% * A1 |- (M,Oi,Os) sat reps P Q f  A2 |- (M,Oi,Os) sat (P quoting Q) says f
+% *     --------------------------------------------------------  REP_SAYS
+% *                             A1 u A2 |- (M,Oi,Os) sat Q says f
+% *
+% * FAILURE
+% * Fails unless M, Oi, Os, P, Q, and f match in all three theorems.
+% ***********************************************************)
+\DOC{REP\_SAYS}{REP\_SAYS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|REP_SAYS : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Concludes statement f given theorems on delegation, quoting, and 
+jurisdiction.
+
+\DESCRIBE
+\begin{verbatim}
+
+      A1 |- (M,Oi,Os) sat reps P Q f  
+  A2 |- (M,Oi,Os) sat (P quoting Q) says f
+  ---------------------------------------- REP_SAYS
+    A1 u A2 |- (M,Oi,Os) sat Q says f
+\end{verbatim}
+
+\FAILURE 
+Fails unless $M, O_i, O_s, P, Q,$ and $f$ match in all three
+theorems and have the same types.
+
+\EXAMPLE
+
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM ``(reps Alice Bob f):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat reps Alice Bob f : thm
+- val th2 = 
+   ACL_ASSUM 
+   ``((Alice quoting Bob) says f):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Alice quoting Bob says f : thm
+- REP_SAYS th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat Bob says f : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun REP_SAYS th1 th2 = 
+     MATCH_MP (MATCH_MP (SPEC_ALL Rep_Says) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+REPS
+\ENDDOC
+
+\section{SAYS}
+
+\index{SAYS}
+
+
+% (***********************************************************
+% * SAYS
+% *
+% * SAYS : term -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies the Says inference rule to a theorem A |- (M,Oi,Os) sat f 
+% * in the access-control logic.
+% *
+% * DESCRIPTION
+% *
+% *             A |- (M,Oi,Os) sat f
+% *         ------------------------- SAYS P
+% *         A |- (M,Oi,Os) sat P says f
+% *
+% * FAILURE
+% * Fails unless the types of f and P are consistent and P is
+% * type 'pname Princ
+% ***********************************************************)
+\DOC{SAYS}{SAYS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|SAYS : term -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies the Says inference rule to a theorem \texttt{A |- (M,Oi,Os) sat f}
+in the access-control logic.
+
+\DESCRIBE The \texttt{SAYS} rule applied to a principal $P$ and a
+theorem of the form \texttt{A |- (M,Oi,Os) sat f} produces the theorem
+\texttt{A |- (M,Oi,Os) sat (P says f)}.
+\begin{verbatim}
+             A |- (M,Oi,Os) sat f
+         --------------------------- SAYS P
+         A |- (M,Oi,Os) sat P says f
+\end{verbatim}
+
+\FAILURE
+Fails unless the types of $f$ and $P$ are consistent and $P$ is of type
+\texttt{'pname Princ}.
+
+\EXAMPLE
+The following example shows how theorem \texttt{th1 = |- (M,Oi,Os) sat
+  p orf notf p} is modified by \texttt{SAYS ``Alice:'c Princ``}.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = ACL_TAUT ``(p orf notf p):('a,'c,'d,'e)Form``;
+> val th1 = |- (M,Oi,Os) sat p orf notf p : thm
+- SAYS ``Alice:'c Princ`` th1;
+> val it = |- (M,Oi,Os) sat Alice says (p orf notf p) : thm
+\end{verbatim}
+\end{holboxed}
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun SAYS Q th = (SPEC Q (MATCH_MP Says th));
+\end{verbatim}
+\end{holboxed}
+\SEEALSO
+MP\_SAYS
+\ENDDOC
+
+\section{SAYS\_SIMP1}
+
+\index{SAYS\_SIMP1}
+
+% (***********************************************************
+% * SAYS_SIMP1
+% *
+% * SAYS_SIMP1 : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies the Says_Simplification1 rule to theorems in the
+% * access-control logic
+% *
+% * DESCRIPTION
+% *
+% *   A |- (M,Oi,Os) sat P says (f1 andf f2)
+% *  ---------------------------------- SAYS_SIMP1
+% *          A |- (M,Oi,Os) sat P says f1
+% *
+% * FAILURE
+% * Fails unless the input theorem is a conjunction within a
+% * says statement in the access-control logic
+% ***********************************************************)
+\DOC{SAYS_SIMP1}{SAYS_SIMP1\hfill(acl\_infRules)}
+
+\noindent{\small\verb|SAYS_SIMP1 : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies the Says_Simplification1 rule to conjunctive statements within
+says statements in theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+   A |- (M,Oi,Os) sat P says (f1 andf f2)
+   -------------------------------------- SAYS_SIMP1
+          A |- (M,Oi,Os) sat P says f1
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a conjunction within a
+says statement in the access-control logic.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+   ACL_ASSUM 
+   ``(Alice says (p andf q)):('propVar,'pName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat Alice says (p andf q) : thm
+- SAYS_SIMP1 th;
+> val it =  [.] |- (M,Oi,Os) sat Alice says p : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun SAYS_SIMP1 th = MATCH_MP (SPEC_ALL Says_Simplification1) th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+SAYS\_SIMP2, ACL\_SIMP1, ACL\_SIMP2
+\ENDDOC
+
+\section{SAYS\_SIMP2}
+
+\index{SAYS\_SIMP2}
+
+% (***********************************************************
+% * SAYS_SIMP2
+% *
+% * SAYS_SIMP2 : thm -> thm
+% *
+% * SYNOPSIS
+% * Applies the Says_Simplification2 rule to conjunctive statements within
+% * says statements in theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *   A |- (M,Oi,Os) sat P says (f1 andf f2)
+% *  ---------------------------------- SAYS_SIMP2
+% *          A |- (M,Oi,Os) sat P says f2
+% *
+% * FAILURE
+% * Fails unless the input theorem is a conjunction within a
+% * says statement in the access-control logic
+% ***********************************************************)
+\DOC{SAYS_SIMP2}{SAYS_SIMP2\hfill(acl\_infRules)}
+
+\noindent{\small\verb|SAYS_SIMP2 : thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies the Says_Simplification2 rule to conjunctive statements within
+says statements in theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+   A |- (M,Oi,Os) sat P says (f1 andf f2)
+   -------------------------------------- SAYS_SIMP2
+          A |- (M,Oi,Os) sat P says f2
+\end{verbatim}
+
+\FAILURE
+Fails unless the input theorem is a conjunction within a
+says statement in the access-control logic.
+
+\EXAMPLE
+\begin{holboxed}
+\begin{verbatim}
+- val th = 
+   ACL_ASSUM 
+   ``(Alice says (p andf q)):('propVar,'pName,'Int,'Sec)Form``;
+> val th =  [.] |- (M,Oi,Os) sat Alice says (p andf q) : thm
+- SAYS_SIMP2 th;
+> val it =  [.] |- (M,Oi,Os) sat Alice says q : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun SAYS_SIMP2 th = MATCH_MP (SPEC_ALL Says_Simplification2) th;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+SAYS\_SIMP1, ACL\_SIMP1, ACL\_SIMP2
+\ENDDOC
+
+\section{SL\_DOMS}
+
+\index{SL\_DOMS}
+
+% (***********************************************************
+% * SL_DOMS
+% *
+% * SL_DOMS : thm -> thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies sl_doms to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *       A1 |- (M,Oi,Os) sat sl P eqs l1
+% *       A2 |- (M,Oi,Os) sat sl Q eqs l2  
+% *       A3 |- (M,Oi,Os) sat l2 doms l1
+% *  -------------------------------------------- SL_DOMS
+% *  A1 u A2 u A3 |- (M,Oi,Os) sat sl Q doms sl P
+% *
+% * FAILURE
+% * Fails unless the types are consistent across the three
+% * input theorems
+% ***********************************************************)
+\DOC{SL\_DOMS}{SL\_DOMS\hfill(acl\_infRules)}
+
+\noindent{\small\verb|SL_DOMS : thm -> thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies \emph{sl\_doms} to theorems in the access-control logic.
+
+\DESCRIBE
+
+\begin{verbatim}
+        A1 |- (M,Oi,Os) sat sl P eqs l1
+        A2 |- (M,Oi,Os) sat sl Q eqs l2
+        A3 |- (M,Oi,Os) sat l2 doms l1
+  -------------------------------------------- SL_DOMS
+  A1 u A2 u A3 |- (M,Oi,Os) sat sl Q doms sl P
+\end{verbatim}
+
+\FAILURE 
+Fails unless the types are consistent across the three
+input theorems.
+
+\EXAMPLE 
+The following example shows that when \texttt{l2 doms l1},
+\texttt{(sl Alice) eqs l1}, and \texttt{(sl Bob) eqs l2}, then
+\texttt{(sl Bob) doms (sl Alice)}, i.e., when $l_2 \text{ doms }l_1$,
+Alice's and Bob's security levels are $l_1$ and $l_2$, respectively,
+then Bob's security level dominates Alice's.
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM 
+   ``((sl Alice) eqs l1):('propVar,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat sl Alice eqs l1 : thm
+- val th2 = 
+   ACL_ASSUM ``((sl Bob) eqs l2):('propVar,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat sl Bob eqs l2 : thm
+- val levelsRelation = 
+   ACL_ASSUM ``(l2 doms l1):('propVar,'pName,'Int,'Sec)Form``;
+> val levelsRelation =  [.] |- (M,Oi,Os) sat l2 doms l1 : thm
+- SL_DOMS th1 th2 levelsRelation;
+> val it =  [...] |- (M,Oi,Os) sat sl Bob doms sl Alice : thm
+\end{verbatim}
+\end{holboxed}
+
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun SL_DOMS th1 th2 th3 =
+   MATCH_MP (MATCH_MP (MATCH_MP sl_doms th1) th2) th3;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+DOMI\_TRANS, DOMS\_TRANS, IL\_DOMI
+\ENDDOC
+
+\section{SPEAKS\_FOR}
+
+\index{SPEAKS\_FOR}
+
+% (***********************************************************
+% * SPEAKS_FOR
+% *
+% * SPEAKS_FOR : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies Derived Speaks For to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *  A1 |- (M,Oi,Os) sat P speaks_for Q   A2 |- (M,Oi,Os) sat P says f
+% *  ----------------------------------------------------------- SPEAKS_FOR
+% *                    A1 u A2 |- (M,Oi,Os) sat Q says f
+% *
+% * FAILURE
+% * Fails unless the first theorem is of the form P speaks_for Q, the
+% * second is P says f, and the types are the same.
+% ***********************************************************)
+\DOC{SPEAKS_FOR}{SPEAKS_FOR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|SPEAKS_FOR : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies \emph{Derived Speaks For} to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+  A1 |- (M,Oi,Os) sat P speaks_for Q
+     A2 |- (M,Oi,Os) sat P says f
+  ---------------------------------- SPEAKS_FOR
+   A1 u A2 |- (M,Oi,Os) sat Q says f
+\end{verbatim}
+
+\FAILURE Fails unless the first theorem is of the form \texttt{P
+  speaksfor Q}, the second is \texttt{P says f}, and the types are
+the same.
+
+\EXAMPLE
+
+\begin{holboxed}
+\begin{verbatim}
+- val th1 = 
+   ACL_ASSUM 
+   ``(Alice speaks_for Bob):('propVar, 'pName, 'Int, 'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat Alice speaks_for Bob : thm
+- val th2 = 
+   ACL_ASSUM ``(Alice says f):('propVar, 'pName, 'Int, 'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Alice says f : thm
+- SPEAKS_FOR th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat Bob says f : thm
+\end{verbatim}
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun SPEAKS_FOR th1 th2 =
+    MATCH_MP (MATCH_MP (SPEC_ALL Derived_Speaks_For) th1) th2;
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+TRANS\_SPEAKS\_FOR, IDEMP\_SPEAKS\_FOR, MONO\_SPEAKS\_FOR, SAYS
+\ENDDOC
+
+\section{TRANS\_SPEAKS\_FOR}
+
+\index{TRANS\_SPEAKS\_FOR}
+
+% (***********************************************************
+% * TRANS_SPEAKS_FOR
+% *
+% * TRANS_SPEAKS_FOR : thm -> thm -> thm
+% *
+% * SYNOPSIS
+% * Applies Trans_Speaks_For to theorems in the access-control logic
+% *
+% * DESCRIPTION
+% *
+% *    A1 |- (M,Oi,Os) sat P speaks_for Q
+% *    A2 |- (M,Oi,Os) sat Q speaks_for R
+% *  --------------------------------------- TRANS_SPEAKS_FOR
+% *  A1 u A2 |- (M,Oi,Os) sat P speaks_for R
+% *
+% * FAILURE
+% * Fails unless the types are consistent among the two
+% * theorems.
+% ***********************************************************)
+% fun TRANS_SPEAKS_FOR th1 th2 =
+%    (MATCH_MP (MATCH_MP Trans_Speaks_For th1) th2);
+\DOC{TRANS\_SPEAKS_FOR}{TRANS\_SPEAKS_FOR\hfill(acl\_infRules)}
+
+\noindent{\small\verb|TRANS_SPEAKS_FOR : thm -> thm -> thm|}\egroup
+
+\SYNOPSIS
+Applies Trans\_Speaks\_For to theorems in the access-control logic.
+
+\DESCRIBE
+\begin{verbatim}
+  A1 |- (M,Oi,Os) sat P speaks_for Q
+  A2 |- (M,Oi,Os) sat Q speaks_for R
+----------------------------------------- TRANS_SPEAKS_FOR
+  A1 u A2 |- (M,Oi,Os) sat P speaks_for R
+\end{verbatim}
+
+\FAILURE 
+Fails unless the types are consistent among the two
+theorems.
+
+\EXAMPLE
+
+\begin{holboxed}
+  \begin{scriptsize}
+\begin{verbatim}
+- val th1 = ACL_ASSUM ``(P speaks_for Q):('Prop,'pName,'Int,'Sec)Form``;
+> val th1 =  [.] |- (M,Oi,Os) sat P speaks_for Q : thm
+- val th2 = ACL_ASSUM ``(Q speaks_for R):('Prop,'pName,'Int,'Sec)Form``;
+> val th2 =  [.] |- (M,Oi,Os) sat Q speaks_for R : thm
+- TRANS_SPEAKS_FOR th1 th2;
+> val it =  [..] |- (M,Oi,Os) sat P speaks_for R : thm
+\end{verbatim}
+  \end{scriptsize}
+
+\end{holboxed}
+
+\IMPLEMENTATION
+\begin{holboxed}
+\begin{verbatim}
+fun TRANS_SPEAKS_FOR th1 th2 =
+   (MATCH_MP (MATCH_MP Trans_Speaks_For th1) th2);
+\end{verbatim}
+\end{holboxed}
+
+\SEEALSO
+SPEAKS\_FOR, IDEMP\_SPEAKS\_FOR, MONO\_SPEAKS\_FOR, SAYS
+\ENDDOC
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "aclHOLManual"
+%%% End:

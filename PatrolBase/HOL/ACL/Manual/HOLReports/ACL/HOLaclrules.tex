@@ -1,0 +1,411 @@
+\newcommand{\HOLaclrulesDate}{19 January 2017}
+\newcommand{\HOLaclrulesTime}{15:38}
+\begin{SaveVerbatim}{HOLaclrulesDefinitionssatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesDefinitionssatXXdef}{\UseVerbatim{HOLaclrulesDefinitionssatXXdef}}
+\newcommand{\HOLaclrulesDefinitions}{
+\HOLDfnTag{aclrules}{sat_def}\HOLaclrulesDefinitionssatXXdef
+}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsAndXXSays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{meet} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{andf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsAndXXSays}{\UseVerbatim{HOLaclrulesTheoremsAndXXSays}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsAndXXSaysXXEq}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{meet} \HOLFreeVar{Q} \HOLConst{says} \HOLFreeVar{f} \HOLSymConst{\HOLTokenEquiv{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{says} \HOLFreeVar{f} \HOLConst{andf} \HOLFreeVar{Q} \HOLConst{says} \HOLFreeVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsAndXXSaysXXEq}{\UseVerbatim{HOLaclrulesTheoremsAndXXSaysXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsandXXsaysXXlemma}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{meet} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{andf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsandXXsaysXXlemma}{\UseVerbatim{HOLaclrulesTheoremsandXXsaysXXlemma}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsControlsXXEq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f} \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsControlsXXEq}{\UseVerbatim{HOLaclrulesTheoremsControlsXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsDIFFXXUNIVXXSUBSET}
+\HOLTokenTurnstile{} (\ensuremath{\cal{U}}(:'a) \HOLConst{DIFF} \HOLFreeVar{s} \HOLConst{\HOLTokenUnion{}} \HOLFreeVar{t} \HOLSymConst{=} \ensuremath{\cal{U}}(:'a)) \HOLSymConst{\HOLTokenEquiv{}} \HOLFreeVar{s} \HOLConst{\HOLTokenSubset{}} \HOLFreeVar{t}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsDIFFXXUNIVXXSUBSET}{\UseVerbatim{HOLaclrulesTheoremsDIFFXXUNIVXXSUBSET}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomiXXantisymmetric}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{eqi} \HOLBoundVar{l\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomiXXantisymmetric}{\UseVerbatim{HOLaclrulesTheoremsdomiXXantisymmetric}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomiXXreflexive}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l} \HOLConst{domi} \HOLBoundVar{l}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomiXXreflexive}{\UseVerbatim{HOLaclrulesTheoremsdomiXXreflexive}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomiXXtransitive}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLBoundVar{l\sb{\mathrm{3}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomiXXtransitive}{\UseVerbatim{HOLaclrulesTheoremsdomiXXtransitive}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomsXXantisymmetric}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{eqs} \HOLBoundVar{l\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomsXXantisymmetric}{\UseVerbatim{HOLaclrulesTheoremsdomsXXantisymmetric}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomsXXreflexive}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l} \HOLConst{doms} \HOLBoundVar{l}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomsXXreflexive}{\UseVerbatim{HOLaclrulesTheoremsdomsXXreflexive}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsdomsXXtransitive}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLBoundVar{l\sb{\mathrm{3}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsdomsXXtransitive}{\UseVerbatim{HOLaclrulesTheoremsdomsXXtransitive}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXandXXimpf}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLConst{andf} (\HOLBoundVar{f\sb{\mathrm{2}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{1}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXandXXimpf}{\UseVerbatim{HOLaclrulesTheoremseqfXXandXXimpf}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXandfOne}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{andf} \HOLBoundVar{g} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sp{\prime}} \HOLConst{andf} \HOLBoundVar{g}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXandfOne}{\UseVerbatim{HOLaclrulesTheoremseqfXXandfOne}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXandfTwo}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{andf} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{andf} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXandfTwo}{\UseVerbatim{HOLaclrulesTheoremseqfXXandfTwo}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXcontrols}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{controls} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXcontrols}{\UseVerbatim{HOLaclrulesTheoremseqfXXcontrols}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXeq}
+\HOLTokenTurnstile{} (\HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M} (\HOLFreeVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLFreeVar{f\sb{\mathrm{2}}}) \HOLSymConst{=} \ensuremath{\cal{U}}(:'b)) \HOLSymConst{\HOLTokenEquiv{}}
+   (\HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M} \HOLFreeVar{f\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXeq}{\UseVerbatim{HOLaclrulesTheoremseqfXXeq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXeqfOne}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{g} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sp{\prime}} \HOLConst{eqf} \HOLBoundVar{g}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXeqfOne}{\UseVerbatim{HOLaclrulesTheoremseqfXXeqfOne}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXeqfTwo}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{eqf} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXeqfTwo}{\UseVerbatim{HOLaclrulesTheoremseqfXXeqfTwo}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXimpfOne}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{g} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sp{\prime}} \HOLConst{impf} \HOLBoundVar{g}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXimpfOne}{\UseVerbatim{HOLaclrulesTheoremseqfXXimpfOne}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXimpfTwo}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{impf} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{impf} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXimpfTwo}{\UseVerbatim{HOLaclrulesTheoremseqfXXimpfTwo}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXnotf}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{notf} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{notf} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXnotf}{\UseVerbatim{HOLaclrulesTheoremseqfXXnotf}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXorfOne}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{orf} \HOLBoundVar{g} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sp{\prime}} \HOLConst{orf} \HOLBoundVar{g}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXorfOne}{\UseVerbatim{HOLaclrulesTheoremseqfXXorfOne}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXorfTwo}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}} \HOLBoundVar{g}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{orf} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{g} \HOLConst{orf} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXorfTwo}{\UseVerbatim{HOLaclrulesTheoremseqfXXorfTwo}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXreps}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXreps}{\UseVerbatim{HOLaclrulesTheoremseqfXXreps}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXsat}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     ((\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXsat}{\UseVerbatim{HOLaclrulesTheoremseqfXXsat}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqfXXsays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f} \HOLBoundVar{f\sp{\prime}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{f\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqfXXsays}{\UseVerbatim{HOLaclrulesTheoremseqfXXsays}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqiXXEq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{eqi} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{domi} \HOLBoundVar{l\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqiXXEq}{\UseVerbatim{HOLaclrulesTheoremseqiXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremseqsXXEq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{eqs} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{l\sb{\mathrm{1}}} \HOLConst{doms} \HOLBoundVar{l\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremseqsXXEq}{\UseVerbatim{HOLaclrulesTheoremseqsXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsIdempXXSpeaksXXFor}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{P}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsIdempXXSpeaksXXFor}{\UseVerbatim{HOLaclrulesTheoremsIdempXXSpeaksXXFor}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsImageXXcmp}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{R\sb{\mathrm{3}}} \HOLBoundVar{u}. (\HOLBoundVar{R\sb{\mathrm{1}}} \HOLConst{O} \HOLBoundVar{R\sb{\mathrm{2}}}) \HOLBoundVar{u} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{u} \HOLConst{\HOLTokenSubset{}} \HOLTokenLeftbrace{}\HOLBoundVar{y} \HOLTokenBar{} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{y} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsImageXXcmp}{\UseVerbatim{HOLaclrulesTheoremsImageXXcmp}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsImageXXSUBSET}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{R\sb{\mathrm{2}}}. \HOLBoundVar{R\sb{\mathrm{2}}} \HOLConst{RSUBSET} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{w}. \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{w}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsImageXXSUBSET}{\UseVerbatim{HOLaclrulesTheoremsImageXXSUBSET}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsImageXXUNION}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w}. (\HOLBoundVar{R\sb{\mathrm{1}}} \HOLConst{RUNION} \HOLBoundVar{R\sb{\mathrm{2}}}) \HOLBoundVar{w} \HOLSymConst{=} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{w} \HOLConst{\HOLTokenUnion{}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsImageXXUNION}{\UseVerbatim{HOLaclrulesTheoremsImageXXUNION}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsINTERXXEQXXUNIV}
+\HOLTokenTurnstile{} (\HOLFreeVar{s} \HOLConst{\HOLTokenInter{}} \HOLFreeVar{t} \HOLSymConst{=} \ensuremath{\cal{U}}(:'a)) \HOLSymConst{\HOLTokenEquiv{}} (\HOLFreeVar{s} \HOLSymConst{=} \ensuremath{\cal{U}}(:'a)) \HOLSymConst{\HOLTokenConj{}} (\HOLFreeVar{t} \HOLSymConst{=} \ensuremath{\cal{U}}(:'a))
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsINTERXXEQXXUNIV}{\UseVerbatim{HOLaclrulesTheoremsINTERXXEQXXUNIV}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsModusXXPonens}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsModusXXPonens}{\UseVerbatim{HOLaclrulesTheoremsModusXXPonens}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsMonoXXspeaksXXfor}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{P\sp{\prime}} \HOLBoundVar{Q} \HOLBoundVar{Q\sp{\prime}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{P\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{Q} \HOLConst{speaks_for} \HOLBoundVar{Q\sp{\prime}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q} \HOLConst{speaks_for} \HOLBoundVar{P\sp{\prime}} \HOLConst{quoting} \HOLBoundVar{Q\sp{\prime}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsMonoXXspeaksXXfor}{\UseVerbatim{HOLaclrulesTheoremsMonoXXspeaksXXfor}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsMPXXSays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLBoundVar{P} \HOLConst{says} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLConst{impf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsMPXXSays}{\UseVerbatim{HOLaclrulesTheoremsMPXXSays}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsQuoting}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{eqf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsQuoting}{\UseVerbatim{HOLaclrulesTheoremsQuoting}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsQuotingXXEq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsQuotingXXEq}{\UseVerbatim{HOLaclrulesTheoremsQuotingXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsrepsXXdefXXlemma}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}) \HOLSymConst{=}
+     \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsrepsXXdefXXlemma}{\UseVerbatim{HOLaclrulesTheoremsrepsXXdefXXlemma}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsRepsXXEq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{reps} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{quoting} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsRepsXXEq}{\UseVerbatim{HOLaclrulesTheoremsRepsXXEq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremssatXXallworld}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{f}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLSymConst{\HOLTokenEquiv{}} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremssatXXallworld}{\UseVerbatim{HOLaclrulesTheoremssatXXallworld}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremssatXXandfXXeqXXandXXsat}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLConst{andf} \HOLFreeVar{f\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenEquiv{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenConj{}} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremssatXXandfXXeqXXandXXsat}{\UseVerbatim{HOLaclrulesTheoremssatXXandfXXeqXXandXXsat}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremssatXXTT}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{TT}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremssatXXTT}{\UseVerbatim{HOLaclrulesTheoremssatXXTT}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsSays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f} \HOLSymConst{\HOLTokenImp{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsSays}{\UseVerbatim{HOLaclrulesTheoremsSays}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremssaysXXandXXlemma}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{andf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{P} \HOLConst{meet} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremssaysXXandXXlemma}{\UseVerbatim{HOLaclrulesTheoremssaysXXandXXlemma}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsSpeaksXXFor}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{f}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{Q} \HOLConst{impf} \HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f} \HOLConst{impf} \HOLBoundVar{Q} \HOLConst{says} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsSpeaksXXFor}{\UseVerbatim{HOLaclrulesTheoremsSpeaksXXFor}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsspeaksXXforXXSUBSET}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{3}}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{R\sb{\mathrm{1}}}.
+     \HOLBoundVar{R\sb{\mathrm{2}}} \HOLConst{RSUBSET} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{w}. \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}}\HOLTokenRightbrace{} \HOLConst{\HOLTokenSubset{}} \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsspeaksXXforXXSUBSET}{\UseVerbatim{HOLaclrulesTheoremsspeaksXXforXXSUBSET}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsSUBSETXXImageXXSUBSET}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{R\sb{\mathrm{3}}}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{w\sb{\mathrm{1}}}. \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w\sb{\mathrm{1}}} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{w\sb{\mathrm{1}}}) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{w}. \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}}\HOLTokenRightbrace{} \HOLConst{\HOLTokenSubset{}} \HOLTokenLeftbrace{}\HOLBoundVar{w} \HOLTokenBar{} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLBoundVar{w} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{3}}}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsSUBSETXXImageXXSUBSET}{\UseVerbatim{HOLaclrulesTheoremsSUBSETXXImageXXSUBSET}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsTransXXSpeaksXXFor}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{Q} \HOLBoundVar{R}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{Q} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{Q} \HOLConst{speaks_for} \HOLBoundVar{R} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{P} \HOLConst{speaks_for} \HOLBoundVar{R}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsTransXXSpeaksXXFor}{\UseVerbatim{HOLaclrulesTheoremsTransXXSpeaksXXFor}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsUNIVXXDIFFXXSUBSET}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R\sb{\mathrm{1}}} \HOLBoundVar{R\sb{\mathrm{2}}}. \HOLBoundVar{R\sb{\mathrm{1}}} \HOLConst{\HOLTokenSubset{}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}} (\ensuremath{\cal{U}}(:'a) \HOLConst{DIFF} \HOLBoundVar{R\sb{\mathrm{1}}} \HOLConst{\HOLTokenUnion{}} \HOLBoundVar{R\sb{\mathrm{2}}} \HOLSymConst{=} \ensuremath{\cal{U}}(:'a))
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsUNIVXXDIFFXXSUBSET}{\UseVerbatim{HOLaclrulesTheoremsUNIVXXDIFFXXSUBSET}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXand}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{w}.
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{andf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXand}{\UseVerbatim{HOLaclrulesTheoremsworldXXand}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXeq}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{w}.
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{eqf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXeq}{\UseVerbatim{HOLaclrulesTheoremsworldXXeq}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXeqn}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{n\sb{\mathrm{1}}} \HOLBoundVar{n\sb{\mathrm{2}}} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLFreeVar{m} (\HOLBoundVar{n\sb{\mathrm{1}}} \HOLConst{eqn} \HOLBoundVar{n\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{n\sb{\mathrm{1}}} \HOLSymConst{=} \HOLBoundVar{n\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXeqn}{\UseVerbatim{HOLaclrulesTheoremsworldXXeqn}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXF}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenNotIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{FF}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXF}{\UseVerbatim{HOLaclrulesTheoremsworldXXF}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXimp}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{w}.
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXimp}{\UseVerbatim{HOLaclrulesTheoremsworldXXimp}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXlt}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{n\sb{\mathrm{1}}} \HOLBoundVar{n\sb{\mathrm{2}}} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLFreeVar{m} (\HOLBoundVar{n\sb{\mathrm{1}}} \HOLConst{lt} \HOLBoundVar{n\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{n\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLt{}} \HOLBoundVar{n\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXlt}{\UseVerbatim{HOLaclrulesTheoremsworldXXlt}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXlte}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{n\sb{\mathrm{1}}} \HOLBoundVar{n\sb{\mathrm{2}}} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLFreeVar{m} (\HOLBoundVar{n\sb{\mathrm{1}}} \HOLConst{lte} \HOLBoundVar{n\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{n\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenLeq{}} \HOLBoundVar{n\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXlte}{\UseVerbatim{HOLaclrulesTheoremsworldXXlte}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXnot}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{f} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLConst{notf} \HOLBoundVar{f}) \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{w} \HOLConst{\HOLTokenNotIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXnot}{\UseVerbatim{HOLaclrulesTheoremsworldXXnot}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXor}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{w}.
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} (\HOLBoundVar{f\sb{\mathrm{1}}} \HOLConst{orf} \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenDisj{}} \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLBoundVar{M} \HOLBoundVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXor}{\UseVerbatim{HOLaclrulesTheoremsworldXXor}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXsays}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{P} \HOLBoundVar{f} \HOLBoundVar{w}.
+     \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} (\HOLBoundVar{P} \HOLConst{says} \HOLBoundVar{f}) \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{v} \HOLConst{\HOLTokenIn{}} \HOLConst{Jext} (\HOLConst{jKS} \HOLBoundVar{M}) \HOLBoundVar{P} \HOLBoundVar{w} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{v} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXsays}{\UseVerbatim{HOLaclrulesTheoremsworldXXsays}}
+\begin{SaveVerbatim}{HOLaclrulesTheoremsworldXXT}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{w}. \HOLBoundVar{w} \HOLConst{\HOLTokenIn{}} \HOLConst{Efn} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLConst{TT}
+\end{SaveVerbatim}
+\newcommand{\HOLaclrulesTheoremsworldXXT}{\UseVerbatim{HOLaclrulesTheoremsworldXXT}}
+\newcommand{\HOLaclrulesTheorems}{
+\HOLThmTag{aclrules}{And_Says}\HOLaclrulesTheoremsAndXXSays
+\HOLThmTag{aclrules}{And_Says_Eq}\HOLaclrulesTheoremsAndXXSaysXXEq
+\HOLThmTag{aclrules}{and_says_lemma}\HOLaclrulesTheoremsandXXsaysXXlemma
+\HOLThmTag{aclrules}{Controls_Eq}\HOLaclrulesTheoremsControlsXXEq
+\HOLThmTag{aclrules}{DIFF_UNIV_SUBSET}\HOLaclrulesTheoremsDIFFXXUNIVXXSUBSET
+\HOLThmTag{aclrules}{domi_antisymmetric}\HOLaclrulesTheoremsdomiXXantisymmetric
+\HOLThmTag{aclrules}{domi_reflexive}\HOLaclrulesTheoremsdomiXXreflexive
+\HOLThmTag{aclrules}{domi_transitive}\HOLaclrulesTheoremsdomiXXtransitive
+\HOLThmTag{aclrules}{doms_antisymmetric}\HOLaclrulesTheoremsdomsXXantisymmetric
+\HOLThmTag{aclrules}{doms_reflexive}\HOLaclrulesTheoremsdomsXXreflexive
+\HOLThmTag{aclrules}{doms_transitive}\HOLaclrulesTheoremsdomsXXtransitive
+\HOLThmTag{aclrules}{eqf_and_impf}\HOLaclrulesTheoremseqfXXandXXimpf
+\HOLThmTag{aclrules}{eqf_andf1}\HOLaclrulesTheoremseqfXXandfOne
+\HOLThmTag{aclrules}{eqf_andf2}\HOLaclrulesTheoremseqfXXandfTwo
+\HOLThmTag{aclrules}{eqf_controls}\HOLaclrulesTheoremseqfXXcontrols
+\HOLThmTag{aclrules}{eqf_eq}\HOLaclrulesTheoremseqfXXeq
+\HOLThmTag{aclrules}{eqf_eqf1}\HOLaclrulesTheoremseqfXXeqfOne
+\HOLThmTag{aclrules}{eqf_eqf2}\HOLaclrulesTheoremseqfXXeqfTwo
+\HOLThmTag{aclrules}{eqf_impf1}\HOLaclrulesTheoremseqfXXimpfOne
+\HOLThmTag{aclrules}{eqf_impf2}\HOLaclrulesTheoremseqfXXimpfTwo
+\HOLThmTag{aclrules}{eqf_notf}\HOLaclrulesTheoremseqfXXnotf
+\HOLThmTag{aclrules}{eqf_orf1}\HOLaclrulesTheoremseqfXXorfOne
+\HOLThmTag{aclrules}{eqf_orf2}\HOLaclrulesTheoremseqfXXorfTwo
+\HOLThmTag{aclrules}{eqf_reps}\HOLaclrulesTheoremseqfXXreps
+\HOLThmTag{aclrules}{eqf_sat}\HOLaclrulesTheoremseqfXXsat
+\HOLThmTag{aclrules}{eqf_says}\HOLaclrulesTheoremseqfXXsays
+\HOLThmTag{aclrules}{eqi_Eq}\HOLaclrulesTheoremseqiXXEq
+\HOLThmTag{aclrules}{eqs_Eq}\HOLaclrulesTheoremseqsXXEq
+\HOLThmTag{aclrules}{Idemp_Speaks_For}\HOLaclrulesTheoremsIdempXXSpeaksXXFor
+\HOLThmTag{aclrules}{Image_cmp}\HOLaclrulesTheoremsImageXXcmp
+\HOLThmTag{aclrules}{Image_SUBSET}\HOLaclrulesTheoremsImageXXSUBSET
+\HOLThmTag{aclrules}{Image_UNION}\HOLaclrulesTheoremsImageXXUNION
+\HOLThmTag{aclrules}{INTER_EQ_UNIV}\HOLaclrulesTheoremsINTERXXEQXXUNIV
+\HOLThmTag{aclrules}{Modus_Ponens}\HOLaclrulesTheoremsModusXXPonens
+\HOLThmTag{aclrules}{Mono_speaks_for}\HOLaclrulesTheoremsMonoXXspeaksXXfor
+\HOLThmTag{aclrules}{MP_Says}\HOLaclrulesTheoremsMPXXSays
+\HOLThmTag{aclrules}{Quoting}\HOLaclrulesTheoremsQuoting
+\HOLThmTag{aclrules}{Quoting_Eq}\HOLaclrulesTheoremsQuotingXXEq
+\HOLThmTag{aclrules}{reps_def_lemma}\HOLaclrulesTheoremsrepsXXdefXXlemma
+\HOLThmTag{aclrules}{Reps_Eq}\HOLaclrulesTheoremsRepsXXEq
+\HOLThmTag{aclrules}{sat_allworld}\HOLaclrulesTheoremssatXXallworld
+\HOLThmTag{aclrules}{sat_andf_eq_and_sat}\HOLaclrulesTheoremssatXXandfXXeqXXandXXsat
+\HOLThmTag{aclrules}{sat_TT}\HOLaclrulesTheoremssatXXTT
+\HOLThmTag{aclrules}{Says}\HOLaclrulesTheoremsSays
+\HOLThmTag{aclrules}{says_and_lemma}\HOLaclrulesTheoremssaysXXandXXlemma
+\HOLThmTag{aclrules}{Speaks_For}\HOLaclrulesTheoremsSpeaksXXFor
+\HOLThmTag{aclrules}{speaks_for_SUBSET}\HOLaclrulesTheoremsspeaksXXforXXSUBSET
+\HOLThmTag{aclrules}{SUBSET_Image_SUBSET}\HOLaclrulesTheoremsSUBSETXXImageXXSUBSET
+\HOLThmTag{aclrules}{Trans_Speaks_For}\HOLaclrulesTheoremsTransXXSpeaksXXFor
+\HOLThmTag{aclrules}{UNIV_DIFF_SUBSET}\HOLaclrulesTheoremsUNIVXXDIFFXXSUBSET
+\HOLThmTag{aclrules}{world_and}\HOLaclrulesTheoremsworldXXand
+\HOLThmTag{aclrules}{world_eq}\HOLaclrulesTheoremsworldXXeq
+\HOLThmTag{aclrules}{world_eqn}\HOLaclrulesTheoremsworldXXeqn
+\HOLThmTag{aclrules}{world_F}\HOLaclrulesTheoremsworldXXF
+\HOLThmTag{aclrules}{world_imp}\HOLaclrulesTheoremsworldXXimp
+\HOLThmTag{aclrules}{world_lt}\HOLaclrulesTheoremsworldXXlt
+\HOLThmTag{aclrules}{world_lte}\HOLaclrulesTheoremsworldXXlte
+\HOLThmTag{aclrules}{world_not}\HOLaclrulesTheoremsworldXXnot
+\HOLThmTag{aclrules}{world_or}\HOLaclrulesTheoremsworldXXor
+\HOLThmTag{aclrules}{world_says}\HOLaclrulesTheoremsworldXXsays
+\HOLThmTag{aclrules}{world_T}\HOLaclrulesTheoremsworldXXT
+}

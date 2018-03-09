@@ -1,0 +1,53 @@
+\begin{thebibliography}{CMOV10}
+
+\bibitem[Bib75]{Biba77}
+K.~Biba.
+\newblock Integrity considerations for secure computer systems.
+\newblock Technical Report MTR-3153, MITRE Corporation, Bedford, MA, June 1975.
+
+\bibitem[BL73]{BL73}
+D.~E. Bell and L.~J. {La Padula}.
+\newblock Secure computer systems: Mathematical foundations.
+\newblock Technical Report Technical Report MTR-2547, Vol. I, MITRE
+  Corporation, Bedford, MA, March 1973.
+
+\bibitem[CMOV10]{DBLP:conf/mmmacns/ChinMOV10}
+Shiu-Kai Chin, Sarah Muccio, Susan Older, and Thomas N.~J. Vestal.
+\newblock Policy-based design and verification for mission assurance.
+\newblock In Igor~V. Kotenko and Victor~A. Skormin, editors, {\em MMM-ACNS},
+  volume 6258 of {\em Lecture Notes in Computer Science}, pages 125--138.
+  Springer, 2010.
+
+\bibitem[CO11]{ACST}
+Shiu-Kai Chin and Susan Older.
+\newblock {\em Access Control, Security, and Trust: A Logical Approach}.
+\newblock CRC Press, 2011.
+
+\bibitem[GM93]{HOL}
+M.J.C. Gordon and T.F. Melham.
+\newblock {\em Introduction to HOL: A theorem proving environment for higher
+  order logic}.
+\newblock Cambridge University Press, 1993.
+
+\bibitem[HOLa]{HOLDescription}
+{\em The HOL System Description}.
+\newblock http://hol.sourceforge.net/documentation.html.
+
+\bibitem[HOLb]{HOLLogic}
+{\em The HOL System Logic}.
+\newblock http://hol.sourceforge.net/documentation.html.
+
+\bibitem[HOLc]{HOLReference}
+{\em The HOL System Reference}.
+\newblock http://hol.sourceforge.net/documentation.html.
+
+\bibitem[HOLd]{HOLTutorial}
+{\em The {HOL} System Tutorial}.
+\newblock http://hol.sourceforge.net/documentation.html.
+
+\bibitem[OC12]{OC12}
+Susan Older and Shiu-Kai Chin.
+\newblock Engineering assurance at the undergraduate level.
+\newblock {\em IEEE Security \& Privacy}, 10(6):74--77, November/December 2012.
+
+\end{thebibliography}

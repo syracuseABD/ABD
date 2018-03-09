@@ -1,0 +1,67 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLIntegrityLevels}
+\input{HOLgas}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{IntegrityLevels Theory}
+\index{IntegrityLevels Theory@\textbf  {IntegrityLevels Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLIntegrityLevelsDate \\[2pt]
+\textbf{Parent Theories:} aclDrules
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{IntegrityLevels Theory@\textbf  {IntegrityLevels Theory}!Datatypes}
+% .....................................
+
+\HOLIntegrityLevelsDatatypes
+
+\subsection{Definitions}
+\index{IntegrityLevels Theory@\textbf  {IntegrityLevels Theory}!Definitions}
+% .....................................
+
+\HOLIntegrityLevelsDefinitions
+
+\subsection{Theorems}
+\index{IntegrityLevels Theory@\textbf  {IntegrityLevels Theory}!Theorems}
+% .....................................
+
+\HOLIntegrityLevelsTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{gas Theory}
+\index{gas Theory@\textbf  {gas Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLgasDate \\[2pt]
+\textbf{Parent Theories:} string, IntegrityLevels
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{gas Theory@\textbf  {gas Theory}!Datatypes}
+% .....................................
+
+\HOLgasDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{gas Theory@\textbf  {gas Theory}!Theorems}
+% .....................................
+
+\HOLgasTheorems
+
+\HOLindex
+
+\end{document}

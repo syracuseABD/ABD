@@ -1,0 +1,3910 @@
+
+\chapter{Reasoning Using the Higher Order Logic Theorem Prover\\
+\small{\redtext{\textsc{Do Not Distribute}}}}
+\label{chap:hol}
+
+% \chinbox{
+%   \begin{itemize}
+%   \item HOL as a CAD tool
+%   \item HOL is stable
+%   \item Chapter meant to provide reading knowledge, not a user's manual
+%   \item Distinction between meta and object levels
+%   \end{itemize}
+% }
+
+\paragraph*{Why Use Theorem Provers?}
+
+Human error is ever present in even the simplest of calculations. As
+security and integrity are crucial to critical applications such as
+command-and-control, and designs have a myriad of detail, the chances
+of getting every detail absolutely correct is vanishingly
+small. 
+
+The need to handle a large number of design and verification details
+is not new. This is the same situation faced by design and
+verification engineers of very large-scale integrated (VLSI)
+circuits. Modern microprocessors have billions of transistors. Even
+the simple-sounding task of accounting for all the connections among a
+microprocessor's transistors is completely impractical using manual
+methods alone. Computer-assisted design (CAD) tools for design-rule
+checking (checking to make sure that circuit layouts satisfy rules
+such as minimum width and spacing constraints between wires) and logic
+to layout verification (checking that the electrical behavior of
+transistor-level circuits is consistent with the logical behavior
+described by logic schematics), are essential for VLSI hardware
+design.
+
+Assuring system security and integrity requires consistency among
+policies and implementations across multiple levels of abstraction:
+from high-level organizational policies down to the control of
+physical memory. Managing and guaranteeing consistency among
+access-control policies, trust assumptions, and interpretation of
+messages and certificates is beyond manual methods.
+
+Computer-assisted reasoning tools, such as proof checkers and theorem
+provers, for checking consistency among policies and implementations,
+have an analogous role to CAD tools in hardware design. Both are
+antidotes to human error, self-delusion, and the complexity of large
+numbers of design details. 
+
+There are several advantages to using theorem provers and proof checkers.
+\begin{enumerate}
+\item Formal verification of proofs of theorems provides high
+  assurance and confidence of correctness to designers, customers, and
+  certifiers.
+\item All the details of definitions and proofs are disclosed.
+\item Properties, expressed as theorems, are both precise and
+  accurate.
+\item Theorem provers and proof checkers enable rapid checking, reuse,
+  and reproduction of results by third parties uninvolved in the
+  original design and verification effort.
+\end{enumerate}
+
+\paragraph*{Why HOL?}
+
+There are many proof checkers and theorem provers, such as HOL, Coq,
+Nuprl, and ACL2. Each have a long history of use and stability. We use
+HOL for the following reasons.
+\begin{enumerate}
+\item HOL as collection of functions, in the ML (meta-language)
+  programming language and interpreter, is highly flexible in terms of
+  supporting user-defined inference rules and decision
+  procedures. This enables us to extend HOL to include the
+  access-control logic along with its inference rules.
+\item HOL supports both forward inference (starting from theorems and
+  proving new theorems) as well as backwards reasoning (starting from
+  goals and proving theorems). HOL's forward inference rule capability
+  mimics the proof style used in the access-control logic. HOL's
+  backward reasoning capability allows for complicated proofs to be
+  done efficiently due to the suppression of detail.
+\item HOL has an extensive library of contributed libraries and
+  examples. HOL's libraries enable users to build upon a sound
+  foundation provided by others. This was the case when we developed
+  the access-control logic.
+\end{enumerate}
+
+This chapter on HOL is not a tutorial or a complete description of
+HOL. The HOL system comes with excellent documentation
+(\emph{Tutorial, Description, Logic,} and \emph{Reference}). The
+purpose of this chapter is to give a reading comprehension of HOL so
+that readers can comprehend the access-control logic and operational
+semantics in HOL. Our intent is to enable readers to both comprehend
+and reproduce our results. By so doing, readers are able to create
+their own extensions to the logic and inference rules related to the
+access-control logic and transition systems.
+
+\section{Terms and Types}
+\label{sec:terms-types}
+
+\paragraph*{ML and HOL}
+
+HOL is implemented using the ML functional language. ML is a
+\emph{strongly typed} language.  This means that every well-formed
+expression in ML has a type. The advantage of strongly-typed languages
+is the detection and avoidance of nonsensical expressions and
+formulas.  For example, the expression $1 + 2 = 3$ is well typed,
+assuming ``+'' denotes addition.
+
+The relation between ML and HOL is this: \emph{HOL is implemented
+  within ML as a set of types and functions that manipulate HOL
+  objects}. More precisely, HOL \emph{objects} are \emph{HOL terms or
+  formulas}, \emph{HOL types,} and \emph{HOL theorems}. HOL objects
+are manipulated by ML functions. ML is the \emph{meta-language} that
+constructs and deconstructs HOL objects.
+
+\paragraph*{HOL Terms and ML Types}
+
+\begin{center}
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|} \hline
+\multicolumn{4}{|c|}{ } \\
+\multicolumn{4}{|c|}{\bf Terms of the HOL Logic} \\
+\multicolumn{4}{|c|}{ } \\
+{\it Kind of term} & {\it \HOL{} notation} &
+{\it Standard notation} &
+{\it Description} \\ \hline
+ & & & \\
+Truth & {\small\verb|T|} & $\top$ & {\it true}\\ \hline
+Falsity & {\small\verb|F|} & $\bot$ & {\it false}\\ \hline
+Negation & {\small\verb|~|}$t$ & $\neg t$ & {\it not}$\ t$\\ \hline
+Disjunction & $t_1${\small\verb|\/|}$t_2$ & $t_1\vee t_2$ &
+$t_1\ ${\it or}$\ t_2$ \\ \hline
+Conjunction & $t_1${\small\verb|/\|}$t_2$ & $t_1\wedge t_2$ &
+$t_1\ ${\it and}$\ t_2$ \\ \hline
+Implication & $t_1${\small\verb|==>|}$t_2$ & $t_1\imp t_2$ &
+$t_1\ ${\it implies}$\ t_2$ \\ \hline
+Equality & $t_1${\small\verb|=|}$t_2$ & $t_1 = t_2$ &
+$t_1\ ${\it equals}$\ t_2$ \\ \hline
+$\forall$-quantification & {\small\verb|!|}$x${\small\verb|.|}$t$ &
+$\uquant{x}t$ & {\it for\ all\ }$x: t$ \\ \hline
+$\exists$-quantification & {\small\verb|?|}$x${\small\verb|.|}$t$ &
+$\equant{x}\ t$ & {\it for\ some\ }$x: t$ \\ \hline
+$\hilbert$-term & {\small\verb|@|}$x${\small\verb|.|}$t$ &
+$\hquant{x}t$ & {\it an}$\ x\ ${\it such\ that:}$\ t$ \\ \hline
+Conditional & {\small\verb|if|} $t$ {\small\verb|then|} $t_1$
+              {\small\verb|else|} $t_2$ &
+$(t\rightarrow t_1, t_2)$ & {\it if\ }$t${\it \ then\ }$t_1${\it\ else\ }$t_2$
+ \\ \hline
+\end{tabular}
+
+\caption{Terms in HOL}
+\label{tab:logic-table}
+\end{table}
+\end{center}
+
+Table~\ref{tab:logic-table} taken from \cite{HOLTutorial}, shows the
+representation of HOL terms in ASCII, in standard notation, and with a
+brief description of each term. The ASCII representation is what we
+put into the HOL system as part of the ML interpreter.
+
+Terms or well-formed formulas in HOL are predicate calculus terms
+where (1) variables can range over predicates and functions---hence
+the characterization of HOL as \emph{higher order}, and (2) all HOL
+terms have a \emph{type}. There are various pretty printers supporting
+HOL. Nevertheless, HOL makes use of ASCII characters to represent
+elements such as $\forall$ (universal quantification) and $\in$ (set
+membership).
+
+Terms in HOL appear in ML as formulas surrounded by double backwards
+quotes.  As examples, the formulas $p \wedge q$ (the conjunction of
+$p$ and $q$) and $\forall x.P x$ (for all $x$ $P(x)$ is true), are
+shown in HOL Session \ref{session:term1} below.
+\begin{session}
+\label{session:term1}
+\begin{verbatim}
+
+- ``p /\ q``;
+> val it = ``p /\ q`` : term
+- ``! x. P(x)``;
+<<HOL message: inventing new type variable names: 'a>>
+> val it = ``!x. P x`` : term
+\end{verbatim}
+\end{session}
+The session above exemplifies an \emph{interactive} session in HOL,
+where user inputs are on lines starting with a dash \texttt{-} and
+ending with a semicolon \texttt{;}. System responses are on lines
+starting with \texttt{>}.
+
+In the session above, we entered \small{\verb|``p /\ q``|} and ML
+responded with
+\begin{verbatim}
+> val it = ``p /\ q`` : term
+\end{verbatim}
+The response means that the \emph{ML value} of the input expression is
+\small{\verb|``p /\ q``|}, which has \emph{\textbf{ML
+  type}} \textrm{:term}. The same thing can be said about the response
+\begin{verbatim}
+> val it = ``!x. P x`` : term
+\end{verbatim}
+The input expression \small{\verb|``! x. P(x)``|} has the
+ML type \texttt{:term}, which is the same ML type as
+\small{\verb|``p /\ q``|}.
+
+The only remaining explanation needed is to explain the meaning of:
+\begin{verbatim}
+<<HOL message: inventing new type variable names: 'a>>
+\end{verbatim}
+To do this, we need to talk about \emph{\textbf{HOL types}}, i.e.,
+types in HOL as opposed to types in ML. The key concept here is to
+distinguish between \emph{meta-level types} in ML versus
+\emph{object-level types} in HOL. Viewed from the ML perspective, all
+HOL formulas are of ML type \texttt{:term}.  Usually, we are concerned
+about the types of objects in HOL, i.e., at the object level within
+HOL.
+
+\paragraph*{HOL Types}
+
+When we say ``HOL types'', we mean the types of formulas within HOL,
+as opposed to ML. As a concrete illustration, consider again the HOL
+formula $p \wedge q$, where $\wedge$ denotes conjunction and is a
+boolean operator operating on two boolean terms $p$ and $q$.
+
+If we input \small{\verb|``p /\ q``|} into HOL, but this
+time with HOL set to display HOL types, we get
+Session~\ref{session:term2} shown below.
+\begin{session}
+  \label{session:term2}
+\begin{verbatim}
+
+- ``p /\ q``;
+> val it = ``(p :bool) /\ (q :bool)`` : term
+\end{verbatim}
+\end{session}
+As before, the above session shows that within ML that
+\small{\verb|``p /\ q``|} evaluates to an ML value of type
+\texttt{:term}.  Additionally, \emph{inside the quotes}, we see that
+terms $p$ and $q$ have \emph{\textbf{HOL type}} \texttt{:bool}. To see
+what the HOL type of \small{\verb|``p /\ q``|} is, we use
+the ML function \texttt{type\_of}, whose ML type signature is
+\texttt{: term -> hol\_type}. Session~\ref{session:term3} shows the ML
+type signature of \texttt{type\_of} and the result of applying it to
+\small{\verb|``p /\ q``|}.
+\begin{session}
+  \label{session:term3}
+\begin{verbatim}
+
+> val it = fn : term -> hol_type
+- type_of ``p /\ q``;
+> val it = ``:bool`` : hol_type
+\end{verbatim}
+\end{session}
+The above result says that the HOL type of
+\small{\verb|``p /\ q``|} is \texttt{:bool}, which makes
+perfect sense.  Again, notice that this is \emph{HOL type}
+\texttt{:bool} as opposed to ML type \texttt{:term}. This is another
+illustration of the difference between operating at the \emph{object
+  level} in HOL versus the \emph{meta level} in ML.
+
+We can see this distinction with an even simpler example. Consider the
+numeral 1. 1 entered without HOL quotes is the ML integer value 1,
+i.e. \texttt{1 : int}.  In contrast, \texttt{``1``}
+is the HOL \emph{natural number} \texttt{1 : num}.  This is shown
+below in Session~\ref{session:term4}.
+\begin{session}
+  \label{session:term4}
+\begin{verbatim}
+
+- 1;
+> val it = 1 : int
+- ``1``;
+> val it = ``(1 :num)`` : term
+\end{verbatim}
+\end{session}
+The above shows the difference between the ML meta value 1 versus the
+HOL object \texttt{``1``}.
+
+\subparagraph*{HOL Type Variables}
+
+HOL supports polymorphism through the use of \emph{type
+  variables}. Type variables in HOL are similar to type variables in
+functional languages such as ML and Haskell. Type variables in HOL all
+start with a single forward quote mark \texttt{'}.  For example, the
+HOL type \texttt{``:'a``} is a type variable (pretty printed as
+$\alpha$).
+\begin{session}
+  \label{session:term5}
+\begin{verbatim}
+
+- ``:'a``;
+> val it = ``:'a`` : hol_type
+\end{verbatim}
+\end{session}
+
+As in functional languages, type variables and polymorphism allow
+\emph{the same definition to be used on different types.}  The
+advantages include simplicity derived from the reuse of definitions as
+well as abstraction derived from properties of definitions that apply
+over different types.  
+
+For example, consider the pair \texttt{``(1,F)``}, i.e., the pair of
+HOL terms \texttt{``1``} and \texttt{``F``} where \texttt{1} has HOL
+type \texttt{``:num``} and \texttt{F} is the HOL value \emph{false}
+with HOL type \texttt{``:bool``}. Session~\ref{session:term6} shows
+that the HOL type of \texttt{``(1,F)``} is the Cartesian product $num
+\times bool$, written in ASCII as \texttt{``:num \# bool``}.
+\begin{session}
+\label{session:term6}
+\begin{verbatim}
+
+- ``(1,F)``;
+> val it = ``((1 :num),F)`` : term
+- type_of ``(1,F)``;
+> val it = ``:num # bool`` : hol_type
+\end{verbatim}
+\end{session}
+HOL, as most functional languages do, has two accessor functions for
+retrieving the first or second elements of pairs. In HOL, these
+functions are \texttt{FST} and \texttt{SND}, respectively. In
+Session~\ref{session:term7} below, we see that the HOL type of
+\texttt{``FST``} is \texttt{``:'a \# 'b -> 'a``}. Specifically,
+\texttt{FST} takes as an input a HOL pair (Cartesian product) where
+the first element is of type \texttt{``:'a``}, and the second element
+is of type \texttt{``:b``}. The value returned is the first element of
+the pair, which is of type \texttt{``:'a``}.  Similarly,
+\texttt{``SND``} also takes takes as an input a HOL pair (Cartesian
+product) where the first element is of type \texttt{``:'a``}, and the
+second element is of type \texttt{``:b``}. The value returned is the
+second element of the pair, which is of type \texttt{``:'b``}.
+
+\texttt{FST} and \texttt{SND} being polymorphic, can be applied to
+pairs of any type. When applied to a specific pair, the type variables
+\texttt{``:'a``} and \texttt{``:'b``} are instantiated to the
+corresponding types of the specific pair. In
+Session~\ref{session:term7} below, we see that the HOL type of
+\texttt{``FST(1,F)``} is \texttt{``:num``} and the HOL type of
+\texttt{``SND(1,F)``} is \texttt{``:bool``}. Thus, types
+\texttt{``:'a``} and \texttt{``:'b``} were instantiated to types
+\texttt{``:num``} and \texttt{``:bool``}, respectively.
+\begin{session}
+  \label{session:term7}
+\begin{verbatim}
+
+- ``FST``;
+<<HOL message: inventing new type variable names: 'a, 'b>>
+> val it =
+    ``(FST :'a # 'b -> 'a)``
+     : term
+- ``SND``;
+<<HOL message: inventing new type variable names: 'a, 'b>>
+> val it =
+    ``(SND :'a # 'b -> 'b)``
+     : term
+- type_of ``FST(1,F)``;
+> val it = ``:num`` : hol_type
+- type_of ``SND(1,F)``;
+> val it = ``:bool`` : hol_type
+\end{verbatim}
+
+\end{session}
+
+Based on the above examples, we can explain more fully the HOL message
+in Session~\ref{session:term1}. Taking advantage of displaying types
+explicitly when entering \texttt{``!x.P x``}, we see the HOL types of each component as shown below in Session~\ref{session:term8}:
+\begin{session}
+\label{session:term8}
+\begin{verbatim}
+
+- ``!x.P x``;
+<<HOL message: inventing new type variable names: 'a>>
+> val it = ``!(x :'a). (P :'a -> bool) x`` : term
+\end{verbatim}
+\end{session}
+What Session~\ref{session:term8} shows is HOL will make variables,
+predicates, and functions as general as possible by assigning type
+variables whenever possible. In the above case, variable $x$ is
+assigned the HOL type variable \texttt{``:'a``}.  As the type of
+$P\;x$ ultimately must be boolean, the HOL type of predicate
+\texttt{``P``} must be \texttt{``:'a -> bool``}, i.e., a function
+operating on inputs of HOL type \texttt{``:'a``} and returning boolean
+values.  The HOL message informs us that it used type variable
+\texttt{``:'a``} when evaluating the expression \texttt{``!x.P x``}.
+
+\section{Constructing and Deconstructing HOL Terms}
+\label{sec:construction-deconstruction}
+
+One of the benefits of using systems such as HOL is the ability to
+extend the syntax and semantics of HOL \emph{safely}, i.e., in ways
+that guarantee logical soundness.  This includes the capability to
+introduce new syntax and semantics, such as the syntax of our
+access-control logic and its associated Kripke semantics. We can also
+introduce the inference rules of the access-control logic as sound HOL
+inference rules.
+
+As we will see shortly, inference rules in HOL are ML functions that
+return HOL theorems as results. Central to inference rules is the
+capability to construct and deconstruct HOL terms using built-in and
+customized ML functions.  In this section, we will show how this is
+done.
+
+\begin{table}[tb]
+  \centering
+  \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \multicolumn{5}{|c|}{\textbf{ML Functions on HOL Terms}}\\
+    \emph{Kind of term} & \emph{HOL notation} & \emph{Predicate} & \emph{Deconstructor} & \emph{Constructor}\\
+    \hline
+    Variable & $x$ & \small{\verb|is_var|}& \small{\verb|dest_var|}& \small{\verb|mk_var|}\\
+    \hline
+    HOL Type & $:ty$ & \small{\verb|is_vartype|} & \small{\verb|dest_vartype|} & \small{\verb|mk_vartype|} \\
+    \hline
+    Negation & {\small\verb|~|}$t$ &\small{\verb|is_neg|} & \small{\verb|dest_neg|}& \small{\verb|mk_neg|}\\
+    \hline
+    Disjunction & $t_1${\small\verb|\/|}$t_2$ & \small{\verb|is_disj|}& \small{\verb|dest_disj|}& \small{\verb|mk_disj|}\\
+    \hline
+    Conjunction & $t_1${\small\verb|/\|}$t_2$ & \small{\verb|is_conj|}& \small{\verb|dest_conj|}& \small{\verb|mk_conj|}\\
+    \hline
+    Implication & $t_1${\small\verb|==>|}$t_2$ & \small{\verb|is_imp|}& \small{\verb|dest_imp|}& \small{\verb|mk_imp|}\\
+    \hline
+    Equality & $t_1${\small\verb|=|}$t_2$ & \small{\verb|is_eq|}& \small{\verb|dest_eq|}& \small{\verb|mk_eq|}\\
+    \hline
+    $\forall$-quantification & {\small\verb|!|}$x${\small\verb|.|}$t$ & \small{\verb|is_forall|}& \small{\verb|dest_forall|}& \small{\verb|mk_forall|}\\
+    \hline
+    $\exists$-quantification & {\small\verb|?|}$x${\small\verb|.|}$t$ & \small{\verb|is_exists|}& \small{\verb|dest_exists|}& \small{\verb|mk_exists|}\\
+    \hline
+    $\hilbert$-term & {\small\verb|@|}$x${\small\verb|.|}$t$ & \small{\verb|is_select|}& \small{\verb|dest_select|}& \small{\verb|mk_select|}\\
+    \hline
+    Conditional & {\small\verb|if|} $t$ {\small\verb|then|} $t_1$
+              {\small\verb|else|} $t_2$ &\small{\verb|is_cond|} & \small{\verb|dest_cond|}& \small{\verb|mk_cond|}\\
+    \hline
+    Function application & $t_1${\small{\verb| |}$t_2$} & \small{\verb|is_comb|}& \small{\verb|dest_comb|}& \small{\verb|mk_comb|}\\
+    \hline
+    Lambda abstraction & \verb|\|$x.f$ & \small{\verb|is_abs|}&\small{ }\verb|dest_abs|&\small{\verb|mk_abs|}\\
+    \hline
+  \end{tabular}
+  \caption{Predicates, Deconstructor, and Constructor Functions}
+  \label{tab:constructors-deconstructors}
+\end{table}
+
+Table~\ref{tab:constructors-deconstructors} show the predicates
+(tests), deconstructor, and constructor functions for common HOL
+formulas. When interacting directly with HOL through the ML
+interpreter, we can input directly the HOL terms we want. However, in
+the case where we build specialized inference rules, we need to be
+able to deconstruct HOL terms and reassemble them in useful ways. Our
+first example shows how to deconstruct an example HOL term.
+
+\begin{example}
+  Suppose we wish to take HOL terms of the form $t_1 \wedge t_2$ and
+  reassemble them to form the term $t_2 \wedge t_1$.  The steps we
+  take are the following:
+  \begin{enumerate}
+  \item deconstruct $t_1 \wedge t_2$ using \small{\verb|dest_conj|} to
+    get the individual components $t_1$ and $t_2$, then
+  \item construct the term $t_2 \wedge t_1$ using $t_1$ and $t_2$ with
+    \small{\verb|mk_conj|}.
+  \end{enumerate}
+
+  As an illustration, suppose we have the HOL term
+  \small{\verb|``p /\ q``|}. We use the steps above in the following
+  HOL session.
+  \begin{session}
+    \label{session:term9}
+\begin{verbatim}
+
+- val (t1,t2) = dest_conj ``p /\ q``;
+> val t1 = ``(p :bool)`` : term
+  val t2 = ``(q :bool)`` : term
+- mk_conj (t2,t1);
+> val it = ``(q :bool) /\ (p :bool)`` : term
+\end{verbatim}
+  \end{session}
+
+  How do we generalize the above to a function
+  \small{\verb|swap_conj|}, which operates on HOL conjunctions?
+  Essentially, we parametrized the input term and use \emph{let
+    expressions} to define an ML function that swaps the order of
+  terms in HOL conjunctions. Consider the HOL session below.
+  \begin{session}
+\begin{verbatim}
+
+- fun swap_conj term =
+  let
+   val (t1,t2) = dest_conj term
+  in
+   mk_conj(t2,t1)
+  end;
+> val swap_conj = fn : term -> term
+- swap_conj ``p /\ q``;
+> val it =
+    ``(q :bool) /\ (p :bool)``
+     : term
+- swap_conj ``(!x:'a.P x) /\ (?y:'b.Q y)``;
+> val it =
+    ``(?(y :'b). (Q :'b -> bool) y) /\ 
+      !(x :'a). (P :'a -> bool) x`` : term
+\end{verbatim}
+  \end{session}
+
+  The above illustrates how values and functions are defined in ML as
+  well as let expressions. The example shows how arbitrary
+  conjunctions
+\end{example}
+
+In the next example, we show how deal with function applications,
+e.g., \texttt{``P x``}.
+\begin{example}
+  Suppose we wish to convert HOL terms of the form
+  \small{\verb|P(x) ==> Q(y)|} to \small{\verb|Q(x) ==> P(y)|}. Our
+  approach is to
+  \begin{enumerate}
+  \item deconstruct the top-level implication to get $P(x)$ and $Q(y)$, 
+  \item deconstruct both function application $P(x)$ and $Q(y)$ to get
+    $P$, $Q$, $x$, and $y$, and
+  \item construct the desired term using the components above.
+  \end{enumerate}
+
+  \begin{session}
+\begin{verbatim}
+
+- fun swap_imp term =
+let
+  val (t1,t2) = dest_imp term
+  val (f1,arg1) = dest_comb t1
+  val (f2,arg2) = dest_comb t2
+  val t3 = mk_comb(f2,arg1)
+  val t4 = mk_comb(f1,arg2)
+in
+  mk_imp(t3,t4)
+end;
+> val swap_imp = fn : term -> term
+- swap_imp ``P (x:'a) ==> Q (y:'a)``;
+> val it =
+    ``(Q :'a -> bool) (x :'a) ==> (P :'a -> bool) (y :'a)``
+     : term
+\end{verbatim}
+  \end{session}
+
+  The above example show that we can develop let expressions with
+  multiple value (and function) assignments.
+\end{example}
+
+HOL has many built-in infix functions such as addition \texttt{+},
+conjunction \small{\verb|/\|}, etc.  We can always transform infix
+relations and functions into their prefix form by pre-pending
+\small{\verb|$|} to the infix function. This is shown in the session
+below where we create the function $\lambda x\;y. \$\wedge x\;y$.
+\begin{session}
+\begin{verbatim}
+
+- val term = ``\x y.$/\ x y``;
+> val term =
+    ``\(x :bool) (y :bool). x /\ y``
+     : term
+- type_of term;
+> val it =
+    ``:bool -> bool -> bool``
+     : hol_type
+\end{verbatim}
+\end{session}
+
+Suppose a function that is expecting one argument form is applied to an
+argument with a form different than expected. What happens? For
+example, suppose that \small{\verb|swap_conj|} is applied to a simple
+variable?
+\begin{session}
+\begin{verbatim}
+
+- swap_conj ``x``;
+<<HOL message: inventing new type variable names: 'a>>
+! Uncaught exception: 
+! HOL_ERR
+\end{verbatim}
+\end{session}
+The error message above is not particularly informative. We can use
+the ML function \emph{mk\_HOL\_ERR} to produce error messages to help
+users and developers. \emph{mk\_HOL\_ERR} takes three strings as
+arguments. Typically, the first string identifies the relevant module.
+The second string identifies the relevant function. The third string
+is the error message itself.  The session below shows another ML
+function \emph{Swap\_Conj}, which uses both \emph{swap\_conj} and
+\emph{mk\_HOL\_ERR}.
+\begin{session}
+\begin{verbatim}
+
+- fun Swap_Conj term =
+let
+ fun swap_conj x =
+ let
+  val (t1,t2) = dest_conj x
+ in
+  mk_conj(t2,t1)
+ end
+in
+ if is_conj term then swap_conj term
+ else
+  (Raise
+   (mk_HOL_ERR "basics" "Swap_Conj" "input not conjunction"))
+end;
+> val Swap_Conj = fn : term -> term
+- Swap_Conj ``A /\ B``;
+> val it =
+    ``(B :bool) /\ (A :bool)``
+     : term
+- Swap_Conj ``A ==> B``;
+
+Exception raised at basics.Swap_Conj:
+input not conjunction
+! Uncaught exception: 
+! HOL_ERR
+\end{verbatim}
+\end{session}
+
+The above session also demonstrates how \small{\verb|swap_conj|} can
+be defined internally to \small{\verb|Swap_Conj|} within an ML let
+statement.
+
+\begin{exercise}[\synthesis]
+  Construct the following HOL terms using ML constructor
+  functions. Note: for numbers and existing functions, it is
+  permissible to use their corresponding HOL terms, e.g.,
+  \texttt{``5``}, \texttt{\$+}, and \texttt{LENGTH}.  All other terms,
+  including variables, must be constructed using ML functions.
+      \begin{align*}
+        & \forall x.(P(x) \wedge Q(x))\\
+        & \exists x.(P(x) \vee Q(x))\\
+        & P(5) \implies Q(6)\\
+        & if \; P(x) \;then \;+ \;else \;-\\
+        & CONS (1,2) [(3,4);(5,6)]\\
+        & LENGTH (xs:(bool)list) = 6\\
+        & MAP (f:\alpha \rightarrow \beta) (xs:(\alpha)list) =
+        (ys:(\beta)list)\\
+        & \lambda x.x+1\\
+      \end{align*}
+\end{exercise}
+
+\begin{exercise}[\synthesis]
+Define a function \texttt{AndImp2Imp} that takes HOL terms of the form
+$(p \wedge q) \implies r$ and returns the term $p \implies (q \implies
+r)$. The desired behavior of the function is illustrated below.
+\begin{session}
+\begin{verbatim}
+
+- AndImp2Imp ``(~p\/q) /\ (q /\ ~r) ==> (s = t)``;
+<<HOL message: inventing new type variable names: 'a>>
+> val it = ``~p \/ q ==> q /\ ~r ==> (s = t)`` : term
+
+- AndImp2Imp ``p /\ r``;
+Exception raised at hw2.AndImp2Imp:
+top term not implication
+! Uncaught exception: 
+! HOL_ERR
+
+- AndImp2Imp ``p ==> (r /\ s)``;
+Exception raised at hw2.AndImp2Imp:
+antecedent not conjunction
+! Uncaught exception: 
+! HOL_ERR
+\end{verbatim}
+\end{session}
+  
+\end{exercise}
+
+\begin{exercise}[\synthesis]
+Define a function \texttt{ImpImp2And} that takes HOL terms of the form
+$p \implies (q \implies r)$ and returns the term $(p \wedge q)
+\implies r$. The desired behavior of the function is illustrated below.
+\begin{session}
+\begin{verbatim}
+
+- AndImp2Imp ``(~p\/q) /\ (q /\ ~r) ==> (s = t)``;
+<<HOL message: inventing new type variable names: 'a>>
+> val it = ``~p \/ q ==> q /\ ~r ==> (s = t)`` : term
+
+- ImpImp2And(AndImp2Imp ``(~p\/q) /\ (q /\ ~r) ==> (s = t)``);
+<<HOL message: inventing new type variable names: 'a>>
+> val it = ``(~p \/ q) /\ q /\ ~r ==> (s = t)`` : term
+
+- ImpImp2And ``p /\ q ==> r``;
+Exception raised at hw2.ImpImp2And:
+term not implication
+! Uncaught exception: 
+! HOL_ERR
+
+- ImpImp2And ``p ==> (q \/ r)``;
+Exception raised at hw2.ImpImp2And:
+term not implication
+! Uncaught exception: 
+! HOL_ERR
+\end{verbatim}
+\end{session}
+  
+\end{exercise}
+
+\section{Theorems in HOL}
+\label{sec:theorems-hol}
+
+Theorems in HOL are ML objects of type \texttt{:thm}.  Inference rules
+in HOL are ML functions that return ML objects of type
+\texttt{:thm}. In this introduction to forward inference in HOL, we
+learn the basics of doing HOL proofs using ML inference rules. Forward
+proofs, as opposed to goal-oriented (so-called backwards proofs), take
+very small and precise steps. This degree of precision promotes a
+clear understanding of proofs, which is a useful foundation for larger
+proofs using sophisticated decision procedures.
+
+Theorems in HOL are \emph{sequents} of the form $\Gamma \vdash
+\varphi$, where $\Gamma$ and $\varphi$ are a set of boolean terms and
+a boolean term, respectively. $\Gamma$ is the set of terms known as
+the \emph{hypotheses} of a theorem. $\varphi$ is the conclusion.
+
+Theorems in HOL are guaranteed to be \emph{valid} and \emph{safe}. By
+valid, we mean whenever all the hypotheses in $\Gamma$ are true, the
+conclusion $\varphi$ is guaranteed to be true, with no exceptions. By
+safe, we mean that the implementation of HOL in ML has demonstrated
+that all objects of ML type \texttt{:thm} derived using the inference
+rules of HOL are in fact legitimate theorems. Validity is a property
+of the inference rules of HOL as a logical system.  Safety is a
+property of sound programming. This is why we are learning both
+logic and functional programming.
+
+In this introduction to doing proofs in HOL, we start with two simple
+examples: the first proves that conjunction is commutative, the second
+proves that element 1 of the list [1;2;3] (indexed from 0) is 2.  For
+each example, we will do the following:
+\begin{enumerate}
+\item show the desired outcome,
+\item give an informal outline of the proof in words,
+\item give a formal proof using sequents and inference rules, and
+\item check the sequent-based proof in HOL.
+\end{enumerate}
+
+% Your two homework problems are based on ideas and techniques
+% illustrated by the two examples. You are expected to replicate the
+% above steps in your solutions.
+
+% In addition to learning how to do the above, you will also learn the
+% beginning pragmatics of using HOL's large library of theories and
+% inference rules.  You will learn how to load a theory, open it, and
+% use its contents of definitions and theorems.
+
+\subsection{Proof of Symmetry of Conjunction}
+\label{sec:conj-proof}
+
+\paragraph*{Desired Outcome}
+
+The theorem we will prove is:
+\begin{gather*}
+  \sq{\forall p\;q.p \wedge q \Leftrightarrow q \wedge p},
+\end{gather*}
+that is, for all booleans $p$ and $q$, conjunction is commutative.
+
+In HOL, we expect the following result:
+\begin{session}
+\begin{verbatim}
+
+- val Example1 =
+    ... ;
+> val Example1 = |- !p q. p /\ q <=> q /\ p : thm
+\end{verbatim}
+\end{session}
+
+\paragraph*{Informal Proof Outline}
+
+In general, to show that $p \Leftrightarrow q$, it suffices to show
+(1) $p \implies q$ and (2) $q \implies p$. With this in mind, our
+informal proof depends on showing $p \wedge q \implies q \wedge p$ and
+$q \wedge p \implies p \wedge q$. The proof is this.
+\begin{enumerate}
+\item From $p \wedge q$ we can conclude $q$ is true.
+\item From $p \wedge q$ we can conclude $p$ is true.
+\item From $p \wedge q$ and that $q$ and $p$ are derivable from $p
+  \wedge q$ we can conclude $q \wedge p$ is true.
+\item Similarly, from $q \wedge p$ we can derive both $p$ and $q$ are
+  true separately.
+\item From $q \wedge p$ and that $p$ and $q$ are both true we can
+  conclude $p \wedge q$.
+\item Given all of the above, we conclude $p \wedge q \Leftrightarrow
+  q \wedge p$.
+\end{enumerate}
+
+While the above sounds plausible, the underlying question is \emph{is
+  the conclusion valid?} \emph{Is the proof correct?} Mistakes in
+homework exercises are one thing, mistakes in systems that people use
+are quite another.  To check our thinking we take our proof outline
+and attempt what is known as a \emph{formal} proof.  A proof is formal
+when each step in the proof corresponds to the application of an
+inference rule of the logical system we using. Essentially, starting
+with the assumptions, we \emph{derive} each step using an inference
+rule, much like we apply a function to its arguments to get the
+result. We illustrate this in the next section.
+
+\begin{figure}[t]
+  \centering
+  % \fbox{
+  \begin{scriptsize}
+    \begin{tabular}[h]{>{$}m{0.25\linewidth}<{$}>{$}
+        m{0.25\linewidth}<{$}>{$} m{0.25\linewidth}<{$}}
+      \irule{}{\seq{t}{t}}{ASSUME t} & 
+      \irule{\seqs{\Gamma}{t}}{\seqs{\Gamma - \set{u}}{u \implies t}}{DISCH $u$} &
+      \irule{}{\sq{}{t = t}}{REFL $t$}\\\\
+      \irule{\seqs{\Gamma_1}{t_1} \quad \seqs{\Gamma_2}{t_2}}
+      {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \wedge t_2}}{CONJ} & 
+      \irule{\seqs{\Gamma}{t_1 \wedge t_2}}{\seqs{\Gamma}{t_1}}{CONJUNCT1} &
+      \irule{\seqs{\Gamma}{t_1 \wedge t_2}}{\seqs{\Gamma}{t_2}}{CONJUNCT2} \\\\
+      \multicolumn{3}{c}
+      {\irule{\seqs{\Gamma_1}{t_1 \implies t_2} \quad \seqs{\Gamma_2}{t_1}}
+        {\seqs{\Gamma_1 \cup \Gamma_2}{t_2}}{MP} \qquad
+       \irule
+       {\seqs{\Gamma_1}{t_1 = t_2} \quad
+         \seqs{\Gamma_2}{t1}
+       }
+       {\seqs{\Gamma_1 \cup \Gamma_2}{t_2}}
+       {EQ\_MP}
+      }\\\\
+      \multicolumn{3}{c}
+      {\irule
+        {\seqs{\Gamma_1}{t_1 \implies t_2} \quad 
+          \seqs{\Gamma_2}{t_2 \implies t_1}}
+        {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \Leftrightarrow t_2}}
+        {IMP\_ANTISYM\_RULE}} \\\\
+      \multicolumn{3}{c}
+      {
+        \irule{\seqs{\Gamma_1}{t_1 \implies t_2} \quad \seqs{\Gamma_2}{t_2 \implies t_3}}
+        {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \implies t_3}}{IMP\_TRANS} \qquad
+        \irule{\seqs{\Gamma}{\neg t}}{\seqs{\Gamma}{t \implies F}}{NOT\_ELIM} \qquad
+        \irule{\seqs{\Gamma}{t \implies F}}{\seqs{\Gamma}{\neg t}}{NOT\_INTRO}
+      }\\\\
+      \multicolumn{3}{c}
+      {
+        \irule{\seqs{\Gamma}{t_1}}{\seqs{\Gamma}{t_1 \vee t_2}}{DISJ1} \qquad
+        \irule{\seqs{\Gamma}{t_1}}{\seqs{\Gamma}{t_2 \vee t_1}}{DISJ2} \qquad
+        \irule{\seqs{\Gamma}{s \implies t}}{\seqs{\Gamma}{\neg s \vee t}}{IMP\_ELIM} \qquad
+        \irule{\seqs{\Gamma}{t_1 \vee t_2}}{\seqs{\Gamma}{\neg t_1 \implies t_2}}{DISJ\_IMP}
+      }\\\\
+      \multicolumn{1}{c}
+      {\irule{\seqs{\Gamma}{t}}{\seqs{\Gamma}{\forall x.t}}{GEN $x$ where $x$ not free in $\Gamma$}} &
+      \multicolumn{2}{c}{\irule{\seqs{\Gamma}{t}}{\seqs{\Gamma}
+          {\forall x_1 \ldots x_n.t}}
+        {GENL [$x_1,\ldots,x_n$] where no $x_i$ is free in $\Gamma$}}\\\\
+      \multicolumn{3}{c}
+      {\irule{\seqs{\Gamma}{\forall (x:ty).t_m}}
+        {\seqs{\Gamma}{t_m[t/x]}}
+        {ISPEC $t:ty'$ where $t$ is free for $x$ in $t_m$, 
+          and $ty'$ is an instance of $ty$}} \\\\
+      \multicolumn{3}{c}
+      {\irule{\seqs{\Gamma}{\forall x_1 \ldots x_n.t}}
+        {\seqs{\Gamma}{t[t_1, \ldots, t_n/x_1, \dots, x_n]}}{ISPECL [$t_1$,$\ldots$, $t_n$]
+          where $t_i$ is free for $x_i$ in $t_m$}} \\\\
+      \multicolumn{3}{c}
+      {\irule{\seqs{\Gamma_1}{t_1 = v_1} \ldots \seqs{\Gamma_n}{t_n = v_n} \quad \seqs{\Gamma}{t}}
+        {\seqs{\Gamma_1 \cup \ldots \cup \Gamma_n \cup \Gamma}{t[v_1,\dots,v_n/t_1,\ldots,t_n]}}
+        {SUBS [\seqs{\Gamma_1}{t_1 = v_1};$\ldots$;\seqs{\Gamma_n}{t_n = v_n}] (\seqs{\Gamma}{t})}
+      }\\\\
+      \multicolumn{3}{c}
+      {
+        \irule
+        {\seqs{\Gamma}{t}}
+        {\seqs{\Gamma_1 \cup \ldots \cup \Gamma_n \cup \Gamma}{t'}}
+        {REWRITE\_RULE [\seqs{\Gamma_1}{t_1};\ldots;\seqs{\Gamma_n}{t_n}]}
+        {\parbox{0.4\linewidth}{Uses tautologies in the ML list \texttt{basic\_rewrites} as 
+            well as the list of theorems supplied by the user. There is no specified ordering
+            to the rewrites. It may not terminate.
+          }}
+      }
+    \end{tabular}
+  \end{scriptsize}% }
+
+  \caption{HOL Inference Rules}
+  \label{fig:inference-rules-1}
+\end{figure}
+
+% \begin{figure}[t]
+%   \centering
+%   \begin{small}
+%     \begin{tabular}[h]{>{$}m{0.25\linewidth}<{$}>{$}
+%         m{0.25\linewidth}<{$}>{$} m{0.25\linewidth}<{$}}
+%       \irule{}{\seq{t}{t}}{ASSUME t} & 
+%       \irule{\seqs{\Gamma}{t}}{\seqs{\Gamma - \set{u}}{u \implies t}}{DISCH $u$} &
+%       \irule{}{\sq{}{t = t}}{REFL $t$}\\\\
+%       \irule{\seqs{\Gamma_1}{t_1} \quad \seqs{\Gamma_2}{t_2}}
+%       {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \wedge t_2}}{CONJ} & 
+%       \irule{\seqs{\Gamma}{t_1 \wedge t_2}}{\seqs{\Gamma}{t_1}}{CONJUNCT1} &
+%       \irule{\seqs{\Gamma}{t_1 \wedge t_2}}{\seqs{\Gamma}{t_2}}{CONJUNCT2} \\\\
+%       \multicolumn{1}{c}
+%       {\irule{\seqs{\Gamma_1}{t_1 \implies t_2} \quad \seqs{\Gamma_2}{t_1}}
+%         {\seqs{\Gamma_1 \cup \Gamma_2}{t_2}}{MP}} &
+%       \multicolumn{2}{c}
+%       {\irule{\seqs{\Gamma_1}{t_1 \implies t_2} \quad \seqs{\Gamma_2}{t_2 \implies t_1}}
+%         {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \Leftrightarrow t_2}}{IMP\_ANTISYM\_RULE}} \\\\
+%       \multicolumn{1}{c}
+%       {\irule{\seqs{\Gamma}{t}}{\seqs{\Gamma}{\forall x.t}}{GEN $x$ where $x$ not free in $\Gamma$}} &
+%       \multicolumn{2}{c}{\irule{\seqs{\Gamma}{t}}{\seqs{\Gamma}
+%           {\forall x_1 \ldots x_n.t}}
+%         {GENL [$x_1,\ldots,x_n$] where no $x_i$ is free in $\Gamma$}}\\\\
+%       \multicolumn{3}{c}
+%       {\irule{\seqs{\Gamma}{\forall (x:ty).t_m}}
+%         {\seqs{\Gamma}{t_m[t/x]}}
+%         {ISPEC $t:ty'$ where $t$ is free for $x$ in $t_m$, 
+%           and $ty'$ is an instance of $ty$}} \\\\
+%       \multicolumn{3}{c}
+%       {\irule{\seqs{\Gamma}{\forall x_1 \ldots x_n.t}}
+%         {\seqs{\Gamma}{t[t_1, \ldots, t_n/x_1, \dots, x_n]}}{ISPECL [$t_1$,$\ldots$, $t_n$]
+%           where $t_i$ is free for $x_i$ in $t_m$}} \\
+ 
+%     \end{tabular}
+%   \end{small}
+
+%   \caption{HOL Inference Rules}
+%   \label{fig:inference-rules-1}
+% \end{figure}
+
+\paragraph*{Formal Proof Using Sequents}
+
+\begin{figure}[t]
+    \centering \begin{footnotesize}\fbox{
+      \begin{tabular}[h]{r<{.}>{$}b{0.2\linewidth}<{$}b{0.3\linewidth}}
+        1 & \seq{p \wedge q}{p \wedge q} & ASSUME $p \wedge q$\\
+        2 & \seq{p \wedge q}{p} & CONJUNCT1 1\\
+        3 & \seq{p \wedge q}{q} & CONJUNCT2 1\\
+        4 & \seq{p \wedge q}{q \wedge p} & CONJ 3, 2\\
+        5 & \sq{p \wedge q \implies q \wedge p} & DISCH $p \wedge q$, 4\\
+        6 & \seq{q \wedge p}{q \wedge p} & ASSUME $q \wedge p$\\
+        7 & \seq{q \wedge p}{q} & CONJUNCT1 6\\
+        8 & \seq{q \wedge p}{p} & CONJUNCT2 6\\
+        9 & \seq{q \wedge p}{p \wedge q} & CONJ 8, 7\\
+        10 & \sq{q \wedge p \implies p \wedge q} & DISCH $q \wedge p$, 9\\
+        11 & \sq{q \wedge p \Leftrightarrow p \wedge q} & IMP\_ANTISYM\_RULE 5, 10\\
+        12 & \sq{\forall p\:q.q \wedge p \Leftrightarrow p \wedge q} & GENL [$p$, $q$], 11\\
+      \end{tabular}}
+  \end{footnotesize}
+
+    \caption{Formal Proof of $\forall p\:q.p \wedge q \Leftrightarrow q \wedge p$}
+\label{fig:proof-1}
+\end{figure}
+
+To do our formal proof, we will rely on the HOL inference rules in
+Figure~\ref{fig:inference-rules-1}. Of course, HOL has a great many
+inference rules and decision procedures to find proofs of theorems
+(which is why the reference manual is almost 1200 pages long).  In
+fact, all the proofs we have seen so far are trivial for HOL to prove
+using its advanced theorem-proving functions. Nevertheless, for
+\emph{educational} purposes, we restrict ourselves to the rules in
+Figure~\ref{fig:inference-rules-1} so we can see explicitly and in
+detail each and every step in our proofs. This kind of thinking and
+capability is necessary for you to reason about and verify that your
+designs are correct.
+
+We formalize and recast the informal proof outline using sequents and
+their associated inference rules. An example of a formal proof of
+$\forall p\:q.p \wedge q \Leftrightarrow q \wedge p$ is shown in
+Figure~\ref{fig:proof-1}.  We say ``an example'' as opposed to ``the
+proof'' because there are typically many ways to do proofs. The one
+shown above is just one example.
+
+Remember that all theorems in HOL are \emph{sequents}.  You should
+note that in all \emph{forward} proofs, such as the one in
+Figure~\ref{fig:proof-1}, \emph{each line is a sequent}. Thus, forward
+proofs start and end with theorems with everything in the middle being
+a theorem, too. The line by line explanation of the proof in
+Figure~\ref{fig:proof-1} is as follows. Note, when we say
+``\emph{theorem n}'', we mean the sequent on line \emph{n}.
+\begin{enumerate}
+\item From the ASSUME rule, we can conclude what we assume, in this
+  case $p \wedge q$. This is theorem 1.
+\item From the CONJUNCT1 rule applied to theorem 1, if we have a theorem
+  that has a conjunction as a conclusion, we can conclude the left
+  element of a conjunction alone. This is theorem 2.
+\item From the CONJUNCT2 rule applied to theorem 1, we can conclude
+  the right conjunct of theorem 1. This is theorem 3.
+\item From the CONJ rule, we conclude the conjunction of the
+  conclusions of theorems 3 and 2. This is theorem 4.
+\item From the DISCH rule applied to theorem 4, we can remove $p
+  \wedge q$ from the hypotheses of theorem 4 and introduce it into the
+  conclusion of a new theorem. The conclusion of the new theorem has
+  $p \wedge q$ as an antecedent of an implication where the conclusion
+  of the implication is the conclusion of theorem 4. This is theorem
+  5. Notice at this point half of our proof is done as we have proved
+  \sq{p \wedge q \implies q \wedge p}.
+\item From the ASSUME rule, we introduce $q \wedge p$ as both an
+  hypothesis and a conclusion of a theorem. This is theorem 6.
+\item From the CONJUNCT1 rule applied to theorem 6, we conclude the
+  first conjunct $q$. This is theorem 7.
+\item From the CONJUNCT2 rule applied to theorem 7, we conclude the
+  second conjunct $p$. This is theorem 8.
+\item From the CONJ rule applied to theorems 8 and 7, we conclude $p
+  \wedge q$. This is theorem 9.
+\item From the DISCH rule applied to theorem 9, we conclude $q \wedge
+  p \implies p \wedge q$ and remove $q \wedge p$ from the
+  hypotheses. This is theorem 10. Notice at this point we have
+  concluded the second half of our proof \sq{q \wedge p \implies p
+    \wedge q}.
+\item From the IMP\_ANTISYM\_RULE rule, which allows us to conclude
+  \seqs{\Gamma_1 \cup \Gamma_2}{A \Leftrightarrow B} from
+  \seqs{\Gamma_1}{A \implies B} and \seqs{\Gamma_2}{B \implies A},
+  applied to theorems 5 and 10, we conclude \sq{p \wedge q
+    \Leftrightarrow q \wedge p}. This is theorem 11.
+\item From the GENL rule, which allows us to universally quantify over
+  $p$ and $q$ so long as neither $p$ nor $q$ are free variables in the
+  hypotheses. This is theorem 12 and corresponds exactly to the
+  theorem we wanted to prove.
+\end{enumerate}
+
+At this point we have a formal proof, but done by hand. The question
+still arises \emph{did we make a mistake?} While formal proofs done by
+hand are a vast improvement over informal proof sketches, it is still
+possible to incorrectly apply inference rules, write down terms
+incorrectly, or fail to notice conditions such as variables appearing
+in long lists of hypotheses. Just as before, making a mistake on a
+homework problem is one thing. Making a mistake on a design that goes
+into production or is released is quite another. The longer flaws
+remain in a design, the more expensive it is to correct.  A mistake
+discovered ``on the drawing board'' can be erased and corrected easily
+with little or no cost.  A mistake discovered in a deployed product
+may cost lives and/or property.  Recalls are expensive.
+
+This brings us to the next section, checking our proofs using proof
+checkers and theorem provers such as HOL to achieve the highest level
+of assurance and verification.
+
+\paragraph*{Proof Checked by HOL}
+
+In this section we check the proof in Figure~\ref{fig:proof-1} using
+HOL. We show how to do this in two stages:
+\begin{enumerate}
+\item checking the proof line by line interactively within HOL, followed by
+\item composing all the individual steps into one inference rule that
+  is the proof that creates the desired theorem.
+\end{enumerate}
+
+\begin{figure}[t]
+  \centering
+  \begin{session}
+\begin{verbatim}
+
+- val th1 = ASSUME ``p /\ q``;
+> val th1 =  [.] |- p /\ q : thm
+- val th2 = CONJUNCT1 th1;
+> val th2 =  [.] |- p : thm
+- val th3 = CONJUNCT2 th1;
+> val th3 =  [.] |- q : thm
+- val th4 = CONJ th3 th2;
+> val th4 =  [.] |- q /\ p : thm
+- val th5 = DISCH ``p /\ q`` th4;
+> val th5 = |- p /\ q ==> q /\ p : thm
+- val th6 = ASSUME ``q /\ p``;
+> val th6 =  [.] |- q /\ p : thm
+- val th7 = CONJUNCT1 th6;
+> val th7 =  [.] |- q : thm
+- val th8 = CONJUNCT2 th6;
+> val th8 =  [.] |- p : thm
+- val th9 = CONJ th8 th7;
+> val th9 =  [.] |- p /\ q : thm
+- val th10 = DISCH ``q /\ p`` th9;
+> val th10 = |- q /\ p ==> p /\ q : thm
+- val th11 = IMP_ANTISYM_RULE th5 th10;
+> val th11 = |- p /\ q <=> q /\ p : thm
+- GENL [``p:bool``,``q:bool``] th11;
+> val it = |- !p q. p /\ q <=> q /\ p : thm
+\end{verbatim}
+  \end{session}
+  \caption{HOL Proof of $\forall p\:q.p \wedge q \Leftrightarrow q \wedge p$}
+\label{fig:hol-proof-1}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \begin{session}
+\begin{verbatim}
+
+- val Example1 =
+let
+  val th1 = ASSUME ``p /\ q``
+  val th2 = CONJUNCT1 th1
+  val th3 = CONJUNCT2 th1
+  val th4 = CONJ th3 th2
+  val th5 = DISCH ``p /\ q`` th4
+  val th6 = ASSUME ``q /\ p``
+  val th7 = CONJUNCT1 th6
+  val th8 = CONJUNCT2 th6
+  val th9 = CONJ th8 th7
+  val th10 = DISCH ``q /\ p`` th9
+  val th11 = IMP_ANTISYM_RULE th5 th10
+in
+  GENL [``p:bool``,``q:bool``] th11
+end;
+> val Example1 = |- !p q. p /\ q <=> q /\ p : thm
+\end{verbatim}
+  \end{session}
+  \caption{HOL Inference Rule Composed from Individual Inference Rules
+    Proving $\forall p\:q.p \wedge q \Leftrightarrow q \wedge p$}
+\label{fig:hol-proof-2}
+\end{figure}
+
+Figure~\ref{fig:hol-proof-1} shows each step in HOL corresponding to
+the formal proof in Figure~\ref{fig:proof-1}. The only difference is
+that instead of line numbers we name the theorems \texttt{th1, th2,
+  $\ldots$}, etc. Figure~\ref{fig:hol-proof-1} is an interactive proof
+where theorems \texttt{th1} through \texttt{th11} are proved
+sequentially one applied inference rule at a time.
+
+At this point, even though the last line in
+Figure~\ref{fig:hol-proof-1} is the final theorem we want, executing
+each inference rule line by line interactively is inconvenient, error
+prone (as typos are possible), and worst of all, time consuming. The
+final step is to compose all of the individual function applications
+into a single function. Doing so is straightforward. We put our
+sequential applications of inference rules into a let statement. This
+enables users to derive the theorem in one step, which significantly
+increases the ease of reuse and verification by users.  The single
+function that is the combination of all the inference rules is in
+Figure~\ref{fig:hol-proof-2}.
+
+\subsection{Proof that \textbf{\texttt{EL 1 [1;2;3] = 2}}}
+\label{sec:list-proof}
+
+In this example we illustrate how to build upon and use results from
+previously defined theories in HOL. This illustrates one of the great
+advantages of using a system such as HOL, its extensive library of
+theories, all of which are conservative (i.e., sound) extensions to
+the HOL system.  The primary theory we use is the theory of lists.
+
+\subsubsection{Desired Outcome}
+The theorem we will prove is the element indexed by 1 of the list
+[1;2;3] is 2, where the indices start at 0. This is given by the
+theorem:
+\begin{gather*}
+  \sq{EL \;1 \;[1;2;3] = 2}, \text{ where }\\
+  (\forall l.EL \; 0 \;l = HD \;l) \wedge (\forall
+  l\:n.EL(\mathit{SUC}\:n)\:l = EL\:n\:(TL\;l)), \text{ and}\\
+  \forall h\:t.HD (h::t) = h \qquad \forall h\:t.TL(h::t) = t
+\end{gather*}
+
+In HOL, we expect the following result:
+\begin{session}
+\begin{verbatim}
+
+- val Example2 =
+  ... ;
+> val Example2 = |- EL 1 [1; 2; 3] = 2 : thm
+\end{verbatim}
+\end{session}
+
+As in the previous example, we will start with an informal proof
+outline, then develop a formal sequent-based proof, and check the
+formal proof in HOL.
+
+\subsubsection{Informal Proof Outline}
+
+The terms in the theorem are defined as part of the theory \emph{list}
+in HOL. The relevant definitions (and their names) are as follows:
+
+\begin{tabular}[h]{rl}
+  HD  = &\HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{h}
+  \HOLBoundVar{t}. HD (\HOLBoundVar{h}::\HOLBoundVar{t}) =
+  \HOLBoundVar{h}\\
+  TL  = & \HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{h}
+  \HOLBoundVar{t}. TL (\HOLBoundVar{h}::\HOLBoundVar{t}) =
+  \HOLBoundVar{t}\\
+  EL  = & \HOLTokenTurnstile{} (\HOLTokenForall{}\HOLBoundVar{l}. EL 0
+  \HOLBoundVar{l} = HD \HOLBoundVar{l}) \HOLTokenConj{}
+  \HOLTokenForall{}\HOLBoundVar{l} \HOLBoundVar{n}. EL (SUC
+  \HOLBoundVar{n}) \HOLBoundVar{l} = EL \HOLBoundVar{n} (TL
+  \HOLBoundVar{l})
+\end{tabular}
+
+The essence of the proof is straightforward: we get to the $1^{st}$
+element of the list [1;2;3] by eliminating the $0^{th}$ element (i.e.,
+1) and seeing what is at the head of the remaining list, namely 2. We
+also use the fact that SUC 0~=~1.
+
+\subsubsection{Formal Proof Using Sequents}
+
+\begin{figure}[t]
+    \centering \begin{footnotesize}\fbox{
+      \begin{tabular}[h]{r<{.}b{0.4\linewidth}b{0.3\linewidth}}
+        % 1 & \sq{\textit{EL 1 [1;2;3] = EL 1 [1;2;3]}} & REFL \emph{EL 1 [1;2;3]}\\
+        1 & \sq{\forall l.\textit{EL 0 l = HD l}} & CONJUNCT1 \emph{EL}\\
+        2 & \sq{\forall l\:n.\textit{EL (SUC n) l = EL n (TL l)}} & 
+        CONJUNCT2 \emph{EL}\\
+        3 & \sq{\textit{EL (SUC 0)[1;2;3] = EL 0 (TL [1;2;3])}} &
+        {ISPECL [[1;2;3],0], 2}\\
+        4 & \sq{\textit{SUC 0 = 1}} & SUC\_CONV \emph{SUC 0}\\
+        5 & \sq{\textit{EL 1 [1;2;3] = EL 0 (TL [1;2;3])}} & SUBS [1/SUC 0], 3\\
+        6 & \sq{\textit{TL [1;2;3] = [2;3]}} & ISPECL \emph{[1,[2;3]]} TL\\
+        7 & \sq{\textit{EL 1 [1; 2; 3] = EL 0 [2; 3]}} & 
+        SUBS \textit{TL [1;2;3] = [2;3]}, 5\\
+        8 & \sq{\textit{EL 0 [2; 3] = EL 0 [2; 3]}} & 
+        REFL \textit{EL 0 [2; 3]}\\
+        9 & \sq{\textit{EL 0 [2; 3] = HD [2; 3]}} &
+        ISPEC \textit{[2;3]} 1\\
+        10 & \sq{\textit{HD [2; 3] = 2}} &
+        ISPECL \textit{[2,[3]]} HD\\
+        11 & \sq{\textit{EL 0 [2; 3] = 2}} &
+        SUBS \textit{[2/HD [2;3]]}, 9\\
+        12 & \sq{\textit{EL 1 [1; 2; 3] = 2}} &
+        SUBS \textit{[2/EL 0 [2;3]]}, 7\\
+      \end{tabular}}
+  \end{footnotesize}
+
+    \caption{Formal Proof of EL 1 [1;2;3] = 2}
+\label{fig:proof-2}
+\end{figure}
+
+As before, we rely on the formal sequent-based inference rules in
+Figure~\ref{fig:inference-rules-1}. The essence of this proof relies
+on \emph{instantiating or specializing} specific values into
+universally quantified expressions that are definitions, and
+\emph{substituting} the equalities into expressions. In fact, much of
+this proof involves reasoning about equalities, a situation that comes
+up often when reasoning about designs.
+
+Figure~\ref{fig:proof-2} is an example of a sequent-based proof that
+\emph{EL 1 [1;2;3] = 2}. A line by line explanation of the proof in
+Figure~\ref{fig:proof-2} appears below.  As before, when we say
+``\emph{theorem n}'', we mean the sequent on line \emph{n}.
+\begin{enumerate}
+% \item From the REFL (reflection) rule, which says that every term is
+%   equal to itself, we conclude \emph{EL 1 [1; 2; 3] = EL 1 [1; 2; 3]}.
+\item From the CONJUNCT1 rule applied to the definition of \emph{EL},
+  we conclude $\forall l.\textit{EL 0 l = HD l}$.
+\item From the CONJUNCT2 rule applied to \emph{EL} we conclude
+  $\forall l \:n.\textit{EL (SUC n) l = EL n (TL l)}$
+\item Specializing the universally quantified variables of theorem 3
+  with [1;2;3] and 0 we conclude \emph{EL (SUC 0) [1; 2; 3] = EL 0 (TL
+    [1; 2; 3])}.
+\item Using the conversion SUC\_CONV applied to \emph{SUC 0} we
+  conclude \emph{SUC 0 = 1}.
+\item Using the SUBS rule to substitute 1 for \emph{SUC 0} in theorem
+  5 we conclude \emph{EL 1 [1;2;3] = EL 0 (TL [1;2;3]).}
+\item Substituting 1 and [2;3] into the definition of TL enables us to
+  conclude \emph{TL [1;2;3] = [2;3]}.
+\item Substituting \emph{[2;3]} for \emph{TL [1;2;3]} as justified by
+  theorem 7 into theorem 6 yields \emph{EL 1 [1;2;3] = EL 0 [2;3]}.
+\item Using the REFL rule, we conclude \emph{EL 0 [2;3] = EL 0 [2;3]}.
+\item Applying \emph{ISPEC} [2;3] to theorem 2 enables us to conclude
+  \emph{EL 0 [2; 3] = HD [2; 3]}.
+\item Applying \emph{ISPECL} to specialize HD with \emph{[2;3]}
+  enables us to conclude \emph{HD [2;3] = 2}.
+\item Using SUBS to substitute 2 for \emph{HD [2;3]} in theorem 10
+  produces \emph{EL 0 [2;3] = 2}.
+\item Substituting 2 for \emph{EL 0 [2;3]} in theorem 8 produces the
+  desired theorem \sq{EL 1 [1;2;3] = 2}.
+\end{enumerate}
+
+
+\subsubsection{Proof Checked by HOL}
+
+\begin{figure}[t]
+  \centering
+  \begin{session}
+\begin{verbatim}
+
+- load "listTheory";
+> val it = () : unit
+- open listTheory;
+...
+ a long listing of the contents of listTheory
+...
+
+- print_theory "list";
+Theory: list
+
+Parents:
+    operator
+    ind_type
+    pred_set
+...
+ a long listing of the contents of listTheory
+...
+\end{verbatim}
+  \end{session}
+  \caption{Loading, Opening, and Printing listTheory}
+\label{fig:list-theory}
+\end{figure}
+
+This proof depends on the previously defined theory of lists, called
+\texttt{listTheory}. When HOL is first invoked, only the basic HOL
+theories and libraries are loaded.  To use the contents of a theory or
+library requires two steps: first the theory is loaded using
+\texttt{load}, second the contents are opened using \texttt{open}.  In
+the case of \texttt{listTheory} what we do to load and open it as
+shown in Figure~\ref{fig:list-theory}.
+
+Notice that the argument taken by \texttt{load} is a \emph{string}, in
+this case ``listTheory''.  The argument given to \texttt{open} is
+\texttt{listTheory} \emph{without quotes}.  
+
+Once a theory is loaded, we can print out its contents organized by
+parent theories, type constants, term constants, definitions, and
+theorems using the function \texttt{print\_theory} followed by the
+theory name as an ML string.  In the case of lists, we apply
+\texttt{print\_theory} to the string \texttt{``list''}.
+
+To make our lives easier, we use one additional ML function that
+returns theorems about numbers of the form \texttt{SUC n}, where
+\texttt{n} is a natural number. The function we use is
+\texttt{SUC\_CONV}, which is part of the library \texttt{reduceLib}.
+As we only need this function and not the entire contents of
+\texttt{reduceLib}, we can access and use \texttt{SUC\_CONV} as
+follows.
+\begin{session}
+\begin{verbatim}
+
+- reduceLib.SUC_CONV ``SUC 2``;
+> val it = |- SUC 2 = 3 : thm
+\end{verbatim}
+\end{session}
+We see from the above that \texttt{SUC\_CONV} when applied to the HOL
+term \texttt{SUC 2} returns the natural number one higher than
+2. \texttt{SUC\_CONV} is one example of a special class of ML
+functions known as \emph{conversions}.  Conversions are functions that
+take HOL terms $t$ and return a theorem of the form \sq{t = t'}, where
+$t$ and $t'$ are equivalent forms.  We will learn more about
+conversions later. For now, we will just make use of
+\texttt{SUC\_CONV} to simplify our proofs.
+
+After \texttt{listTheory} is loaded and opened in HOL we can check our
+formal sequent-based proof line by line in HOL as shown in
+Figure~\ref{fig:hol-proof-3}.  Once we have checked each step, we can combine all the steps into a single function as shown in Figure~\ref{fig:hol-proof-4}.
+
+\begin{figure}[t]
+  \centering
+  \begin{session}
+\begin{verbatim}
+
+- val th1 = CONJUNCT1 EL;
+> val th1 = |- !l. EL 0 l = HD l : thm
+- val th2 = CONJUNCT2 EL;
+> val th2 = |- !l n. EL (SUC n) l = EL n (TL l) : thm
+- val th3 = ISPECL [``[1;2;3]``,``0``] th2;
+> val th3 = |- EL (SUC 0) [1; 2; 3] = 
+               EL 0 (TL [1; 2; 3]) : thm
+- val th4 = reduceLib.SUC_CONV ``SUC 0``;
+> val th4 = |- SUC 0 = 1 : thm
+- val th5 = SUBS [th4] th3;
+> val th5 = |- EL 1 [1; 2; 3] = EL 0 (TL [1; 2; 3]) : thm
+- val th6 = ISPECL [``1``,``[2;3]``] TL;
+> val th6 = |- TL [1; 2; 3] = [2; 3] : thm
+- val th7 = SUBS [th6] th5;
+> val th7 = |- EL 1 [1; 2; 3] = EL 0 [2; 3] : thm
+- val th8 = REFL ``EL 0 [2;3]``;
+> val th8 = |- EL 0 [2; 3] = EL 0 [2; 3] : thm
+- val th9 = ISPEC ``[2;3]`` th1;
+> val th9 = |- EL 0 [2; 3] = HD [2; 3] : thm
+- val th10 = ISPECL [``2``,``[3]``] HD;
+> val th10 = |- HD [2; 3] = 2 : thm
+- val th11 = SUBS [th10] th9;
+> val th11 = |- EL 0 [2; 3] = 2 : thm
+- SUBS [th11] th7;
+> val it = |- EL 1 [1; 2; 3] = 2 : thm
+\end{verbatim}
+  \end{session}
+  \caption{HOL Proof of EL 1 [1;2;3] = 2}
+  \label{fig:hol-proof-3}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \begin{session}
+\begin{verbatim}
+
+- val Example2 =
+let
+  val th1 = CONJUNCT1 EL
+  val th2 = CONJUNCT2 EL
+  val th3 = ISPECL [``[1;2;3]``,``0``] th2
+  val th4 = reduceLib.SUC_CONV ``SUC 0``
+  val th5 = SUBS [th4] th3
+  val th6 = ISPECL [``1``,``[2;3]``] TL
+  val th7 = SUBS [th6] th5
+  val th8 = REFL ``EL 0 [2;3]``
+  val th9 = ISPEC ``[2;3]`` th1
+  val th10 = ISPECL [``2``,``[3]``] HD
+  val th11 = SUBS [th10] th9
+in
+  SUBS [th11] th7
+end;
+> val Example2 = |- EL 1 [1; 2; 3] = 2 : thm
+\end{verbatim}
+  \end{session}
+  \caption{HOL Inference Rule Composed from Individual Rules Proving
+    EL 1 [1;2;3] = 2}
+  \label{fig:hol-proof-4}
+\end{figure}
+
+As before, we can check our sequent-based formal proof in
+Figure~\ref{fig:proof-2} and check each step of the proof.  This is
+shown in Figure~\ref{fig:hol-proof-3}.
+
+
+% %% ==== Exercises =====
+
+\begin{exercise}[\synthesis]
+  Prove the following theorem using the sequent-based inference rules
+shown in Figure~\ref{fig:inference-rules-1}.
+\begin{gather*}
+  \forall p\:q.((p \wedge q) \implies r) \Leftrightarrow (p \implies q
+  \implies r)
+\end{gather*}
+What you turn in is a single ML function that proves the theorem as
+shown below in HOL.
+\begin{session}
+\begin{verbatim}
+
+- val Theorem1 =
+let
+ ...
+in
+ ... 
+end;
+> val Theorem1 = |- !p q r. p /\ q ==> r <=> p ==> q ==> r : thm
+\end{verbatim}
+\end{session}
+\end{exercise}
+
+\begin{exercise}[\synthesis]
+  Prove the following theorem using the sequent-based inference rules
+shown in Figure~\ref{fig:inference-rules-1}.
+\begin{gather*}
+  \sq{[1;2] ++ [3;4] = [1;2;3;4]}.
+\end{gather*}
+Note: another way to write this is \sq{\textit{APPEND [1;2] [3;4] =
+    [1;2;3;4]}}.  What you turn in is a single ML function that proves
+the theorem as shown below in HOL.
+\begin{session}
+\begin{verbatim}
+
+- val Theorem2 =
+let
+ ...
+in
+ ...
+end;
+> val Theorem2 = |- [1; 2] ++ [3; 4] = [1; 2; 3; 4] : thm
+\end{verbatim}
+\end{session}
+\end{exercise}
+
+\section{Custom Inference Rules}
+\label{sec:custom-rules}
+
+Doing forward proofs and creating custom inference rules in HOL are
+closely related. In this section, we illustrate the process of turning
+a forward proof into a forward inference rule. The benefits of
+creating custom inference rules include saving time and effort.
+
+In this set of supplemental exercises, we practice HOL proofs using
+the inference rules shown in Figure~\ref{fig:inference-rules-1}.
+These problems have several objectives. They will give you practice:
+\begin{enumerate}
+\item converting textbook problems into sequent-based proofs,
+\item using sequent-based inference rules,
+\item using HOL forward inference rules, and
+\item \emph{creating your own inference rules}.
+\end{enumerate}
+
+One of the many benefits of using proof checkers and theorem proving
+system such as HOL is the capability to extend the underlying HOL
+logic with your own definitions.  These extensions can take the form
+of new definitions, new theorems, new inference rules, new languages,
+and new logical systems. As HOL only allows \emph{conservative} (i.e.,
+validity-preserving) extensions, you and the people depending on your
+work have a high degree of assurance that your results are
+correct. Put another way, HOL checks your work and thereby increases
+the confidence you have in your own work that it has integrity. Others
+who depend on your work, can independently see the full details of
+your work and verify your conclusions on their own.  Thus, HOL plays
+in important role in \textbf{establishing trust and trustworthiness.}
+
+% \subsection{Examples of Forward Proofs and Custom Inference Rules}
+% \label{sec:examples}
+
+\paragraph*{Proof of Modus Tollens}
+\label{sec:modus-tollens}
+
+Our first example is creating the \emph{Modus Tollens} inference
+rule. In symbolic logic textbooks, the inference rule is typically
+presented as:
+\begin{align*}
+  & p \implies q\\
+  & \neg q\\
+  & \therefore \neg p
+\end{align*}
+The inference rule says that if we have an implication $p \implies q$
+and the negation of $q$, i.e., $\neg q$, then we can conclude $\neg
+p$, the negation of $p$.
+
+As HOL is based on sequents, the \emph{Modus Tollens} (MT) rule we
+desire is similar to that of MP, and has the form:
+\begin{gather*}
+  \irule
+  {\seqs{\Gamma_1}{t_1 \implies t_2} \quad \seqs{\Gamma_2}{\neg t_2}}
+  {\seqs{\Gamma_1 \cup \Gamma_2}{\neg t_1}}
+  {MT}.
+\end{gather*}
+
+When introducing a new inference rule it is best to prove the theorem
+corresponding to the inference rule.  In this case, the theorem we
+prove first is:
+\begin{gather*}
+  \seq{t_1 \implies t_2, \neg t_2}{\neg t_1}.
+\end{gather*}
+Figure~\ref{fig:example-proof-2} shows a sequent-based proof using the
+inference rules in Figure~\ref{fig:inference-rules-1}.
+Figure~\ref{fig:proof-tree-2} is the proof presented as a derivation
+tree of inference rules.
+
+% \begin{figure}[t]
+%   \centering
+%   \fbox{
+%   \begin{tabular}{r<{.}>{$}b{0.3\linewidth}<{$}b{0.5\linewidth}}
+%     1 & A \wedge B & assumption\\
+%     2 & (A \vee C) \implies D \;/\therefore \;A \wedge D 
+%       & assumption and desired conclusion\\
+%     3 & A & CONJUNCT1, 1\\
+%     4 & A \vee C & DISJ1 3\\
+%     5 & D & MP 2,4\\
+%     6 & A \wedge D & CONJ 4, 5\\
+%   \end{tabular}
+%   }
+%   \caption{Example Proof}
+%   \label{fig:example-proof-1}
+% \end{figure}
+
+% \begin{figure}[t]
+%   \centering
+%   \begin{tiny}
+%     \begin{gather*}
+%       \irule
+%       {\irule
+%       {\irule
+%         {}
+%         {\seq{A \wedge B}{A \wedge B}}
+%         {ASSUME $A \wedge B$}}
+%       {\seq{A \wedge B}{A}}
+%       {CONJUNCT1} \qquad 
+%       {\irule
+%        {\irule
+%          {}
+%          {}
+%          {\irule
+%            {}
+%            {\seq{(A \vee C) \implies D}{(A \vee C) \implies D}}
+%            {ASSSUME $(A \vee C) \implies D$} \qquad
+%            \irule
+%            {\irule
+%              {\irule
+%                {}
+%                {\seq{A \wedge B}{A \wedge B}}
+%                {ASSUME $A\wedge B$}
+%              }
+%              {\seq{A \wedge B}{A}}
+%              {CONJUNCT1}
+%            }
+%            {\seq{A \wedge B}{A \vee C}
+%            }
+%            {DISJ1}
+%          }
+%        }
+%        {\seq{A \wedge B, (A \vee C) \implies D}{D}}
+%        {MP}}}
+%       {\seq{A \wedge B, (A \vee C) \implies D}{A \wedge D}}
+%       {CONJ}
+%     \end{gather*}
+%   \end{tiny}
+%   \caption{Proof Tree}
+%   \label{fig:proof-tree-1}
+% \end{figure}
+
+\begin{figure}[t]
+  \centering
+  \fbox{
+  \begin{tabular}{r<{.}>{$}b{0.25\linewidth}<{$}b{0.25\linewidth}}
+    1 & \seq{A \implies B}{A \implies B} & ASSUME $A \implies B$\\
+    2 & \seq{\neg B}{\neg B} & ASSUME $\neg B$\\
+    3 & \seq{\neg B}{B \implies F} & NOT\_ELIM 2\\
+    4 & \seq{A \implies B, \neg B}{A \implies F} & IMP\_TRANS 1, 3\\
+    5 & \seq{A \implies B, \neg B}{\neg A} & NOT\_INTRO 4\\
+  \end{tabular}
+  }
+  \caption{Proof of Modus Tollens}
+  \label{fig:example-proof-2}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \begin{scriptsize}
+    \irule { \irule { \irule {} {\seq{A\implies B}{A\implies B}}
+        {ASSUME $A \implies B$} \qquad \irule { \irule {} {\seq{\neg
+              B}{\neg B}} {ASSUME $\neg B$} } {\seq{\neg B}{B \implies
+            F}} {NOT\_ELIM} } {\seq{A \implies B, \neg B}{A \implies
+          F}} {IMP\_TRANS} } {\seq{A \implies B, \neg B}{\neg A}}
+    {NOT\_INTRO}
+  \end{scriptsize}
+
+  \caption{Proof Tree for Modus Tollens}
+  \label{fig:proof-tree-2}
+\end{figure}
+
+
+
+\paragraph*{Proof of Modus Tollens Theorem in HOL}
+
+\begin{figure}[t]
+  \centering
+  \begin{small}
+    \begin{session}
+\begin{verbatim}
+
+- val th1 = ASSUME ``A ==> B``;
+> val th1 =  [.] |- A ==> B : thm
+- val th2 = ASSUME ``~B``;
+> val th2 =  [.] |- ~B : thm
+- val th3 = NOT_ELIM th2;
+> val th3 =  [.] |- B ==> F : thm
+- val th4 = IMP_TRANS th1 th3;
+> val th4 =  [..] |- A ==> F : thm
+- val th5 = NOT_INTRO th4;
+> val th5 =  [..] |- ~A : thm
+\end{verbatim}
+    \end{session}
+  \end{small}
+  \caption{HOL Proof of Modus Tollens}
+  \label{fig:hol-proof-2}
+\end{figure}
+
+The proof of the theorem corresponding to \emph{Modus Tollens} appears
+in Figures~\ref{fig:hol-proof-2}. It corresponds exactly to the proofs
+shown in Figures~\ref{fig:example-proof-2} and \ref{fig:proof-tree-2}.
+
+\paragraph*{Definition of the Modus Tollens Inference Rule}
+\label{sec:mt-inference-rule}
+
+\begin{figure}[t]
+  \centering
+  \begin{small}
+    \begin{session}
+\begin{verbatim}
+
+- fun MT th1 th2 =
+let 
+  val th3 = NOT_ELIM th2
+  val th4 = IMP_TRANS th1 th3
+in
+  NOT_INTRO th4
+end;
+> val MT = fn : thm -> thm -> thm
+- val th1 = ASSUME ``A ==> B``;
+> val th1 =  [.] |- A ==> B : thm
+- val th2 = ASSUME ``~B``;
+> val th2 =  [.] |- ~B : thm
+- MT th1 th2;
+> val it =  [..] |- ~A : thm
+- val th1 = ASSUME ``(p \/ q \/ r) ==> (s /\ t)``;
+> val th1 =  [.] |- p \/ q \/ r ==> s /\ t : thm
+- val th2 = ASSUME ``~(s /\ t)``;
+> val th2 =  [.] |- ~(s /\ t) : thm
+- MT th1 th2;
+> val it =  [..] |- ~(p \/ q \/ r) : thm
+\end{verbatim}
+    \end{session}
+  \end{small}
+  \caption{Source Code for MT Inference Rule with Two Test Cases}
+  \label{fig:mt-code}
+\end{figure}
+
+Having done the proof of the theorem corresponding to \emph{Modus
+  Tollens}, we can define a corresponding inference rule \emph{MT}
+that is applied to two theorems, $\seqs{\Gamma_1}{t_1 \implies t_2}$
+and $\seqs{\Gamma_2}{\neg t_2}$, to return the theorem $\seqs{\Gamma_1
+  \cup \Gamma_2}{\neg t_1}$.
+
+What we want to define is an ML function \emph{MT} that takes two
+theorems (ML type thm) as arguments.  The first argument is a sequent
+of the form \seqs{\Gamma_1}{t_1 \implies t_2}.  The second is a
+sequent of the form \seqs{\Gamma_2}{\neg t_2}.  The result is a
+sequent \seqs{\Gamma_1 \cup \Gamma_2}{\neg t_1}.
+
+Looking at Figures~\ref{fig:example-proof-2} and \ref{fig:hol-proof-2}
+we see that the two arguments to \emph{MT} are th1 and th2, and the
+proof is carried out in lines 3 through 5, corresponding to theorems
+th3 through th5. The inference rules for theorems th3 through th5 are
+placed within the context of a let expression.  The theorems th1 and
+th2 are arguments to which \emph{MT} is applied.
+
+The definition of \emph{MT} along with its application to two test
+cases is shown in Figure~\ref{fig:mt-code}.
+
+\paragraph*{Definition of the Equivalence Expansion Inference Rule}
+\label{sec:equiv-expansion-rule}
+
+\begin{figure}[t]
+  \centering
+  \begin{small}
+    \begin{session}
+\begin{verbatim}
+
+- fun EQ_EXPAND_RULE th1 =
+let
+  val (term1,term2) = dest_eq(concl th1)
+  val th2 = ISPECL [term1,term2] EQ_EXPAND
+in
+  EQ_MP th2 th1
+end;
+> val EQ_EXPAND_RULE = fn : thm -> thm
+- val th1 = ASSUME ``p <=> q``;
+> val th1 =  [.] |- p <=> q : thm
+- EQ_EXPAND_RULE th1;
+> val it =  [.] |- p /\ q \/ ~p /\ ~q : thm
+- val th1 = ASSUME ``(x:'a = y:'a) <=> (y:'a = z:'a)``;
+> val th1 =  [.] |- (x = y) <=> (y = z) : thm
+- EQ_EXPAND_RULE th1;
+> val it =  
+  [.] |- (x = y) /\ (y = z) \/ x <> y /\ y <> z : thm
+\end{verbatim}
+    \end{session}
+  \end{small}
+  \caption{Source Code for EQ\_EXPAND\_RULE}
+  \label{fig:eq-expand-rule-code}
+\end{figure}
+
+In this example, we show how proofs and inference rules are
+constructed from previously proved theorems in HOL.  Often, when
+creating inference rules applied to theorems, we need to destruct the
+theorems into their components and instantiate the components into
+existing theorems.
+
+For example, the \texttt{EQ\_EXPAND} theorem exists in HOL as shown
+below.
+\begin{session}
+\begin{verbatim}
+
+- EQ_EXPAND;
+> val it = 
+  |- !t1 t2. (t1 <=> t2) <=> t1 /\ t2 \/ ~t1 /\ ~t2 : thm
+\end{verbatim}
+\end{session}
+
+Suppose we wish to create an inference rule \emph{EQ\_EXPAND\_RULE} as
+shown below.
+\begin{gather*}
+  \irule
+  {\seqs{\Gamma}{t_1 \Leftrightarrow t_2}}
+  {\seqs{\Gamma}{t_1 \wedge t_2 \vee \neg t_1 \wedge \neg t_2}}
+  {EQ\_EXPAND\_RULE}
+\end{gather*}
+The rule says that if $t_1$ is equivalent to $t_2$, then either both
+$t_1$ and $t_2$ will be true ($t_1 \wedge t_2$) or both will be false
+($\neg t_1 \wedge \neg t_2$).
+
+The implementation of the rule is straightforward as shown in
+Figure~\ref{fig:eq-expand-rule-code}.  The theorem to which the rule
+is applied is destructed to get the terms corresponding to $t_1$ and
+$t_2$.  These two terms are then instantiated into the EQ\_EXPAND
+theorem. The final theorem is obtained using the EQ\_MP inference
+rule.
+
+Figure~\ref{fig:eq-expand-rule-code} also shows two test cases to
+which the rule is applied.
+
+\paragraph*{Simplifying Theorems}
+
+When faced with theorems that can be simplified, use
+\emph{REWRITE\_RULE []} to simplify them.  For example:
+
+\begin{small}
+\begin{verbatim}
+- val th = ASSUME ``~~t``;
+> val th =  [.] |- ~~t : thm
+- REWRITE_RULE [] th;
+> val it =  [.] |- t : thm
+\end{verbatim}
+\end{small}
+
+shows that the term $\sim\sim t$ is simplified by REWRITE\_RULE [].
+
+\begin{exercise}
+Consider the following rule:
+\begin{align*}
+  & A \wedge B\\
+  & (A \vee C) \implies D\\
+  & \therefore A \wedge D
+\end{align*}
+
+Do the following:
+\begin{enumerate}[{A.}]
+\item Prove the following theorem in HOL:
+  \begin{small}
+\begin{verbatim}
+> val Problem1 =  [..] |- A /\ D : thm
+- hyp Problem1;
+> val it = [``A /\ B``, ``A \/ C ==> D``] : term list
+\end{verbatim}
+  \end{small}
+\item Create the inference rule corresponding to the above
+  theorem. The rule is shown below.
+  \begin{gather*}
+    \irule
+    {\seqs{\Gamma_1}{A \wedge B} \quad \seqs{\Gamma_2}{(A \vee C) \implies D}}
+    {\seqs{\Gamma_1 \cup \Gamma_2}{A \wedge D}}
+    {Rule 1}
+  \end{gather*}
+The behavior of the rule in HOL is shown below.
+\begin{small}
+\begin{verbatim}
+- fun Rule1 th1 th2 =
+let
+ ...
+in
+ ...
+end;
+> val Rule1 = fn : thm -> thm -> thm
+- val th1 = ASSUME ``(p ==> q) /\ (r ==> s)``;
+> val th1 =  [.] |- (p ==> q) /\ (r ==> s) : thm
+- val th2 = ASSUME ``((p ==> q) \/ t) ==> u``;
+Rule1 th1 th2;
+> val th2 =  [.] |- (p ==> q) \/ t ==> u : thm
+- > val it =  [..] |- (p ==> q) /\ u : thm
+\end{verbatim}
+\end{small}
+
+\end{enumerate}
+  
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}[{A.}]
+\item Prove the following theorem in HOL.
+  \begin{small}
+\begin{verbatim}
+ val Contrapos_thm = |- !p q. p ==> q <=> ~q ==> ~p : thm
+\end{verbatim}
+  \end{small}
+\item Using the above theorem, implement the CONTRA\_RULE whose
+  behavior is demonstrated below.
+  \begin{small}
+\begin{verbatim}
+- fun CONTRA_RULE thm =
+let
+  ...
+in
+  ...
+end;
+> val CONTRA_RULE = fn : thm -> thm
+- val th1 = ASSUME ``p ==> q``;
+> val th1 =  [.] |- p ==> q : thm
+- CONTRA_RULE th1;
+> val it =  [.] |- ~q ==> ~p : thm
+- val th1 = ASSUME ``(1 = 2) ==> (x:'a = y:'a)``;
+> val th1 =  [.] |- (1 = 2) ==> (x = y) : thm
+- CONTRA_RULE th1;
+> val it =  [.] |- x <> y ==> 1 <> 2 : thm
+\end{verbatim}
+  \end{small}
+\end{enumerate}
+
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}[{A.}]
+\item Prove the following theorem (known as the constructive dilemma
+  theorem) in HOL.
+  \begin{small}
+\begin{verbatim}
+> val ConstructiveDilemma_thm =  [..] |- q \/ s : thm
+- hyp ConstructiveDilemma_thm;
+> val it = [``(p ==> q) /\ (r ==> s)``, ``p \/ r``] : term list
+\end{verbatim}
+  \end{small}
+\item Implement the CD\_RULE based on ConstructiveDilemma\_thm whose
+  behavior is illustrated below.
+  \begin{small}
+\begin{verbatim}
+- fun CD_RULE th1 th2 =
+let 
+ ...
+in
+ ...
+end;
+> val CD_RULE = fn : thm -> thm -> thm
+- val th1 = ASSUME ``(A ==> B) /\ (C ==> D)``;
+> val th1 =  [.] |- (A ==> B) /\ (C ==> D) : thm
+- val th2 = ASSUME ``A \/ C``;
+> val th2 =  [.] |- A \/ C : thm
+- CD_RULE th1 th2;
+> val it =  [..] |- B \/ D : thm
+- hyp it;
+> val it = [``(A ==> B) /\ (C ==> D)``, ``A \/ C``] : term list
+\end{verbatim}
+  \end{small}
+\end{enumerate}
+
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}[{A.}]
+\item Prove the following theorem known as the absorption theorem.
+  \begin{small}
+\begin{verbatim}
+- val Absorption_thm =
+let
+ ...
+in
+ ...
+end;
+> val Absorption_thm =  [.] |- p ==> p /\ q : thm
+- hyp Absorption_thm;
+> val it = [``p ==> q``] : term list
+\end{verbatim}
+  \end{small}
+\item Create the ABSORP\_RULE corresponding to the absorption
+  theorem. The rule's behavior is illustrated below.
+  \begin{small}
+\begin{verbatim}
+- fun ABSORP_RULE th1 =
+let
+  ...
+in
+  ...
+end;
+> val ABSORP_RULE = fn : thm -> thm
+- val th1 = ASSUME ``A ==> B``;
+> val th1 =  [.] |- A ==> B : thm
+- ABSORP_RULE th1;
+> val it =  [.] |- A ==> A /\ B : thm
+- hyp it;
+> val it = [``A ==> B``] : term list
+\end{verbatim}
+  \end{small}
+
+\end{enumerate}
+
+\end{exercise}
+
+\section{Goal-Oriented Proofs}
+
+Most proofs in HOL are done starting with a \emph{goal} to be proved
+as opposed to starting with a theorem, as we did for the previous
+assignment. Goal-oriented proofs (otherwise known as \emph{backward}
+proofs) start with a proposition we wish to prove. The proof proceeds
+by simplifying the goal to simpler subgoals until they all correspond
+to known theorems. The functions that are applied to goals to produce
+simpler goals are known as \emph{tactics}. In this homework, you will
+become familiar with some basic tactics and their operation, as well
+as write your own tactics in ML.
+
+\subsection{Basic Techniques}
+\label{sec:basics}
+
+\paragraph*{Setting Goals}
+
+Goals have the same structure as sequents.  Goals have a list of
+assumptions $\Gamma$ and a conclusion $t$.  They are represented as
+\goals{\Gamma}{t}. While goals have the same structure as sequents,
+\textbf{\standout{they are not theorems}} in HOL. Recall that theorems
+\seqs{\Gamma}{t} are the \emph{safe type} in ML, i.e., all ML objects
+of type \texttt{thm} are guaranteed to be mathematically valid. A
+goal-oriented proof is done when a goal corresponds to an existing
+theorem.
+
+Goals are set using the ML function \texttt{set\_goal}.  The ML type
+of \texttt{set\_goal} is shown below in
+Session~\ref{session:set-goal-fun}. 
+\begin{session}
+\label{session:set-goal-fun}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal;
+> val it = fn : term list * term -> proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+Notice that \texttt{set\_goal} takes a pair $(\text{term list} \times
+term)$ and returns \texttt{proofs}. The input pair is a goal of the
+form \goals{\Gamma}{t}.
+
+Suppose we wish to prove the goal \goal{A,B}{A \wedge B}. We apply
+\texttt{set\_goal} to the pair $([``A:bool``,``B:bool``],``A \wedge
+B``)$ and the result is a proof object as shown below. The result is
+shown below in Session~\ref{session:set-goal}. The proof manager reports that
+there is one proof in the current HOL session. The first proof has an
+initial goal of $A \wedge B$ under the two assumptions in the
+assumption list: assumption 0 being $B$ and assumption 1 being $A$.
+\begin{session}
+\label{session:set-goal}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 1 proof.
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+We quickly surmise that the above is true because whenever both $A$
+and $B$ are true in the assumption list, then $A \wedge B$ must be
+true in the assumptions. The task now becomes how to convince HOL of
+this.  This leads us directly to tactics and tacticals---the functions
+used in developing HOL proofs.
+
+\subsection{Tactics}
+
+In the same way that goals in backwards proofs correspond to theorems
+in forward proofs, \emph{tactics} in backwards proofs correspond to
+inference rules in forward proofs.  Specifically, just as inference
+rules in forward proofs move us from theorem to theorem, tactics in
+backwards proofs move us from goal to goal.%  Figure~\ref{fig:tactics}
+% shows some of the basic tactics we use in this introduction.
+
+As our first introduction to the use of tactics, consider
+\texttt{CONJ\_TAC}. It is described by:
+\begin{gather*}
+  \tac
+        {\goals{\Gamma}{t_1 \wedge t_2}}
+        {\goals{\Gamma}{t_1} \qquad \goals{\Gamma}{t_2}}
+        {CONJ\_TAC}.
+\end{gather*}
+Its interpretation is as follows: if we have the goal
+\goals{\Gamma}{t_1 \wedge t_2}, then we can prove it if we can prove
+both the (simpler) goals \goals{\Gamma}{t_1} and
+\goals{\Gamma}{t_2}. Similar to forward inference rules that state if
+you have the sequents above the (single) line, then you can write the
+sequent below the line, the rules for tactics are if you have the goal
+above the (double line) then you can reduce the goal to the subgoals
+below the line by applying the named tactic to the goal above the
+line.
+
+Recall the description of CONJ.
+\begin{gather*}
+  \irule
+  {\seqs{\Gamma_1}{t_1} \quad \seqs{\Gamma_2}{t_2}}
+  {\seqs{\Gamma_1 \cup \Gamma_2}{t_1 \wedge t_2}}
+  {CONJ}.
+\end{gather*}
+It is no coincidence that \texttt{CONJ\_TAC} looks like an upside-down
+version of \texttt{CONJ}. Tactics do two things:
+\begin{enumerate}
+\item Simplify goals into one or more subgoals.
+\item Justify why proving the subgoals will prove the goals, i.e.,
+  what the corresponding forward inference rule should be applied to
+  the sequents corresponding to the subgoals.
+\end{enumerate}
+A simple example will clarify what is happening.
+
+Our current proof goal is to show \goal{A,B}{A \wedge B} is true. We
+know that this is a provable goal from the forward inference rule
+\texttt{CONJ}. In fact, the forward proof is straightforward, as shown
+below in HOL Session~\ref{session:conj-forward-proof}
+\begin{session}
+\label{session:conj-forward-proof}
+
+  \begin{scriptsize}
+\begin{verbatim}
+
+- show_assums := true;
+> val it = () : unit
+- val th1 = ASSUME ``A:bool``;
+> val th1 =  [A] |- A : thm
+- val th2 = ASSUME ``B:bool``;
+> val th2 =  [B] |- B : thm
+- CONJ th1 th2;;
+> val it =  [A, B] |- A /\ B : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+How do we do the corresponding proof starting with the goal
+\\\verb|([``A:bool``,``B:bool``],``A /\ B``)|?  Defining\\
+\verb|([``A``,``B``],``A /\ B``)| as shown below in
+Session~\ref{session:goal1} we see as expected that the ML type of
+\texttt{goal1} is \texttt{term list * term}, i.e., the Cartesian
+product (pair) whose first element is a list of HOL terms, and whose
+second element is a HOL term.
+\begin{session}
+  \label{session:goal1}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val goal1 = ([``A:bool``,``B:bool``], ``A /\ B``);
+> val goal1 = ([``A``, ``B``], ``A /\ B``) : term list * term
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+Looking at the ML type of the tactic \verb|CONJ_TAC|, as shown below
+in Session~\ref{session:conj-tac}, shows that \verb|CONJ_TAC| takes as
+its argument a goal and returns \emph{a pair} consisting of a
+\emph{goal list} and a \emph{function} whose input is a list of
+theorems and whose output is a theorem.
+\begin{session}
+\label{session:conj-tac}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- CONJ_TAC;
+> val it = fn : term list * term -> (term list * term) list * (thm list -> thm)
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+The proof of \goal{A,B}{A \wedge B} using \verb|CONJ_TAC| is as
+follows.  First, we apply \texttt{CONJ\_TAC} to \texttt{goal1} and get
+the corresponding justification function \verb|just_fn|.  Next, we
+apply \verb|just_fun| to the theorems \texttt{th1} and
+\texttt{th2}. This is shown below in
+Session~\ref{session:goal1-proof}.
+\begin{session}
+  \label{session:goal1-proof}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- CONJ_TAC goal1;
+> val it = ([([``A``, ``B``], ``A``), ([``A``, ``B``], ``B``)], fn) :
+  (term list * term) list * (thm list -> thm)
+- val (goal_list,just_fn) = it;
+> val goal_list = [([``A``, ``B``], ``A``), ([``A``, ``B``], ``B``)] :
+  (term list * term) list
+  val just_fn = fn : thm list -> thm
+- just_fn [th1,th2];
+> val it =  [A, B] |- A /\ B : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+What is the magic within \verb|CONJ_TAC|? There is none. It is simply
+the matter of defining the subgoals using the ML destructor function
+\verb|dest_conj| on the input goal and defining the forward inference
+rule that is applied to the two theorems corresponding to the
+subgoals.  The following is an equivalent function \verb|Conj_tac|
+whose definition corresponds to the definition of the HOL built-in ML
+function \verb|CONJ_TAC|. Recall, that lambda functions of the form
+$\lambda x. t$ are defined in ML by \verb|fn x => t|. Lambda functions
+are \emph{anonymous} functions, i.e., functions with no names. The
+definition of \verb|Conj_tac| is below in
+Session~\ref{session:conj-tac-def}.
+\begin{session}
+  \label{session:conj-tac-def}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- fun Conj_tac (asl,term) =
+let
+  val (l,r) = dest_conj term
+in
+  ([(asl,l),(asl,r)], fn [th1,th2] => CONJ th1 th2)
+end;
+! Toplevel input:
+!   ([(asl,l),(asl,r)], fn [th1,th2] => CONJ th1 th2)
+!                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+! Warning: pattern matching is not exhaustive
+
+> val 'a Conj_tac = fn : 'a * term -> ('a * term) list * (thm list -> thm)
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+To demonstrate that \verb|Conj_tac|---our version of
+\verb|CONJ_TAC|---works, we repeat the previous backwards proof using
+\verb|Conj_tac| as shown in
+Session~\ref{session:repeat-conj-tac-proof}. It produces the desired
+final theorem.
+\begin{session}
+  \label{session:repeat-conj-tac-proof}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- Conj_tac goal1;
+> val it = ([([``A``, ``B``], ``A``), ([``A``, ``B``], ``B``)], fn) :
+  (term list * term) list * (thm list -> thm)
+- val (goal_list,just_fn) = it;
+> val goal_list = [([``A``, ``B``], ``A``), ([``A``, ``B``], ``B``)] :
+  (term list * term) list
+  val just_fn = fn : thm list -> thm
+- just_fn [th1,th2];
+> val it =  [A, B] |- A /\ B : thm
+\end{verbatim}
+  \end{scriptsize}
+
+\end{session}
+
+
+\section{Using Tactics and Tacticals}
+
+\begin{table}[t]
+  \centering
+  \begin{footnotesize}
+    \begin{tabular}{|m{0.15\linewidth}|m{0.15\linewidth}|c|c|}
+      \hline
+      \textbf{Purpose} & \textbf{ML function} & \textbf{Abbreviation} & \textbf{Example}\\
+      \hline
+      Setting top-level goal & \verb|set_goal| & \texttt{g} 
+      & \verb|set_goal([``A``,``B``],``A /\ B``);|\\
+      \hline
+      Applying a tactic to a proof & \texttt{expand} & \texttt{e} & \verb|e(CONJ_TAC);|\\
+      \hline
+      Displaying the top-level goal & \verb|top_goal| & none & \verb|top_goal();| \\
+      \hline
+      Backing up one step in a proof & \texttt{backup} & \texttt{b }& \texttt{b();}\\
+      \hline
+    \end{tabular}
+  \end{footnotesize}
+
+  \caption{Proof Management Functions}
+  \label{tab:proof-management-functions}
+\end{table}
+
+\subsection{Tactics}
+
+Tactics are ML functions that operate on goals and return a pair
+consisting of a list of (sub)goals with a justification function that
+is a forward inference rule that proves a theorem corresponding to the
+goal when applied to a list of theorems corresponding to the subgoals.
+\emph{Tacticals} are ML functions that take one or more tactics as
+arguments and returns a tactic.  Keeping track of all the goals and
+justification functions manually is cumbersome.  
+
+Fortunately, HOL has a proof management library that manages the goals
+and justification functions automatically.  We already used one of the
+proof management functions, \verb|set_goal|, to set our top-level goal
+\goal{A,B}{A \wedge B}. To apply the tactic \verb|CONJ_TAC| to the
+top-level goal in the proof, we apply the ML function \texttt{expand}
+to \verb|CONJ_TAC|. The result is shown below in
+Session~\ref{session:conj-tac-app}.
+\begin{session}
+\label{session:conj-tac-app}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 1 proof.
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+
+- expand(CONJ_TAC);
+OK..
+2 subgoals:
+> val it =
+    
+    B
+    ------------------------------------
+      0.  B
+      1.  A
+    
+    
+    A
+    ------------------------------------
+      0.  B
+      1.  A
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We see from the above that the proof manager, as a result of applying
+\texttt{expand} to \verb|CONJ_TAC| produced two subgoals:
+\goal{A,B}{A} and \goal{A,B}{B}.  When using HOL interactively, we can
+only work on one goal at a time. That is, we can only work on the
+\texttt{top goal} of the goal stack. Which is the top goal on the goal
+stack?  We use \verb|top_goal| to find out. As
+Session~\ref{session:top-goal} shows, \goal{A,B}{A} is the top goal on
+the goal stack.
+\begin{session}
+  \label{session:top-goal}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- top_goal();
+> val it = ([``A``, ``B``], ``A``) : term list * term
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+Recall, that we have \seq{A}{A} and \seq{B}{B} are theorems
+\texttt{th1} and \texttt{th2}.  In a fashion corresponding to the
+forward proof of \seq{A,B}{A \wedge B} we can use \texttt{th1} and
+\texttt{th2} to finish the proof using tactics.  An ML function we can
+use is \verb|ACCEPT_TAC| which we apply to \texttt{th1} to solve the
+first subgoal followed by \texttt{th2} to solve the last. The
+description of \verb|ACCEPT_TAC| is
+\begin{gather*}
+  \tac
+  {\goals{\Gamma}{t}}
+  {}
+  {ACCEPT\_TAC \quad \seqs{\Gamma}{t}}.
+\end{gather*}
+\verb|ACCEPT_TAC| is a \emph{theorem-tactic} as it takes as its first
+argument a \texttt{theorem} and returns a tactic. \verb|ACCEPT_TAC|
+takes a theorem, in this case \seqs{A}{A} and when applied to the goal
+\goal{A,B}{A} produces \emph{no goals}. This is the backwards proof
+equivalent of a forward inference rule with no hypotheses.
+
+Applying \verb|ACCEPT_TAC th1| solves the top goal. The proof manager
+in HOL indicates that the goal is proved and prints out the remaining
+subgoal \goal{A,B}{B}.
+\begin{session}
+  \label{session:top-goal-solved}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val th1 = ASSUME ``A:bool``;
+> val th1 =  [A] |- A : thm
+- expand(ACCEPT_TAC th1);
+OK..
+
+Goal proved.
+ [A] |- A
+
+Remaining subgoals:
+> val it =
+    
+    B
+    ------------------------------------
+      0.  B
+      1.  A
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+We prove the remaining goal using theorem \texttt{th2} as shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val th2 = ASSUME ``B:bool``;
+> val th2 =  [.] |- B : thm
+- expand(ACCEPT_TAC th2);
+OK..
+
+Goal proved.
+ [.] |- B
+> val it =
+    Initial goal proved.
+     [..] |- A /\ B : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+At this point, we have completed an \emph{interactive goal-oriented
+  proof} in much the same way as we did when doing forward inference
+proofs. Just as we did for forward proofs, we need to combine each
+step into a single function. To do this, we need to use
+\emph{tacticals}, i.e., functions that take tactics as arguments and
+return tactics as results.
+
+\begin{figure}[t]
+  \centering
+    \begin{scriptsize}
+      \begin{tabular}{c}
+        \tac
+        {\goals{\Gamma}{t_1 \wedge t_2}}
+        {\goals{\Gamma}{t_1} \qquad \goals{\Gamma}{t_2}}
+        {CONJ\_TAC} \qquad
+        \tac
+        {\goals{\Gamma}{\forall x.t}}
+        {\goals{\Gamma}{t[x'/x]}}
+        {GEN\_TAC} \qquad
+        \tac
+        {\goals{\Gamma}{u \implies v}}
+        {\goals{\Gamma \cup \set{u}}{v}}
+        {DISCH\_TAC}\\
+        \tac
+        {\goals{\Gamma}{t_1 = t_2}}
+        {\goals{\Gamma}{t_1 \implies t_2} \qquad 
+         \goals{\Gamma}{t_2 \implies t_1}}
+        {EQ\_TAC} \qquad
+        \tac
+        {\goals{\Gamma}{t}}
+        {}
+        {ACCEPT\_TAC \;$\seqs{\Gamma}{t}$}\\
+        \tac
+        {\goals{\Gamma}{t}}
+        {\goals{\Gamma \cup \set{\text{terms due to resolution}}}{t}}
+        {RES\_TAC}\\
+        \tac
+        {\goals{\Gamma}{t}}
+        {\goals{\Gamma}{t' \quad\text{\parbox{0.5\linewidth}{where $t'$ is $t$ rewritten using supplied theorems,
+            assumptions,\\ and built-in tautologies}}}}
+        {ASM\_REWRITE_TAC}\\
+        \tac
+        {\goals{\Gamma}{t}}
+        {\goals{\Gamma'}{t' \quad
+            \text{\parbox{0.5\linewidth}{where $\Gamma'$ and $t'$ are obtained from $\goals{\Gamma}{t}$ by eliminating the outermost connective }}}}
+        {STRIP\_TAC}
+      \end{tabular}
+    \end{scriptsize}
+  \caption{Tactics}
+\label{fig:tactics}
+\end{figure}
+
+\subsection{Tacticals}
+
+\begin{figure}[t]
+  \centering
+      \begin{minipage}{0.92\linewidth}
+        \begin{tiny}
+          \begin{gather*}
+            \tac {\goal{A,B}{A \wedge B}} { \tac {\goal{A,B}{A}}
+              {\irule {} {\seq{A}{A}} {ASSUME ``A:bool``} }
+              {ACCEPT\_TAC} \quad \tac {\goal{A,B}{B}} {\irule {}
+                {\seq{B}{B}} {ASSUME ``B:bool``} } {ACCEPT\_TAC}}
+            {CONJ\_TAC}
+          \end{gather*}
+        \end{tiny}
+      \end{minipage}
+  \caption{Tactic Proof Tree}
+\label{fig:tactic-proof-tree}
+\end{figure}
+
+In this section, we introduce the \emph{tacticals} (functions that
+take tactics as arguments and return a tactic as a result)
+\texttt{THENL} and \texttt{THEN}.  These tacticals are often used to
+compose single proof functions from the application of individual
+tactics used to prove a goal interactively.
+
+Figure~\ref{fig:tactic-proof-tree} shows the proof tree of tactics
+used the prove the goal \goal{A,B}{A \wedge B}. We note from
+Figure~\ref{fig:tactic-proof-tree} that the first step was the
+application of \verb|CONJ_TAC| to the top-level goal.  This produced
+two subgoals: \goal{A,B}{A} and \goal{A,B}{B}. The first goal was
+proved using \verb|ACCEPT_TAC (ASSUME ``A:bool``)|. The second goal
+was proved using \verb|ACCEPT_TAC (ASSUME ``B:bool``)|.
+
+This type of proof structure occurs frequently, where a tactic is applied and yields
+several subgoals, to which each subgoal is operated on by a different
+tactic.  In general, this situation is handled by the \emph{infix
+  tactical} \texttt{THENL}.  In general, if tactic $T_1$ produces $n$
+subgoals, each of which is operated on by tactics $T_{21} \ldots
+T_{2n}$, we can package up the $n+1$ tactics into a single tactic
+using \texttt{THENL}.  Specifically,
+\begin{gather*}
+  \texttt{$T_1$ THENL [$T_{21}$, \ldots $T_{2n}$]}.
+\end{gather*}
+
+Session~\ref{session:theorem1-proof} shows the use of \texttt{THENL}
+to prove, in a single tactic, the goal \goal{A,B}{A \wedge B}
+\begin{session}
+  \label{session:theorem1-proof}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- show_assums := true;
+> val it = () : unit
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 2 proofs.
+    2. Completed goalstack:  [A, B] |- A /\ B
+    1. Incomplete goalstack:
+         Initial goal:
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+- expand(
+ CONJ_TAC THENL
+ [(ACCEPT_TAC (ASSUME ``A:bool``)),
+  (ACCEPT_TAC (ASSUME ``B:bool``))]);
+OK..
+> val it =
+    Initial goal proved.
+     [A, B] |- A /\ B : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+We can package the setting of a goal and its proof using
+\verb|TAC_PROOF|. \verb|TAC_PROOF|takes a pair consisting of a goal
+and a tactic proving the goal, and returns a theorem.
+
+\begin{session}
+  \label{session:tac-proof}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Theorem1 = 
+TAC_PROOF
+(
+ ([``A:bool``,``B:bool``],``A /\ B``),
+ (CONJ_TAC THENL
+  [(ACCEPT_TAC (ASSUME ``A:bool``)),
+   (ACCEPT_TAC (ASSUME ``B:bool``))])
+);
+> val Theorem1 =  [A, B] |- A /\ B : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\paragraph*{An alternate and simpler proof}
+\label{sec:an-alternate-simpler}
+
+In HOL there are numerous tactics and inference rules. The tactics we
+have used thus far are very simple.  A very powerful and useful tactic
+is \verb|ASM_REWRITE_TAC|.  This tactic rewrites the goal using
+built-in rewrites (e.g., \verb|~~t = t|), a list of theorems supplied
+by the user, and the \emph{set of assumptions in the goal}. The proof
+using \verb|ASM_REWRITE_TAC|is shown below in
+Session~\ref{session:asm-rewrite-tac-proof-1}.
+\begin{session}
+  \label{session:asm-rewrite-tac-proof-1}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 3 proofs.
+    3. Completed goalstack:  [A, B] |- A /\ B
+    2. Completed goalstack:  [A, B] |- A /\ B
+    1. Incomplete goalstack:
+         Initial goal:
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+- expand(CONJ_TAC);
+OK..
+2 subgoals:
+> val it =
+    B
+    ------------------------------------
+      0.  B
+      1.  A
+    
+    A
+    ------------------------------------
+      0.  B
+      1.  A
+     : proof
+- expand(ASM_REWRITE_TAC[]);
+OK..
+
+Goal proved.
+ [A] |- A
+
+Remaining subgoals:
+> val it =
+    B
+    ------------------------------------
+      0.  B
+      1.  A
+     : proof
+- expand(ASM_REWRITE_TAC[]);
+OK..
+
+Goal proved.
+ [B] |- B
+> val it =
+    Initial goal proved.
+     [A, B] |- A /\ B : proof
+\end{verbatim}
+  \end{scriptsize} \end{session} We note that in this proof the same
+tactic \verb|ASM_REWRITE_TAC []| is applied to both subgoals. While it
+is correct to write\\
+\verb|CONJ_TAC THENL [ASM_REWRITE_TAC [], ASM_REWRITE_TAC []]|, it is
+more economical to use the \texttt{THEN} tactical. When we write $T_1$
+\verb|THEN |$T_2$, what happens is tactic $T_1$ is applied to a goal,
+then tactic $T_2$ is applied to \emph{all} subgoals. This is shown in
+Session~\ref{session:asm-rewrite-tac-proof-2}. \begin{session}
+  \label{session:asm-rewrite-tac-proof-2}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 4 proofs.
+    4. Completed goalstack:  [A, B] |- A /\ B
+    3. Completed goalstack:  [A, B] |- A /\ B
+    2. Completed goalstack:  [A, B] |- A /\ B
+    1. Incomplete goalstack:
+         Initial goal:
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+- expand(CONJ_TAC THEN
+       ASM_REWRITE_TAC []);
+OK..
+> val it =
+    Initial goal proved.
+     [A, B] |- A /\ B : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\paragraph*{An even simpler proof}
+\label{sec:an-even-simpler}
+
+Rewriting tactics are generally quite powerful. As a final
+illustration with the current goal, we can prove the goal with a
+single application of \verb|ASM_REWRITE_TAC| as shown below.
+\begin{session}
+  \label{session:asm-rewrite-tac-proof-3}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``A:bool``,``B:bool``],``A /\ B``);
+> val it =
+    Proof manager status: 5 proofs.
+    5. Completed goalstack:  [A, B] |- A /\ B
+    4. Completed goalstack:  [A, B] |- A /\ B
+    3. Completed goalstack:  [A, B] |- A /\ B
+    2. Completed goalstack:  [A, B] |- A /\ B
+    1. Incomplete goalstack:
+         Initial goal:
+         A /\ B
+         ------------------------------------
+           0.  B
+           1.  A
+         
+     : proofs
+- expand(ASM_REWRITE_TAC []);
+OK..
+> val it =
+    Initial goal proved.
+     [A, B] |- A /\ B : proof
+\end{verbatim}
+  \end{scriptsize}
+
+\end{session}
+
+\subsection{Working with Assumptions}
+\label{sec:working-with-assumptions}
+
+Consider the case where we have a goal \goal{p, p \implies q}{q}. What
+we want to do is use Modus Ponens on the two assumptions to derive $p$
+and then prove the goal. The goal is shown below.
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``p:bool``,``p==>q``],``q:bool``);
+> val it =
+    Proof manager status: 12 proofs.
+         
+    1. Incomplete goalstack:
+         Initial goal:
+         q
+         ------------------------------------
+           0.  p ==> q
+           1.  p
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+If we try simple rewriting using the assumptions we make no progress.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(ASM_REWRITE_TAC []);
+OK..
+1 subgoal:
+> val it =
+    q
+    ------------------------------------
+      0.  p ==> q
+      1.  p
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+However, we can use the tactic \verb|RES_TAC|, which does apply
+\emph{resolution} (an operation that includes Modus Ponens) on the
+assumptions. This solves our goal.
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+
+Goal proved.
+ [p, p ==> q] |- q
+> val it =
+    Initial goal proved.
+     [p, p ==> q] |- q : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+
+\begin{exercise}
+  Do a tactic-based proof the absorption rule \seqs{}{\forall p \:q.(p
+    \implies q) \implies (p \implies p \wedge q)}.  Do \textbf{not}
+  use PROVE_TAC.
+\end{exercise}
+
+\begin{exercise}
+  Do a tactic-based proof of the constructive dilemma rule
+  \begin{gather*}
+    \seqs{}{\forall p\:q\:r\:s.(p \implies q) \wedge (r \implies s)
+      \implies (p \vee r) \implies (q \vee s)}.
+  \end{gather*}
+Do \textbf{not} use
+  PROVE_TAC.
+\end{exercise}
+
+\begin{exercise}
+  Write your own version of the tactic \verb|DISCH_TAC|.  Call your
+  version \verb|Disch_tac|. Note: you will need to use the SML list
+  functions in the SML Basis Library to manipulate the list of
+  assumptions. You can look these functions up the the List Library of
+  the SML Basis Library.
+
+  Go to: \verb|http://www.standardml.org/Basis/overview.html|
+\end{exercise}
+
+\section{Using and Manipulating Assumptions in Goal-Oriented Proofs}
+\label{sec:assumptions}
+
+Manipulating assumptions within the assumption list of goals is often
+necessary and sometimes frustrating. In this set of exercises we learn
+several techniques for using and manipulating terms within the
+assumption list of goals.
+
+In our hand proofs, we typically refer to assumptions by their line
+number. This generally is a \textbf{bad idea} in HOL because there is
+no guarantee that the order of assumptions in proofs will be the
+same. Thus, we must use some other means to identify the terms we want
+in the assumption list.  Typically, we will do this by pattern
+matching.
+
+\subsection{Rewriting and Resolution}
+\label{sec:resolution}
+
+% \subsection{The Simplest Cases}
+
+\paragraph*{Rewriting with the Assumption List}
+
+The simplest cases are those where terms on the assumption list are
+useful for rewriting the goals.  For example, suppose we have the goal
+$\goal{\forall x:num.P(x)}{P(2)}$. We see that $P(2)$ should be true
+under the assumption that $P(x)$ is true for all values of $x$, i.e.,
+$\forall x.P(x)$.  What we do in this case is \emph{rewrite the goal
+  $P(2)$} using the assumption $\forall x.P(x)$, which will prove the
+goal. First, we set the goal corresponding to the above.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``!(x:num).P(x)``],``(P:num->bool)(2)``);
+> val it =
+    Proof manager status: 1 proof.
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         P 2
+         ------------------------------------
+           !x. P x
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+Second, we rewrite the goal using the assumptions in the assumption
+list with ASM\_REWRITE\_TAC. This proves the goal and is one of the
+easiest situations to handle.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(ASM_REWRITE_TAC []);
+OK..
+> val it =
+    Initial goal proved.
+     [!x. P x] |- P 2 : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+Finally, to clean up our proofs so they are executable in one step
+(setting the goal and applying the tactics, we use TAC\_PROOF as shown
+below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example1 =
+TAC_PROOF
+(
+ ([``!(x:num).P(x)``],``(P:num->bool)(2)``),
+ (ASM_REWRITE_TAC [])
+);
+> val Example1 =  [!x. P x] |- P 2 : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+\paragraph*{Resolution}
+
+The second technique we learn deals with situations where rewriting
+with the assumptions is insufficient to prove the goal.  In some
+cases, a simple application of Modus Ponens in the assumptions is
+enough to generate the goal within the assumptions. In these cases, a
+simple application of RES\_TAC is all that is needed.  Suppose we have
+the following goal to prove, i.e., $\forall x\:y\:z.((x \wedge y)
+\implies z) \Leftrightarrow (x \implies y \implies z)$.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([],``!x y z.((x /\ y) ==> z) <=> (x ==> y ==> z)``);
+> val it =
+    Proof manager status: 1 proof.
+    1. Incomplete goalstack:
+         Initial goal:
+         !x y z. x /\ y ==> z <=> x ==> y ==> z
+         
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We use STRIP\_TAC to remove the three universal quantifiers, then we
+use EQ\_TAC to split the bi-conditional $\Leftrightarrow$ into two
+implications.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- expand(REPEAT STRIP_TAC);
+OK..
+1 subgoal:
+> val it =
+    x /\ y ==> z <=> x ==> y ==> z
+    
+     : proof
+- expand(EQ_TAC);
+OK..
+2 subgoals:
+> val it =
+    (x ==> y ==> z) ==> x /\ y ==> z
+    
+    
+    (x /\ y ==> z) ==> x ==> y ==> z
+    
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We can apply STRIP\_TAC again to simplify the goal to just $z$ under
+the assumptions of $x \wedge y \implies z$, $x$, and $y$. A this
+point, what we recognize is that all three assumptions enable us to
+conclude that $z$ is true in the assumptions.  If $x$ is true then
+with $x \wedge y \implies z$ we can derive $y \implies z$, which with
+the assumption $y$ allows us to derive $z$. This chain of reasoning
+within the assumption list is invoked by RES\_TAC, as shown
+below. RES\_TAC is capable enough to conclude that if the goal appears
+in the assumptions then the proof is complete.
+\begin{session} 
+  \begin{scriptsize}
+\begin{verbatim}
+
+- expand(REPEAT STRIP_TAC);
+OK..
+1 subgoal:
+> val it =
+    z
+    ------------------------------------
+      0.  x /\ y ==> z
+      1.  x
+      2.  y
+     : proof
+- expand(RES_TAC);
+OK..
+
+Goal proved.
+ [x, y, x /\ y ==> z] |- z
+
+Goal proved.
+ [] |- (x /\ y ==> z) ==> x ==> y ==> z
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+The remaining subgoal is proved in exactly the same way as the
+previous subgoal.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+Remaining subgoals:
+> val it =
+    (x ==> y ==> z) ==> x /\ y ==> z
+    
+     : proof
+- expand(REPEAT STRIP_TAC);
+OK..
+1 subgoal:
+> val it =
+    z
+    ------------------------------------
+      0.  x ==> y ==> z
+      1.  x
+      2.  y
+     : proof
+- expand(RES_TAC);
+OK..
+
+Goal proved.
+ [x, y, x ==> y ==> z] |- z
+
+Goal proved.
+ [] |- (x ==> y ==> z) ==> x /\ y ==> z
+
+Goal proved.
+ [] |- x /\ y ==> z <=> x ==> y ==> z
+> val it =
+    Initial goal proved.
+     [] |- !x y z. x /\ y ==> z <=> x ==> y ==> z : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As before, we combine both the setting of goals and the application of
+tactics into one operations by using TAC\_PROOF.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example1 = 
+TAC_PROOF
+(
+ ([],``!x y z.((x /\ y) ==> z) <=> (x ==> y ==> z)``),
+ (REPEAT STRIP_TAC THEN
+  EQ_TAC THEN
+  REPEAT STRIP_TAC THEN
+  RES_TAC)
+);
+> val Example1 = |- !x y z. x /\ y ==> z <=> x ==> y ==> z : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\subsection{Manipulating the Assumptions with PAT\_ASSUM}
+
+Consider the following goal: $\goal{\neg p \vee q, p}{q}$. We set the
+goal with set\_goal as shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``~p \/ q``, ``p:bool``],``q:bool``);
+> val it =
+    Proof manager status: 1 proof.
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         q
+         ------------------------------------
+           0.  p
+           1.  ~p \/ q
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We recognize that $\neg p \vee q$ is equivalent to $p \implies q$.  We
+note that $p$ is also part of the assumptions, so we would like to
+derive $q$ and be done with our proof.  If we apply RES\_TAC to the
+assumption list, here is what happens.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+1 subgoal:
+> val it =
+    
+    q
+    ------------------------------------
+      0.  p
+      1.  ~p \/ q
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We see from above that \emph{nothing} happened! Basically, RES\_TAC is
+not smart enough to recognize that $\neg p \vee q$ is equivalent to $p
+\implies q$.  What we need to do is \emph{replace} $\neg p \vee q$
+with $p \implies q$ in the assumption list and then use RES\_TAC to
+complete the proof.
+
+The primary question is how do we ``grab on'' to terms in the
+assumption list? We could refer to $\neg p \vee q$ by its index in the
+assumption list, i.e., assumption 1.  This technique is very
+brittle. If for some reason the next time the order of assumptions is
+somehow different, our proof will no longer work.
+
+Instead of referring to assumptions by their place on the assumption
+list, we refer to them by their form or \emph{pattern}. The PAT\_ASSUM
+tactical is an effective way for manipulating terms on the assumption
+list.  PAT\_ASSUM take two arguments:
+\begin{enumerate}
+\item a HOL term that is the pattern of the assumption to be
+  manipulated, and
+\item a theorem-tactic, i.e., a function that takes a theorem (a
+  theorem corresponding to a term on the assumption list specified by
+  the pattern) and returns a tactic as a result.
+\end{enumerate}
+
+For our example above, the pattern we use is \verb|``~A \/ B``|.
+Note, we could have just as easily used the term we want to manipulate
+itself as the pattern, i.e., \verb|``~p \/ q``|. However, to
+illustrate the pattern matching capabilities of PAT\_ASSUM, we choose
+\verb|``~A \/ B``|.
+
+Next, we have to come up with a function that is a theorem-tactic. In
+this case, assume that we have a theorem \verb|th| that corresponds to
+\verb@[.] |- ~A \/ B@. What we want to do is (1) convert \texttt{th}
+into a theorem of the form \verb@A ==> B@, and (2) add the theorem to
+the assumption list.  We do (1) by DISJ\_IMP followed by REWRITE\_RULE
+[] to simplify the double negated A, and then we accomplish (2) by
+ASSUME_TAC applied to the rewritten theorem.
+
+The session below shows how we develop the theorem to be added to the
+assumption list.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val th = ASSUME ``~A \/ B``;
+> val th =  [~A \/ B] |- ~A \/ B : thm
+- DISJ_IMP th;
+> val it =  [~A \/ B] |- ~~A ==> B : thm
+- REWRITE_RULE [] (DISJ_IMP th);
+> val it =  [~A \/ B] |- A ==> B : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+We finally build anonymous function that is our theorem tactic.  The
+theorem we want ASSUME\_TAC to add is REWRITE\_RULE [] (DISJ\_IMP th),
+where \texttt{th} is the parameter representing the theorem to which
+the theorem-tactic is applied.  Recall that lambda functions of the
+form $\lambda x.t$ are represented in ML as \verb@fn x => t@. Thus,
+the function that is our theorem tactic is
+\begin{quote}
+  \verb|fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))|
+\end{quote}
+The expression we use is
+\begin{verbatim}
+  PAT_ASSUM ``~A \/ B`` 
+    (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))).
+\end{verbatim}
+The result is shown in the session below. First, we undo by backup up
+from the unproductive RES\_TAC step. Then we apply PAT\_ASSUM. We see
+that the result is \verb|~p \/ q| is replace by \verb|p ==> q|.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- b();
+> val it =
+    Initial goal:
+    
+    
+    q
+    ------------------------------------
+      0.  p
+      1.  ~p \/ q
+     : proof
+- e(PAT_ASSUM ``~A \/ B`` (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))));
+OK..
+1 subgoal:
+> val it =
+    
+    q
+    ------------------------------------
+      0.  p
+      1.  p ==> q
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+At this point, we have a simple case where RES\_TAC can handle the rest.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+
+Goal proved.
+ [p, p ==> q] |- q
+> val it =
+    Initial goal proved.
+     [p, ~p \/ q] |- q : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As always, we package everything up inside of TAC\_PROOF.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example3 =
+TAC_PROOF
+(
+ ([``~p \/ q``, ``p:bool``],``q:bool``),
+ (PAT_ASSUM ``~A \/ B`` (fn th => ASSUME_TAC (REWRITE_RULE [] (DISJ_IMP th))) THEN
+  RES_TAC)
+);
+> val Example3 =  [p, ~p \/ q] |- q : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+
+\subsection{More Examples}
+
+\paragraph*{Dealing with Contrapositives in the Assumption List}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``p ==> q``, ``~q``],``~p``);
+> val it =
+    Proof manager status: 2 proofs.
+    2. Completed goalstack:  [p, ~p \/ q] |- q
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         ~p
+         ------------------------------------
+           0.  ~q
+           1.  p ==> q
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+The plan is to do the following:
+\begin{enumerate}
+\item Use \verb|``A ==> B``| as the pattern for theorem \texttt{th}
+\item Build a theorem-tactical that does the following for \texttt{th}
+  of the form $A \implies B$:
+  \begin{enumerate}[{a.}]
+  \item Convert $A \implies B$ to $\neg A \vee B$ by applying DISJ\_IMP.
+  \item Rewrite \emph{once} $\neg A \vee B$ using the theorem
+    DISJ\_SYM (\seqs{}{\forall A\:B.A \vee B \Leftrightarrow B \vee
+      A}) to get $B \vee \neg A$.
+  \item Convert $B \vee \neg A$ to its equivalent form $\neg B
+    \implies \neg A$ using the DISJ\_IMP inference rule.
+  \item Add the resulting theorem $\neg B \implies \neg A$ to the
+    assumption list using ASSUME\_TAC.  The theorem-tactic is
+    \begin{gather*}
+      \lambda th.ASSUME\_TAC (DISJ\_IMP(ONCE\_REWRITE\_RULE
+      [DISJ\_SYM](IMP\_ELIM \;th)))
+    \end{gather*}
+    In HOL, we write the above as:
+\begin{verbatim}
+fn th => 
+ ASSUME_TAC 
+ (DISJ_IMP(ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))
+\end{verbatim}
+
+  \end{enumerate}
+\end{enumerate}
+Everything is put together as shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))));
+OK..
+1 subgoal:
+> val it =
+    
+    ~p
+    ------------------------------------
+      0.  ~q
+      1.  ~q ==> ~p
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We see from the assumption list that if we apply RES\_TAC the proof
+will be finished.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+
+Goal proved.
+ [~q, ~q ==> ~p] |- ~p
+> val it =
+    Initial goal proved.
+     [~q, p ==> q] |- ~p : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As always, we package up everything into one application of
+TAC\_PROOF.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example4 =
+TAC_PROOF
+(
+ ([``p ==> q``, ``~q``],``~p``),
+ (PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))) THEN
+  RES_TAC)
+);
+> val Example4 =  [~q, p ==> q] |- ~p : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\paragraph*{Reasoning with Contrapositives and Universally Quantified Statements}
+
+In this example we have the following goal: $\goal{\forall x:num.P(x)
+  \implies Q(x), \neg Q(5)}{\neg P(5)}$.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``!(x:num).(P(x) ==> Q(x))``,``~(Q:num->bool)(5)``], 
+           ``~(P:num->bool)(5)``);
+> val it =
+    Proof manager status: 3 proofs.
+    3. Completed goalstack:  [p, ~p \/ q] |- q
+    2. Completed goalstack:  [~q, p ==> q] |- ~p
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         ~P 5
+         ------------------------------------
+           0.  ~Q 5
+           1.  !x. P x ==> Q x
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+What we need to do is specialize $x$ in $\forall x.P(x) \implies Q(x)$
+to 5, take the contrapositive, and do resolution to prove the
+goal. First, we specialize $x$ to 5 using PAT\_ASSUM and replace
+$\forall x.P(x) \implies Q(x)$ with $P(5) \implies Q(5)$.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(PAT_ASSUM ``!x.t`` (fn th => (ASSUME_TAC (SPEC ``5`` th))));
+<<HOL message: inventing new type variable names: 'a>>
+OK..
+1 subgoal:
+> val it =
+    
+    ~P 5
+    ------------------------------------
+      0.  ~Q 5
+      1.  P 5 ==> Q 5
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As we have done before, we take the contrapositive of $P(5) \implies
+Q(5)$ using PAT\_ASSUM.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))));
+OK..
+1 subgoal:
+> val it =
+    
+    ~P 5
+    ------------------------------------
+      0.  ~Q 5
+      1.  ~Q 5 ==> ~P 5
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+Finally, we finish the proof using RES\_TAC.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+
+Goal proved.
+ [~Q 5, ~Q 5 ==> ~P 5] |- ~P 5
+
+Goal proved.
+ [~Q 5, P 5 ==> Q 5] |- ~P 5
+> val it =
+    Initial goal proved.
+     [!x. P x ==> Q x, ~Q 5] |- ~P 5 : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As always, we package up the entire proof within TAC\_PROOF.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example5 =
+TAC_PROOF
+(
+ ([``!(x:num).(P(x) ==> Q(x))``,``~(Q:num->bool)(5)``], ``~(P:num->bool)(5)``),
+ (PAT_ASSUM ``!x.t`` (fn th => (ASSUME_TAC (SPEC ``5`` th))) THEN
+  PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))) THEN
+  RES_TAC)
+);
+<<HOL message: inventing new type variable names: 'a>>
+> val Example5 =  [!x. P x ==> Q x, ~Q 5] |- ~P 5 : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\paragraph*{Tightening Patterns When Needed}
+
+Sometimes, more than one term in the assumption list matches the
+supplied pattern. In these cases we can be more specific with the term
+we supply to PAT\_ASSUM to match terms against.
+
+For example, consider the following case where we have two terms with
+the form \verb|A ==> B|:
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``(!x:'a.(P:'a -> bool) x) ==> r``, ``p ==> q``,``~r``, 
+            ``p:bool``], ``?x:'a.~P x``);
+> val it =
+    Proof manager status: 5 proofs.
+    5. Completed goalstack:  [p, ~p \/ q] |- q
+    4. Completed goalstack:  [~q, p ==> q] |- ~p
+    3. Completed goalstack:  [!x. P x ==> Q x, ~Q 5] |- ~P 5
+    2. Completed goalstack:  [!x. P x ==> Q x, ~Q 5] |- ~P 5
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         ?x. ~P x
+         ------------------------------------
+           0.  p
+           1.  ~r
+           2.  p ==> q
+           3.  (!x. P x) ==> r
+         
+     : proofs
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+The following does what we want in that \verb|``A ==> B``| gets us the
+right implication we want to manipulate, i.e., replace
+\verb|(!x.P x) ==> r| with \verb|~r ==> ~!x.P x|.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+e(PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))));
+OK..
+1 subgoal:
+> val it =
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  p ==> q
+      3.  ~r ==> ~!x. P x
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+However, suppose the assumption list has a slightly different order,
+as shown below. If we do the same PAT\_ASSUM operation, we get:
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``p ==> q``,``(!x:'a.(P:'a -> bool) x) ==> r``, ``~r``, 
+            ``p:bool``],``?x:'a.~P x``);
+> val it =
+    Proof manager status: 6 proofs.
+    6. Completed goalstack:  [p, ~p \/ q] |- q
+    5. Completed goalstack:  [~q, p ==> q] |- ~p
+    4. Completed goalstack:  [!x. P x ==> Q x, ~Q 5] |- ~P 5
+    3. Completed goalstack:  [!x. P x ==> Q x, ~Q 5] |- ~P 5
+    2. Incomplete goalstack:
+         Initial goal:
+         
+         ?x. ~P x
+         ------------------------------------
+           0.  p
+           1.  ~r
+           2.  p ==> q
+           3.  (!x. P x) ==> r
+         
+         Current goal:
+         
+         ?x. ~P x
+         ------------------------------------
+           0.  p
+           1.  ~r
+           2.  p ==> q
+           3.  ~r ==> ~!x. P x
+         
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         ?x. ~P x
+         ------------------------------------
+           0.  p
+           1.  ~r
+           2.  (!x. P x) ==> r
+           3.  p ==> q
+         
+     : proofs
+- e(PAT_ASSUM 
+  ``A ==> B`` 
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))));
+OK..
+1 subgoal:
+> val it =
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  (!x. P x) ==> r
+      3.  ~q ==> ~p
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We see from the above that the wrong implication was manipulated by
+PAT\_ASSUM. To fix this, we tighten up our pattern to the exact term
+we wish to select, \verb|(!x. P x) ==> r|. After backing up from
+selecting the wrong term and tightening up our term selection, we get:
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- b();
+e(PAT_ASSUM 
+  ``(!x:'a.P x) ==> r``
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))));
+> val it =
+    Initial goal:
+    
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  (!x. P x) ==> r
+      3.  p ==> q
+     : proof
+- OK..
+1 subgoal:
+> val it =
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  p ==> q
+      3.  ~r ==> ~!x. P x
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We apply RES\_TAC to deduce $\neg \forall x.P(x)$ in the assumptions.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(RES_TAC);
+OK..
+1 subgoal:
+> val it =
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  p ==> q
+      3.  ~r ==> ~!x. P x
+      4.  ~!x. P x
+      5.  q
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+At this point, you may remember the relation $\exists x.\neg P(x) =
+\neg \forall x.P(x)$.  We can find this theorem by consulting bool
+theory in the online documentation at hol.sf.net,\\
+\verb|http://hol.sourceforge.net/kananaskis-7-helpdocs/help/HOLindex.html|. The
+theorem we want is \verb|NOT_FORALL_THM|, as shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- NOT_FORALL_THM;
+> val it =  [] |- !P. ~(!x. P x) <=> ?x. ~P x : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We can do the proof in several ways.  One way is to rewrite the goal
+using \verb|NOT_FORALL_THM|. The second way is to rewrite the
+assumption.
+\subparagraph{Rewriting the Goal}
+
+To rewrite the goal we need to reverse the order of terms in
+\verb|NOT_FORALL_THM|. This is done by specializing all the variables
+in \verb|NOT_FORALL_THM| and using the SYM inference rule the result.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- SYM (SPEC_ALL NOT_FORALL_THM);
+> val it =  [] |- (?x. ~P x) <=> ~!x. P x : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+With the above theorem, we rewrite the goal and finish the proof using
+ASM\_REWRITE_TAC.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(ASM_REWRITE_TAC [SYM (SPEC_ALL NOT_FORALL_THM)]);
+OK..
+
+Goal proved.
+ [~!x. P x] |- ?x. ~P x
+
+Goal proved.
+ [p, ~r, p ==> q, ~r ==> ~!x. P x] |- ?x. ~P x
+> val it =
+    Initial goal proved.
+     [p, ~r, p ==> q, (!x. P x) ==> r] |- ?x. ~P x : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+As always, we bundle up everything within TAC\_PROOF.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example6 =
+TAC_PROOF
+(
+ ([``p ==> q``,``(!x:'a.(P:'a -> bool) x) ==> r``, ``~r``, ``p:bool``],
+  ``?x:'a.~P x``),
+ (PAT_ASSUM 
+  ``(!x:'a.P x) ==> r``
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))) THEN
+   RES_TAC THEN
+   ASM_REWRITE_TAC [SYM (SPEC_ALL NOT_FORALL_THM)])
+);
+> val Example6 =  [p, ~r, p ==> q, (!x. P x) ==> r] |- ?x. ~P x : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\subparagraph{Rewriting the Assumptions}
+
+The second approach is to rewrite the assumptions using
+\verb|NOT_FORALL_THM|. This approach requires a bit of precision when
+dealing with the assumptions---but it is good practice for us. Our
+approach is as follows:
+\begin{enumerate}
+\item We use PAT\_ASSUM applied to \verb|``~!x. P x``| to specify that
+  it is the theorem \texttt{th} that we will use in our
+  theorem-tactic.
+\item We will rewrite \verb|~!x. P x| to \verb|?x.~P x| by
+  REWRITE\_RULE [NOT\_FORALL\_ASSUM] th.
+\item The above theorem is put into the assumption list by ASSUME\_TAC.
+\item The function that is the theorem-tactic is $\lambda
+  th.ASSUME\_TAC (REWRITE\_RULE [NOT\_FORALL\_THM] th)$. This is
+  written in ML as
+  \begin{center}
+    \verb|fn th => ASSUME_TAC(REWRITE_RULE [NOT_FORALL_THM] th)|
+  \end{center}
+\end{enumerate}
+The result of doing the above is shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(PAT_ASSUM
+  ``~!(x:'a).P x``
+  (fn th => 
+   ASSUME_TAC
+   (REWRITE_RULE [NOT_FORALL_THM] th))
+);
+
+OK..
+1 subgoal:
+> val it =
+    
+    ?x. ~P x
+    ------------------------------------
+      0.  p
+      1.  ~r
+      2.  p ==> q
+      3.  ~r ==> ~!x. P x
+      4.  q
+      5.  ?x. ~P x
+     : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We see the goal in the assumption list, which means we can finish the
+proof by ASM\_REWRITE\_TAC.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- e(ASM_REWRITE_TAC []);
+OK..
+
+Goal proved.
+ [?x. ~P x] |- ?x. ~P x
+
+Goal proved.
+ [~!x. P x] |- ?x. ~P x
+
+Goal proved.
+ [p, ~r, p ==> q, ~r ==> ~!x. P x] |- ?x. ~P x
+> val it =
+    Initial goal proved.
+     [p, ~r, p ==> q, (!x. P x) ==> r] |- ?x. ~P x : proof
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+Finally, we wrap everything within TAC\_PROOF to prove the desired
+theorem in one step.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val Example6 =
+TAC_PROOF
+(
+ ([``p ==> q``,``(!x:'a.(P:'a -> bool) x) ==> r``, ``~r``, ``p:bool``],
+  ``?x:'a.~P x``),
+ (PAT_ASSUM 
+  ``(!x:'a.P x) ==> r``
+  (fn th => 
+    ASSUME_TAC 
+    (DISJ_IMP 
+     (ONCE_REWRITE_RULE [DISJ_SYM](IMP_ELIM th)))) THEN
+  RES_TAC THEN 
+  PAT_ASSUM
+  ``~!(x:'a).P x``
+  (fn th => 
+   ASSUME_TAC
+   (REWRITE_RULE [NOT_FORALL_THM] th) THEN
+  ASM_REWRITE_TAC []))
+);
+> val Example6 =  [p, ~r, p ==> q, (!x. P x) ==> r] |- ?x. ~P x : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\paragraph*{Combining Forward Proofs with the Assumption List}
+
+Sometimes the simplest thing is to combine forward proofs with
+backwards proofs. Consider the goal $\goal{p \implies q, q \implies
+  r}{p \implies r}$. There are are two ways of dealing with this.  The
+first way strips the implication in the goal and moves $q$ into the
+assumption list followed by repeated resolutions to generate the goal
+in the assumption list.  This is illustrated below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``p ==> q``,``q ==>r``],``p ==> r``);
+> val it =
+    1. Incomplete goalstack:
+         Initial goal:
+         
+         p ==> r
+         ------------------------------------
+           0.  q ==> r
+           1.  p ==> q
+         
+     : proofs
+- e(STRIP_TAC);
+OK..
+1 subgoal:
+> val it =
+    
+    r
+    ------------------------------------
+      0.  q ==> r
+      1.  p ==> q
+      2.  p
+     : proof
+- e(RES_TAC);
+OK..
+1 subgoal:
+> val it =
+    
+    r
+    ------------------------------------
+      0.  q ==> r
+      1.  p ==> q
+      2.  p
+      3.  q
+     : proof
+- e(RES_TAC);
+OK..
+
+Goal proved.
+ [q, q ==> r] |- r
+
+Goal proved.
+ [p, p ==> q, q ==> r] |- r
+> val it =
+    Initial goal proved.
+     [p ==> q, q ==> r] |- p ==> r : proof
+
+- val Example7 =
+TAC_PROOF
+(([``p ==> q``,``q ==>r``],``p ==> r``),
+ (STRIP_TAC THEN
+  REPEAT RES_TAC)
+);
+> val Example7 =  [p ==> q, q ==> r] |- p ==> r : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+Another approach to the above is to add the results of a forward proof
+to the assumption list.  Specifically, the theorem derived by
+\begin{verbatim}
+  IMP_TRANS (ASSUME ``p ==> q``)(ASSUME ``q ==> r``)
+\end{verbatim}
+is \seq{p \implies q, q \implies r}{p \implies r}. As the sequent's
+assumptions are contained in the assumptions on the assumption list,
+we can add $p \implies r$ to the assumptions. Afterward, we use
+ASM\_REWRITE\_TAC to finish the proof. The session below shows this
+approach to the proof.  Notice that RES\_TAC does not know how to use
+transitivity on the implications in the assumptions.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- set_goal([``p ==> q``,``q ==>r``],``p ==> r``);
+> val it =
+    1. Incomplete goalstack:
+         Initial goal:
+          p ==> r
+         ------------------------------------
+           0.  q ==> r
+           1.  p ==> q
+         
+     : proofs
+- e(RES_TAC);
+OK..
+1 subgoal:
+> val it =
+    
+    p ==> r
+    ------------------------------------
+      0.  q ==> r
+      1.  p ==> q
+     : proof
+- b();
+> val it =
+    Initial goal:
+    
+    
+    p ==> r
+    ------------------------------------
+      0.  q ==> r
+      1.  p ==> q
+     : proof
+- IMP_TRANS (ASSUME ``p ==> q``)(ASSUME ``q ==> r``);
+> val it =  [p ==> q, q ==> r] |- p ==> r : thm
+- e(ASSUME_TAC(IMP_TRANS (ASSUME ``p ==> q``)(ASSUME ``q ==> r``)));
+OK..
+1 subgoal:
+> val it =
+    
+    p ==> r
+    ------------------------------------
+      0.  q ==> r
+      1.  p ==> q
+      2.  p ==> r
+     : proof
+- e(ASM_REWRITE_TAC []);
+OK..
+
+Goal proved.
+ [p ==> r] |- p ==> r
+> val it =
+    Initial goal proved.
+     [p ==> q, q ==> r] |- p ==> r : proof
+- val Example7 =
+TAC_PROOF
+(
+ ([``p ==> q``,``q ==>r``],``p ==> r``),
+ (ASSUME_TAC(IMP_TRANS (ASSUME ``p ==> q``)(ASSUME ``q ==> r``)) THEN
+  ASM_REWRITE_TAC [])
+);
+> val Example7 =  [p ==> q, q ==> r] |- p ==> r : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{exercise}
+  Prove the following goals \textbf{without} using PROVE\_TAC.  Your
+  final solution must be executable in a single step using TAC\_PROOF.
+  \begin{enumerate}
+  \item
+\begin{verbatim}
+set_goal
+ ([``!x:'a.P(x) ==> M(x)``,``(P:'a->bool)(s:'a)``],
+  ``(M:'a->bool)(s:'a)``);
+\end{verbatim}
+  \item
+\begin{verbatim}
+set_goal([``p /\ q ==> r``,``r ==> s``,``~s``],``p ==> ~q``);
+\end{verbatim}
+  \item
+\begin{verbatim}
+set_goal([``~(p /\ q)``, ``~p ==> r``,``~q ==> s``],``r \/ s ``);
+\end{verbatim}
+    (Hint: you might want to look up DeMorgan's theorem in HOL.)
+
+  \end{enumerate}
+\end{exercise}
+% ---- this points LaTeX to book.tex ---- 
+% Local Variables: 
+% TeX-master: "book"
+% End:
+
+%  LocalWords:  Coq Nuprl ACL bool hol num accessor FST SND dest mk
+%  LocalWords:  Deconstructor ty vartype disj eq forall cond xs ys th
+%  LocalWords:  deconstructor AndImp ImpImp VLSI certifiers HOL's pre
+% LocalWords:  boolean Kripke thm sequents booleans DISCH REFL ELIM
+% LocalWords:  ANTISYM GENL ISPEC ISPECL indices HD SUC rl CONV Modus
+% LocalWords:  listTheory reduceLib Tollens ConstructiveDilemma TAC
+% LocalWords:  ABSORP subgoals tacticals fn destructor tac subgoal
+%  LocalWords:  ASM THENL Ponens Disch SML ASSUM Contrapositives SYM
+%  LocalWords:  contrapositive online sequent's DeMorgan's

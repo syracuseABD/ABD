@@ -1,0 +1,48 @@
+
+\chapter{Simple Virtual Machines}
+\label{chap:simpleVM}
+
+In this chapter we develop formal descriptions of processors and
+virtual machines at the \emph{instruction set architecture} (ISA)
+level. A machine's ISA description is its \emph{machine language}: the
+instructions directly implemented by the hardware.
+
+\fbox{
+  \begin{minipage}{1.0\linewidth}
+    Elements of our simple machine:
+    \begin{itemize}
+    \item An accumulator-based architecture
+    \item We omit the details of finite word length and treat all data as numbers
+    \item Machine state is given by: accumulator and program counter
+    \item User memory holds programs
+    \item To simplify our design and analysis, we use a tagged
+      architecture approach whereby the types of what is stored in
+      memory is explicit
+    \end{itemize}
+
+  \end{minipage}
+}
+
+\fbox{
+  \begin{minipage}{1.0\linewidth}
+    Things we need to prove:
+    \begin{itemize}
+    \item User's view of the program implies desired configuration
+      changes: this is the converse of the ISA transition relation
+      defined inductively
+    \item User's view of a program is the same as what happens in a
+      VM, subject to certain conditions
+      \begin{itemize}
+      \item A simplifying condition: assume physical memory is unlimited
+      \item Think about how to describe non-overlapping segments,
+        first abstraction: model segments as $S_0, S_1, \cdots$
+      \end{itemize}
+    \item An instruction set is virtualizable
+    \end{itemize}
+
+  \end{minipage}
+}
+% ---- this points LaTeX to book.tex ---- 
+% Local Variables: 
+% TeX-master: "book"
+% End:

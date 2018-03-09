@@ -1,0 +1,71 @@
+\newcommand{\HOLfoundationDate}{20 August 2016}
+\newcommand{\HOLfoundationTime}{12:50}
+\begin{SaveVerbatim}{HOLfoundationDatatypesblock}
+\HOLFreeVar{block} = \HOLConst{BLK} (('Int, 'Sec) \HOLTyOp{messages}) (('Int, 'Sec) \HOLTyOp{configuration})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesblock}{\UseVerbatim{HOLfoundationDatatypesblock}}
+\begin{SaveVerbatim}{HOLfoundationDatatypescertificates}
+\HOLFreeVar{certificates} = \HOLConst{Certs} ((\HOLTyOp{Statements}, \HOLTyOp{Roles}, 'Int, 'Sec) \HOLTyOp{Form} \HOLTyOp{list})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypescertificates}{\UseVerbatim{HOLfoundationDatatypescertificates}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesCommands}
+\HOLFreeVar{Commands} = \HOLConst{enable} \HOLTokenBar{} \HOLConst{disable}
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesCommands}{\UseVerbatim{HOLfoundationDatatypesCommands}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesconfiguration}
+\HOLFreeVar{configuration} =
+    \HOLConst{CFG} \HOLTyOp{modes} (('Int, 'Sec) \HOLTyOp{certificates})
+        (('Int, 'Sec) \HOLTyOp{policies})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesconfiguration}{\UseVerbatim{HOLfoundationDatatypesconfiguration}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesmessages}
+\HOLFreeVar{messages} = \HOLConst{Messages} ((\HOLTyOp{Statements}, \HOLTyOp{Roles}, 'Int, 'Sec) \HOLTyOp{Form} \HOLTyOp{list})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesmessages}{\UseVerbatim{HOLfoundationDatatypesmessages}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesmodes}
+\HOLFreeVar{modes} = \HOLConst{STBY} \HOLTokenBar{} \HOLConst{RDY}
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesmodes}{\UseVerbatim{HOLfoundationDatatypesmodes}}
+\begin{SaveVerbatim}{HOLfoundationDatatypespolicies}
+\HOLFreeVar{policies} = \HOLConst{Policies} ((\HOLTyOp{Statements}, \HOLTyOp{Roles}, 'Int, 'Sec) \HOLTyOp{Form} \HOLTyOp{list})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypespolicies}{\UseVerbatim{HOLfoundationDatatypespolicies}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesRoles}
+\HOLFreeVar{Roles} = \HOLConst{Owner}
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesRoles}{\UseVerbatim{HOLfoundationDatatypesRoles}}
+\begin{SaveVerbatim}{HOLfoundationDatatypesStatements}
+\HOLFreeVar{Statements} = \HOLConst{MODE} \HOLTyOp{modes} \HOLTokenBar{} \HOLConst{CMD} \HOLTyOp{Commands}
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDatatypesStatements}{\UseVerbatim{HOLfoundationDatatypesStatements}}
+\newcommand{\HOLfoundationDatatypes}{
+\HOLfoundationDatatypesblock\HOLfoundationDatatypescertificates\HOLfoundationDatatypesCommands\HOLfoundationDatatypesconfiguration\HOLfoundationDatatypesmessages\HOLfoundationDatatypesmodes\HOLfoundationDatatypespolicies\HOLfoundationDatatypesRoles\HOLfoundationDatatypesStatements}
+\begin{SaveVerbatim}{HOLfoundationDefinitionssatListXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{formList}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{satList} \HOLBoundVar{formList} \HOLSymConst{\HOLTokenEquiv{}}
+     \HOLConst{FOLDR} (\HOLTokenLambda{}\HOLBoundVar{x} \HOLBoundVar{y}. \HOLBoundVar{x} \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{y}) \HOLConst{T} (\HOLConst{MAP} (\HOLTokenLambda{}\HOLBoundVar{f}. (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLBoundVar{f}) \HOLBoundVar{formList})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationDefinitionssatListXXdef}{\UseVerbatim{HOLfoundationDefinitionssatListXXdef}}
+\newcommand{\HOLfoundationDefinitions}{
+\HOLDfnTag{foundation}{satList_def}\HOLfoundationDefinitionssatListXXdef
+}
+\begin{SaveVerbatim}{HOLfoundationTheoremsblocksatXXdef}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{blocksat}
+   \HOLConst{BLK} (\HOLConst{Messages} \HOLFreeVar{mlist})
+     (\HOLConst{CFG} \HOLFreeVar{mode} (\HOLConst{Certs} \HOLFreeVar{clist}) (\HOLConst{Policies} \HOLFreeVar{plist})) \HOLSymConst{\HOLTokenEquiv{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{satList} (\HOLFreeVar{mlist} \HOLSymConst{++} \HOLFreeVar{clist} \HOLSymConst{++} \HOLFreeVar{plist})
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationTheoremsblocksatXXdef}{\UseVerbatim{HOLfoundationTheoremsblocksatXXdef}}
+\begin{SaveVerbatim}{HOLfoundationTheoremsblocksatXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{mlist} \HOLBoundVar{mode} \HOLBoundVar{clist} \HOLBoundVar{plist}.
+        \HOLBoundVar{P} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+          (\HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{mlist})
+             (\HOLConst{CFG} \HOLBoundVar{mode} (\HOLConst{Certs} \HOLBoundVar{clist}) (\HOLConst{Policies} \HOLBoundVar{plist})))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} (\HOLBoundVar{v}\HOLSymConst{,}\HOLBoundVar{v\sb{\mathrm{1}}}\HOLSymConst{,}\HOLBoundVar{v\sb{\mathrm{2}}}) \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLfoundationTheoremsblocksatXXind}{\UseVerbatim{HOLfoundationTheoremsblocksatXXind}}
+\newcommand{\HOLfoundationTheorems}{
+\HOLThmTag{foundation}{blocksat_def}\HOLfoundationTheoremsblocksatXXdef
+\HOLThmTag{foundation}{blocksat_ind}\HOLfoundationTheoremsblocksatXXind
+}

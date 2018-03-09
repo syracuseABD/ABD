@@ -1,0 +1,41 @@
+\newcommand{\HOLmissionRolesDate}{20 August 2016}
+\newcommand{\HOLmissionRolesTime}{11:38}
+\begin{SaveVerbatim}{HOLmissionRolesDatatypesmissionRoles}
+\HOLFreeVar{missionRoles} = \HOLConst{BFC} \HOLTokenBar{} \HOLConst{GFC} \HOLTokenBar{} \HOLConst{BFO} \HOLTokenBar{} \HOLConst{GFO}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionRolesDatatypesmissionRoles}{\UseVerbatim{HOLmissionRolesDatatypesmissionRoles}}
+\newcommand{\HOLmissionRolesDatatypes}{
+\HOLmissionRolesDatatypesmissionRoles}
+\begin{SaveVerbatim}{HOLmissionRolesTheoremsAlternateControlsOneXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{says} \HOLFreeVar{f} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{controls} \HOLFreeVar{f} \HOLConst{andf} \HOLFreeVar{Q} \HOLConst{controls} \HOLFreeVar{f} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionRolesTheoremsAlternateControlsOneXXthm}{\UseVerbatim{HOLmissionRolesTheoremsAlternateControlsOneXXthm}}
+\begin{SaveVerbatim}{HOLmissionRolesTheoremsAlternateControlsTwoXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{Q} \HOLConst{says} \HOLFreeVar{f} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{controls} \HOLFreeVar{f} \HOLConst{andf} \HOLFreeVar{Q} \HOLConst{controls} \HOLFreeVar{f} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionRolesTheoremsAlternateControlsTwoXXthm}{\UseVerbatim{HOLmissionRolesTheoremsAlternateControlsTwoXXthm}}
+\begin{SaveVerbatim}{HOLmissionRolesTheoremsDualControlXXthm}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{says} \HOLFreeVar{s} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{Q} \HOLConst{says} \HOLFreeVar{s} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{meet} \HOLFreeVar{Q} \HOLConst{controls} \HOLFreeVar{s} \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{s}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionRolesTheoremsDualControlXXthm}{\UseVerbatim{HOLmissionRolesTheoremsDualControlXXthm}}
+\begin{SaveVerbatim}{HOLmissionRolesTheoremsImpliedControlsSaysXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Q}.
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{says} \HOLFreeVar{s\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{controls} \HOLFreeVar{s\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{s\sb{\mathrm{1}}} \HOLConst{impf} \HOLFreeVar{s\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLBoundVar{Q} \HOLConst{says} \HOLFreeVar{s\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionRolesTheoremsImpliedControlsSaysXXthm}{\UseVerbatim{HOLmissionRolesTheoremsImpliedControlsSaysXXthm}}
+\newcommand{\HOLmissionRolesTheorems}{
+\HOLThmTag{missionRoles}{AlternateControls1_thm}\HOLmissionRolesTheoremsAlternateControlsOneXXthm
+\HOLThmTag{missionRoles}{AlternateControls2_thm}\HOLmissionRolesTheoremsAlternateControlsTwoXXthm
+\HOLThmTag{missionRoles}{DualControl_thm}\HOLmissionRolesTheoremsDualControlXXthm
+\HOLThmTag{missionRoles}{ImpliedControlsSays_thm}\HOLmissionRolesTheoremsImpliedControlsSaysXXthm
+}

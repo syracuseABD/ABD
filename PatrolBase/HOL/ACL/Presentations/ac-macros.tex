@@ -1,0 +1,83 @@
+
+\newcommand{\pair}[1]{\ensuremath{\langle #1\rangle}}
+\newcommand{\annd}{\ensuremath{\ \&\ }}
+\newcommand{\orr}{\ensuremath{\textrm{ or }}}
+\newcommand{\pow}[1]{\ensuremath{\mathcal{P}(#1)}}
+\newcommand{\set}[1]{\ensuremath{\{#1\}}}
+\newcommand{\midset}[2]{\ensuremath{\set{#1 \mid #2}}}
+\newcommand{\arrow}{\ensuremath{\rightarrow}}
+\newcommand{\id}[1]{\ensuremath{\textsf{id}_{#1}}}
+
+\newcommand{\isa}{\ensuremath{\; {:}{:}{=} \;}}
+\newcommand{\ora}{\ensuremath{\;\mid\;}}
+
+\newcommand{\subst}[3]{\ensuremath{{#1}\boldsymbol{[}#2\boldsymbol{/}#3\boldsymbol{]}}} 
+
+% Miscellaneous
+
+\newcommand{\defined}{\ensuremath{\quad \triangleq \quad}}
+\newcommand{\defn}{\ensuremath{\stackrel{\mathrm{def}}{=}}}
+
+\newcommand{\key}[1]{\textbf{#1}}
+
+
+
+% Syntactic sets
+\newcommand{\PName}{\ensuremath{\textbf{PName}}}
+\newcommand{\PExp}{\ensuremath{\textbf{Princ}}}
+\newcommand{\PropVar}{\ensuremath{\textbf{PropVar}}}
+\newcommand{\LExp}{\ensuremath{\textbf{Form}}}
+%\newcommand{\privs}{\ensuremath{\mathit{privs}}}
+%\newcommand{\Targ}{\ensuremath{\mathcal{T}}}
+
+\newcommand{\says}{\ensuremath{\text{\footnotesize \textsf{ says }}}}
+\newcommand{\controls}{\ensuremath{\text{\footnotesize \textsf{ controls }}}}
+%\newcommand{\controls}{\ensuremath{\textsf{\footnotesize controls }}}
+%\newcommand{\serves}{\ensuremath{\textsf{ serves }}}
+%\newcommand{\speaksfor}{\ensuremath{\textsf{ speaks\_for }}}
+\newcommand{\speaksfor}{\ensuremath{\Rightarrow}}
+
+\newcommand{\serves}[1]{\ensuremath{\ \mathsf{serves}_{#1}\ }}
+\newcommand{\quoting}{\ensuremath{\,|\,}}
+\newcommand{\with}{\ensuremath{\,\&\,}}
+\newcommand{\for}[1]{\ensuremath{\ \mathsf{for}_{#1}\ }}
+
+%\newcommand{\name}[1]{\textit{#1}}
+\newcommand{\act}[1]{\ensuremath{\langle #1\rangle}}
+
+
+
+\newcommand{\krip}[1]{\ensuremath{\langle {#1} \rangle}}
+
+\newcommand{\E}[1]{\ensuremath{\mathcal{E}_{\mathcal{M}}[\![#1]\!]}}
+\newcommand{\Em}[2]{\ensuremath{\mathcal{E}_{#2}[\![#1]\!]}}
+
+
+\newcommand{\rulespace}{\vspace*{1.8em}}
+\newcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+
+%\newcommand{\deriv}{\ensuremath{\vdash}}
+
+% inference rule with name
+
+%\newcommand{\irule}[3]
+%   {\ensuremath{\mathrm{#3}\; {{\textstyle {#1} }\over {\textstyle{#2}}}}}
+
+\newcommand{\infname}[1]{\textit{#1}}
+
+\newcommand{\irule}[3]
+    {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+% if then else
+
+\newcommand{\ite}[3]
+   {\ensuremath{#1 \rightarrow #2 \mid #3}}
+
+\renewcommand{\implies}{\supset}
+
+\newcommand{\name}[1]{\ensuremath{\textit{#1}}}
+
+\newcommand{\reps}[3]{\ensuremath{{#1} \text{\footnotesize \textsf{
+          reps }}{#2}{\text{\footnotesize \textsf{ on }}}{#3}}}
+\newcommand{\rp}[2]{\ensuremath{{#1} {\text{\footnotesize \textsf{
+          reps }}}{#2}{\text{\footnotesize \textsf{ on }}}}}

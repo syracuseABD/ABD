@@ -1,0 +1,260 @@
+
+---------------------------------------------------------------------
+       HOL-4 [Kananaskis 11 (stdknl, built Sat Aug 05 19:17:00 2017)]
+
+       For introductory HOL help, type: help "hol";
+       To exit type <Control>-D
+---------------------------------------------------------------------
+[extending loadPath with Holmakefile INCLUDES variable]
+> > > >2+2;
+val it = 4: int
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION)
+(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO)
+(planPBNS WARNO           (exec [tentativePlan;
+	  		  	 initiateMovement;
+				 recon])          = REPORT1)
+(planPBNS REPORT1         (exec [completePlan])   = COMPLETE_PLAN)
+(planPBNS COMPLETE_PLAN   (exec [opoid])          = OPOID)
+(planPBNS OPOID           (exec [supervise])      = SUPERVISE)
+(planPBNS SUPERVISE       (exec [report2])        = REPORT2)
+(planPBNS REPORT2         (exec [complete])       = COMPLETE)``
+# # # # # # # # # # ;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+
+Type infere``nce failure: unable to infer a type for the application of
+
+(planPBNS :α -> β -> α) (PLAN_PB :α)
+  ((exec :γ list -> β) [(receiveMission :γ)]) =
+(RECEIVE_MISSION :α)
+
+on line 8, characters 3-69
+
+which has type
+
+:bool
+
+to
+
+(planPBNS :α -> β -> α) (RECEIVE_MISSION :α)
+  ((exec :γ list -> β) [(warno :γ)]) =
+(WARNO :α)
+
+on line 9, characters 1-57
+
+which has type
+
+:bool
+
+unification failure message: Attempt to unify different type operators: min$bool and min$fun
+Exception-
+   HOL_ERR
+     {message =
+      "on line 9, characters 1-57:\n\nType inference failure: unable to infer a type for the application of\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (PLAN_PB :\206\177)\n  ((exec :\206\179 list -> \206\178) [(receiveMission :\206\179)]) =\n(RECEIVE_MISSION :\206\177)\n\non line 8, characters 3-69\n\nwhich has type\n\n:bool\n\nto\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (RECEIVE_MISSION :\206\177)\n  ((exec :\206\179 list -> \206\178) [(warno :\206\179)]) =\n(WARNO :\206\177)\n\non line 9, characters 1-57\n\nwhich has type\n\n:bool\n\nunification failure message: Attempt to unify different type operators: min$bool and min$fun\n",
+      origin_function = "type-analysis", origin_structure = "Preterm"} raised
+> Type infere``nce failure: unable to infer a type for the application of
+
+(planPBNS :α -> β -> α) (PLAN_PB :α)
+  ((exec :γ list -> β) [(receiveMission :γ)]) =
+(RECEIVE_MISSION :α)
+
+on line 8, characters 3-69
+
+which has type
+
+:bool
+
+to
+
+(planPBNS :α -> β -> α) (RECEIVE_MISSION :α)
+  ((exec :γ list -> β) [(warno :γ)]) =
+(WARNO :α)
+
+on line 9, characters 1-57
+
+which has type
+
+:bool
+
+unification failure message: Attempt to unify different type operators: min$bool and min$fun
+Exception-
+   HOL_ERR
+     {message =
+      "on line 9, characters 1-57:\n\nType inference failure: unable to infer a type for the application of\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (PLAN_PB :\206\177)\n  ((exec :\206\179 list -> \206\178) [(receiveMission :\206\179)]) =\n(RECEIVE_MISSION :\206\177)\n\non line 8, characters 3-69\n\nwhich has type\n\n:bool\n\nto\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (RECEIVE_MISSION :\206\177)\n  ((exec :\206\179 list -> \206\178) [(warno :\206\179)]) =\n(WARNO :\206\177)\n\non line 9, characters 1-57\n\nwhich has type\n\n:bool\n\nunification failure message: Attempt to unify different type operators: min$bool and min$fun\n",
+      origin_function = "type-analysis", origin_structure = "Preterm"} raised
+> y
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ;
+# ;
+# l
+# l;
+# ;
+# ;
+# ;
+# ;;;;
+# ``planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION``;
+# 2=3;
+# 2+2;
+# Type infere``nce failure: unable to infer a type for the application of
+
+(planPBNS :α -> β -> α) (PLAN_PB :α)
+  ((exec :γ list -> β) [(receiveMission :γ)]) =
+(RECEIVE_MISSION :α)
+
+on line 8, characters 3-69
+
+which has type
+
+:bool
+
+to
+
+(planPBNS :α -> β -> α) (RECEIVE_MISSION :α)
+  ((exec :γ list -> β) [(warno :γ)]) =
+(WARNO :α)
+
+on line 9, characters 1-57
+
+which has type
+
+:bool
+
+unification failure message: Attempt to unify different type operators: min$bool and min$fun
+Exception-
+   HOL_ERR
+     {message =
+      "on line 9, characters 1-57:\n\nType inference failure: unable to infer a type for the application of\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (PLAN_PB :\206\177)\n  ((exec :\206\179 list -> \206\178) [(receiveMission :\206\179)]) =\n(RECEIVE_MISSION :\206\177)\n\non line 8, characters 3-69\n\nwhich has type\n\n:bool\n\nto\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (RECEIVE_MISSION :\206\177)\n  ((exec :\206\179 list -> \206\178) [(warno :\206\179)]) =\n(WARNO :\206\177)\n\non line 9, characters 1-57\n\nwhich has type\n\n:bool\n\nunification failure message: Attempt to unify different type operators: min$bool and min$fun\n",
+      origin_function = "type-analysis", origin_structure = "Preterm"} raised
+> y
+poly: : error: ; expected but type was found
+Static Errors
+> poly: : error: ; expected but , was found
+Static Errors
+> ``planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION``;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+val it =
+   “planPBNS PLAN_PB (exec [receiveMission]) = RECEIVE_MISSION”:
+   term
+> ``(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO)
+``;
+# <<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+val it =
+   “planPBNS RECEIVE_MISSION (exec [warno]) = WARNO”:
+   term
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION)
+(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO)``;
+# <<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+<<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+
+Type inference failure: unable to infer a type for the application of
+
+(planPBNS :α -> β -> α) (PLAN_PB :α)
+  ((exec :γ list -> β) [(receiveMission :γ)]) =
+(RECEIVE_MISSION :α)
+
+on line 95, characters 3-69
+
+which has type
+
+:bool
+
+to
+
+(planPBNS :α -> β -> α) (RECEIVE_MISSION :α)
+  ((exec :γ list -> β) [(warno :γ)]) =
+(WARNO :α)
+
+on line 96, characters 1-57
+
+which has type
+
+:bool
+
+unification failure message: Attempt to unify different type operators: min$bool and min$fun
+Exception-
+   HOL_ERR
+     {message =
+      "on line 96, characters 1-57:\n\nType inference failure: unable to infer a type for the application of\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (PLAN_PB :\206\177)\n  ((exec :\206\179 list -> \206\178) [(receiveMission :\206\179)]) =\n(RECEIVE_MISSION :\206\177)\n\non line 95, characters 3-69\n\nwhich has type\n\n:bool\n\nto\n\n(planPBNS :\206\177 -> \206\178 -> \206\177) (RECEIVE_MISSION :\206\177)\n  ((exec :\206\179 list -> \206\178) [(warno :\206\179)]) =\n(WARNO :\206\177)\n\non line 96, characters 1-57\n\nwhich has type\n\n:bool\n\nunification failure message: Attempt to unify different type operators: min$bool and min$fun\n",
+      origin_function = "type-analysis", origin_structure = "Preterm"} raised
+> # # # # # # # # # ** types trace now on
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION) /\
+``
+# # ;
+on line 107, characters 2-72:
+No rule for [/\]
+Exception-
+   HOL_ERR
+     {message = "on line 107, characters 2-72:\nNo rule for [/\\]",
+      origin_function = "Absyn", origin_structure = "Absyn"} raised
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION)``
+# ;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd>>
+val it =
+   “(planPBNS :β -> γ -> α) (PLAN_PB :β)
+   ((exec :δ list -> γ) [(receiveMission :δ)]) =
+ (RECEIVE_MISSION :α)”:
+   term
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION) /\
+(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO)``;
+# <<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+val it =
+   “((planPBNS :α -> β -> α) (PLAN_PB :α)
+    ((exec :γ list -> β) [(receiveMission :γ)]) =
+  (RECEIVE_MISSION :α)) ∧
+ (planPBNS RECEIVE_MISSION (exec [(warno :γ)]) = (WARNO :α))”:
+   term
+> ``(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION) /\
+(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO) /\ 
+(planPBNS WARNO           (exec [tentativePlan;
+	  		  	 initiateMovement;
+				 recon])          = REPORT1) /\
+(planPBNS REPORT1         (exec [completePlan])   = COMPLETE_PLAN) /\
+(planPBNS COMPLETE_PLAN   (exec [opoid])          = OPOID) /\
+(planPBNS OPOID           (exec [supervise])      = SUPERVISE) /\
+(planPBNS SUPERVISE       (exec [report2])        = REPORT2) /\
+(planPBNS REPORT2         (exec [complete])       = COMPLETE)``;
+# # # # # # # # # <<HOL message: inventing new type variable names: 'a, 'b, 'c>>
+val it =
+   “((planPBNS :α -> β -> α) (PLAN_PB :α)
+    ((exec :γ list -> β) [(receiveMission :γ)]) =
+  (RECEIVE_MISSION :α)) ∧
+ (planPBNS RECEIVE_MISSION (exec [(warno :γ)]) = (WARNO :α)) ∧
+ (planPBNS WARNO
+    (exec [(tentativePlan :γ); (initiateMovement :γ); (recon :γ)]) =
+  (REPORT1 :α)) ∧
+ (planPBNS REPORT1 (exec [(completePlan :γ)]) = (COMPLETE_PLAN :α)) ∧
+ (planPBNS COMPLETE_PLAN (exec [(opoid :γ)]) = (OPOID :α)) ∧
+ (planPBNS OPOID (exec [(supervise :γ)]) = (SUPERVISE :α)) ∧
+ (planPBNS SUPERVISE (exec [(report2 :γ)]) = (REPORT2 :α)) ∧
+ (planPBNS REPORT2 (exec [(complete :γ)]) = (COMPLETE :α))”:
+   term
+> val planPBNS_def = Define
+`(* exec *)
+(planPBNS PLAN_PB         (exec [receiveMission]) = RECEIVE_MISSION) /\
+(planPBNS RECEIVE_MISSION (exec [warno])          = WARNO) /\ 
+(planPBNS WARNO           (exec [tentativePlan;
+	  		  	 initiateMovement;
+				 recon])          = REPORT1) /\
+(planPBNS REPORT1         (exec [completePlan])   = COMPLETE_PLAN) /\
+(planPBNS COMPLETE_PLAN   (exec [opoid])          = OPOID) /\
+(planPBNS OPOID           (exec [supervise])      = SUPERVISE) /\
+(planPBNS SUPERVISE       (exec [report2])        = REPORT2) /\
+(planPBNS REPORT2         (exec [complete])       = COMPLETE)`
+
+# # # # # # # # # # # # # ;
+<<HOL message: inventing new type variable names: 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k>>
+
+Exception raised at TotalDefn.Define:
+between line 126, character 0 and line 135, character 60:
+at Defn.prim_mk_defn:
+at Pmatch.mk_case0_heu:
+Term (exec :δ list -> γ) [(receiveMission :δ)] is a bad pattern (of var type?)
+Exception-
+   HOL_ERR
+     {message =
+      "between line 126, character 0 and line 135, character 60:\nat Defn.prim_mk_defn:\nat Pmatch.mk_case0_heu:\nTerm (exec :\206\180 list -> \206\179) [(receiveMission :\206\180)] is a bad pattern (of var type?)",
+      origin_function = "Define", origin_structure = "TotalDefn"} raised
+> 

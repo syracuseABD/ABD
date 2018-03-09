@@ -1,0 +1,101 @@
+
+\chapter*{Preface}
+\label{preface}
+\addcontentsline{toc}{chapter}{\numberline{}Preface}
+
+Our purpose in writing this textbook is to serve the needs of
+engineers and computer scientists who are responsible for designing,
+implementing, and verifying secure computer and information
+systems. This purpose is unchanged from that of our previous textbook,
+\emph{Access Control, Security, and Trust: A Logical Approach},
+\cite{ACST}. As before, our methods are based on the application of
+logic as a means for describing, reasoning about, and verifying the
+properties of systems. We use logic from the conceptualization stage,
+through the design phase, and up to and including verification and
+certification. Our intent is to make this material accessible to upper
+division undergraduate students in computer science and engineering.
+What we present here has been tried out on undergraduate students from
+many different undergraduate colleges and universities.
+
+This text book builds upon our previous work on access control and
+adds two more dimensions: (a) transition systems, and (b) formal
+verification computer-assisted reasoning tools. Why these additions?
+
+First, all but the simplest combinational logic functions are
+transition systems, i.e., they have some notion of state. The logic of
+transition systems is useful to describe both the behavior and
+properties of systems. When combined with the multi-agent modal logic
+that is the access-control logic used for describing and reasoning
+about the elements of access-control decisions, we are able to
+describe the behavior of systems over time while accounting for the
+security policies affecting system operations.
+
+Second, assurance of correctness matters. No matter how simple a
+calculation or proof might be, the possibility of human error is ever
+present.  Just as the use of computer-aided design (CAD) tools is
+essential for producing microprocessors with billions of transistors
+on a single chip, so is the use of computer-assisted reasoning tools,
+such as theorem provers, necessary to formally verify assurance
+arguments. The use of reasoning tools such as theorem provers provide a
+degree of confidence unmatched by less rigorous means depending on
+either pencil and paper calculations or simulations that often are
+incomplete case analyses of a system. \emph{These tools are an
+  effective and essential antidote to self delusion}.
+
+CAD tools and programming languages sometimes change and evolve
+quickly. The particular theorem prover we use is the the Cambridge
+University Higher Order Logic (HOL) theorem prover. There are other
+theorem provers and our use of HOL is not intended as an implicit
+judgment of its superiority over the rest. Rather, it reflects HOL's
+longevity, openness, and extensive libraries of theories developed
+since its inception in the early 1980s. To the extent possible, we
+have tried to minimize the dating this book by focusing on the
+long-lasting parts of HOL.
+
+As with our previous book, we developed much of the content of this
+book in our own courses at Syracuse University and for the Air Force
+Research Laboratory Information Directorate's Information Assurance
+Research internships. Our students benefited from having illustrations
+and exercises to learn from and gain deeper insights.  Thus, we have
+included numerous examples to illustrate principles, as well as many
+exercises to serve as assessments of knowledge.  We have annotated
+each exercise to indicate the level of knowledge it assesses,
+according to the following legend:
+\begin{itemize}
+\item The symbol \appn\ denotes exercises at the \emph{application}
+  level of knowledge.  These exercises typically ask the reader to apply
+  particular knowledge or use particular techniques to solve a problem
+  in a new context.  Straightforward calculations fall into this
+  category of exercises.
+\item The symbol $\analysis$ denotes exercises at the \emph{analysis}
+  level of knowledge.  These exercises generally require the reader to
+  decompose a problem into its constituent parts in order to perform the
+  necessary calculations or experiments necessary to solve the problem.
+\item The symbol $\synthesis$ denotes exercises at the \emph{synthesis}
+  level of knowledge.  These exercises typically require the reader to
+  integrate various techniques or components to design, construct, or
+  formulate an entirely new structure, pattern, or proof.
+\item The symbol $\eval$ denotes exercises at the \emph{evaluation}
+  level of knowledge.  These exercises require the reader to identify
+  and use relevant criteria to assess and judge the suitability of a
+  solution to a given problem.
+\end{itemize}
+
+Exercises at higher levels of knowledge are not necessarily harder than
+exercises at lower levels of knowledge. We recommend that readers try at
+least one exercise at each level of knowledge to get the most benefit.
+
+
+\paragraph*{Acknowledgments}
+
+We are grateful for the support of numerous colleagues and
+students. In particular, we are grateful for the partnership we have
+enjoyed with the Air Force Research Laboratory since 2003. The
+partnership has allowed us access to young and fresh minds who are
+tomorrow's leaders.
+
+% ---- this points LaTeX to book.tex ---- %
+% Local Variables: 
+% TeX-master: "book" 
+% End:
+
