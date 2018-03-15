@@ -1,0 +1,625 @@
+chin@skc-netbook:~/Documents/HOL/ACL$ Holmake -clean
+Holmake: *** No rule to make target `-clean'.  Stop.
+chin@skc-netbook:~/Documents/HOL/ACL$ Holmake clean
+Cleaning directory of object files
+chin@skc-netbook:~/Documents/HOL/ACL$ ls
+[0m[01;32maclDrulesScript.sml[0m      [01;32macl_infRules.sml[0m        [01;32mante_allTacs.sig[0m  [01;34mCVS[0m       [01;34mPresentations[0m
+[01;32maclfoundationScript.sml[0m  [01;32maclrulesScript.sml[0m      [01;32mante_allTacs.sml[0m  [01;34mExamples[0m
+[01;32macl_infRules.sig[0m         [01;32maclsemanticsScript.sml[0m  [0mcompile.txt[0m       [01;34mLM[0m
+[mchin@skc-netbook:~/Documents/HOL/ACL$ Holmake
+Compiling aclfoundationScript.sml
+Linking aclfoundationScript.uo to produce theory-builder executable
+<<HOL message: Created theory "aclfoundation">>
+Saved theorem EQ_WeakOrder
+Saved theorem WeakOrder_Exists
+Saved theorem po_bij
+Saved theorem abs_po11
+Saved theorem onto_po
+Saved theorem absPO_fn_onto
+Saved theorem PO_repPO
+Saved theorem WO_repPO
+Saved theorem repPO_iPO_partial_order
+Saved theorem datatype_Princ
+Saved theorem Princ_11
+Saved theorem Princ_distinct
+Saved theorem Princ_case_cong
+Saved theorem Princ_nchotomy
+Saved theorem Princ_Axiom
+Saved theorem Princ_induction
+Saved theorem IntLevel_11
+Saved theorem IntLevel_distinct
+Saved theorem IntLevel_case_cong
+Saved theorem IntLevel_nchotomy
+Saved theorem IntLevel_Axiom
+Saved theorem IntLevel_induction
+Saved theorem SecLevel_11
+Saved theorem SecLevel_distinct
+Saved theorem SecLevel_case_cong
+Saved theorem SecLevel_nchotomy
+Saved theorem SecLevel_Axiom
+Saved theorem SecLevel_induction
+<<HOL message: Defined types: "Princ", "IntLevel", "SecLevel">>
+Saved theorem datatype_Form
+Saved theorem Form_11
+Saved theorem Form_distinct
+Saved theorem Form_case_cong
+Saved theorem Form_nchotomy
+Saved theorem Form_Axiom
+Saved theorem Form_induction
+<<HOL message: Defined type: "Form">>
+Saved theorem datatype_Kripke
+Saved theorem Kripke_11
+Saved theorem Kripke_case_cong
+Saved theorem Kripke_nchotomy
+Saved theorem Kripke_Axiom
+Saved theorem Kripke_induction
+<<HOL message: Defined type: "Kripke">>
+Definition has been stored under "intpKS_def".
+Definition has been stored under "jKS_def".
+Definition has been stored under "imapKS_def".
+Definition has been stored under "smapKS_def".
+Saved theorem KS_bij
+Exporting theory "aclfoundation" ... done.
+Theory "aclfoundation" took 10.061s to build
+Analysing aclfoundationTheory.sml
+Analysing aclfoundationTheory.sig
+Compiling aclfoundationTheory.sig
+Compiling aclfoundationTheory.sml
+Compiling aclsemanticsScript.sml
+Linking aclsemanticsScript.uo to produce theory-builder executable
+<<HOL message: Created theory "aclsemantics">>
+Definition has been stored under "Jext_def".
+Saved theorem name_def
+Saved theorem meet_def
+Saved theorem quoting_def
+Definition has been stored under "Lifn_def".
+Definition has been stored under "Lsfn_def".
+Definition has been stored under "Efn_def".
+Saved theorem TT_def
+Saved theorem FF_def
+Saved theorem prop_def
+Saved theorem notf_def
+Saved theorem andf_def
+Saved theorem orf_def
+Saved theorem impf_def
+Saved theorem eqf_def
+Saved theorem says_def
+Saved theorem speaks_for_def
+Saved theorem controls_def
+Saved theorem reps_def
+Saved theorem domi_def
+Saved theorem eqi_def
+Saved theorem doms_def
+Saved theorem eqs_def
+Saved theorem eqn_def
+Saved theorem lte_def
+Saved theorem lt_def
+Saved theorem eqf_impf
+Saved theorem controls_says
+Saved theorem eqi_domi
+Saved theorem eqs_doms
+Theory: aclsemantics
+
+Parents:
+    aclfoundation
+
+Term constants:
+    Efn 
+    :'il po ->
+     'is po ->
+     ('w, 'v, 'pn, 'il, 'is) Kripke ->
+     ('w, 'pn, 'il, 'is) Form -> 'v -> bool
+    Jext    :('pn -> 'w -> 'w -> bool) -> 'pn Princ -> 'w -> 'w -> bool
+    Lifn    :('b, 'c, 'd, 'a, 'e) Kripke -> ('d, 'a) IntLevel -> 'a
+    Lsfn    :('b, 'c, 'd, 'e, 'a) Kripke -> ('d, 'a) SecLevel -> 'a
+
+Definitions:
+    Jext_def
+    |- (!J s. Jext J (Name s) = J s) /\
+       (!J P1 P2. Jext J (P1 meet P2) = Jext J P1 RUNION Jext J P2) /\
+       !J P1 P2. Jext J (P1 quoting P2) = Jext J P2 O Jext J P1
+    Lifn_def
+    |- (!M l. Lifn M (iLab l) = l) /\
+       !M name. Lifn M (il name) = imapKS M name
+    Lsfn_def
+    |- (!M l. Lsfn M (sLab l) = l) /\
+       !M name. Lsfn M (sl name) = smapKS M name
+    Efn_def
+    |- (!Oi Os M. Efn Oi Os M TT = UNIV) /\
+       (!Oi Os M. Efn Oi Os M FF = {}) /\
+       (!Oi Os M p. Efn Oi Os M (prop p) = intpKS M p) /\
+       (!Oi Os M f. Efn Oi Os M (notf f) = UNIV DIFF Efn Oi Os M f) /\
+       (!Oi Os M f1 f2.
+          Efn Oi Os M (f1 andf f2) =
+          Efn Oi Os M f1 INTER Efn Oi Os M f2) /\
+       (!Oi Os M f1 f2.
+          Efn Oi Os M (f1 orf f2) =
+          Efn Oi Os M f1 UNION Efn Oi Os M f2) /\
+       (!Oi Os M f1 f2.
+          Efn Oi Os M (f1 impf f2) =
+          UNIV DIFF Efn Oi Os M f1 UNION Efn Oi Os M f2) /\
+       (!Oi Os M f1 f2.
+          Efn Oi Os M (f1 eqf f2) =
+          (UNIV DIFF Efn Oi Os M f1 UNION Efn Oi Os M f2) INTER
+          (UNIV DIFF Efn Oi Os M f2 UNION Efn Oi Os M f1)) /\
+       (!Oi Os M P f.
+          Efn Oi Os M (P says f) =
+          {w | Jext (jKS M) P w SUBSET Efn Oi Os M f}) /\
+       (!Oi Os M P Q.
+          Efn Oi Os M (P speaks_for Q) =
+          if Jext (jKS M) Q RSUBSET Jext (jKS M) P then UNIV else {}) /\
+       (!Oi Os M P f.
+          Efn Oi Os M (P controls f) =
+          UNIV DIFF {w | Jext (jKS M) P w SUBSET Efn Oi Os M f} UNION
+          Efn Oi Os M f) /\
+       (!Oi Os M P Q f.
+          Efn Oi Os M (reps P Q f) =
+          UNIV DIFF
+          {w | Jext (jKS M) (P quoting Q) w SUBSET Efn Oi Os M f} UNION
+          {w | Jext (jKS M) Q w SUBSET Efn Oi Os M f}) /\
+       (!Oi Os M intl1 intl2.
+          Efn Oi Os M (intl1 domi intl2) =
+          if repPO Oi (Lifn M intl2) (Lifn M intl1) then
+            UNIV
+          else
+            {}) /\
+       (!Oi Os M intl2 intl1.
+          Efn Oi Os M (intl2 eqi intl1) =
+          (if repPO Oi (Lifn M intl2) (Lifn M intl1) then
+             UNIV
+           else
+             {}) INTER
+          if repPO Oi (Lifn M intl1) (Lifn M intl2) then
+            UNIV
+          else
+            {}) /\
+       (!Oi Os M secl1 secl2.
+          Efn Oi Os M (secl1 doms secl2) =
+          if repPO Os (Lsfn M secl2) (Lsfn M secl1) then
+            UNIV
+          else
+            {}) /\
+       (!Oi Os M secl2 secl1.
+          Efn Oi Os M (secl2 eqs secl1) =
+          (if repPO Os (Lsfn M secl2) (Lsfn M secl1) then
+             UNIV
+           else
+             {}) INTER
+          if repPO Os (Lsfn M secl1) (Lsfn M secl2) then
+            UNIV
+          else
+            {}) /\
+       (!Oi Os M numExp1 numExp2.
+          Efn Oi Os M (numExp1 eqn numExp2) =
+          if numExp1 = numExp2 then UNIV else {}) /\
+       (!Oi Os M numExp1 numExp2.
+          Efn Oi Os M (numExp1 lte numExp2) =
+          if numExp1 <= numExp2 then UNIV else {}) /\
+       !Oi Os M numExp1 numExp2.
+         Efn Oi Os M (numExp1 lt numExp2) =
+         if numExp1 < numExp2 then UNIV else {}
+
+Theorems:
+    name_def  |- !J s. Jext J (Name s) = J s
+    meet_def
+    |- !J P1 P2. Jext J (P1 meet P2) = Jext J P1 RUNION Jext J P2
+    quoting_def
+    |- !J P1 P2. Jext J (P1 quoting P2) = Jext J P2 O Jext J P1
+    TT_def  |- !Oi Os M. Efn Oi Os M TT = UNIV
+    FF_def  |- !Oi Os M. Efn Oi Os M FF = {}
+    prop_def  |- !Oi Os M p. Efn Oi Os M (prop p) = intpKS M p
+    notf_def
+    |- !Oi Os M f. Efn Oi Os M (notf f) = UNIV DIFF Efn Oi Os M f
+    andf_def
+    |- !Oi Os M f1 f2.
+         Efn Oi Os M (f1 andf f2) = Efn Oi Os M f1 INTER Efn Oi Os M f2
+    orf_def
+    |- !Oi Os M f1 f2.
+         Efn Oi Os M (f1 orf f2) = Efn Oi Os M f1 UNION Efn Oi Os M f2
+    impf_def
+    |- !Oi Os M f1 f2.
+         Efn Oi Os M (f1 impf f2) =
+         UNIV DIFF Efn Oi Os M f1 UNION Efn Oi Os M f2
+    eqf_def
+    |- !Oi Os M f1 f2.
+         Efn Oi Os M (f1 eqf f2) =
+         (UNIV DIFF Efn Oi Os M f1 UNION Efn Oi Os M f2) INTER
+         (UNIV DIFF Efn Oi Os M f2 UNION Efn Oi Os M f1)
+    says_def
+    |- !Oi Os M P f.
+         Efn Oi Os M (P says f) =
+         {w | Jext (jKS M) P w SUBSET Efn Oi Os M f}
+    speaks_for_def
+    |- !Oi Os M P Q.
+         Efn Oi Os M (P speaks_for Q) =
+         if Jext (jKS M) Q RSUBSET Jext (jKS M) P then UNIV else {}
+    controls_def
+    |- !Oi Os M P f.
+         Efn Oi Os M (P controls f) =
+         UNIV DIFF {w | Jext (jKS M) P w SUBSET Efn Oi Os M f} UNION
+         Efn Oi Os M f
+    reps_def
+    |- !Oi Os M P Q f.
+         Efn Oi Os M (reps P Q f) =
+         UNIV DIFF
+         {w | Jext (jKS M) (P quoting Q) w SUBSET Efn Oi Os M f} UNION
+         {w | Jext (jKS M) Q w SUBSET Efn Oi Os M f}
+    domi_def
+    |- !Oi Os M intl1 intl2.
+         Efn Oi Os M (intl1 domi intl2) =
+         if repPO Oi (Lifn M intl2) (Lifn M intl1) then UNIV else {}
+    eqi_def
+    |- !Oi Os M intl2 intl1.
+         Efn Oi Os M (intl2 eqi intl1) =
+         (if repPO Oi (Lifn M intl2) (Lifn M intl1) then
+            UNIV
+          else
+            {}) INTER
+         if repPO Oi (Lifn M intl1) (Lifn M intl2) then UNIV else {}
+    doms_def
+    |- !Oi Os M secl1 secl2.
+         Efn Oi Os M (secl1 doms secl2) =
+         if repPO Os (Lsfn M secl2) (Lsfn M secl1) then UNIV else {}
+    eqs_def
+    |- !Oi Os M secl2 secl1.
+         Efn Oi Os M (secl2 eqs secl1) =
+         (if repPO Os (Lsfn M secl2) (Lsfn M secl1) then
+            UNIV
+          else
+            {}) INTER
+         if repPO Os (Lsfn M secl1) (Lsfn M secl2) then UNIV else {}
+    eqn_def
+    |- !Oi Os M numExp1 numExp2.
+         Efn Oi Os M (numExp1 eqn numExp2) =
+         if numExp1 = numExp2 then UNIV else {}
+    lte_def
+    |- !Oi Os M numExp1 numExp2.
+         Efn Oi Os M (numExp1 lte numExp2) =
+         if numExp1 <= numExp2 then UNIV else {}
+    lt_def
+    |- !Oi Os M numExp1 numExp2.
+         Efn Oi Os M (numExp1 lt numExp2) =
+         if numExp1 < numExp2 then UNIV else {}
+    eqf_impf
+    |- !M f1 f2.
+         Efn Oi Os M (f1 eqf f2) =
+         Efn Oi Os M ((f1 impf f2) andf (f2 impf f1))
+    controls_says
+    |- !M P f.
+         Efn Oi Os M (P controls f) = Efn Oi Os M (P says f impf f)
+    eqi_domi
+    |- !M intL1 intL2.
+         Efn Oi Os M (intL1 eqi intL2) =
+         Efn Oi Os M (intL2 domi intL1 andf intL1 domi intL2)
+    eqs_doms
+    |- !M secL1 secL2.
+         Efn Oi Os M (secL1 eqs secL2) =
+         Efn Oi Os M (secL2 doms secL1 andf secL1 doms secL2)
+Exporting theory "aclsemantics" ... done.
+Theory "aclsemantics" took 4.416s to build
+Analysing aclsemanticsTheory.sml
+Analysing aclsemanticsTheory.sig
+Compiling aclsemanticsTheory.sig
+Compiling aclsemanticsTheory.sml
+Compiling aclrulesScript.sml
+Linking aclrulesScript.uo to produce theory-builder executable
+<<HOL message: Created theory "aclrules">>
+Definition has been stored under "sat_def".
+Saved theorem world_says
+Saved theorem sat_allworld
+Saved theorem world_T
+Saved theorem world_F
+Saved theorem world_not
+Saved theorem world_not
+Saved theorem world_not
+Saved theorem world_and
+Saved theorem world_or
+Saved theorem world_imp
+Saved theorem world_eq
+Saved theorem world_eqn
+Saved theorem world_lte
+Saved theorem world_lt
+Saved theorem domi_reflexive
+Saved theorem domi_transitive
+Saved theorem domi_antisymmetric
+Saved theorem eqi_Eq
+Saved theorem doms_reflexive
+Saved theorem doms_transitive
+Saved theorem doms_antisymmetric
+Saved theorem eqs_Eq
+Saved theorem Modus_Ponens
+Saved theorem Says
+Saved theorem MP_Says
+Saved theorem UNIV_DIFF_SUBSET
+Saved theorem Image_SUBSET
+Saved theorem SUBSET_Image_SUBSET
+Saved theorem speaks_for_SUBSET
+Saved theorem Speaks_For
+Saved theorem Trans_Speaks_For
+Saved theorem Idemp_Speaks_For
+Saved theorem Mono_speaks_for
+Saved theorem Image_UNION
+Saved theorem and_says_lemma
+Saved theorem says_and_lemma
+Saved theorem And_Says
+Saved theorem eqf_and_impf
+Saved theorem eqf_sat
+Saved theorem Image_cmp
+Saved theorem Quoting
+Saved theorem Quoting_Eq
+Saved theorem Controls_Eq
+Saved theorem reps_def_lemma
+Saved theorem Reps_Eq
+Theory: aclrules
+
+Parents:
+    aclsemantics
+
+Term constants:
+    sat 
+    :('a, 'world, 'b, 'c, 'd) Kripke # 'c po # 'd po ->
+     ('a, 'b, 'c, 'd) Form -> bool
+
+Definitions:
+    sat_def  |- !M Oi Os f. (M,Oi,Os) sat f <=> (Efn Oi Os M f = UNIV)
+
+Theorems:
+    world_says
+    |- !M Oi Os P f w.
+         w IN Efn Oi Os M (P says f) <=>
+         !v. v IN Jext (jKS M) P w ==> v IN Efn Oi Os M f
+    sat_allworld  |- !M f. (M,Oi,Os) sat f <=> !w. w IN Efn Oi Os M f
+    world_T  |- !M Oi Os w. w IN Efn Oi Os M TT
+    world_F  |- !M Oi Os w. w NOTIN Efn Oi Os M FF
+    world_not
+    |- !M Oi Os f w. w IN Efn Oi Os M (notf f) <=> w NOTIN Efn Oi Os M f
+    world_and
+    |- !M Oi Os f1 f2 w.
+         w IN Efn Oi Os M (f1 andf f2) <=>
+         w IN Efn Oi Os M f1 /\ w IN Efn Oi Os M f2
+    world_or
+    |- !M f1 f2 w.
+         w IN Efn Oi Os M (f1 orf f2) <=>
+         w IN Efn Oi Os M f1 \/ w IN Efn Oi Os M f2
+    world_imp
+    |- !M Oi Os f1 f2 w.
+         w IN Efn Oi Os M (f1 impf f2) <=>
+         w IN Efn Oi Os M f1 ==> w IN Efn Oi Os M f2
+    world_eq
+    |- !M Oi Os f1 f2 w.
+         w IN Efn Oi Os M (f1 eqf f2) <=>
+         (w IN Efn Oi Os M f1 <=> w IN Efn Oi Os M f2)
+    world_eqn
+    |- !M Oi Os n1 n2 w. w IN Efn Oi Os m (n1 eqn n2) <=> (n1 = n2)
+    world_lte
+    |- !M Oi Os n1 n2 w. w IN Efn Oi Os m (n1 lte n2) <=> n1 <= n2
+    world_lt
+    |- !M Oi Os n1 n2 w. w IN Efn Oi Os m (n1 lt n2) <=> n1 < n2
+    domi_reflexive  |- !M Oi Os l. (M,Oi,Os) sat l domi l
+    domi_transitive
+    |- !M Oi Os l1 l2 l3.
+         (M,Oi,Os) sat l1 domi l2 ==>
+         (M,Oi,Os) sat l2 domi l3 ==>
+         (M,Oi,Os) sat l1 domi l3
+    domi_antisymmetric
+    |- !M Oi Os l1 l2.
+         (M,Oi,Os) sat l1 domi l2 ==>
+         (M,Oi,Os) sat l2 domi l1 ==>
+         (M,Oi,Os) sat l1 eqi l2
+    eqi_Eq
+    |- !M Oi Os l1 l2.
+         (M,Oi,Os) sat l1 eqi l2 <=>
+         (M,Oi,Os) sat l2 domi l1 andf l1 domi l2
+    doms_reflexive  |- !M Oi Os l. (M,Oi,Os) sat l doms l
+    doms_transitive
+    |- !M Oi Os l1 l2 l3.
+         (M,Oi,Os) sat l1 doms l2 ==>
+         (M,Oi,Os) sat l2 doms l3 ==>
+         (M,Oi,Os) sat l1 doms l3
+    doms_antisymmetric
+    |- !M Oi Os l1 l2.
+         (M,Oi,Os) sat l1 doms l2 ==>
+         (M,Oi,Os) sat l2 doms l1 ==>
+         (M,Oi,Os) sat l1 eqs l2
+    eqs_Eq
+    |- !M Oi Os l1 l2.
+         (M,Oi,Os) sat l1 eqs l2 <=>
+         (M,Oi,Os) sat l2 doms l1 andf l1 doms l2
+    Modus_Ponens
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 ==>
+         (M,Oi,Os) sat f1 impf f2 ==>
+         (M,Oi,Os) sat f2
+    Says  |- !M Oi Os P f. (M,Oi,Os) sat f ==> (M,Oi,Os) sat P says f
+    MP_Says
+    |- !M Oi Os P f1 f2.
+         (M,Oi,Os) sat P says (f1 impf f2) impf P says f1 impf P says f2
+    UNIV_DIFF_SUBSET
+    |- !R1 R2. R1 SUBSET R2 ==> (UNIV DIFF R1 UNION R2 = UNIV)
+    Image_SUBSET  |- !R1 R2. R2 RSUBSET R1 ==> !w. R2 w SUBSET R1 w
+    SUBSET_Image_SUBSET
+    |- !R1 R2 R3.
+         (!w1. R2 w1 SUBSET R1 w1) ==>
+         !w. {w | R1 w SUBSET R3} SUBSET {w | R2 w SUBSET R3}
+    speaks_for_SUBSET
+    |- !R3 R2 R1.
+         R2 RSUBSET R1 ==>
+         !w. {w | R1 w SUBSET R3} SUBSET {w | R2 w SUBSET R3}
+    Speaks_For
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P speaks_for Q impf P says f impf Q says f
+    Trans_Speaks_For
+    |- !M Oi Os P Q R.
+         (M,Oi,Os) sat P speaks_for Q ==>
+         (M,Oi,Os) sat Q speaks_for R ==>
+         (M,Oi,Os) sat P speaks_for R
+    Idemp_Speaks_For  |- !M Oi Os P. (M,Oi,Os) sat P speaks_for P
+    Mono_speaks_for
+    |- !M Oi Os P P' Q Q'.
+         (M,Oi,Os) sat P speaks_for P' ==>
+         (M,Oi,Os) sat Q speaks_for Q' ==>
+         (M,Oi,Os) sat P quoting Q speaks_for P' quoting Q'
+    Image_UNION  |- !R1 R2 w. (R1 RUNION R2) w = R1 w UNION R2 w
+    and_says_lemma
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P meet Q says f impf P says f andf Q says f
+    says_and_lemma
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P says f andf Q says f impf P meet Q says f
+    And_Says
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P meet Q says f eqf P says f andf Q says f
+    eqf_and_impf
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 eqf f2 <=>
+         (M,Oi,Os) sat (f1 impf f2) andf (f2 impf f1)
+    eqf_sat
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 eqf f2 ==>
+         ((M,Oi,Os) sat f1 <=> (M,Oi,Os) sat f2)
+    Image_cmp
+    |- !R1 R2 R3 u.
+         (R1 O R2) u SUBSET R3 <=> R2 u SUBSET {y | R1 y SUBSET R3}
+    Quoting
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P quoting Q says f eqf P says Q says f
+    Quoting_Eq
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P quoting Q says f <=>
+         (M,Oi,Os) sat P says Q says f
+    Controls_Eq
+    |- !M Oi Os P f.
+         (M,Oi,Os) sat P controls f <=> (M,Oi,Os) sat P says f impf f
+    reps_def_lemma
+    |- !M Oi Os P Q f.
+         Efn Oi Os M (reps P Q f) =
+         Efn Oi Os M (P quoting Q says f impf Q says f)
+    Reps_Eq
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat reps P Q f <=>
+         (M,Oi,Os) sat P quoting Q says f impf Q says f
+Exporting theory "aclrules" ... done.
+Theory "aclrules" took 4.432s to build
+Analysing aclrulesTheory.sml
+Analysing aclrulesTheory.sig
+Compiling aclrulesTheory.sig
+Compiling aclrulesTheory.sml
+Compiling aclDrulesScript.sml
+Linking aclDrulesScript.uo to produce theory-builder executable
+<<HOL message: Created theory "aclDrules">>
+Saved theorem INTER_EQ_UNIV
+Saved theorem Simplification1
+Saved theorem Simplification2
+Saved theorem Controls
+Saved theorem Reps
+Saved theorem Rep_Controls_Eq
+Saved theorem Rep_Says
+Saved theorem Conjunction
+Saved theorem Disjunction1
+Saved theorem Disjunction2
+Saved theorem Modus_Tollens
+Saved theorem Double_Negation
+Saved theorem Hypothetical_Syllogism
+Saved theorem Disjunctive_Syllogism
+Saved theorem Says_Simplification1
+Saved theorem Says_Simplification2
+Saved theorem Derived_Speaks_For
+Saved theorem Derived_Controls
+Saved theorem sl_doms
+Saved theorem il_domi
+Theory: aclDrules
+
+Parents:
+    aclrules
+
+Theorems:
+    INTER_EQ_UNIV
+    |- !s1 s2. (s1 INTER s2 = UNIV) <=> (s1 = UNIV) /\ (s2 = UNIV)
+    Simplification1
+    |- !M Oi Os f1 f2. (M,Oi,Os) sat f1 andf f2 ==> (M,Oi,Os) sat f1
+    Simplification2
+    |- !M Oi Os f1 f2. (M,Oi,Os) sat f1 andf f2 ==> (M,Oi,Os) sat f2
+    Controls
+    |- !M Oi Os P f.
+         (M,Oi,Os) sat P says f ==>
+         (M,Oi,Os) sat P controls f ==>
+         (M,Oi,Os) sat f
+    Reps
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat reps P Q f ==>
+         (M,Oi,Os) sat P quoting Q says f ==>
+         (M,Oi,Os) sat Q controls f ==>
+         (M,Oi,Os) sat f
+    Rep_Controls_Eq
+    |- !M Oi Os A B f.
+         (M,Oi,Os) sat reps A B f <=> (M,Oi,Os) sat A controls B says f
+    Rep_Says
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat reps P Q f ==>
+         (M,Oi,Os) sat P quoting Q says f ==>
+         (M,Oi,Os) sat Q says f
+    Conjunction
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 ==>
+         (M,Oi,Os) sat f2 ==>
+         (M,Oi,Os) sat f1 andf f2
+    Disjunction1
+    |- !M Oi Os f1 f2. (M,Oi,Os) sat f1 ==> (M,Oi,Os) sat f1 orf f2
+    Disjunction2
+    |- !M Oi Os f1 f2. (M,Oi,Os) sat f2 ==> (M,Oi,Os) sat f1 orf f2
+    Modus_Tollens
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 impf f2 ==>
+         (M,Oi,Os) sat notf f2 ==>
+         (M,Oi,Os) sat notf f1
+    Double_Negation
+    |- !M Oi Os f. (M,Oi,Os) sat notf (notf f) ==> (M,Oi,Os) sat f
+    Hypothetical_Syllogism
+    |- !M Oi Os f1 f2 f3.
+         (M,Oi,Os) sat f1 impf f2 ==>
+         (M,Oi,Os) sat f2 impf f3 ==>
+         (M,Oi,Os) sat f1 impf f3
+    Disjunctive_Syllogism
+    |- !M Oi Os f1 f2.
+         (M,Oi,Os) sat f1 orf f2 ==>
+         (M,Oi,Os) sat notf f1 ==>
+         (M,Oi,Os) sat f2
+    Says_Simplification1
+    |- !M Oi Os P f1 f2.
+         (M,Oi,Os) sat P says (f1 andf f2) ==> (M,Oi,Os) sat P says f1
+    Says_Simplification2
+    |- !M Oi Os P f1 f2.
+         (M,Oi,Os) sat P says (f1 andf f2) ==> (M,Oi,Os) sat P says f2
+    Derived_Speaks_For
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P speaks_for Q ==>
+         (M,Oi,Os) sat P says f ==>
+         (M,Oi,Os) sat Q says f
+    Derived_Controls
+    |- !M Oi Os P Q f.
+         (M,Oi,Os) sat P speaks_for Q ==>
+         (M,Oi,Os) sat Q controls f ==>
+         (M,Oi,Os) sat P controls f
+    sl_doms
+    |- !M Oi Os P Q l1 l2.
+         (M,Oi,Os) sat sl P eqs l1 ==>
+         (M,Oi,Os) sat sl Q eqs l2 ==>
+         (M,Oi,Os) sat l2 doms l1 ==>
+         (M,Oi,Os) sat sl Q doms sl P
+    il_domi
+    |- !M Oi Os P Q l1' l2'.
+         (M,Oi,Os) sat il P eqi l1 ==>
+         (M,Oi,Os) sat il Q eqi l2 ==>
+         (M,Oi,Os) sat l2 domi l1 ==>
+         (M,Oi,Os) sat il Q domi il P
+Exporting theory "aclDrules" ... done.
+Theory "aclDrules" took 10.661s to build
+Analysing aclDrulesTheory.sml
+Analysing aclDrulesTheory.sig
+Compiling aclDrulesTheory.sig
+Compiling aclDrulesTheory.sml
+Compiling acl_infRules.sig
+Compiling acl_infRules.sml
+Compiling ante_allTacs.sig
+Compiling ante_allTacs.sml
+chin@skc-netbook:~/Documents/HOL/ACL$ 

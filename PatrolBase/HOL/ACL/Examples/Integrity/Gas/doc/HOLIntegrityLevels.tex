@@ -1,0 +1,84 @@
+\newcommand{\HOLIntegrityLevelsDate}{28 July 2013}
+\newcommand{\HOLIntegrityLevelsTime}{16:26}
+\begin{SaveVerbatim}{HOLIntegrityLevelsDatatypesIClass}
+\HOLFreeVar{IClass} = Prem \HOLTokenBar{} Reg
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsDatatypesIClass}{\UseVerbatim{HOLIntegrityLevelsDatatypesIClass}}
+\newcommand{\HOLIntegrityLevelsDatatypes}{
+\HOLIntegrityLevelsDatatypesIClass}
+\begin{SaveVerbatim}{HOLIntegrityLevelsDefinitionsICOrderXXdef}
+\HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{y} \HOLBoundVar{x}.
+     ICOrder \HOLBoundVar{y} \HOLBoundVar{x} \HOLTokenEquiv{}
+     \HOLKeyword{if} \HOLBoundVar{x} = Prem \HOLKeyword{then} T \HOLKeyword{else} \HOLKeyword{if} \HOLBoundVar{y} = Prem \HOLKeyword{then} F \HOLKeyword{else} T
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsDefinitionsICOrderXXdef}{\UseVerbatim{HOLIntegrityLevelsDefinitionsICOrderXXdef}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsDefinitionsICOrderXXPOXXdef}
+\HOLTokenTurnstile{} ICOrder_PO = PO ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsDefinitionsICOrderXXPOXXdef}{\UseVerbatim{HOLIntegrityLevelsDefinitionsICOrderXXPOXXdef}}
+\newcommand{\HOLIntegrityLevelsDefinitions}{
+\HOLDfnTag{IntegrityLevels}{ICOrder_def}\HOLIntegrityLevelsDefinitionsICOrderXXdef
+\HOLDfnTag{IntegrityLevels}{ICOrder_PO_def}\HOLIntegrityLevelsDefinitionsICOrderXXPOXXdef
+}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsIClassXXPOXXantisymmetric}
+\HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{1}}} domi \HOLBoundVar{l\sb{\mathrm{2}}} \HOLTokenImp{}
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{2}}} domi \HOLBoundVar{l\sb{\mathrm{1}}} \HOLTokenImp{}
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{1}}} eqi \HOLBoundVar{l\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsIClassXXPOXXantisymmetric}{\UseVerbatim{HOLIntegrityLevelsTheoremsIClassXXPOXXantisymmetric}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsIClassXXPOXXreflexive}
+\HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{l} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}. (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l} domi \HOLBoundVar{l}
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsIClassXXPOXXreflexive}{\UseVerbatim{HOLIntegrityLevelsTheoremsIClassXXPOXXreflexive}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsIClassXXPOXXtransitive}
+\HOLTokenTurnstile{} \HOLTokenForall{}\HOLBoundVar{l\sb{\mathrm{1}}} \HOLBoundVar{l\sb{\mathrm{2}}} \HOLBoundVar{l\sb{\mathrm{3}}} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{1}}} domi \HOLBoundVar{l\sb{\mathrm{2}}} \HOLTokenImp{}
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{2}}} domi \HOLBoundVar{l\sb{\mathrm{3}}} \HOLTokenImp{}
+     (\HOLBoundVar{M},\HOLBoundVar{Oi},\HOLBoundVar{Os}) sat \HOLBoundVar{l\sb{\mathrm{1}}} domi \HOLBoundVar{l\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsIClassXXPOXXtransitive}{\UseVerbatim{HOLIntegrityLevelsTheoremsIClassXXPOXXtransitive}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsICOrderXXantisymmetric}
+\HOLTokenTurnstile{} antisymmetric ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsICOrderXXantisymmetric}{\UseVerbatim{HOLIntegrityLevelsTheoremsICOrderXXantisymmetric}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsICOrderXXreflexive}
+\HOLTokenTurnstile{} reflexive ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsICOrderXXreflexive}{\UseVerbatim{HOLIntegrityLevelsTheoremsICOrderXXreflexive}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsICOrderXXsimp}
+\HOLTokenTurnstile{} (repPO ICOrder_PO = ICOrder) \HOLTokenConj{}
+   (\HOLTokenForall{}\HOLBoundVar{y} \HOLBoundVar{x}.
+      ICOrder \HOLBoundVar{y} \HOLBoundVar{x} \HOLTokenEquiv{}
+      \HOLKeyword{if} \HOLBoundVar{x} = Prem \HOLKeyword{then} T \HOLKeyword{else} \HOLKeyword{if} \HOLBoundVar{y} = Prem \HOLKeyword{then} F \HOLKeyword{else} T) \HOLTokenConj{}
+   Prem \HOLTokenNotEqual{} Reg \HOLTokenConj{} Reg \HOLTokenNotEqual{} Prem
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsICOrderXXsimp}{\UseVerbatim{HOLIntegrityLevelsTheoremsICOrderXXsimp}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsICOrderXXtransitive}
+\HOLTokenTurnstile{} transitive ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsICOrderXXtransitive}{\UseVerbatim{HOLIntegrityLevelsTheoremsICOrderXXtransitive}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsICOrderXXWO}
+\HOLTokenTurnstile{} WeakOrder ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsICOrderXXWO}{\UseVerbatim{HOLIntegrityLevelsTheoremsICOrderXXWO}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsPremXXdomiXXReg}
+\HOLTokenTurnstile{} (\HOLFreeVar{M},ICOrder_PO,\HOLFreeVar{Os}) sat iLab Prem domi iLab Reg
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsPremXXdomiXXReg}{\UseVerbatim{HOLIntegrityLevelsTheoremsPremXXdomiXXReg}}
+\begin{SaveVerbatim}{HOLIntegrityLevelsTheoremsrepPOXXICOrderXXPO}
+\HOLTokenTurnstile{} repPO ICOrder_PO = ICOrder
+\end{SaveVerbatim}
+\newcommand{\HOLIntegrityLevelsTheoremsrepPOXXICOrderXXPO}{\UseVerbatim{HOLIntegrityLevelsTheoremsrepPOXXICOrderXXPO}}
+\newcommand{\HOLIntegrityLevelsTheorems}{
+\HOLThmTag{IntegrityLevels}{IClass_PO_antisymmetric}\HOLIntegrityLevelsTheoremsIClassXXPOXXantisymmetric
+\HOLThmTag{IntegrityLevels}{IClass_PO_reflexive}\HOLIntegrityLevelsTheoremsIClassXXPOXXreflexive
+\HOLThmTag{IntegrityLevels}{IClass_PO_transitive}\HOLIntegrityLevelsTheoremsIClassXXPOXXtransitive
+\HOLThmTag{IntegrityLevels}{ICOrder_antisymmetric}\HOLIntegrityLevelsTheoremsICOrderXXantisymmetric
+\HOLThmTag{IntegrityLevels}{ICOrder_reflexive}\HOLIntegrityLevelsTheoremsICOrderXXreflexive
+\HOLThmTag{IntegrityLevels}{ICOrder_simp}\HOLIntegrityLevelsTheoremsICOrderXXsimp
+\HOLThmTag{IntegrityLevels}{ICOrder_transitive}\HOLIntegrityLevelsTheoremsICOrderXXtransitive
+\HOLThmTag{IntegrityLevels}{ICOrder_WO}\HOLIntegrityLevelsTheoremsICOrderXXWO
+\HOLThmTag{IntegrityLevels}{Prem_domi_Reg}\HOLIntegrityLevelsTheoremsPremXXdomiXXReg
+\HOLThmTag{IntegrityLevels}{repPO_ICOrder_PO}\HOLIntegrityLevelsTheoremsrepPOXXICOrderXXPO
+}

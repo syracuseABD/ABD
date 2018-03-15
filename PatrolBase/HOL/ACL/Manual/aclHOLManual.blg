@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: aclHOLManual.aux
+A level-1 auxiliary file: aclHOLtitle.aux
+A level-1 auxiliary file: preface.aux
+A level-1 auxiliary file: ack.aux
+A level-1 auxiliary file: techniques.aux
+A level-1 auxiliary file: aclHOL.aux
+A level-1 auxiliary file: aclHOLtactics.aux
+A level-1 auxiliary file: aclHOLReports.aux
+A level-1 auxiliary file: aclScriptFiles.aux
+The style file: alpha.bst
+Database file #1: aclHOLManual.bib
+Warning--to sort, need author, organization, or key in HOLTutorial
+Warning--to sort, need author, organization, or key in HOLDescription
+Warning--to sort, need author, organization, or key in HOLLogic
+Warning--to sort, need author, organization, or key in HOLReference
+You've used 10 entries,
+            2543 wiz_defined-function locations,
+            628 strings with 5937 characters,
+and the built_in function-call counts, 3140 in all, are:
+= -- 308
+> -- 127
+< -- 5
++ -- 47
+- -- 40
+* -- 215
+:= -- 493
+add.period$ -- 27
+call.type$ -- 10
+change.case$ -- 47
+chr.to.int$ -- 7
+cite$ -- 18
+duplicate$ -- 140
+empty$ -- 257
+format.name$ -- 47
+if$ -- 656
+int.to.chr$ -- 4
+int.to.str$ -- 0
+missing$ -- 6
+newline$ -- 49
+num.names$ -- 20
+pop$ -- 59
+preamble$ -- 1
+purify$ -- 63
+quote$ -- 0
+skip$ -- 112
+stack$ -- 0
+substring$ -- 125
+swap$ -- 22
+text.length$ -- 5
+text.prefix$ -- 1
+top$ -- 0
+type$ -- 72
+warning$ -- 4
+while$ -- 22
+width$ -- 13
+write$ -- 118
+(There were 4 warnings)

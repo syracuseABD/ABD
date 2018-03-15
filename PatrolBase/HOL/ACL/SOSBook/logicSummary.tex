@@ -1,0 +1,583 @@
+\chapter{Summary of the Access-Control Logic}
+\label{cha:logic-summary}
+
+This appendix provides a summary of the syntax and inference
+rules of the access-control logic.  It is intended as a canonical
+reference for the syntax and rules (both core and derived) introduced
+throughout the book.
+
+\section{Syntax}
+We define \PName to be the collection of all simple principal names.
+The set \PExp of all principal expressions is given by the following BNF
+specification:
+\begin{eqnarray*}
+  \PExp &\isa& \PName \ora  \PExp \with \PExp \ora \PExp \quoting \PExp
+\end{eqnarray*}
+The convention for compound principals is that \with binds more tightly
+than \quoting.
+
+We let \PropVar be the collection of all propositional
+variables.  The set \LExp of all well-formed expressions is given by
+the following BNF specification:
+\begin{eqnarray*}
+  \LExp &::=&  \PropVar \ora
+               \neg\ \LExp \ora
+               (\LExp \vee \LExp) \ora \\
+               & & 
+               (\LExp \wedge \LExp) \ora 
+               (\LExp \implies \LExp) \ora 
+               (\LExp \equiv \LExp) \ora \\
+               & & 
+               (\PExp \speaksfor \PExp) \ora
+               (\PExp \says \LExp) \ora
+               (\PExp \controls \LExp) \\
+               & & 
+               (\reps{\PExp}{\PExp}{\varphi}) 
+\end{eqnarray*}
+Parentheses can be omitted according to the following conventions for
+operator precedence, in decreasing tightness of bindings:
+\begin{eqnarray*}
+  & & \neg \\
+  & & \says \quad \controls \quad \rreps \\
+  & & \wedge \\
+  & & \vee \\
+  & & \implies \\
+  & & \equiv \\
+  & & 
+\end{eqnarray*}
+
+The definition of \LExp defines the core syntax of the logic. Three
+extensions are made to describe confidentiality, integrity, and
+role-based access control policies.
+
+\paragraph*{Confidentiality}
+
+We define \LabelConst to be the collection of \emph{simple security
+  labels}, which are used as names for the various levels associated
+with confidentiality. In addition to these specific security labels,
+we will often want to refer abstractly to the security level assigned
+to a particular principal $P$.  For this reason, we define the larger
+set \Level of \emph{all} possible security-level expressions:
+\begin{eqnarray*}
+  \Level &\isa& \LabelConst \ora  \slv{\PName}
+\end{eqnarray*}
+That is, a security-level expression is either a simple security label
+or an expression of the form $\slv{A}$, where $A$ is a simple principal
+name.\footnote{This syntax precludes security-level expressions such as
+  $\slv{P\with Q}$ or $\slv{P\quoting Q}$, because there is no standard
+  technique for associating security classification labels with compound
+  principals.} Informally, $\slv{A}$ refers to the security level of
+principal $A$.
+
+Finally, we extend our definition of well-formed formulas to support
+comparisons of security levels:
+\begin{eqnarray*}
+    \LExp &::=&  \Level \leq_s \Level \ora \Level =_s \Level 
+\end{eqnarray*}
+
+\paragraph*{Integrity}
+
+We define \IntLabelConst to be the collection of \emph{simple
+  integrity labels}, and we define \IntLevel to be the set of
+\emph{all} possible integrity-level expressions:
+\begin{eqnarray*}
+  \IntLevel &\isa& \IntLabelConst \ora  \ilv{\PName}
+\end{eqnarray*}
+Informally, $\ilv{A}$ refers to the integrity---i.e., quality or
+trustworthiness---level of principal $A$.
+
+We then extend our definition of well-formed formulas to support
+comparisons of security levels:
+\begin{eqnarray*}
+    \LExp &::=&  \IntLevel \leq_i \IntLevel \ora \IntLevel =_i \IntLevel 
+\end{eqnarray*}
+The symbol $\leq_i$ denotes a partial ordering on integrity levels, in
+the same way that $\leq_s$ denotes a partial ordering on security
+levels.  In particular, $\leq_i$ is reflexive, transitive, and
+antisymmetric.
+
+\paragraph*{Role-based access control}
+
+We extend the syntax of the logic to accommodate statements that
+express equality among principals:
+\[ \LExp ::=  (\PExp = \PExp) \]
+
+%\section{Semantics}
+\section{Core Rules, Derived Rules, and Extensions}
+
+The following figures summarize the core rules, derived rules, and
+extensions for the access-control logic:
+\begin{itemize}
+\item Figure~\ref{fig:summary-core-rules} is a summary of the core
+  inference rules.
+\item Figure~\ref{fig:summary-derived-rules} is a summary of
+  frequently used derived inference rules.
+\item Figure~\ref{fig:summary-delegation-rules} is a summary of
+  inference rules for delegation.
+\item Figure~\ref{fig:summary-security-level-rules} is a summary of
+  inference rules for relating security levels.
+\item Figure~\ref{fig:summary-integrity-level-rules} is a summary of
+  inference rules for relating integrity levels.
+\item Figure~\ref{fig:summary-principal-equality-rules} is a summary
+  of inference rules regarding principal equality.
+\end{itemize}
+
+
+\begin{figure}[tbp]
+  \begin{center}
+    \ \rulespace
+
+    \irule{}{\qquad\varphi\qquad}{Taut} $\qquad$ \mbox{if $\varphi$ is an 
+      instance of a prop-logic tautology}    \rulespace
+
+    \irule{\varphi \qquad  \varphi \implies \varphi'}{\varphi'}{Modus\
+      Ponens}
+%    \rulespace
+    \qquad
+    \irule{\varphi}{P \says \varphi}{Says}
+%  \quad  \mbox{(for    all $P$)} 
+    \rulespace
+
+    \irule{}{(P \says (\varphi \implies \varphi')) \implies
+      (P \says \varphi \implies P \says \varphi')}{MP\ Says} \rulespace
+
+    \irule{}{P \speaksfor Q   \implies
+      (P \says \varphi \implies Q \says \varphi)}{Speaks For} \rulespace
+
+    \irule{}{(P \with Q \says \varphi) \equiv   ((P \says \varphi) \wedge
+      (Q\says \varphi))}{\with Says}
+    \rulespace
+
+    \irule{}{(P \quoting Q \says \varphi) \equiv   (P \says Q\says
+      \varphi)}{Quoting} 
+    \rulespace
+
+    \irule{}{P \speaksfor P}{Idempotency of $\speaksfor$} 
+    \rulespace
+
+    \irule{P\speaksfor Q\qquad Q \speaksfor R}{P\speaksfor
+      R}{\parbox[c]{12ex}{\centering Transitivity\\ of $\speaksfor$}} 
+    \qquad
+%    \rulespace 
+%
+    \irule{P\speaksfor P' \quad Q \speaksfor Q'}{P\quoting Q \speaksfor
+      P'\quoting Q'}{\parbox[c]{13ex}{\centering Monotonicity \\ of $\speaksfor$}}
+    \rulespace
+
+    \irule{\varphi_1\equiv \varphi_2 \qquad \subst{\psi}{\varphi_1}{q}}
+    {\subst{\psi}{\varphi_2}{q}}{\infname{Equivalence}}
+    \rulespace
+  
+    $P \controls \varphi \quad \defn \quad (P \says \varphi) \implies
+    \varphi$
+    \rulespace
+    \caption{Summary of core rules for the access-control logic}
+    \label{fig:summary-core-rules}
+  \end{center}
+\end{figure}
+
+% \section{Derived Rules and Extensions}
+
+\begin{figure}[tbp]
+  \centering
+
+    \irule{\varphi_1 \qquad \varphi_2}{\varphi_1 \wedge
+      \varphi_2}{Conjunction} \rulespace 
+
+    \irule{\varphi_1 \wedge \varphi_2}{\varphi_1}{Simplification (1)} 
+    \hspace*{2em}
+    \irule{\varphi_1 \wedge \varphi_2}{\varphi_2}{Simplification (2)} 
+    \rulespace
+
+    \irule{\varphi_1}{\varphi_1 \vee \varphi_2}{Disjunction (1)} 
+    \hspace*{2em}
+    \irule{\varphi_2}{\varphi_1 \vee \varphi_2}{Disjunction (2)} 
+    \rulespace
+   
+    \irule{\varphi_1 \implies \varphi_2 \qquad \neg \varphi_2}{\neg
+      \varphi_1}{Modus\ Tollens}
+%    \hspace*{2em}
+%     \irule{\varphi_1 \equiv \varphi_2 \qquad \varphi_1}
+%     {\varphi_2}{Equivalence} 
+     \rulespace
+%
+    \irule{\neg \neg \varphi}{\varphi}{Double\ negation}
+    \rulespace
+
+    \irule{\varphi_1 \vee \varphi_2 \qquad \neg
+      \varphi_1}{\varphi_2}{\parbox[c]{11ex}{\centering Disjunctive\\ Syllogism}}
+%    \rulespace
+    \qquad
+    \irule{\varphi_1 \implies \varphi_2 \qquad \varphi_2 \implies
+      \varphi_3}{\varphi_1 \implies
+      \varphi_3}{\parbox[c]{12ex}{\centering Hypothetical\\ Syllogism}} 
+    \rulespace
+  
+    \irule{P \controls \varphi \quad P \says \varphi}{\varphi}{Controls}
+    \rulespace
+
+    \irule{P \speaksfor Q \quad P\says \varphi}{Q \says
+      \varphi}{\parbox[c]{11ex}{\centering Derived \\ Speaks For}}
+    \qquad
+    \irule{P \speaksfor Q \quad Q \controls \varphi}{P \controls
+      \varphi}{\parbox[c]{9ex}{\centering Derived Controls}}
+    \rulespace
+
+    \irule{P \says (\varphi_1 \wedge \varphi_2)}{P \says
+      \varphi_1}{\parbox[c]{18ex}{\centering Says \\ Simplification (1)}}
+    \quad 
+    \irule{P \says (\varphi_1 \wedge \varphi_2)}{P \says \varphi_2}{\parbox[c]{18ex}{\centering Says \\ Simplification (2)}}
+  \caption{Summary of useful derived rules}
+  \label{fig:summary-derived-rules}
+\end{figure}
+
+% \begin{figure}
+%   \centering
+
+%   \infrule{\begin{array}[b]{c}
+%       \textit{subject} \says \varphi \quad
+%       \textit{authority} \controls (\textit{subject} \controls \varphi) \\
+%       \textit{ticket} \speaksfor \textit{authority} \quad
+%       \textit{ticket} \says (\textit{subject} \controls \varphi)
+%     \end{array}}{\varphi}{Ticket} \rulespace
+
+%   \infrule
+%   {
+%     \begin{matrix}
+%       (\textrm{factor}_1 \with \textrm{factor}_2) \says \varphi \\
+%       \textrm{authority}_1 \controls (\textrm{subject} \controls
+%       \varphi) \\
+%       \textrm{authority}_1 \says (\textrm{subject} \controls \varphi) \\
+%       \textrm{authority}_2 \controls ((\textrm{factor}_1 \with
+%       \textrm{factor}_2) \speaksfor \textrm{subject}) \\
+%       \textrm{authority}_2 \says ((\textrm{factor}_1 \with \textrm{factor}_2)
+%     \speaksfor \textrm{subject}) \rulespace
+%     \end{matrix}
+%     }
+%     {\varphi}
+%     {Two-Factor ACL}
+
+%     \infrule{\begin{matrix}
+%          \textrm{factor} \says \varphi_1\\
+%          A_1 \controls ((\textrm{subject} \controls \varphi_2) \implies
+%          \textrm{subject} \controls \varphi_1) \\
+%          A_1 \says ((\textrm{subject} \controls \varphi_2) \implies
+%          \textrm{subject} \controls \varphi_1) \\
+%          A_2 \controls (\textrm{factor} \speaksfor \textrm{subject}) \\
+%          \textrm{certificate} \says (\textrm{factor} \speaksfor
+%          \textrm{subject}) \\
+%          \textrm{certificate} \speaksfor A_2 \\
+%          A_3 \controls (\textrm{subject} \controls \varphi_2) \\
+%          \textrm{ticket} \says (\textrm{subject} \controls \varphi_2) \\
+%          \textrm{ticket} \speaksfor A_3 \\
+%        \end{matrix}} 
+%      {\varphi_1} {ID \& Ticket} \rulespace
+
+%   \caption{Summary of derived rules for basic access-control concepts}
+  
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+%   \infrule{\begin{array}[b]{c}
+%       K_{ca} \speaksfor \name{Certificate Authority} \qquad K_{ca}
+%       \says  (K_P \speaksfor P)  \\
+%       \name{Certificate Authority} \controls (K_P \speaksfor P) 
+%     \end{array}}{K_P \speaksfor P}{\parbox[c]{.8in}{Certificate Verification}}
+
+  
+%   \caption{Summary of derived rules for digital authentication}
+%   \label{fig:dig-auth-rules}
+% \end{figure}
+
+\begin{figure}
+  \centering
+
+  $\reps{P}{Q}{\varphi} \defn P \quoting Q \says \varphi \implies Q
+  \says \varphi$
+
+  \rulespace
+
+  $\irule{Q \controls \varphi \quad \reps{P}{Q}{\varphi} \quad P
+    \quoting Q \says \varphi}{\varphi}{Reps}$
+
+  \rulespace
+
+  $\irule{}{\reps{A}{B}{\varphi} \equiv (A \controls (B \says
+    \varphi))}{Rep Controls}$
+
+  \rulespace
+
+  $\irule{\begin{array}[b]{c} \reps{A}{B}{\varphi} \quad A | B \says
+      \varphi
+    \end{array}} {B \says \varphi} {Rep Says}$
+
+  \rulespace
+
+%   \irule
+%   {
+%     \begin{array}[b]{c}
+%       Signature _Q \quoting \sig{P} \says (\langle \textit{pay
+%         \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%         \emph{amt}}, acct_P \rangle)\\
+%       \sig{Q} \speaksfor Q \quad \sig{P} \speaksfor P \quad
+%       \langle \textit{\emph{amt} covered}, acct_P \rangle \\
+%       \langle \textit{\emph{amt} covered}, acct_P \rangle \implies
+%       P\controls (\langle \textit{pay \emph{amt}}, Q \rangle \wedge
+%       \langle \textit{debit \emph{amt}}, acct_P \rangle)\\
+%       \reps{Q}{P}{(\langle \textit{pay \emph{amt}}, Q \rangle \wedge
+%       \langle \textit{debit \emph{amt}}, acct_P \rangle)}\\
+%     \end{array}
+%   }
+%   {\langle \textit{pay \emph{amt}}, Q \rangle
+%     \wedge \langle \textit{debit \emph{amt}}, acct_P \rangle}
+%   {\parbox[m]{0.5in}{Simple Checking}}.
+
+  \caption{Summary of rules for delegation}
+  \label{fig:summary-delegation-rules}
+\end{figure}
+
+\begin{figure}
+  \centering
+
+  $\ell_1 =_s \ell_2 \defn (\ell_1 \leq_s \ell_2) \wedge (\ell_2 \leq_s
+  \ell_1)$ \vspace*{2em} 
+  
+  \irule{}{\ell \leq_s \ell}{Reflexivity of $\leq_s$} \vspace*{2em} 
+
+  \irule{\ell_1 \leq_s \ell_2 \qquad \ell_2 \leq_s \ell_3}{\ell_1 \leq_s
+    \ell_3}{Transitivity of $\leq_s$} 
+
+  \caption{Inference rules for relating security levels}
+  \label{fig:summary-security-level-rules}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+
+  $\ell_1 =_i \ell_2 \defn (\ell_1 \leq_i \ell_2) \wedge (\ell_2 \leq_i
+  \ell_1)$ \vspace*{2em} 
+  
+  \irule{}{\ell \leq_i \ell}{Reflexivity of $\leq_i$} \vspace*{2em} 
+
+  \irule{\ell_1 \leq_i \ell_2 \qquad \ell_2 \leq_i \ell_3}{\ell_1 \leq_i
+    \ell_3}{Transitivity of $\leq_i$} 
+
+  \caption{Inference rules for relating integrity levels}
+  \label{fig:summary-integrity-level-rules}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+   $P = Q \defn  P \speaksfor Q \;\wedge\;Q \speaksfor P$
+   \rulespace
+  
+    \irule{P = Q \qquad \subst{\varphi}{P}{A}}
+    {\subst{\varphi}{Q}{A}}{\infname{Principal Equality}}
+    \rulespace
+
+
+   \irule{}{P\quoting (R_1 \with \cdots \with R_k) = (P \quoting R_1)
+    \with \cdots \with (P \quoting R_k)}{Distributivity of \quoting}
+  ($k\geq 1$)
+  \rulespace
+
+    \irule{P \quoting (Q\with R) \says \varphi}{P\quoting Q \says \varphi}
+      {Quoting Simplification} 
+  \caption{Logical rules regarding principal equality}
+  \label{fig:summary-principal-equality-rules}
+\end{figure}
+
+
+% \begin{figure}
+%   \centering
+%     \irule
+%   {
+%     \begin{array}[b]{c}
+%       Signature _Q \quoting \sig{P} \says (\langle \textit{pay
+%         \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%         \emph{amt}}, acct_P \rangle)\\
+%       \sig{Q} \speaksfor Q \quad \sig{P} \speaksfor P \quad
+%       \langle \textit{\emph{amt} covered}, acct_P \rangle \\
+%       \langle \textit{\emph{amt} covered}, acct_P \rangle \implies
+%       P\controls (\langle \textit{pay \emph{amt}}, Q \rangle \wedge
+%       \langle \textit{debit \emph{amt}}, acct_P \rangle)\\
+%       \reps{Q}{P}{(\langle \textit{pay \emph{amt}}, Q \rangle \wedge
+%       \langle \textit{debit \emph{amt}}, acct_P \rangle)}\\
+%     \end{array}
+%   }
+%   {\langle \textit{pay \emph{amt}}, Q \rangle
+%     \wedge \langle \textit{debit \emph{amt}}, acct_P \rangle}
+%   {\parbox[m]{0.5in}{Simple Checking}}
+%   \caption{Summary of rules for simple checking}
+%   \label{fig:simple-checking-rules}
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+  
+%   \caption{Summary of derived rules for SSL/TLS}
+%   \label{fig:ssl-rules}
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+%     \irule
+%     {
+%       \begin{array}[t]{c}
+%         Authority \controls \action{\textit{use session key}, K_\mathit{session}} \\
+%         K \says \action{\textit{use session key}, K_\mathit{session}} \\
+%         K \speaksfor Authority 
+%       \end{array}
+%     }
+%     {\action{\textit{use session key}, K_\mathit{session}}}
+%   {\parbox[c]{.6in}{Session Key \\
+%       Receipt}} 
+%   \rulespace
+
+%     \irule
+%     {
+%       \begin{array}[t]{c}
+%         K \says (K_\mathit{session} \controls \action{\name{get ticket,
+%             service, P@\textit{add}}}) \\
+%         K \speaksfor \name{AS} \\
+%         \name{AS} \controls (K_\mathit{session} \controls
+%         \action{\name{get ticket, service, P@\textit{add}}}) \\
+%         K_\mathit{session} \says \action{\name{get ticket,
+%             service, P@\textit{add} }} \\
+%       \end{array}
+%     }
+%     {\action{\name{get ticket, service, P@\textit{add}}}}
+%   {\parbox[c]{.7in}{Grant Service \\ Ticket}}
+%   \rulespace
+
+%     \irule
+%     {
+%       \begin{array}[t]{c}
+%         \name{TGS} \controls (K_\mathit{session} \speaksfor P) \\
+%         K \says (K_\mathit{session} \speaksfor P) \\
+%         K \speaksfor \name{TGS} \\
+%         K_\mathit{session} \says \mathit{service request}
+%       \end{array}
+%     }
+%     {P \says \mathit{service request}}
+%   {\parbox[c]{.7in}{Service Request}}
+%   \rulespace
+
+%   \caption{Summary of derived rules for Kerberos}
+%   \label{fig:kerberos-rules}
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+%       \irule
+%     {
+%       \begin{array}[t]{c}
+%        Signature _Q \quoting Signature_P \says (\langle \textit{Pay
+%          \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%          \emph{amt}}, acct_P \rangle)\\
+%        Signature_Q \says \langle \textit{credit \emph{amt}},acct_Q
+%        \rangle \\
+%        Signature_Q \speaksfor Q\\
+%        \hspace*{-.8in}
+%        (Q \quoting  Signature_P  \says  (\langle \textit{Pay
+%          \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%          \emph{amt}}, acct_P \rangle)) \implies \\
+%        \hspace*{1in}
+%        \langle \textit{Pay \emph{amt}}, Q \rangle \wedge (Q
+%        \controls \langle \textit{credit \emph{amt}},acct_Q \rangle) \\ 
+%       \end{array}
+%     }
+%     {\langle \textit{Pay \emph{amt}}, Q \rangle \wedge \langle
+%       \textit{credit \emph{amt}}, acct_Q \rangle} 
+%     {\parbox[b]{0.5in}{ACH Check Deposit}}
+%     \rulespace
+
+%     \irule
+%     {
+%       \begin{array}[t]{c}
+%         Signature _Q \quoting Signature_P \says (\langle \textit{Pay
+%           \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%           \emph{amt}}, acct_P \rangle)\\
+%         Signature_Q \speaksfor Q
+%       \end{array}
+%     }
+%     {Bank_Q  \says  (ECC_{Bank_Q}  \says
+%       (Q \quoting Signature_P) \says (\langle \textit{Pay
+%         \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%         \emph{amt}}, acct_P \rangle))}
+%     {\parbox[c]{0.5in}{ACH Check Presentation}}
+%     \rulespace
+
+%     \irule
+%     {
+%       \begin{array}[b]{l}
+%         Bank_Q  \says  (ECC_{Bank_Q} \says % \\
+%          (Q \quoting Signature_P) \says (\langle \textit{Pay
+%           \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%           \emph{amt}}, acct_P \rangle)) \\
+%         Bank_Q  \controls  (ECC_{Bank_Q} \says %\\
+%          (Q \quoting Signature_P) \says (\langle \textit{Pay
+%           \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+%           \emph{amt}}, acct_P \rangle)) %\\
+% %         \rp{Bank_Q}{ECC_{Bank_Q}} \\
+% %         \quad (Q \quoting Signature_P) \says (\langle \textit{Pay
+% %           \emph{amt}}, Q \rangle \wedge \langle \textit{debit
+% %           \emph{amt}}, acct_P \rangle))
+%       \end{array}
+%     }
+%     {
+%       \begin{array}[b]{l}
+%         (ACH \with Bank_Q)  \says  (ECC_{Bank_Q}  \says
+%         ((Q \quoting   Signature_P) \says %\\
+%          (\langle \textit{Pay \emph{amt}},  Q \rangle \wedge \langle
+%         \textit{debit \emph{amt}}, acct_P \rangle)))
+%       \end{array}
+%     }
+%     {\parbox[c]{0.5in}{ACH \\ Countersign \\ Rule}}
+%     \rulespace
+
+%     \irule
+%     {
+%       \begin{array}[b]{c}
+%         (ACH \with Bank_Q)  \says  (ECC_{Bank_Q}  \says
+%         ((Q \quoting   Signature_P) \says 
+%         (\langle \textit{Pay \emph{amt}},  Q \rangle \wedge \langle
+%         \textit{debit \emph{amt}}, acct_P \rangle)))\\
+%         %
+%         \rp{((ACH \with Bank_Q)  \quoting  ECC_{Bank_Q})}{Q}
+%         (Signature_P \says
+%         (\langle \textit{Pay \emph{amt}},  Q \rangle \wedge \langle
+%         \textit{debit \emph{amt}}, acct_P \rangle)) \\
+%         Signature_P \speaksfor P\\
+%         P \controls (\langle \textit{Pay \emph{amt}}, Q \rangle \wedge
+%         \langle \textit{debit \emph{amt}}, acct_P \rangle)\\
+%         \reps{Q}{P}{(\langle \textit{Pay \emph{amt}}, Q \rangle \wedge
+%       \langle \textit{debit \emph{amt}}, acct_P \rangle)}
+%       \end{array}
+% }
+%     {(Bank_P \says \langle \textit{Pay \emph{amt}}, Q \rangle)
+%       \wedge \langle \textit{debit \emph{amt}}, acct_P \rangle}
+%     {\parbox[b]{0.5in}{ACH Check Funding}}
+%     \rulespace
+
+%         \irule
+%     {
+%       \begin{array}[t]{c}
+%         Bank_P \says \langle \textit{Pay \emph{amt}}, Q \rangle\\
+%         Bank_P \controls \langle \textit{Pay \emph{amt}}, Q \rangle
+%       \end{array}
+%     }
+%     {ACH \says \langle \textit{Pay \emph{amt}}, Q \rangle}
+%     {ACH Check Settlement Rule}
+
+%   \caption{Summary of derived rules for interbank checking}
+%   \label{fig:ACH-checking-rules}
+% \end{figure}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "book"
+%%% End: 

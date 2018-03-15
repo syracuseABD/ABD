@@ -1,0 +1,228 @@
+
+\newcommand{\name}[1]{\ensuremath{\textit{#1}}}
+\newcommand{\filename}[1]{\ensuremath{\mathtt{#1}}}
+\newcommand{\rulespace}{\vspace*{2em}}
+
+
+\newcommand{\pair}[1]{\ensuremath{\langle #1\rangle}}
+\newcommand{\annd}{\ensuremath{\ \&\ }}
+% \newcommand{\orr}{\ensuremath{\textrm{ or }}}
+\newcommand{\pow}[1]{\ensuremath{\mathcal{P}(#1)}}
+\newcommand{\set}[1]{\ensuremath{\{#1\}}}
+\newcommand{\midset}[2]{\ensuremath{\set{#1 \mid #2}}}
+\newcommand{\arrow}{\ensuremath{\rightarrow}}
+\newcommand{\id}[1]{\ensuremath{\textsf{id}_{#1}}}
+\newcommand{\subst}[3]{\ensuremath{{#1}\boldsymbol{[}#2\boldsymbol{/}#3\boldsymbol{]}}} 
+
+%% For mathematical proofs with ``reasons'' on each step
+\newenvironment{mathprf}
+  {\begin{displaymath}\begin{array}{rcll}}{\end{array}\end{displaymath}}
+\newcommand{\why}[1]{\ensuremath{\quad \text{#1}}}
+
+%% for conventions (spelled out explicitly in text)
+\newenvironment{convention}{\begin{description} \item[\textit{Convention:}
+    ]}{\end{description}} 
+
+\newcommand{\readernote}[2]{\shadowbox{\parbox{\textwidth}{%
+      \begin{description} \item[\textit{#1:}] #2 \end{description}}}}
+
+
+
+\newenvironment{indentedExample}{\begin{example}\ \begin{list}{}{}\item }{\end{list}\end{example}}
+
+%\newenvironment{indentedExample}{\begin{example}}{\end{example}}
+% for grammars
+
+\newcommand{\isa}{\ensuremath{\; {:}{:}{=} \;}}
+\newcommand{\goesto}{\ensuremath{\leadsto}}
+%\newcommand{\ora}{\ensuremath{\;\mid\;}}
+\newcommand{\ora}{\ensuremath{\;/\;}}
+%\newcommand{\syncat}[1]{\hbox{\textcolor{red}{\sc$\langle$#1$\rangle$}}}
+%\newcommand{\syncat}[1]{\hbox{{ \sc$\langle$#1$\rangle$}}}
+%\newcommand{\syncat}[1]{\hbox{{ \bf #1 }}}
+\newcommand{\syncat}[1]{\ensuremath{\textbf{#1}}\xspace}
+
+% Miscellaneous
+
+\newcommand{\defined}{\ensuremath{\quad \triangleq \quad}}
+\newcommand{\defn}{\ensuremath{\stackrel{\mathrm{def}}{=}}}
+
+
+\newcommand{\assign}{\ensuremath{:=}}
+
+%%% for hiding self comments
+%\renewcommand{\suebox}[1]{}
+%\renewcommand{\chinbox}[1]{}
+
+\newcommand{\key}[1]{\textbf{#1}}
+
+% encryption
+
+\newcommand{\encrypt}[2]{\ensuremath{\mathit{encrypt}(#2,#1)}}
+\newcommand{\cat}[1]{\ensuremath{\langle\!\langle #1 \rangle \! \rangle}}
+
+% Syntactic sets
+\newcommand{\PName}{\ensuremath{\textbf{PName}}\xspace}
+\newcommand{\PExp}{\ensuremath{\textbf{Princ}}\xspace}
+\newcommand{\PropVar}{\ensuremath{\textbf{PropVar}}\xspace}
+\newcommand{\LExp}{\ensuremath{\textbf{Form}}\xspace}
+\newcommand{\LabelConst}{\ensuremath{\textbf{SecLabel}}\xspace}
+\newcommand{\Level}{\ensuremath{\textbf{SecLevel}}\xspace}
+\newcommand{\IntLabelConst}{\ensuremath{\textbf{IntLabel}}\xspace}
+\newcommand{\IntLevel}{\ensuremath{\textbf{IntLevel}}\xspace}
+% \newcommand{\PName}{\ensuremath{\textbf{\textsc{PName}}}\xspace}
+% \newcommand{\PExp}{\ensuremath{\textbf{\textsc{Princ}}}\xspace}
+% \newcommand{\PropVar}{\ensuremath{\textbf{\textsc{PropVar}}}\xspace}
+% \newcommand{\LExp}{\ensuremath{\textbf{\textsc{Form}}}\xspace}
+%\newcommand{\LExp}{\ensuremath{\textbf{\underline{Form} }}}
+%\newcommand{\privs}{\ensuremath{\mathit{privs}}}
+%\newcommand{\Targ}{\ensuremath{\mathcal{T}}}
+
+
+% Principals
+\newcommand{\with}{\ensuremath{\;\&\;}}
+\newcommand{\quoting}{\ensuremath{\;|\;}}
+\newcommand{\for}[1]{\ensuremath{\;\textsf{for}_{#1}\;}}
+
+% Logical expressions
+\newcommand{\has}{\ensuremath{\textsf{ has }}}
+\newcommand{\says}{\ensuremath{\text{\footnotesize \textsf{ says }}}}
+\newcommand{\controls}{\ensuremath{\text{\footnotesize \textsf{ controls }}}}
+\newcommand{\serves}{\ensuremath{\textsf{ serves }}}
+\newcommand{\speaksfor}{\ensuremath{\Rightarrow}}
+\newcommand{\then}{\;\supset\;}
+\newcommand{\phiplus}{\ensuremath{\varphi^{+}}}
+% SKC - added syntactic sugar for ``represents''
+\newcommand{\rreps}{\ensuremath{\text{\footnotesize \textsf{reps} }}}
+\newcommand{\reps}[3]{\ensuremath{{#1} \text{\footnotesize \textsf{
+          reps }}{#2}{\text{\footnotesize \textsf{ on }}}{#3}}}
+\newcommand{\controlsandsays}{\ensuremath{\textsf{ controls+says }}}
+\newcommand{\rp}[2]{\ensuremath{{#1} {\text{\footnotesize \textsf{
+          reps }}}{#2}{\text{\footnotesize \textsf{ on }}}}}
+\newcommand{\slv}[1]{\ensuremath{\text{\textsf{ sl}}(#1)}}
+\newcommand{\ilv}[1]{\ensuremath{\text{\textsf{ il}}(#1)}}
+
+
+% Semantics
+\newcommand{\struct}[1]{\ensuremath{\langle {#1} \rangle}}
+\newcommand{\krip}[1]{\ensuremath{\langle {#1} \rangle}}
+
+\newcommand{\E}[1]{\ensuremath{\mathcal{E}_{\mathcal{M}}[\![#1]\!]}}
+\newcommand{\Ee}{\ensuremath{\mathcal{E}_{\mathcal{M}}}}
+\newcommand{\Em}[2]{\ensuremath{\mathcal{E}_{#2}[\![#1]\!]}}
+
+%% for actions: 
+%%   \actionit puts contents into textit mode
+\newcommand{\act}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\actionit}[1]{\ensuremath{\langle \textit{#1} \rangle}}
+
+\newcommand{\sig}[1]{\ensuremath{\mathit{Signature}_{#1}}}
+
+\newcommand{\mssmeet}{\ensuremath{\curlywedge}}
+\newcommand{\mssbar}{\ensuremath{\|}}
+\newcommand{\below}{\ensuremath{\leq}}
+
+% Derivability
+
+\newcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+
+\newcommand{\infname}[1]{\textit{#1}}
+
+\newcommand{\irule}[3]
+    {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+
+\newcommand{\displaynewrule}[3]
+{\begin{displaymath}
+  \colorbox{LightGray}{\irule{#1}{#2}{#3}}
+%  \colorbox{SpringGreen}{\irule{#1}{#2}{#3}}
+\end{displaymath}}
+
+\newcommand{\displaycorerule}[4]
+{\begin{displaymath}
+  \colorbox{lightgray}{\irule{#1}{#2}{#3}{#4}}
+%  \colorbox{SkyBlue}{\irule{#1}{#2}{#3}{#4}}
+\end{displaymath}}
+
+\newcommand{\displaycoredef}[1]
+{\begin{displaymath}
+    \colorbox{lightgray}{\ensuremath{#1}}
+%  \colorbox{SkyBlue}{\ensuremath{#1}}
+\end{displaymath}}
+
+%% Formal proof environment
+
+\newenvironment{formalProof}{\begin{center}\small\begin{tabular}{ll}}{\end{tabular}\end{center}} 
+
+
+%% Alternate Formal proof environment
+
+
+
+\newenvironment{tabProof}{\begin{center}\footnotesize\begin{tabular}{r
+        >{$}p{3.2in}<{$}p{1.0in}}}{\end{tabular}\end{center}}  
+\newenvironment{tabProof2}{\begin{center}\footnotesize\begin{tabular}{r >{$}p{2.7in}<{$}p{1.5in}}}{\end{tabular}\end{center}} 
+
+% if then else
+\newcommand{\ite}[3]
+   {\ensuremath{#1 \rightarrow #2 \mid #3}}
+
+%%  Macro(s) for section summaries
+\newcommand*{\summproblem}[1]{\def\fromsummproblem{#1}}
+\newcommand*{\summanalysis}[1]{\def\fromsummanalysis{#1}}
+\newcommand*{\summresults}[1]{\def\fromsummresults{#1}}
+
+\newcommand{\missing}{\textsc{Missing Component}}
+\summproblem{\missing}
+\summanalysis{\missing}
+\summresults{\missing}
+
+\newcommand{\makesummary}
+  {%\section{Summary} 
+    \begin{enumerate}
+    \item \textsc{What is the problem?}
+%      \begin{quote}
+%        \it What is the purpose of my thinking?  What precise
+%        question am I trying to answer?  Within what point of view am I
+%        thinking?
+%      \end{quote}
+%      \ \\ 
+
+      \fromsummproblem
+    \item  \textsc{How am I analyzing the problem?}
+%      \begin{quote}
+%        \it What am I taking for granted, and what assumptions am
+%        I making? What information am I using?  How am I interpreting
+%        that information?  What concepts or ideas are central to my
+%        thinking? 
+%      \end{quote}
+%      \ \\ 
+
+      \fromsummanalysis
+    \item \textsc{What are the results?}
+%      \begin{quote}
+%        \it What conclusions am I coming to?  If I accept the
+%        conclusions, what are the implications?  What would the
+%        consequences be, if I put my thought into action?
+%      \end{quote}
+%      \ \\ 
+
+      \fromsummresults
+    \end{enumerate}
+
+  \summproblem{\missing}
+  \summanalysis{\missing}
+  \summresults{\missing}
+    
+}
+
+
+%----redefine implication as horseshoe instead of arrow--------
+
+\renewcommand{\implies}{\supset}
+\newcommand{\believes}{\ensuremath\textsf{ believes }}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "book"
+%%% End: 

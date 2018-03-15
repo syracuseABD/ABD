@@ -1,0 +1,245 @@
+% =====================================================================
+% Kill Chain Report LaTeX Source: report
+% This copies the style of the HOL manuals as it's straightforward
+% to include the HOL sessions as part of the report
+% =====================================================================
+
+% start of document
+
+\documentclass[12pt,fleqn]{book}
+\usepackage{makeidx}
+\usepackage{./LaTeX/noclass}
+\usepackage{fancyvrb}
+\usepackage{verbatim}
+\usepackage{alltt}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{appendix}
+
+\usepackage{times, mathptm,array}
+\usepackage{amsmath}
+\usepackage[thmmarks,amsmath]{ntheorem}
+
+%----------------------------
+% for listings of ml code
+%----------------------------
+\usepackage{listings}
+
+%---------------------------
+% for ignoring other packages in input files
+%---------------------------
+\usepackage{standalone}
+
+\renewcommand\leadsto\rightarrow
+
+% ---------------------------------------------------------------------
+% Input defined macros and commands
+% ---------------------------------------------------------------------
+% \input{../LaTeX/commands}
+% \input{../LaTeX/pic-macros}
+% \input{../LaTeX/ref-macros}
+
+\input{./LaTeX/commands}
+\input{./LaTeX/pic-macros}
+\input{./LaTeX/ref-macros}
+
+\usepackage{url}
+\usepackage[line,arrow,frame,matrix]{xy}
+% \usepackage{../LaTeX/proof}
+% \usepackage{../LaTeX/holtex}
+% \usepackage{../LaTeX/holtexbasic}
+\usepackage{./LaTeX/proof}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+
+% \input{our-content-macros}
+
+\newcommand{\chinbox}[1]{%
+  \fbox{\parbox[t]{0.9\linewidth}{\textsc{Note to Self:} 
+      \begin{center}
+        #1
+      \end{center}}}}
+% ---------------------------------------------------------------------
+% Commands for Report (now in ref-macros.tex in LaTeX subdirectory
+% ---------------------------------------------------------------------
+% \newcommand{\IMPLEMENTATION}%
+% {\beforeskip\leftline{\large\bf Implementation}\nobreak\noindent}
+
+
+% ---------------------------------------------------------------------
+% Commands for access-control logic
+% ---------------------------------------------------------------------
+\newcommand{\set}[1]{\ensuremath{\{#1\}}}
+
+
+\newcommand{\krip}[1]{\ensuremath{\langle {#1} \rangle}}
+\newcommand{\PropVar}{\ensuremath{\textbf{PropVar }}}
+\newcommand{\arrow}{\ensuremath{\rightarrow}}
+\newcommand{\pow}[1]{\ensuremath{\mathcal{P}(#1)}}
+\newcommand{\PName}{\ensuremath{\textbf{PName}}}
+\newcommand{\Princ}{\ensuremath{\textbf{Princ}}}
+\newcommand{\LExp}{\ensuremath{\textbf{Form }}}
+\newcommand{\irule}[3]
+    {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+\newcommand{\infname}[1]{\textit{#1}}
+\newcommand{\rulespace}{\vspace*{1.0em}}
+\newcommand{\defn}{\ensuremath{\stackrel{\mathrm{def}}{=}}}
+\newcommand{\with}{\ensuremath{\&}}
+\newcommand{\quoting}{\ensuremath{\mid}}
+
+\newcommand{\says}{\ensuremath{\textsf{ says }}}
+\newcommand{\as}{\ensuremath{\textsf{ as }}}
+\newcommand{\for}[1]{\ensuremath{\textsf{ for}_{\textit{#1}}}}
+\newcommand{\bel}{\;believes\;}
+\newcommand{\speaksfor}{\ensuremath{\Rightarrow}}
+\newcommand{\serves}{\ensuremath{\textsf{ serves }}}
+%\newcommand{\inherits}{\ensuremath{\textsf{ inherits }}}
+\newcommand{\reps}[3]{\ensuremath{{#1} {\text{ \textsf{
+          reps }}}{#2}{\text{\textsf{ on }}}{#3}}}
+\newcommand{\rp}[2]{\ensuremath{{#1} {\text{\footnotesize \textsf{
+          reps }}}{#2}{\text{\footnotesize \textsf{ on }}}}}
+
+\newcommand{\controlsandsays}{\ensuremath{\textsf{ controls+says }}}
+\newcommand{\action}[1]{\ensuremath{\langle #1 \rangle}}
+
+\newcommand{\postscript}[2]
+ {\vspace{0.2in}\setlength{\epsfxsize}{#2\hsize}
+  \centerline{\epsfbox{#1}}\vspace{0.2in}}
+
+\newcommand{\AX}[2]
+ {\begin{tabular}{l r}
+  \begin{minipage}[t]{6in}{ $\hspace{0.5in} { #1} $}\end{minipage} & {(#2)}
+  \end{tabular}}
+
+\newcommand{\meet}{\ensuremath{\;\&\;}}
+%\newcommand{\rserves}[1]{\ensuremath{\overset{#1}{\textsf{ serves }}}}
+\newcommand{\rserves}[2]{\ensuremath{\textsf{ serves}^{\textit{#2}}_{#1}\;}}
+%\newcommand{\rserves}[1]{\ensuremath{\textsf{ serves}^{A}_{#1}\;}}
+\newcommand{\wrspk}[1]{\ensuremath{\overset{#1}{\longrightarrow}}}
+\newcommand{\rspk}[1]{\ensuremath{\overset{#1}{\Longrightarrow}}}
+\newcommand{\activates}[1]{\ensuremath{\overset{#1}{\textsf{ activates }}}}
+\newcommand{\controls}{\ensuremath{\textsf{ controls }}}
+\newcommand{\req}[1]{\ensuremath{\overset{#1}{=}}}
+\newcommand{\mimic}{\ensuremath{\textsf{ mimicked\_by }}}
+%\newcommand{\rmimic}[1]{\ensuremath{\overset{#1}}{\textsf{ mimicked\_by }}}
+%\newcommand{\rmimic}[1]{\ensuremath{\overset{#1}}{\rightarrowtail}}
+\newcommand{\rmimic}[1]{\ensuremath{\rightarrowtail_{#1}}}
+%\newcommand{\inherits}[1]{\ensuremath{\overset{#1}}{\textsf{ inherits }}}
+%\newcommand{\inherits}[1]{\ensuremath{\overset{#1}}{\succcurlyeq}}
+\newcommand{\inherits}[1]{\ensuremath{\succcurlyeq_{#1}}}
+
+\newcommand{\nsupset}{\ensuremath{\supset\!\!\!\!\!/\;\;}}
+
+\newcommand{\E}[1]{\ensuremath{\mathcal{E}_{\mathcal{M}}[\![#1]\!]}}
+\newcommand{\Eval}[1]{\ensuremath{\textit{Eval}_{\mathcal{M}}[\![#1]\!]}}
+\newcommand{\ES}[1]{\ensuremath{\mathcal{ES}_{\mathcal{M}}[\![#1]\!]}}
+%\newcommand{\J}[1]{\ensuremath{\mathcal{J}_{\mathcal{M}}(#1)}}
+%\newcommand{\J}[1]{\ensuremath{\tilde{J}_{\mathcal{M}}(#1)}}
+\newcommand{\J}[1]{\ensuremath{\tilde{J}(#1)}}
+
+\newcommand{\sue}[1]{\textbf{\emph{[#1]}}}
+\newcommand{\skc}[1]{\textbf{\textsl{[#1]}}}
+\newcommand{\myparagraph}[1]{\paragraph{\textbf{#1}}}
+
+\newcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+\newcommand{\deriv}{\ensuremath{\vdash}}
+
+\renewcommand{\implies}{\ensuremath{\supset}}
+
+\newcommand{\IntLabelConst}{\ensuremath{\textbf{IntLabel}}\xspace}
+\newcommand{\IntLevel}{\ensuremath{\textbf{IntLevel}}\xspace}
+\newcommand{\ilv}[1]{\ensuremath{\text{\textsf{ ilev}}(#1)}}
+
+\newcommand{\name}[1]{\ensuremath{\textit{#1}}}
+
+\newcommand{\isa}{\ensuremath{\; {:}{:}{=} \;}}
+\newcommand{\ora}{\ensuremath{\;/\;}}
+
+\newcommand{\ite}[3]
+   {\ensuremath{#1 \rightarrow #2 \mid #3}}
+
+\newtheorem{master}{Master}[section]
+{%\theoremsymbol{\rule{.7ex}{1.8ex}}
+  \theoremsymbol{\ensuremath{\Diamond}}
+  \theoremstyle{break}
+  \theoremheaderfont{\bfseries\slshape}
+  \theorembodyfont{\upshape}
+  \theoremprework{\bigskip}
+  \theorempostwork{\bigskip}
+%  \theoremindent1em
+  \newtheorem{examp}{Example}[chapter]
+}
+
+{  
+  \theorembodyfont{\itshape}
+  {
+    \theoremsymbol{\rule{.7ex}{.7ex}}
+    \newtheorem{defin}{Definition}[chapter]
+  }
+  \newtheorem{thmexercise}{Exercise}[section]  
+}
+\newenvironment{definition}{\begin{defin}}{\end{defin}}
+\thispagestyle{empty}
+
+%%===Index related commands=====
+%% main index
+\newcommand{\mainindex}[1]{\index{aclHOLManual}{#1}}
+
+%% create the index
+\makeindex
+% \makeindex{aclHOLManual}
+
+\begin{document}
+
+% ---------------------------------------------------------------------
+% Inputs for HOL reports
+% ---------------------------------------------------------------------
+% \input{HOLReports/MVA/HOLmvaOperations}
+% \input{HOLReports/MVA/HOLcloudOperations}
+% \input{HOLReports/MVA/HOLmvaCloudOperations}
+% \input{HOLReports/MVA/HOLmvaRules}
+% \input{HOLReports/common/HOLIntegrityLevels}
+% \input{HOLReports/common/HOLcipher}
+% \input{HOLReports/common/HOLmessage}
+\input{./HOLReports/ACL/HOLaclfoundation}
+\input{./HOLReports/ACL/HOLaclsemantics}
+\input{./HOLReports/ACL/HOLaclrules}
+\input{./HOLReports/ACL/HOLaclDrules}
+
+
+
+   \setlength{\unitlength}{1mm}           % unit of length = 1mm
+   \setlength{\baselineskip}{16pt}        % line spacing = 16pt
+
+   % ---------------------------------------------------------------------
+   % prelims
+   % ---------------------------------------------------------------------
+
+   \include{aclHOLtitle}                        % report title page
+   \include{preface}                      % preface to entire tutorial
+   \include{ack}                          % acknowledgements
+   \tableofcontents
+
+   \include{techniques}
+   \part*{Appendices}
+   \begin{appendices}
+     \include{aclHOL}
+     \include{aclHOLtactics}
+     \include{aclHOLReports}
+     \include{aclScriptFiles}
+   \end{appendices}
+   
+% To kick a blank page with no header
+\thispagestyle{empty}
+\cleardoublepage
+
+   \addcontentsline{toc}{chapter}{Bibliography}
+   \bibliography{aclHOLManual}
+   \bibliographystyle{alpha}
+   % \bibliographystyle{our-apalike}
+
+\HOLindex
+\end{document}
+
+

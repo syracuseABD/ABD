@@ -1,0 +1,526 @@
+\message{ !name(secureMessages.tex)}\documentclass[10pt,twoside]{article}
+\usepackage{./LaTeX/engineeringAssurance}
+
+%Times for rm and math | Helvetica for ss | Courier for tt
+\usepackage{mathptmx} % rm & math
+\usepackage[scaled=0.90]{helvet} % ss
+\usepackage{courier} % tt
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\usepackage{alltt}
+\normalfont
+\usepackage[T1]{fontenc}
+\newcommand{\action}[1]{\ensuremath{\langle #1 \rangle}}
+\input{our-content-macros.tex}
+\renewcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+
+\renewcommand{\infname}[1]{\textit{#1}}
+% \renewcommand{\irule}[3]
+%     {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+
+\ifx\pdfoutput\undefined
+\usepackage[dvips]{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\pdfcompresslevel=9
+\fi
+
+%Notes in text
+\newcommand{\chinbox}[1]{%
+  \fbox{\parbox[t]{6.0in}{\textsc{Note to Self:} 
+      \begin{center}
+        #1
+      \end{center}}}}
+
+\newcommand{\problembox}[1]
+{
+  \fbox{\begin{minipage}{0.9\linewidth}
+      \begin{center}
+        \redtext{\underline{\textbf{\textsc{Assignment}}}}
+      \end{center}
+      #1
+  \end{minipage}}
+}
+
+
+\usepackage{array}
+
+% ---------------------------------------------------------------------
+% Input defined macros and commands
+% ---------------------------------------------------------------------
+\input{./LaTeX/commands}
+\input{./LaTeX/pic-macros}
+\input{./LaTeX/ref-macros}
+
+\usepackage{url}
+\usepackage[line,arrow,frame,matrix]{xy}
+\usepackage{./LaTeX/proof}
+\usepackage{./LaTeX/holtex}
+\usepackage{./LaTeX/holtexbasic}
+
+% \usepackage[usenames,dvipsnames]{color}
+\definecolor{orange}{rgb}{1,0.5,0}
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\magtext}[1]{\textcolor{magenta}{#1}}
+\newcommand{\greentext}[1]{\textcolor{green}{#1}}
+\newcommand{\orangetext}[1]{\textcolor{orange}{#1}}
+\newcommand{\standout}[1]{\textcolor{orange}{#1}}
+
+\newcommand{\seq}[2]{\ensuremath{\set{#1} \vdash {#2}}}
+\newcommand{\seqs}[2]{\ensuremath{#1 \vdash {#2}}}
+\newcommand{\sq}[1]{\ensuremath{\vdash {#1}}}
+
+\newcommand{\goal}[2]{\ensuremath{\set{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\goals}[2]{\ensuremath{{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\gls}[1]{\ensuremath{\text{ ?-- }\;{#1}}}
+
+\renewcommand{\irule}[3]
+    {\ensuremath{{\displaystyle \frac{#1}{#2}}\quad \infname{#3}}}
+\newcommand{\tac}[3]{
+  \ensuremath{\begin{tabular}{c}
+    {#1}\\\hline\hline{#2}
+  \end{tabular}\quad}{#3}}
+% HOL theories
+
+\title{\textsc{Structure, Interpretation, and Verification of
+    Messages, Certificates, and Trust Assumptions for Assured Command
+    and Control CONOPS}}
+
+\author{Assigned: Monday 5 December 2011}
+
+\date{Due: 1200 Wednesday 14 December 2011}
+
+\makeindex
+
+\begin{document}
+
+\message{ !name(secureMessages.tex) !offset(-3) }
+
+
+% ---------------------------------------------------------------------
+% Inputs for HOL reports
+% ---------------------------------------------------------------------
+\input{HOLReports/HOLcipher}
+\input{HOLReports/HOLmissionStaff}
+\input{HOLReports/HOLrevisedMissionKeys}
+\input{HOLReports/HOLmessageCertificate}
+\input{HOLReports/HOLBFOConops}
+
+\maketitle
+\thispagestyle{empty}
+\author{}
+\maketitle
+
+\begin{abstract}
+  We refine the details of the command and control concepts developed
+  in the previous assignment. This time we focus on the cipher
+  operations, messages, and certificates used, sent, and installed on
+  devices and weapons. Our task is to make explicit the interpretation
+  of messages and certificates in the access-control logic and
+  formally verify the validity of the message and certificate CONOPS.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+This week we focus on one portion of the command and control (C2)
+CONOPS we developed in the previous assignment. The focus of the last
+assignment was to make explicit the logic of the flow of command and
+control for a hypothetical joint force operation.  The C2CONOPS
+problem ended in a step-by-step description and verification, using
+the access-control logic \cite{ACST} and the Higher-Order Logic
+(HOL-4) theorem prover \cite{HOL}, of each principal's actions.
+
+The C2CONOPS problem had three levels of abstraction:
+\begin{enumerate}
+\item CONOPS described in terms of the actions of each mission role:
+  \emph{Joint Forces Certificate Authority, Blue and Gold Forces
+    Certificate Authorities, Blue and Gold Forces Commanders, and Blue
+    and Gold Forces Operators}.
+\item CONOPS described in terms of the actions of mission staff
+  assigned to each role: \emph{Alice, Bob, Carol, and Dan}.
+\item CONOPS described in terms of the cryptographically signed
+  statements made by each mission staff member or certificate
+  authority.
+\end{enumerate}
+For each level, we described the CONOPS using the access-control logic
+in HOL, and justified the actions taken by principals by proving
+appropriate theorems. Each theorem showed the conditions under which
+the action taken a principal was logically valid.
+
+In this problem, we expand the assurance of C2 CONOPS to include the
+messages, certificates, and root trust assumptions sent by principals
+and installed on their machines. As an extension to the previous
+problem, we will incorporate a description of cipher operations in our
+CONOPS. The description of cipher operations, and the structure and
+interpretation of messages and certificates is absolutely necessary as
+the \emph{intended meaning} of messages and certifications must be
+explicit and consistent with the logical basis of our CONOPS.
+
+\section{Problem Description}
+\label{sec:problem-description}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.6\linewidth]{Figures/messageCONOPS}
+  \caption{CONOPS for Blue Forces Operator}
+  \label{fig:BFO-CONOPS}
+\end{figure}
+
+In this problem, we focus on the CONOPS for Blue Forces Operators, as
+shown in Figure~\ref{fig:BFO-CONOPS}. The previous C2CONOPS problem
+proved the theorem justifying the conclusion $K_{Carol} \quoting BFO
+\says \action{launch}$, given an order $K_{Alice} \quoting BFC \says
+\action{go}$.
+
+Your tasks this week are the following:
+\begin{enumerate}
+\item Describe in HOL the structure and interpretation of signed
+  messages and signed and unsigned certificates.
+\item Describe in HOL cipher operations.
+\item Verify in HOL the appropriate theorems for cipher operations and
+  CONOPS based on messages and certificates.
+\item Document all the above in a report of equivalent scope to the
+  C2CONOPS report.  As before, you must fully disclose the details of
+  the logical theories upon which mission assurance depends.
+\item You will supply the necessary files and subdirectories that
+  allow third parties to quickly reconstruct and check your work using
+  Holmake.
+\item You will supply the necessary files and subdirectories that
+  allow third parties to reconstruct your technical report using
+  \LaTeX{}.
+\item You will supply the necessary files and subdirectories that
+  allow third parties to generate pretty-printed reports of all your
+  HOL theories.
+\end{enumerate}
+
+\section{Technical Approach}
+\label{sec:technical-approach}
+\begin{table}[t]
+  \centering
+  \begin{tabular}{|r>{$}l<{$}|}
+    \hline
+    \textbf{Classification} & \textbf{Access-Control Statement}\\
+    \hline
+    \textbf{Signed Message:} & K_{Alice} \quoting BFC \says \action{go}\\
+    \hline
+    \textbf{Signed Key Certificate:} & 
+    K_{bfca} \says K_{Alice} \speaksfor Alice\\
+    \textbf{Signed Key Certificate:} & K_{jfca} \says K_{bfca} \speaksfor BFCA\\
+    \hline
+    \textbf{Trusted Role Certificate:} & \reps{Alice}{BFC}{\action{go}}\\
+    \textbf{Trusted Key Certificate:} & K_{jfca} \speaksfor JFCA\\
+    \hline
+    \textbf{Jurisdiction Statement:} & BFC \controls \action{go}\\
+    \textbf{Jurisdiction Statement:} & JFCA \controls K_{bfca} \speaksfor BFCA\\
+    
+    % \textbf{Jurisdiction Statement:} & \reps{Alice}{BFC}{\action{go}}\\
+    \textbf{Policy Statement:} & \action{go} \implies \action{launch}\\
+    \hline
+  \end{tabular}
+  \caption{Classification of Access-Control Statements According to Function}
+  \label{tab:classification-table}
+\end{table}
+
+Our technical approach is a continuation of the concepts in C2CONOPS.
+We will assume we have the following proved:
+\begin{gather*}
+\label{thm:BFO-Rule}
+  \irule
+  {
+    \begin{array}{c}
+      K_{Alice} \quoting BFC \says \action{go}\\
+      K_{bfca} \says K_{Alice} \speaksfor Alice \quad 
+        K_{jfca} \says K_{bfca} \speaksfor JFCA\\
+        \reps{Alice}{BFC}{\action{go}} \quad
+        K_{jfca} \speaksfor JFCA\\
+        BFC \controls \action{go} \quad 
+         JFCA \controls K_{bfca} \speaksfor BFCA \quad
+         BFCA \controls K_{Alice} \speaksfor Alice\\
+         \action{go} \implies \action{launch}
+    \end{array}
+  }
+  {K_{Carol} \quoting BFO \says \action{launch}}
+  {BFO Rule}.
+\end{gather*}
+
+The inference rule \emph{BFO Rule} justifies the step in the
+\emph{launch} CONOPS when Carol as the Blue Force Operator (BFO)
+receives a command from Alice as the Blue Force Commander (BFC)
+informing Carol that the mission is a \emph{go}. Your task is to do
+the next refinement that incorporates:
+\begin{enumerate}
+\item cipher operations with a particular emphasis on integrity checking,
+\item concrete data structures for signed key certificates, trusted
+  role certificates, and trusted key certificates,
+\item interpretations in the Kripke semantics for all certificates,
+\item a proved inference rule corresponding to \emph{BFO Rule} where
+  messages and certificates replace their corresponding
+  interpretations in \emph{BFO Rule}.
+\end{enumerate}
+
+Table~\ref{tab:classification-table} classifies each hypothesis of
+\emph{BFO Rule} into one of six categories:
+\begin{enumerate}
+\item \textbf{Signed messages}: these messages are similar to secure email
+  messages as defined in RFC 1421. These messages are signed by
+  encrypting with private keys message hashes. Signed messages are
+  defined in \emph{messageCertificate} theory.
+\item \textbf{Signed key certificates}: these are statements associating public
+  keys with principals and digitally signed by certificate
+  authorities. These are defined in \emph{messageCertificate} theory.
+\item \textbf{Trusted role certificates}: these are unsigned
+  statements assigning missing staff to mission roles. As they are
+  unsigned, we assume they have been installed in a trustworthy manner
+  by trustworthy people. These are defined in
+  \emph{messageCertificate} theory.
+\item \textbf{Trusted key certificates}: these are unsigned statements
+  associating public keys with principals. As they are unsigned, we
+  assume they have been installed in a trustworthy manner by
+  trustworthy people. These are defined in \emph{messageCertificate}
+  theory.
+\item \textbf{Jurisdiction statements}: these are statements in the
+  access-control logic about who controls what. As this is part of the
+  design of the weapon and the devices used by operators, we do not
+  need a certificate for these statements.
+\item \textbf{Policy statements}: these are the remaining statements in
+  the access-control logic that are not jurisdiction statements and
+  govern the behavior of the weapon of devices used by operators.
+\end{enumerate}
+
+\section{Detailed Task Description}
+\label{sec:task-description}
+
+The appendices contain a detailed listing of each theory and its
+datatypes, definitions, and theorems.  You will be supplied with HOL
+source files where some of the definitions and proofs are missing that
+correspond to the theory listings.  You are responsible for providing
+the definitions and proofs for the missing definitions and theorems.
+
+The specific definitions and proofs you must supply are listed
+below. As in C2CONOPS, you will supply all necessary files in their
+respective subdirectories so users can construct your entire theory
+set using Holmake, with the appropriate Holmakefile supplied.
+
+\paragraph{cipher Theory}
+
+\begin{enumerate}
+\item Definitions
+  \begin{enumerate}[{a.}]
+  \item sign\_def
+  \item signVerify\_def
+  \end{enumerate}
+\item Theorems
+  \begin{enumerate}[{a.}]
+  \item deciphP\_clauses
+  \item signVerifyOK
+  \end{enumerate}
+\end{enumerate}
+
+\paragraph{messageCertificate Theory}
+
+\begin{enumerate}
+\item Datatypes
+  \begin{enumerate}[{a.}]
+  \item KCertSignature
+  \item KeyCertificate
+  \item RootKeyCertificate
+  \end{enumerate}
+
+\item Definitions
+  \begin{enumerate}[{a.}]
+  \item checkKCert\_def
+  \item Ekcrt\_def
+  \item Erootkcrt\_def
+  \item ksat\_def
+  \item rootksat\_def
+  \end{enumerate}
+
+\item Theorems
+  \begin{enumerate}[{a.}]
+  \item checkKCertOK
+  \item kcrtCAInterp\_thm
+  \item kcrtStaffInterp\_thm
+  \item rootkcertCAInterp\_thm
+  \item rootkcertStaffInterp\_thm
+  \end{enumerate}
+
+\end{enumerate}
+
+\paragraph{BFOConops Theory}
+
+\begin{enumerate}
+\item Theorems
+  \begin{enumerate}[{a.}]
+  \item blackBoxBFO\_thm (\textbf{\redtext{Note: this theorem will be modified
+      shortly to reflect the use of key and role certificates both
+      signed and trusted.}})
+  \end{enumerate}
+
+\end{enumerate}
+
+\bibliography{references}
+\bibliographystyle{alpha}
+
+\newpage{}
+
+\part*{Appendices}
+\label{part:appendicies}
+
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{cipher Theory}
+\index{cipher Theory@\textbf  {cipher Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLcipherDate \\[2pt]
+\textbf{Parent Theories:} list
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{cipher Theory@\textbf  {cipher Theory}!Datatypes}
+% .....................................
+
+\HOLcipherDatatypes
+
+\subsection{Definitions}
+\index{cipher Theory@\textbf  {cipher Theory}!Definitions}
+% .....................................
+
+\HOLcipherDefinitions
+
+\subsection{Theorems}
+\index{cipher Theory@\textbf  {cipher Theory}!Theorems}
+% .....................................
+
+\HOLcipherTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{missionStaff Theory}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmissionStaffDate \\[2pt]
+\textbf{Parent Theories:} missionRoles
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Datatypes}
+% .....................................
+
+\HOLmissionStaffDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Theorems}
+% .....................................
+
+\HOLmissionStaffTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{revisedMissionKeys Theory}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLrevisedMissionKeysDate \\[2pt]
+\textbf{Parent Theories:} missionStaff, cipher
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}!Datatypes}
+% .....................................
+
+\HOLrevisedMissionKeysDatatypes
+
+% No definitions
+
+% No theorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{messageCertificate Theory}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmessageCertificateDate \\[2pt]
+\textbf{Parent Theories:} revisedMissionKeys
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Datatypes}
+% .....................................
+
+\HOLmessageCertificateDatatypes
+
+\subsection{Definitions}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Definitions}
+% .....................................
+
+\HOLmessageCertificateDefinitions
+
+\subsection{Theorems}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Theorems}
+% .....................................
+
+\HOLmessageCertificateTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{BFOConops Theory}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLBFOConopsDate \\[2pt]
+\textbf{Parent Theories:} messageCertificate
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}!Theorems}
+% .....................................
+
+\HOLBFOConopsTheorems
+
+\HOLindex
+
+\end{document}
+%  LocalWords:  BoxSpec tuples BoxImplementation BV haSpec haImp COND Holmake
+%  LocalWords:  tuple arithmeticTheory andGate xorGate subgoals MULT HOLcommand
+
+% LocalWords:  thm DISCH REFL ANTISYM GENL ty ISPEC ISPECL th indices HD SUC rl
+% LocalWords:  CONV listTheory reduceLib maketitle thispagestyle emph textbf fn
+
+% LocalWords:  hw4.sml texttt texttt sequents seqs scriptsize tacticals qquad
+% LocalWords:  irule conj-forward-proof conj-tac conj linewidth linewidth hline
+% LocalWords:  seq seq fbox forall footnotesize ldots asm-rewrite-tac-proof-1
+% LocalWords:  asm-rewrite-tac-proof-2 asm-rewrite-tac-proof-3 Ponens ASM TAC
+% LocalWords:  ASSUM Modus EQ subgoal DISJ Contrapositives SYM ELIM bool online
+% LocalWords:  contrapositive sequent's DeMorgan's HOL hw sml acl nogo CGs CAs
+%  LocalWords:  infRules Kripke pName Auth FactorAuth HOLmissionRoles conops
+% LocalWords:  HOLmissionStaff HOLmissionKeys HOLmissionCONOPSOne varphi equiv
+% LocalWords:  HOLmissionCONOPSTwo includegraphics deriv-infer-rules missioninf
+% LocalWords:  bfo-gfo-launch bfo-gfo-abort subsubsection holboxed hfill andf
+% LocalWords:  HOLcommandDatatypesmissionCommands HOLcommandDatatypescommands
+% LocalWords:  HOLcommandDatatypesweaponCommands HOLmissionRolesTheorems alltt
+% LocalWords:  HOLmissionRolesDatatypesmissionRoles ImpliedCOntrolsSays newpage
+% LocalWords:  HOLmissionRolesTheoremsImpliedControlsSaysXXthm BFO
+% LocalWords:  HOLmissionRolesTheoremsDualControlXXthm HOLmissionStaffDatatypes
+% LocalWords:  HOLmissionRolesTheoremsAlternateControlsOneXXthm BFC
+% LocalWords:  HOLmissionRolesTheoremsAlternateControlsTwoXXthm BFS
+% LocalWords:  HOLmissionCONOPSOneTheorems HOLmissionStaffTheorems
+% LocalWords:  HOLmissionCONOPSTwoTheorems HOLmissionKeysDatatypes
+%  LocalWords:  bfca jfca messageCertificate signVerify deciphP Ekcrt
+%  LocalWords:  signVerifyOK KCertSignature KerCertificate checkKCert
+%  LocalWords:  RootKeyCertificate Erootkcrt ksat rootksat BFOConops
+%  LocalWords:  checkKCertOK kcrtCAInterp kcrtStaffInterp blackBoxBFO
+%  LocalWords:  rootkcertCAInterp rootkcertStaffInterp missionStaff
+%  LocalWords:  missionRoles revisedMissionKeys
+
+\message{ !name(secureMessages.tex) !offset(-526) }

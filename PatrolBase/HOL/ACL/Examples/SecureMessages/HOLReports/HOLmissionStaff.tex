@@ -1,0 +1,24 @@
+\newcommand{\HOLmissionStaffDate}{20 August 2016}
+\newcommand{\HOLmissionStaffTime}{11:38}
+\begin{SaveVerbatim}{HOLmissionStaffDatatypesmissionRoleStaff}
+\HOLFreeVar{missionRoleStaff} = \HOLConst{Role} \HOLTyOp{missionRoles} \HOLTokenBar{} \HOLConst{Staff} \HOLTyOp{missionStaff}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionStaffDatatypesmissionRoleStaff}{\UseVerbatim{HOLmissionStaffDatatypesmissionRoleStaff}}
+\begin{SaveVerbatim}{HOLmissionStaffDatatypesmissionStaff}
+\HOLFreeVar{missionStaff} = \HOLConst{Alice} \HOLTokenBar{} \HOLConst{Bob} \HOLTokenBar{} \HOLConst{Carol} \HOLTokenBar{} \HOLConst{Dan} \HOLTokenBar{} \HOLConst{Weapon}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionStaffDatatypesmissionStaff}{\UseVerbatim{HOLmissionStaffDatatypesmissionStaff}}
+\newcommand{\HOLmissionStaffDatatypes}{
+\HOLmissionStaffDatatypesmissionRoleStaff\HOLmissionStaffDatatypesmissionStaff}
+\begin{SaveVerbatim}{HOLmissionStaffTheoremsImpliedControlsDelegationXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{R}.
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{Q} \HOLConst{controls} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{reps} \HOLFreeVar{P} \HOLFreeVar{Q} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{P} \HOLConst{quoting} \HOLFreeVar{Q} \HOLConst{says} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLFreeVar{f\sb{\mathrm{1}}} \HOLConst{impf} \HOLFreeVar{f\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenImp{}}
+     (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLBoundVar{R} \HOLConst{says} \HOLFreeVar{f\sb{\mathrm{2}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionStaffTheoremsImpliedControlsDelegationXXthm}{\UseVerbatim{HOLmissionStaffTheoremsImpliedControlsDelegationXXthm}}
+\newcommand{\HOLmissionStaffTheorems}{
+\HOLThmTag{missionStaff}{ImpliedControlsDelegation_thm}\HOLmissionStaffTheoremsImpliedControlsDelegationXXthm
+}

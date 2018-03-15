@@ -1,0 +1,21 @@
+\newcommand{\HOLmissionKeysDate}{20 August 2016}
+\newcommand{\HOLmissionKeysTime}{11:38}
+\begin{SaveVerbatim}{HOLmissionKeysDatatypesmissionCA}
+\HOLFreeVar{missionCA} = \HOLConst{JFCA} \HOLTokenBar{} \HOLConst{BFCA} \HOLTokenBar{} \HOLConst{GFCA}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionKeysDatatypesmissionCA}{\UseVerbatim{HOLmissionKeysDatatypesmissionCA}}
+\begin{SaveVerbatim}{HOLmissionKeysDatatypesmissionKey}
+\HOLFreeVar{missionKey} = \HOLConst{Kjfca} \HOLTokenBar{} \HOLConst{Kbfca} \HOLTokenBar{} \HOLConst{Kgfca} \HOLTokenBar{} \HOLConst{Kalice} \HOLTokenBar{} \HOLConst{Kbob} \HOLTokenBar{} \HOLConst{Kcarol}
+           \HOLTokenBar{} \HOLConst{Kdan}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionKeysDatatypesmissionKey}{\UseVerbatim{HOLmissionKeysDatatypesmissionKey}}
+\begin{SaveVerbatim}{HOLmissionKeysDatatypesmissionPrincipals}
+\HOLFreeVar{missionPrincipals} =
+    \HOLConst{MRole} \HOLTyOp{missionRoles}
+  \HOLTokenBar{} \HOLConst{MStaff} \HOLTyOp{missionStaff}
+  \HOLTokenBar{} \HOLConst{MCA} \HOLTyOp{missionCA}
+  \HOLTokenBar{} \HOLConst{MKey} \HOLTyOp{missionKey}
+\end{SaveVerbatim}
+\newcommand{\HOLmissionKeysDatatypesmissionPrincipals}{\UseVerbatim{HOLmissionKeysDatatypesmissionPrincipals}}
+\newcommand{\HOLmissionKeysDatatypes}{
+\HOLmissionKeysDatatypesmissionCA\HOLmissionKeysDatatypesmissionKey\HOLmissionKeysDatatypesmissionPrincipals}

@@ -1,0 +1,293 @@
+\indexentry{ACL\_ASSUM}{43}
+\indexentry{ACL\_ASSUM@{\tt  ACL\_ASSUM}}{43}
+\indexentry{ACL\_ASSUM2}{44}
+\indexentry{ACL\_ASSUM@{\tt  ACL\_ASSUM}}{44}
+\indexentry{ACL\_CONJ}{46}
+\indexentry{ACL\_CONJ@{\tt  ACL\_CONJ}}{46}
+\indexentry{ACL\_DISJ1}{47}
+\indexentry{ACL\_DISJ1@{\tt  ACL\_DISJ1}}{47}
+\indexentry{ACL\_DISJ2}{48}
+\indexentry{ACL\_DISJ2@{\tt  ACL\_DISJ2}}{48}
+\indexentry{ACL\_DN}{49}
+\indexentry{ACL\_DN@{\tt  ACL\_DN}}{49}
+\indexentry{ACL\_MP}{50}
+\indexentry{ACL\_MP@{\tt  ACL\_MP}}{50}
+\indexentry{ACL\_MT}{51}
+\indexentry{ACL\_MT@{\tt  ACL\_MT}}{51}
+\indexentry{ACL\_SIMP1}{52}
+\indexentry{ACL\_SIMP1@{\tt  ACL\_SIMP1}}{52}
+\indexentry{ACL\_SIMP2}{53}
+\indexentry{ACL\_SIMP2@{\tt  ACL\_SIMP2}}{53}
+\indexentry{ACL\_TAUT}{54}
+\indexentry{ACL\_TAUT@{\tt  ACL\_TAUT}}{54}
+\indexentry{ACL\_TAUT\_TAC}{55}
+\indexentry{ACL\_TAUT\_TAC@{\tt  ACL\_TAUT\_TAC}}{55}
+\indexentry{AND\_SAYS\_RL}{56}
+\indexentry{AND_SAYS_RL@{\tt  AND_SAYS_RL}}{56}
+\indexentry{AND\_SAYS\_LR}{57}
+\indexentry{AND_SAYS_LR@{\tt  AND_SAYS_LR}}{57}
+\indexentry{CONTROLS}{58}
+\indexentry{CONTROLS@{\tt  CONTROLS}}{58}
+\indexentry{DC}{59}
+\indexentry{DC@{\tt  DC}}{59}
+\indexentry{DOMI\_TRANS}{60}
+\indexentry{DOMI_TRANS@{\tt  DOMI_TRANS}}{60}
+\indexentry{DOMS\_TRANS}{61}
+\indexentry{DOMS_TRANS@{\tt  DOMS_TRANS}}{61}
+\indexentry{EQF\_ANDF1}{62}
+\indexentry{EQF\_ANDF1@{\tt  EQF\_ANDF1}}{62}
+\indexentry{EQF\_ANDF2}{63}
+\indexentry{EQF\_ANDF2@{\tt  EQF\_ANDF2}}{63}
+\indexentry{EQF\_CONTROLS}{65}
+\indexentry{EQF\_CONTROLS@{\tt  EQF\_CONTROLS}}{65}
+\indexentry{EQF\_EQ}{66}
+\indexentry{EQF\_EQF1@{\tt  EQF\_EQF1}}{66}
+\indexentry{EQF\_EQF2}{67}
+\indexentry{EQF\_EQF2@{\tt  EQF\_EQF2}}{67}
+\indexentry{EQF\_IMPF1}{69}
+\indexentry{EQF\_IMPF1@{\tt  EQF\_IMPF1}}{69}
+\indexentry{EQF\_IMPF2}{70}
+\indexentry{EQF\_IMPF2@{\tt  EQF\_IMPF2}}{70}
+\indexentry{EQF\_NOTF}{71}
+\indexentry{EQF\_NOTF@{\tt  EQF\_NOTF}}{71}
+\indexentry{EQF\_ORF1}{72}
+\indexentry{EQF\_ORF1@{\tt  EQF\_ORF1}}{72}
+\indexentry{EQF\_ORF2}{73}
+\indexentry{EQF\_ORF2@{\tt  EQF\_ORF2}}{73}
+\indexentry{EQF\_REPS}{74}
+\indexentry{EQF\_REPS@{\tt  EQF\_REPS}}{74}
+\indexentry{EQF\_SAYS}{75}
+\indexentry{EQF\_SAYS@{\tt  EQF\_SAYS}}{75}
+\indexentry{EQN\_EQN}{76}
+\indexentry{EQN\_EQN@{\tt  EQN\_EQN}}{76}
+\indexentry{EQN\_LT}{77}
+\indexentry{EQN\_LT@{\tt  EQN\_LT}}{77}
+\indexentry{EQN\_LTE}{78}
+\indexentry{EQN\_LTE@{\tt  EQN\_LTE}}{78}
+\indexentry{HS}{80}
+\indexentry{HS@{\tt  HS}}{80}
+\indexentry{IDEMP\_SPEAKS\_FOR}{81}
+\indexentry{IDEMP_SPEAKS_FOR@{\tt  IDEMP_SPEAKS_FOR}}{81}
+\indexentry{IL\_DOMI}{82}
+\indexentry{IL\_DOMI@{\tt  IL\_DOMI}}{82}
+\indexentry{MONO\_SPEAKS\_FOR}{83}
+\indexentry{MONO\_SPEAKS\_FOR@{\tt  MONO\_SPEAKS\_FOR}}{83}
+\indexentry{MP\_SAYS}{84}
+\indexentry{MP\_SAYS@{\tt  MP\_SAYS}}{84}
+\indexentry{QUOTING\_LR}{85}
+\indexentry{QUOTING\_LR@{\tt  QUOTING\_LR}}{85}
+\indexentry{QUOTING\_RL}{86}
+\indexentry{QUOTING\_RL@{\tt  QUOTING\_RL}}{86}
+\indexentry{REPS}{87}
+\indexentry{REPS@{\tt  REPS}}{87}
+\indexentry{REP\_SAYS}{88}
+\indexentry{REP\_SAYS@{\tt  REP\_SAYS}}{88}
+\indexentry{SAYS}{89}
+\indexentry{SAYS@{\tt  SAYS}}{89}
+\indexentry{SAYS\_SIMP1}{90}
+\indexentry{SAYS_SIMP1@{\tt  SAYS_SIMP1}}{90}
+\indexentry{SAYS\_SIMP2}{91}
+\indexentry{SAYS_SIMP2@{\tt  SAYS_SIMP2}}{91}
+\indexentry{SL\_DOMS}{92}
+\indexentry{SL\_DOMS@{\tt  SL\_DOMS}}{92}
+\indexentry{SPEAKS\_FOR}{93}
+\indexentry{SPEAKS_FOR@{\tt  SPEAKS_FOR}}{93}
+\indexentry{TRANS\_SPEAKS\_FOR}{94}
+\indexentry{TRANS\_SPEAKS_FOR@{\tt  TRANS\_SPEAKS_FOR}}{94}
+\indexentry{ACL\_CONJ\_TAC}{97}
+\indexentry{ACL\_CONJ\_TAC@{\tt  ACL\_CONJ\_TAC}}{97}
+\indexentry{ACL\_DISJ1\_TAC}{98}
+\indexentry{ACL\_DISJ1\_TAC@{\tt  ACL\_DISJ1\_TAC}}{98}
+\indexentry{ACL\_DISJ2\_TAC}{100}
+\indexentry{ACL\_DISJ2\_TAC@{\tt  ACL\_DISJ2\_TAC}}{100}
+\indexentry{ACL\_MP\_TAC}{101}
+\indexentry{ACL\_MP\_TAC@{\tt  ACL\_MP\_TAC}}{101}
+\indexentry{ACL\_AND\_SAYS\_RL\_TAC}{103}
+\indexentry{ACL\_AND\_SAYS\_RL\_TAC@{\tt  ACL\_AND\_SAYS\_RL\_TAC}}{103}
+\indexentry{ACL\_AND\_SAYS\_LR\_TAC}{104}
+\indexentry{ACL\_AND\_SAYS\_LR\_TAC@{\tt  ACL\_AND\_SAYS\_LR\_TAC}}{104}
+\indexentry{ACL\_CONTROLS\_TAC}{106}
+\indexentry{ACL\_CONTROLS\_TAC@{\tt  ACL\_CONTROLS\_TAC}}{106}
+\indexentry{ACL\_DC\_TAC}{108}
+\indexentry{ACL\_DC\_TAC@{\tt  ACL\_DC\_TAC}}{108}
+\indexentry{ACL\_DOMI\_TRANS\_TAC}{109}
+\indexentry{ACL\_DOMI\_TRANS\_TAC@{\tt  ACL\_DOMI\_TRANS\_TAC}}{109}
+\indexentry{ACL\_DOMS\_TRANS\_TAC}{111}
+\indexentry{ACL\_DOMS\_TRANS\_TAC@{\tt  ACL\_DOMS\_TRANS\_TAC}}{111}
+\indexentry{ACL\_HS\_TAC}{113}
+\indexentry{ACL\_HS\_TAC@{\tt  ACL\_HS\_TAC}}{113}
+\indexentry{ACL\_IDEMP\_SPEAKS\_FOR\_TAC}{115}
+\indexentry{ACL\_IDEMP\_SPEAKS\_FOR\_TAC@{\tt  ACL\_IDEMP\_SPEAKS\_FOR\_TAC}}{115}
+\indexentry{ACL\_IL\_DOMI\_TAC}{116}
+\indexentry{ACL\_IL\_DOMI\_TAC@{\tt  ACL\_IL\_DOMI\_TAC}}{116}
+\indexentry{ACL\_MONO\_SPEAKS\_FOR\_TAC}{118}
+\indexentry{ACL\_MONO\_SPEAKS\_FOR\_TAC@{\tt  ACL\_MONO\_SPEAKS\_FOR\_TAC}}{118}
+\indexentry{ACL\_MP\_SAYS\_TAC}{120}
+\indexentry{ACL\_MP\_SAYS\_TAC@{\tt  ACL\_MP\_SAYS\_TAC}}{120}
+\indexentry{ACL\_QUOTING\_LR\_TAC}{121}
+\indexentry{ACL\_QUOTING\_LR\_TAC@{\tt  ACL\_QUOTING\_LR\_TAC}}{121}
+\indexentry{ACL\_QUOTING\_RL\_TAC}{123}
+\indexentry{ACL\_QUOTING\_RL\_TAC@{\tt  ACL\_QUOTING\_RL\_TAC}}{123}
+\indexentry{ACL\_REPS\_TAC}{124}
+\indexentry{ACL\_REPS\_TAC@{\tt  ACL\_REPS\_TAC}}{124}
+\indexentry{ACL\_REP\_SAYS\_TAC}{126}
+\indexentry{ACL\_REP\_SAYS\_TAC@{\tt  ACL\_REP\_SAYS\_TAC}}{126}
+\indexentry{ACL\_SAYS\_TAC}{128}
+\indexentry{ACL\_SAYS\_TAC@{\tt  ACL\_SAYS\_TAC}}{128}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}}{131}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Datatypes}{131}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!imapKS_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!intpKS_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!jKS_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!O1_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!one_weakorder_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!po_TY_DEF}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!po_tybij}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!prod_PO_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!smapKS_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Definitions!Subset_PO_def}{132}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!abs_po11}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!absPO_fn_onto}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!antisym_prod_antisym}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!EQ_WeakOrder}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!KS_bij}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!one_weakorder_WO}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!onto_po}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!po_bij}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!PO_repPO}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!refl_prod_refl}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!repPO_iPO_partial_order}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!repPO_O1}{133}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!repPO_prod_PO}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!repPO_Subset_PO}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!RPROD_THM}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!SUBSET_WO}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!trans_prod_trans}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!WeakOrder_Exists}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!WO_prod_WO}{134}
+\indexentry{aclfoundation Theory@\textbf  {aclfoundation Theory}!Theorems!WO_repPO}{134}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}}{134}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions}{134}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions!Efn_def}{134}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions!Jext_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions!Lifn_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Definitions!Lsfn_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!andf_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!controls_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!controls_says}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!domi_def}{136}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!doms_def}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqf_def}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqf_impf}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqi_def}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqi_domi}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqn_def}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqs_def}{137}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!eqs_doms}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!FF_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!impf_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!lt_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!lte_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!meet_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!name_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!notf_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!orf_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!prop_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!quoting_def}{138}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!reps_def}{139}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!says_def}{139}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!speaks_for_def}{139}
+\indexentry{aclsemantics Theory@\textbf  {aclsemantics Theory}!Theorems!TT_def}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Definitions}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Definitions!sat_def}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!And_Says}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!And_Says_Eq}{139}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!and_says_lemma}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Controls_Eq}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!DIFF_UNIV_SUBSET}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!domi_antisymmetric}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!domi_reflexive}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!domi_transitive}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!doms_antisymmetric}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!doms_reflexive}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!doms_transitive}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_and_impf}{140}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_andf1}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_andf2}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_controls}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_eq}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_eqf1}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_eqf2}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_impf1}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_impf2}{141}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_notf}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_orf1}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_orf2}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_reps}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_sat}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqf_says}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqi_Eq}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!eqs_Eq}{142}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Idemp_Speaks_For}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Image_cmp}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Image_SUBSET}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Image_UNION}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!INTER_EQ_UNIV}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Modus_Ponens}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Mono_speaks_for}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!MP_Says}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Quoting}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Quoting_Eq}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!reps_def_lemma}{143}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Reps_Eq}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!sat_allworld}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!sat_andf_eq_and_sat}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!sat_TT}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Says}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!says_and_lemma}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Speaks_For}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!speaks_for_SUBSET}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!SUBSET_Image_SUBSET}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!Trans_Speaks_For}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!UNIV_DIFF_SUBSET}{144}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_and}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_eq}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_eqn}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_F}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_imp}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_lt}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_lte}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_not}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_or}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_says}{145}
+\indexentry{aclrules Theory@\textbf  {aclrules Theory}!Theorems!world_T}{145}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Conjunction}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Controls}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Derived_Controls}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Derived_Speaks_For}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Disjunction1}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Disjunction2}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Disjunctive_Syllogism}{146}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Double_Negation}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!eqn_eqn}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!eqn_lt}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!eqn_lte}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Hypothetical_Syllogism}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!il_domi}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!INTER_EQ_UNIV}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Modus_Tollens}{147}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Rep_Controls_Eq}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Rep_Says}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Reps}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Says_Simplification1}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Says_Simplification2}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Simplification1}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!Simplification2}{148}
+\indexentry{aclDrules Theory@\textbf  {aclDrules Theory}!Theorems!sl_doms}{148}

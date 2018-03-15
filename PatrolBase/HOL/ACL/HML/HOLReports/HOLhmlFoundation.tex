@@ -1,0 +1,34 @@
+\newcommand{\HOLhmlFoundationDate}{22 May 2012}
+\newcommand{\HOLhmlFoundationTime}{10:31}
+\begin{SaveVerbatim}{HOLhmlFoundationDatatypeshmlForm}
+\HOLFreeVar{hmlForm}
+  = tt
+  \HOLTokenBar{} ff
+  \HOLTokenBar{} (andh) of 'action hmlForm => 'action hmlForm
+  \HOLTokenBar{} (orh) of 'action hmlForm => 'action hmlForm
+  \HOLTokenBar{} Box of 'action \HOLTokenMap{} bool => 'action hmlForm
+  \HOLTokenBar{} Dia of 'action \HOLTokenMap{} bool => 'action hmlForm
+\end{SaveVerbatim}
+\newcommand{\HOLhmlFoundationDatatypeshmlForm}{\UseVerbatim{HOLhmlFoundationDatatypeshmlForm}}
+\newcommand{\HOLhmlFoundationDatatypes}{
+\HOLhmlFoundationDatatypeshmlForm}
+\begin{SaveVerbatim}{HOLhmlFoundationDefinitionshmsatXXdef}
+\HOLTokenTurnstile{} (\HOLTokenForall{}\HOLBoundVar{Trans} \HOLBoundVar{E}. (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat tt \HOLTokenEquiv{} T) \HOLTokenConj{}
+   (\HOLTokenForall{}\HOLBoundVar{Trans} \HOLBoundVar{E}. (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat ff \HOLTokenEquiv{} F) \HOLTokenConj{}
+   (\HOLTokenForall{}\HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{Trans} \HOLBoundVar{E}.
+      (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{1}}} andh \HOLBoundVar{f\sb{\mathrm{2}}} \HOLTokenEquiv{}
+      (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{1}}} \HOLTokenConj{} (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLTokenConj{}
+   (\HOLTokenForall{}\HOLBoundVar{f\sb{\mathrm{2}}} \HOLBoundVar{f\sb{\mathrm{1}}} \HOLBoundVar{Trans} \HOLBoundVar{E}.
+      (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{1}}} orh \HOLBoundVar{f\sb{\mathrm{2}}} \HOLTokenEquiv{}
+      (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{1}}} \HOLTokenDisj{} (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f\sb{\mathrm{2}}}) \HOLTokenConj{}
+   (\HOLTokenForall{}\HOLBoundVar{f} \HOLBoundVar{Trans} \HOLBoundVar{E} \HOLBoundVar{Actions}.
+      (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat Box \HOLBoundVar{Actions} \HOLBoundVar{f} \HOLTokenEquiv{}
+      \HOLTokenForall{}\HOLBoundVar{E\sp{\prime}} \HOLBoundVar{a}. \HOLBoundVar{Trans} \HOLBoundVar{a} \HOLBoundVar{E} \HOLBoundVar{E\sp{\prime}} \HOLTokenImp{} \HOLBoundVar{a} \HOLTokenIn{} \HOLBoundVar{Actions} \HOLTokenImp{} (\HOLBoundVar{E\sp{\prime}},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f}) \HOLTokenConj{}
+   \HOLTokenForall{}\HOLBoundVar{f} \HOLBoundVar{Trans} \HOLBoundVar{E} \HOLBoundVar{Actions}.
+     (\HOLBoundVar{E},\HOLBoundVar{Trans}) hmsat Dia \HOLBoundVar{Actions} \HOLBoundVar{f} \HOLTokenEquiv{}
+     \HOLTokenExists{}\HOLBoundVar{E\sp{\prime}} \HOLBoundVar{a}. \HOLBoundVar{Trans} \HOLBoundVar{a} \HOLBoundVar{E} \HOLBoundVar{E\sp{\prime}} \HOLTokenConj{} \HOLBoundVar{a} \HOLTokenIn{} \HOLBoundVar{Actions} \HOLTokenConj{} (\HOLBoundVar{E\sp{\prime}},\HOLBoundVar{Trans}) hmsat \HOLBoundVar{f}
+\end{SaveVerbatim}
+\newcommand{\HOLhmlFoundationDefinitionshmsatXXdef}{\UseVerbatim{HOLhmlFoundationDefinitionshmsatXXdef}}
+\newcommand{\HOLhmlFoundationDefinitions}{
+\HOLDfnTag{hmlFoundation}{hmsat_def}\HOLhmlFoundationDefinitionshmsatXXdef
+}

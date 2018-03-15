@@ -1,0 +1,3 @@
+To build the access-control logic in HOL do the following:
+1. execute in a terminal: Holmake cleanAll
+2. Holmake

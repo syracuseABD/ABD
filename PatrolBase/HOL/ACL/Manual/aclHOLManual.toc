@@ -1,0 +1,114 @@
+\contentsline {chapter}{\numberline {1}Access-Control Logic: Syntax and Semantics}{11}
+\contentsline {section}{\numberline {1.1}Syntax}{11}
+\contentsline {paragraph}{Principal Expressions}{11}
+\contentsline {paragraph}{Access Control Statements}{11}
+\contentsline {section}{\numberline {1.2}Semantics}{12}
+\contentsline {section}{\numberline {1.3}Inference Rules}{12}
+\contentsline {section}{\numberline {1.4}Confidentiality and Integrity Policies}{13}
+\contentsline {paragraph}{Syntax}{13}
+\contentsline {section}{\numberline {1.5}Examples}{16}
+\contentsline {subsection}{\numberline {1.5.1}A simple example}{16}
+\contentsline {subsection}{\numberline {1.5.2}An Integrity Example}{16}
+\contentsline {chapter}{\numberline {2}Access-Control Logic in HOL}{21}
+\contentsline {section}{\numberline {2.1}Implementation of the Access-Control Logic in HOL}{21}
+\contentsline {paragraph}{Defining the Syntax of the Access-Control Logic in HOL}{21}
+\contentsline {paragraph}{Defining the Semantics of the Access-Control Logic in HOL}{25}
+\contentsline {subparagraph}{Extended mapping from principal expressions to relations on worlds}{27}
+\contentsline {subparagraph}{Defining Integrity and Security Levels and Partial Orders}{27}
+\contentsline {section}{\numberline {2.2}Access-Control Logic Inference Rules in HOL}{32}
+\contentsline {chapter}{\numberline {3}Integrity Example in HOL}{33}
+\contentsline {section}{\numberline {3.1}Introducing the Integrity Levels in HOL}{33}
+\contentsline {section}{\numberline {3.2}Gas Example in HOL}{36}
+\contentsline {chapter}{\numberline {A}Access-Control Logic Inference Rules in HOL}{43}
+\contentsline {section}{\numberline {A.1}ACL\_ASSUM}{43}
+\contentsline {section}{\numberline {A.2}ACL\_ASSUM2}{44}
+\contentsline {section}{\numberline {A.3}ACL\_CONJ}{46}
+\contentsline {section}{\numberline {A.4}ACL\_DISJ1}{47}
+\contentsline {section}{\numberline {A.5}ACL\_DISJ2}{48}
+\contentsline {section}{\numberline {A.6}ACL\_DN}{49}
+\contentsline {section}{\numberline {A.7}ACL\_MP}{50}
+\contentsline {section}{\numberline {A.8}ACL\_MT}{51}
+\contentsline {section}{\numberline {A.9}ACL\_SIMP1}{52}
+\contentsline {section}{\numberline {A.10}ACL\_SIMP2}{53}
+\contentsline {section}{\numberline {A.11}ACL\_TAUT}{54}
+\contentsline {section}{\numberline {A.12}ACL\_TAUT\_TAC}{55}
+\contentsline {section}{\numberline {A.13}AND\_SAYS\_RL}{56}
+\contentsline {section}{\numberline {A.14}AND\_SAYS\_LR}{57}
+\contentsline {section}{\numberline {A.15}CONTROLS}{58}
+\contentsline {section}{\numberline {A.16}DC}{59}
+\contentsline {section}{\numberline {A.17}DOMI\_TRANS}{60}
+\contentsline {section}{\numberline {A.18}DOMS\_TRANS}{61}
+\contentsline {section}{\numberline {A.19}EQF\_ANDF1}{62}
+\contentsline {section}{\numberline {A.20}EQF\_ANDF2}{63}
+\contentsline {section}{\numberline {A.21}EQF\_CONTROLS}{65}
+\contentsline {section}{\numberline {A.22}EQF\_EQF1}{66}
+\contentsline {section}{\numberline {A.23}EQF\_EQF2}{67}
+\contentsline {section}{\numberline {A.24}EQF\_IMPF1}{69}
+\contentsline {section}{\numberline {A.25}EQF\_IMPF2}{70}
+\contentsline {section}{\numberline {A.26}EQF\_NOTF}{71}
+\contentsline {section}{\numberline {A.27}EQF\_ORF1}{72}
+\contentsline {section}{\numberline {A.28}EQF\_ORF2}{73}
+\contentsline {section}{\numberline {A.29}EQF\_REPS}{74}
+\contentsline {section}{\numberline {A.30}EQF\_SAYS}{75}
+\contentsline {section}{\numberline {A.31}EQN\_EQN}{76}
+\contentsline {section}{\numberline {A.32}EQN\_LT}{77}
+\contentsline {section}{\numberline {A.33}EQN\_LTE}{78}
+\contentsline {section}{\numberline {A.34}HS}{80}
+\contentsline {section}{\numberline {A.35}IDEMP\_SPEAKS\_FOR}{81}
+\contentsline {section}{\numberline {A.36}IL\_DOMI}{82}
+\contentsline {section}{\numberline {A.37}MONO\_SPEAKS\_FOR}{83}
+\contentsline {section}{\numberline {A.38}MP\_SAYS}{84}
+\contentsline {section}{\numberline {A.39}QUOTING\_LR}{85}
+\contentsline {section}{\numberline {A.40}QUOTING\_RL}{86}
+\contentsline {section}{\numberline {A.41}REPS}{87}
+\contentsline {section}{\numberline {A.42}REP\_SAYS}{88}
+\contentsline {section}{\numberline {A.43}SAYS}{89}
+\contentsline {section}{\numberline {A.44}SAYS\_SIMP1}{90}
+\contentsline {section}{\numberline {A.45}SAYS\_SIMP2}{91}
+\contentsline {section}{\numberline {A.46}SL\_DOMS}{92}
+\contentsline {section}{\numberline {A.47}SPEAKS\_FOR}{93}
+\contentsline {section}{\numberline {A.48}TRANS\_SPEAKS\_FOR}{94}
+\contentsline {chapter}{\numberline {B}Access-Control Logic Tactics in HOL}{97}
+\contentsline {section}{\numberline {B.1}ACL\_CONJ\_TAC}{97}
+\contentsline {section}{\numberline {B.2}ACL\_DISJ1\_TAC}{98}
+\contentsline {section}{\numberline {B.3}ACL\_DISJ2\_TAC}{100}
+\contentsline {section}{\numberline {B.4}ACL\_MP\_TAC}{101}
+\contentsline {section}{\numberline {B.5}ACL\_AND\_SAYS\_RL\_TAC}{103}
+\contentsline {section}{\numberline {B.6}ACL\_AND\_SAYS\_LR\_TAC}{104}
+\contentsline {section}{\numberline {B.7}ACL\_CONTROLS\_TAC}{106}
+\contentsline {section}{\numberline {B.8}ACL\_DC\_TAC}{108}
+\contentsline {section}{\numberline {B.9}ACL\_DOMI\_TRANS\_TAC}{109}
+\contentsline {section}{\numberline {B.10}ACL\_DOMS\_TRANS\_TAC}{111}
+\contentsline {section}{\numberline {B.11}ACL\_HS\_TAC}{113}
+\contentsline {section}{\numberline {B.12}ACL\_IDEMP\_SPEAKS\_FOR\_TAC}{115}
+\contentsline {section}{\numberline {B.13}ACL\_IL\_DOMI\_TAC}{116}
+\contentsline {section}{\numberline {B.14}ACL\_MONO\_SPEAKS\_FOR\_TAC}{118}
+\contentsline {section}{\numberline {B.15}ACL\_MP\_SAYS\_TAC}{120}
+\contentsline {section}{\numberline {B.16}ACL\_QUOTING\_LR\_TAC}{121}
+\contentsline {section}{\numberline {B.17}ACL\_QUOTING\_RL\_TAC}{123}
+\contentsline {section}{\numberline {B.18}ACL\_REPS\_TAC}{124}
+\contentsline {section}{\numberline {B.19}ACL\_REP\_SAYS\_TAC}{126}
+\contentsline {section}{\numberline {B.20}ACL\_SAYS\_TAC}{128}
+\contentsline {chapter}{\numberline {C}Access-Control Logic Theories in HOL}{131}
+\contentsline {section}{\numberline {C.1}aclfoundation Theory}{131}
+\contentsline {subsection}{\numberline {C.1.1}Datatypes}{131}
+\contentsline {subsection}{\numberline {C.1.2}Definitions}{132}
+\contentsline {subsection}{\numberline {C.1.3}Theorems}{133}
+\contentsline {section}{\numberline {C.2}aclsemantics Theory}{134}
+\contentsline {subsection}{\numberline {C.2.1}Definitions}{134}
+\contentsline {subsection}{\numberline {C.2.2}Theorems}{136}
+\contentsline {section}{\numberline {C.3}aclrules Theory}{139}
+\contentsline {subsection}{\numberline {C.3.1}Definitions}{139}
+\contentsline {subsection}{\numberline {C.3.2}Theorems}{139}
+\contentsline {section}{\numberline {C.4}aclDrules Theory}{146}
+\contentsline {subsection}{\numberline {C.4.1}Theorems}{146}
+\contentsline {chapter}{\numberline {D}Access-Control Logic Source Files}{149}
+\contentsline {section}{\numberline {D.1}aclfoundation Theory}{149}
+\contentsline {section}{\numberline {D.2}aclsemantics Theory}{155}
+\contentsline {section}{\numberline {D.3}aclrules Theory}{158}
+\contentsline {section}{\numberline {D.4}aclDrules Theory}{173}
+\contentsline {section}{\numberline {D.5}aclinfRules.sml}{182}
+\contentsline {section}{\numberline {D.6}acl\_infRules.sig}{211}
+\contentsline {section}{\numberline {D.7}ante_allTacs.sml}{214}
+\contentsline {section}{\numberline {D.8}ante_allTacs.sig}{224}
+\contentsline {chapter}{Bibliography}{227}

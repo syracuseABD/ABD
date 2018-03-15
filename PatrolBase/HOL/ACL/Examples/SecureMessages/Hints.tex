@@ -1,0 +1,930 @@
+\documentclass[10pt,twoside]{article}
+\usepackage{./LaTeX/engineeringAssurance}
+
+%Times for rm and math | Helvetica for ss | Courier for tt
+\usepackage{mathptmx} % rm & math
+\usepackage[scaled=0.90]{helvet} % ss
+\usepackage{courier} % tt
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\usepackage{alltt}
+\normalfont
+\usepackage[T1]{fontenc}
+\newcommand{\action}[1]{\ensuremath{\langle #1 \rangle}}
+\input{our-content-macros.tex}
+\renewcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+
+\renewcommand{\infname}[1]{\textit{#1}}
+% \renewcommand{\irule}[3]
+%     {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+
+\ifx\pdfoutput\undefined
+\usepackage[dvips]{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\pdfcompresslevel=9
+\fi
+
+%Notes in text
+\newcommand{\chinbox}[1]{%
+  \fbox{\parbox[t]{6.0in}{\textsc{Note to Self:} 
+      \begin{center}
+        #1
+      \end{center}}}}
+
+\newcommand{\problembox}[1]
+{
+  \fbox{\begin{minipage}{0.9\linewidth}
+      \begin{center}
+        \redtext{\underline{\textbf{\textsc{Assignment}}}}
+      \end{center}
+      #1
+  \end{minipage}}
+}
+
+
+\usepackage{array}
+
+% ---------------------------------------------------------------------
+% Input defined macros and commands
+% ---------------------------------------------------------------------
+\input{./LaTeX/commands}
+\input{./LaTeX/pic-macros}
+\input{./LaTeX/ref-macros}
+
+\usepackage{url}
+\usepackage[line,arrow,frame,matrix]{xy}
+\usepackage{./LaTeX/proof}
+\usepackage{./LaTeX/holtex}
+\usepackage{./LaTeX/holtexbasic}
+
+% \usepackage[usenames,dvipsnames]{color}
+\definecolor{orange}{rgb}{1,0.5,0}
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\magtext}[1]{\textcolor{magenta}{#1}}
+\newcommand{\greentext}[1]{\textcolor{green}{#1}}
+\newcommand{\orangetext}[1]{\textcolor{orange}{#1}}
+\newcommand{\standout}[1]{\textcolor{orange}{#1}}
+
+\newcommand{\seq}[2]{\ensuremath{\set{#1} \vdash {#2}}}
+\newcommand{\seqs}[2]{\ensuremath{#1 \vdash {#2}}}
+\newcommand{\sq}[1]{\ensuremath{\vdash {#1}}}
+
+\newcommand{\goal}[2]{\ensuremath{\set{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\goals}[2]{\ensuremath{{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\gls}[1]{\ensuremath{\text{ ?-- }\;{#1}}}
+
+\renewcommand{\irule}[3]
+    {\ensuremath{{\displaystyle \frac{#1}{#2}}\quad \infname{#3}}}
+\newcommand{\tac}[3]{
+  \ensuremath{\begin{tabular}{c}
+    {#1}\\\hline\hline{#2}
+  \end{tabular}\quad}{#3}}
+% HOL theories
+
+\title{\textsc{Hints for Structure, Interpretation, and Verification of
+    Messages, Certificates, and Trust Assumptions for Assured Command
+    and Control CONOPS}}
+
+\author{Assigned: Monday 5 December 2011}
+
+\date{Due: 1200 Wednesday 14 December 2011}
+
+\makeindex
+
+\begin{document}
+
+% ---------------------------------------------------------------------
+% Inputs for HOL reports
+% ---------------------------------------------------------------------
+\input{AssignedHOL/HOLReports/HOLcipher}
+\input{AssignedHOL/HOLReports/HOLcommand}
+\input{AssignedHOL/HOLReports/HOLmissionRoles}
+\input{AssignedHOL/HOLReports/HOLmissionStaff}
+\input{AssignedHOL/HOLReports/HOLrevisedMissionKeys}
+\input{AssignedHOL/HOLReports/HOLmessageCertificate}
+\input{AssignedHOL/HOLReports/HOLBFOConops}
+
+\maketitle
+\thispagestyle{empty}
+\author{}
+\maketitle
+
+\begin{abstract}
+  We provide guidance for developing the HOL theories. We show a
+  complete theory listing once cipherTheory is correctly
+  completed. All the starting source files are listed.
+\end{abstract}
+
+\section{Assignment}
+\label{sec:assignment}
+
+To simplify things a bit, \redtext{I have eliminated the task of
+  proving deciphP\_clauses}. The reasons primarily to keep focused on
+\emph{integrity and integrity checking}.  On the other hand, I have
+added two theorems you need to prove to make it easier for you to
+related signed key certificates to their interpretation:
+\redtext{kcertCASat\_thm} and \redtext{kcertStaffSat\_thm}. The list
+of datatypes, definitions, and theorems you must prove is below.
+
+\paragraph{cipher Theory}
+
+\begin{enumerate}
+\item Definitions
+  \begin{enumerate}[{a.}]
+  \item sign\_def
+  \item signVerify\_def
+  \end{enumerate}
+\item Theorems: signVerifyOK
+\end{enumerate}
+
+\paragraph{messageCertificate Theory}
+
+\begin{enumerate}
+\item Datatypes
+  \begin{enumerate}[{a.}]
+  \item KCertSignature
+  \item KeyCertificate
+  \item RootKeyCertificate
+  \end{enumerate}
+
+\item Definitions
+  \begin{enumerate}[{a.}]
+  \item checkKCert\_def
+  \item Ekcrt\_def
+  \item Erootkcrt\_def
+  \item ksat\_def
+  \item rootksat\_def
+  \end{enumerate}
+
+\item Theorems
+  \begin{enumerate}[{a.}]
+  \item checkKCertOK
+  \item kcrtCAInterp\_thm
+  \item kcrtStaffInterp\_thm
+  \item rootkcertCAInterp\_thm
+  \item rootkcertStaffInterp\_thm
+  \item kcertCASat\_thm
+  \item kcertStaffSat\_thm
+  \end{enumerate}
+
+\end{enumerate}
+
+\paragraph{BFOConops Theory}
+
+\begin{enumerate}
+\item Theorems: blackBoxBFO\_thm
+
+\end{enumerate}
+
+\section{Development Guidance}
+\label{sec:guidance}
+
+\subsection{Using Holmake}
+\label{sec:holmake}
+
+I \textbf{strongly suggest} getting cipher Theory fully defined and
+verified as quickly as possible. Once this theory is working
+correctly, you can use Holmake with the rest of the script files to
+make sure everything works together.  Of course, prior to finishing
+cipher Theory, if you run Holmake on cipher Theory with the rest of
+the script files in the same subdirectory, you will get compilation
+errors because many of the other script files depend on signing and
+signature checking. \textbf{The listing of theories in the Appendices
+  shows all the theories working together (without key certificate
+  syntax and semantics) once cipher Theory is working correctly.}
+
+All of the remaining development is in messageCertificate Theory.  Add
+the datatypes, then the definitions, followed by the proofs.  It is a
+good idea with each addition or change to recompile using Holmake.
+
+The appendices also have a listing of the script files I have made
+available to you.
+% \vspace*{1.5in}
+% \begin{center}
+%   \begin{Large}
+%     \bluetext{\textbf{Good Luck!}}
+%   \end{Large}
+% \end{center}
+
+\subsection{Relating Messages and Certificates to Their Interpretations}
+\label{sec:interpretations}
+
+\begin{table}[t]
+  \centering
+  \begin{tabular}{|r>{$}l<{$}|}
+    \hline
+    \textbf{Classification} & \textbf{Access-Control Statement}\\
+    \hline
+    \textbf{Signed Message:} & K_{Alice} \quoting BFC \says \action{go}\\
+    \hline
+    \textbf{Signed Key Certificate:} & 
+    K_{bfca} \says K_{Alice} \speaksfor Alice\\
+    \textbf{Signed Key Certificate:} & K_{jfca} \says K_{bfca} \speaksfor BFCA\\
+    \hline
+    \textbf{Trusted Role Certificate:} & \reps{Alice}{BFC}{\action{go}}\\
+    \textbf{Trusted Key Certificate:} & K_{jfca} \speaksfor JFCA\\
+    \hline
+  \end{tabular}
+  \caption{Classification of Access-Control Statements According to Function}
+  \label{tab:classification-table}
+\end{table}
+
+One thing to remember is that the ACL\_ASSUM rules are defined in
+terms of the relation \texttt{sat}, and not the message certificate
+relations \texttt{msat, ksat, rootksat}, and \texttt{rootrsat}.  To
+create sequents for certificates and messages you will have to use
+HOL's ASSUME rule.  
+
+The next series of sessions show the creation of various messages and
+certificates corresponding to those listed in
+Table~\ref{tab:classification-table}.
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Signed Message from Alice as BFC *)
+val BFCMessage =
+ASSUME
+``((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),Oi:'Int po,Os:'Sec po) msat
+  MSG (From Alice) (As BFC) (To Carol)
+      (Ea (pubK Carol) (plain (sym (dek1 :num))))
+      (Es (sym dek1) (plain (MC go)))
+      (sign Alice (hash (plain (MC go))))``;
+> val BFCMessage =
+     [.]
+    |- (M,Oi,Os) msat
+       MSG (From Alice) (As BFC) (To Carol)
+         (Ea (pubK Carol) (plain (sym dek1)))
+         (Es (sym dek1) (plain (MC go))) (sign Alice (hash (plain (MC go)))) :
+  thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Signed Key Certificate for Alice *)
+val AliceCert =
+ASSUME
+``(((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),Oi:'Int po,Os:'Sec po) ksat
+   KCert (CA BFCA) (Entity (KStaff Alice)) (SPubKey (pubK (KStaff Alice)))
+            (KCrtSig (sign (KCA BFCA) (hash (plain (BFCA,KStaff Alice,(pubK (KStaff Alice))))))))``;
+> val AliceCert =
+     [.]
+    |- (M,Oi,Os) ksat
+       KCert (CA BFCA) (Entity (KStaff Alice))
+         (SPubKey (pubK (KStaff Alice)))
+         (KCrtSig
+            (sign (KCA BFCA)
+               (hash (plain (BFCA,KStaff Alice,pubK (KStaff Alice)))))) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Signed Key Certificate for BFCA *)
+val BFCACert =
+ASSUME
+``(((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),Oi:'Int po,Os:'Sec po) ksat
+   KCert (CA JFCA) (Entity (KCA BFCA)) (SPubKey (pubK (KCA BFCA)))
+            (KCrtSig (sign (KCA JFCA) (hash (plain (JFCA,KCA BFCA,(pubK (KCA BFCA))))))))``;
+> val BFCACert =
+     [.]
+    |- (M,Oi,Os) ksat
+       KCert (CA JFCA) (Entity (KCA BFCA)) (SPubKey (pubK (KCA BFCA)))
+         (KCrtSig
+            (sign (KCA JFCA)
+               (hash (plain (JFCA,KCA BFCA,pubK (KCA BFCA)))))) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Trusted Root Role Certificate for Alice as BFC *)
+val BFCCert =
+ASSUME
+``((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),Oi:'Int po,Os:'Sec po) rootrsat
+  RootRCert (For Alice) (As BFC) (MC go)``;
+> val BFCCert =
+     [.] |- (M,Oi,Os) rootrsat RootRCert (For Alice) (As BFC) (MC go) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Trusted Root Key Certificate for JFCA *)
+val JFCARootCert = 
+ASSUME
+ ``((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),Oi:'Int po,Os:'Sec po) rootksat 
+    RootKCert (Entity (KCA JFCA)) (SPubKey (pubK (KCA JFCA)))``;
+> val JFCARootCert =
+     [.]
+    |- (M,Oi,Os) rootksat
+       RootKCert (Entity (KCA JFCA)) (SPubKey (pubK (KCA JFCA))) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+Once we have the input message from Alice and the signed key
+certificates and the root role and key certificates, we can convert
+them to their interpretations and use HOL's Modus Ponens inference
+rule (MATCH\_MP) with BFO\_thm, followed by discharging assumptions in
+the appropriate order, to get the blackBoxBFO\_thm. What follows next
+illustrates how to do this.
+
+Recall BFO\_thm, as shown below. Note that the first five antecedents
+in the implication correspond to the messages and certificates (in the
+same order listed) in Table~\ref{tab:classification-table}. The very
+first antecedent is Alice's message to Carol.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- BFO_thm;
+> val it =
+    |- (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Alice))) quoting Name (MRole BFC) says
+       prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA BFCA))) says
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+       prop (WC launch) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We convert Alice's message to Carol to its interpretation in the
+access-control logic by rewriting it with the msgSat\_thm (with the
+order of terms reversed by HOL's GSYM inference rule).
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- BFCMessage;
+> val it =
+     [.]
+    |- (M,Oi,Os) msat
+       MSG (From Alice) (As BFC) (To Carol)
+         (Ea (pubK Carol) (plain (sym dek1)))
+         (Es (sym dek1) (plain (MC go))) (sign Alice (hash (plain (MC go)))) :
+  thm
+- msgSat_thm;
+> val it =
+    |- !recipient dek sender role order M Oi Os.
+         (M,Oi,Os) sat
+         Name (MKey (pubK (KStaff sender))) quoting Name (MRole role) says
+         prop order <=>
+         (M,Oi,Os) msat
+         MSG (From sender) (As role) (To recipient)
+           (Ea (pubK recipient) (plain (sym dek)))
+           (Es (sym dek) (plain order)) (sign sender (hash (plain order))) :
+  thm
+- GSYM msgSat_thm;
+> val it =
+    |- !recipient dek sender role order M Oi Os.
+         (M,Oi,Os) msat
+         MSG (From sender) (As role) (To recipient)
+           (Ea (pubK recipient) (plain (sym dek)))
+           (Es (sym dek) (plain order))
+           (sign sender (hash (plain order))) <=>
+         (M,Oi,Os) sat
+         Name (MKey (pubK (KStaff sender))) quoting Name (MRole role) says
+         prop order : thm
+- val th6 = REWRITE_RULE [GSYM msgSat_thm] BFCMessage;
+> val th6 =
+     [.]
+    |- (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Alice))) quoting Name (MRole BFC) says
+       prop (MC go) : thm
+- hyp th6;
+> val it =
+    [``(M,Oi,Os) msat
+       MSG (From Alice) (As BFC) (To Carol)
+         (Ea (pubK Carol) (plain (sym dek1))) (Es (sym dek1) (plain (MC go)))
+         (sign Alice (hash (plain (MC go))))``] : term list
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+Note that th6 corresponds to the first antecedent in BFO\_thm and that
+the hypothesis of th6 is the message.
+
+We use the message and its interpretation to eliminate one of the
+antecedents in BFO\_thm as shown below.
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+ - val th7 = MATCH_MP BFO_thm th6;
+> val th7 =
+     [.]
+    |- (M,Oi,Os) sat
+       Name (MKey (pubK (KCA BFCA))) says
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+       prop (WC launch) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+The corresponding idea is used on key certificates. First we rewrite
+the signed key certificate for Alice using kcertStaffSat\_thm and do
+MATCH\_MP on th7.  
+
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- (* Rewrite AliceCert with its interpretation *)
+val th8 = REWRITE_RULE [GSYM kcertStaffSat_thm] AliceCert;
+> val th8 =
+     [.]
+    |- (M,Oi,Os) sat
+       Name (MKey (pubK (KCA BFCA))) says
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) : thm
+- val th9 = MATCH_MP th7 th8;
+> val th9 =
+     [..]
+    |- (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+       prop (WC launch) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+We repeat the process above for all the certificates. We can move the
+messages and certificates back into the conclusion by repeated
+application of HOL's DISCH inference rule in the reverse order in
+which we want the certificates and messages to appear. 
+
+Suppose we wish the message to be first followed by the key
+certificate. We discharge the key certificate first followed by the
+message. This is shown below. \standout{\textbf{Note that the first
+    two antecedents in th11 now correspond to Alice's message and her
+    public key certificate signed by BFCA.}}
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- val th10 = DISCH ``((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),
+      (Oi :'Int po),(Os :'Sec po)) ksat
+     KCert (CA BFCA) (Entity (KStaff Alice)) (SPubKey (pubK (KStaff Alice)))
+       (KCrtSig
+          (sign (KCA BFCA)
+             (hash (plain (BFCA,KStaff Alice,pubK (KStaff Alice))))))`` th9;
+> val th10 =
+     [.]
+    |- (M,Oi,Os) ksat
+       KCert (CA BFCA) (Entity (KStaff Alice))
+         (SPubKey (pubK (KStaff Alice)))
+         (KCrtSig
+            (sign (KCA BFCA)
+               (hash (plain (BFCA,KStaff Alice,pubK (KStaff Alice)))))) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+       prop (WC launch) : thm
+- val th11 = DISCH ``((M :(commands, 'world, missionPrincipals, 'Int, 'Sec) Kripke),
+      (Oi :'Int po),(Os :'Sec po)) msat
+     MSG (From Alice) (As BFC) (To Carol)
+       (Ea (pubK Carol) (plain (sym (dek1 :num))))
+       (Es (sym dek1) (plain (MC go))) (sign Alice (hash (plain (MC go))))`` th10;
+> val th11 =
+    |- (M,Oi,Os) msat
+       MSG (From Alice) (As BFC) (To Carol)
+         (Ea (pubK Carol) (plain (sym dek1)))
+         (Es (sym dek1) (plain (MC go)))
+         (sign Alice (hash (plain (MC go)))) ==>
+       (M,Oi,Os) ksat
+       KCert (CA BFCA) (Entity (KStaff Alice))
+         (SPubKey (pubK (KStaff Alice)))
+         (KCrtSig
+            (sign (KCA BFCA)
+               (hash (plain (BFCA,KStaff Alice,pubK (KStaff Alice)))))) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+       prop (WC launch) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+There is one last item: converting the conclusion of th11 into the
+message put out by Carol to the weapon. This is done by rewriting the
+conclusion using msgSat\_thm with it variables suitably specialized.
+This is shown below. \textbf{\standout{Note that now the conclusion is
+    the message sent by Carol to the Weapon. Once you prove all the
+    signed key certificate theorems, you will use them and the role
+    certificate theorems, to introduce the remaining certificates into
+    the theorem to prove blackBoxBFO\_thm.}}
+\begin{session}
+  \begin{scriptsize}
+\begin{verbatim}
+
+- SPECL [``Weapon``,``dek2:num``,``Carol``,``BFO``,``WC launch``] msgSat_thm;
+> val it =
+    |- !M Oi Os.
+         (M,Oi,Os) sat
+         Name (MKey (pubK (KStaff Carol))) quoting Name (MRole BFO) says
+         prop (WC launch) <=>
+         (M,Oi,Os) msat
+         MSG (From Carol) (As BFO) (To Weapon)
+           (Ea (pubK Weapon) (plain (sym dek2)))
+           (Es (sym dek2) (plain (WC launch)))
+           (sign Carol (hash (plain (WC launch)))) : thm
+- REWRITE_RULE [SPECL [``Weapon``,``dek2:num``,``Carol``,``BFO``,``WC launch``] msgSat_thm] th11;
+> val it =
+    |- (M,Oi,Os) msat
+       MSG (From Alice) (As BFC) (To Carol)
+         (Ea (pubK Carol) (plain (sym dek1)))
+         (Es (sym dek1) (plain (MC go)))
+         (sign Alice (hash (plain (MC go)))) ==>
+       (M,Oi,Os) ksat
+       KCert (CA BFCA) (Entity (KStaff Alice))
+         (SPubKey (pubK (KStaff Alice)))
+         (KCrtSig
+            (sign (KCA BFCA)
+               (hash (plain (BFCA,KStaff Alice,pubK (KStaff Alice)))))) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) says
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       reps (Name (MStaff Alice)) (Name (MRole BFC)) (prop (MC go)) ==>
+       (M,Oi,Os) sat
+       Name (MKey (pubK (KCA JFCA))) speaks_for Name (MCA JFCA) ==>
+       (M,Oi,Os) sat Name (MRole BFC) controls prop (MC go) ==>
+       (M,Oi,Os) sat
+       Name (MCA JFCA) controls
+       Name (MKey (pubK (KCA BFCA))) speaks_for Name (MCA BFCA) ==>
+       (M,Oi,Os) sat
+       Name (MCA BFCA) controls
+       Name (MKey (pubK (KStaff Alice))) speaks_for Name (MStaff Alice) ==>
+       (M,Oi,Os) sat prop (MC go) impf prop (WC launch) ==>
+       (M,Oi,Os) msat
+       MSG (From Carol) (As BFO) (To Weapon)
+         (Ea (pubK Weapon) (plain (sym dek2)))
+         (Es (sym dek2) (plain (WC launch)))
+         (sign Carol (hash (plain (WC launch)))) : thm
+\end{verbatim}
+  \end{scriptsize}
+\end{session}
+
+
+
+\newpage{}
+
+\part*{Appendices}
+\label{part:appendicies}
+
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{cipher Theory}
+\index{cipher Theory@\textbf  {cipher Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLcipherDate \\[2pt]
+\textbf{Parent Theories:} list
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{cipher Theory@\textbf  {cipher Theory}!Datatypes}
+% .....................................
+
+\HOLcipherDatatypes
+
+\subsection{Definitions}
+\index{cipher Theory@\textbf  {cipher Theory}!Definitions}
+% .....................................
+
+\HOLcipherDefinitions
+
+\subsection{Theorems}
+\index{cipher Theory@\textbf  {cipher Theory}!Theorems}
+% .....................................
+
+\HOLcipherTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{command Theory}
+\index{command Theory@\textbf  {command Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLcommandDate \\[2pt]
+\textbf{Parent Theories:} aclDrules
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{command Theory@\textbf  {command Theory}!Datatypes}
+% .....................................
+
+\HOLcommandDatatypes
+
+% No definitions
+
+% No theorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{missionRoles Theory}
+\index{missionRoles Theory@\textbf  {missionRoles Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmissionRolesDate \\[2pt]
+\textbf{Parent Theories:} command
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{missionRoles Theory@\textbf  {missionRoles Theory}!Datatypes}
+% .....................................
+
+\HOLmissionRolesDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{missionRoles Theory@\textbf  {missionRoles Theory}!Theorems}
+% .....................................
+
+\HOLmissionRolesTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{missionStaff Theory}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmissionStaffDate \\[2pt]
+\textbf{Parent Theories:} missionRoles
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Datatypes}
+% .....................................
+
+\HOLmissionStaffDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Theorems}
+% .....................................
+
+\HOLmissionStaffTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{revisedMissionKeys Theory}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLrevisedMissionKeysDate \\[2pt]
+\textbf{Parent Theories:} missionStaff, cipher
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}!Datatypes}
+% .....................................
+
+\HOLrevisedMissionKeysDatatypes
+
+% No definitions
+
+% No theorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{messageCertificate Theory}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmessageCertificateDate \\[2pt]
+\textbf{Parent Theories:} revisedMissionKeys
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Datatypes}
+% .....................................
+
+\HOLmessageCertificateDatatypes
+
+\subsection{Definitions}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Definitions}
+% .....................................
+
+\HOLmessageCertificateDefinitions
+
+\subsection{Theorems}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Theorems}
+% .....................................
+
+\HOLmessageCertificateTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{BFOConops Theory}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLBFOConopsDate \\[2pt]
+\textbf{Parent Theories:} messageCertificate
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}!Theorems}
+% .....................................
+
+\HOLBFOConopsTheorems
+
+\HOLindex
+
+\section{cipherScript.sml}
+\label{sec:cipherScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/cipherScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{commandScript.sml}
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/commandScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{missionRolesScript.sml}
+\label{sec:missionRolesScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/missionRolesScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{missionStaffScript.sml}
+\label{sec:missionStaffScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/missionStaffScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{revisedMissionKeysScript.sml}
+\label{sec:revisedMissionKeysScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/revisedMissionKeysScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{messageCertificateScript.sml}
+\label{sec:messageCertificateScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/messageCertificateScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+\section{BFOConopsScript.sml}
+\label{sec:BFOConopsScript}
+
+\begin{scriptsize}
+  \begin{alltt}
+\input{AssignedHOL/BFOConopsScript.sml}
+  \end{alltt}
+\end{scriptsize}
+
+
+
+\end{document}
+%  LocalWords:  BoxSpec tuples BoxImplementation BV haSpec haImp COND Holmake
+%  LocalWords:  tuple arithmeticTheory andGate xorGate subgoals MULT HOLcommand
+
+% LocalWords:  thm DISCH REFL ANTISYM GENL ty ISPEC ISPECL th indices HD SUC rl
+% LocalWords:  CONV listTheory reduceLib maketitle thispagestyle emph textbf fn
+
+% LocalWords:  hw4.sml texttt texttt sequents seqs scriptsize tacticals qquad
+% LocalWords:  irule conj-forward-proof conj-tac conj linewidth linewidth hline
+% LocalWords:  seq seq fbox forall footnotesize ldots asm-rewrite-tac-proof-1
+% LocalWords:  asm-rewrite-tac-proof-2 asm-rewrite-tac-proof-3 Ponens ASM TAC
+% LocalWords:  ASSUM Modus EQ subgoal DISJ Contrapositives SYM ELIM bool online
+% LocalWords:  contrapositive sequent's DeMorgan's HOL hw sml acl nogo CGs CAs
+%  LocalWords:  infRules Kripke pName Auth FactorAuth HOLmissionRoles conops
+% LocalWords:  HOLmissionStaff HOLmissionKeys HOLmissionCONOPSOne varphi equiv
+% LocalWords:  HOLmissionCONOPSTwo includegraphics deriv-infer-rules missioninf
+% LocalWords:  bfo-gfo-launch bfo-gfo-abort subsubsection holboxed hfill andf
+% LocalWords:  HOLcommandDatatypesmissionCommands HOLcommandDatatypescommands
+% LocalWords:  HOLcommandDatatypesweaponCommands HOLmissionRolesTheorems alltt
+% LocalWords:  HOLmissionRolesDatatypesmissionRoles ImpliedCOntrolsSays newpage
+% LocalWords:  HOLmissionRolesTheoremsImpliedControlsSaysXXthm BFO
+% LocalWords:  HOLmissionRolesTheoremsDualControlXXthm HOLmissionStaffDatatypes
+% LocalWords:  HOLmissionRolesTheoremsAlternateControlsOneXXthm BFC
+% LocalWords:  HOLmissionRolesTheoremsAlternateControlsTwoXXthm BFS
+% LocalWords:  HOLmissionCONOPSOneTheorems HOLmissionStaffTheorems
+% LocalWords:  HOLmissionCONOPSTwoTheorems HOLmissionKeysDatatypes
+%  LocalWords:  bfca jfca messageCertificate signVerify deciphP Ekcrt
+%  LocalWords:  signVerifyOK KCertSignature KerCertificate checkKCert
+%  LocalWords:  RootKeyCertificate Erootkcrt ksat rootksat BFOConops
+%  LocalWords:  checkKCertOK kcrtCAInterp kcrtStaffInterp blackBoxBFO
+%  LocalWords:  rootkcertCAInterp rootkcertStaffInterp missionStaff
+%  LocalWords:  missionRoles revisedMissionKeys cipherTheory msat
+%  LocalWords:  KeyCertificate subdirectory aclDrules cipherScript
+%  LocalWords:  commandScript missionRolesScript missionStaffScript
+%  LocalWords:  revisedMissionKeysScript messageCertificateScript
+%  LocalWords:  BFOConopsScript kcertCASat kcertStaffSat rootrsat
+%  LocalWords:  msgSat GSYM

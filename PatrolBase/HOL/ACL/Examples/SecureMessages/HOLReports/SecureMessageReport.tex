@@ -1,0 +1,135 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLcipher}
+\input{HOLmissionStaff}
+\input{HOLrevisedMissionKeys}
+\input{HOLmessageCertificate}
+\input{HOLBFOConops}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{cipher Theory}
+\index{cipher Theory@\textbf  {cipher Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLcipherDate \\[2pt]
+\textbf{Parent Theories:} indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{cipher Theory@\textbf  {cipher Theory}!Datatypes}
+% .....................................
+
+\HOLcipherDatatypes
+
+\subsection{Definitions}
+\index{cipher Theory@\textbf  {cipher Theory}!Definitions}
+% .....................................
+
+\HOLcipherDefinitions
+
+\subsection{Theorems}
+\index{cipher Theory@\textbf  {cipher Theory}!Theorems}
+% .....................................
+
+\HOLcipherTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{missionStaff Theory}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmissionStaffDate \\[2pt]
+\textbf{Parent Theories:} missionRoles
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Datatypes}
+% .....................................
+
+\HOLmissionStaffDatatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{missionStaff Theory@\textbf  {missionStaff Theory}!Theorems}
+% .....................................
+
+\HOLmissionStaffTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{revisedMissionKeys Theory}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLrevisedMissionKeysDate \\[2pt]
+\textbf{Parent Theories:} cipher, missionStaff
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{revisedMissionKeys Theory@\textbf  {revisedMissionKeys Theory}!Datatypes}
+% .....................................
+
+\HOLrevisedMissionKeysDatatypes
+
+% No definitions
+
+% No theorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{messageCertificate Theory}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmessageCertificateDate \\[2pt]
+\textbf{Parent Theories:} revisedMissionKeys
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Datatypes}
+% .....................................
+
+\HOLmessageCertificateDatatypes
+
+\subsection{Definitions}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Definitions}
+% .....................................
+
+\HOLmessageCertificateDefinitions
+
+\subsection{Theorems}
+\index{messageCertificate Theory@\textbf  {messageCertificate Theory}!Theorems}
+% .....................................
+
+\HOLmessageCertificateTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{BFOConops Theory}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLBFOConopsDate \\[2pt]
+\textbf{Parent Theories:} messageCertificate
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+% No definitions
+
+\subsection{Theorems}
+\index{BFOConops Theory@\textbf  {BFOConops Theory}!Theorems}
+% .....................................
+
+\HOLBFOConopsTheorems
+
+\HOLindex
+
+\end{document}

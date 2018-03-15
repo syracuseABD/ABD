@@ -1,0 +1,217 @@
+\newcommand{\HOLaclfoundationDate}{19 January 2017}
+\newcommand{\HOLaclfoundationTime}{15:38}
+\begin{SaveVerbatim}{HOLaclfoundationDatatypesForm}
+\HOLFreeVar{Form} =
+    \HOLConst{TT}
+  \HOLTokenBar{} \HOLConst{FF}
+  \HOLTokenBar{} \HOLConst{prop} 'aavar
+  \HOLTokenBar{} \HOLConst{notf} (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{andf}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+           (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{orf}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+          (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{impf}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+           (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{eqf}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+          (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{says}) ('apn \HOLTyOp{Princ}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{speaks_for}) ('apn \HOLTyOp{Princ}) ('apn \HOLTyOp{Princ})
+  \HOLTokenBar{} (\HOLConst{controls}) ('apn \HOLTyOp{Princ}) (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} \HOLConst{reps} ('apn \HOLTyOp{Princ}) ('apn \HOLTyOp{Princ})
+         (('aavar, 'apn, 'il, 'sl) \HOLTyOp{Form})
+  \HOLTokenBar{} (\HOLConst{domi}) (('apn, 'il) \HOLTyOp{IntLevel}) (('apn, 'il) \HOLTyOp{IntLevel})
+  \HOLTokenBar{} (\HOLConst{eqi}) (('apn, 'il) \HOLTyOp{IntLevel}) (('apn, 'il) \HOLTyOp{IntLevel})
+  \HOLTokenBar{} (\HOLConst{doms}) (('apn, 'sl) \HOLTyOp{SecLevel}) (('apn, 'sl) \HOLTyOp{SecLevel})
+  \HOLTokenBar{} (\HOLConst{eqs}) (('apn, 'sl) \HOLTyOp{SecLevel}) (('apn, 'sl) \HOLTyOp{SecLevel})
+  \HOLTokenBar{} (\HOLConst{eqn}) \HOLTyOp{num} \HOLTyOp{num}
+  \HOLTokenBar{} (\HOLConst{lte}) \HOLTyOp{num} \HOLTyOp{num}
+  \HOLTokenBar{} (\HOLConst{lt}) \HOLTyOp{num} \HOLTyOp{num}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDatatypesForm}{\UseVerbatim{HOLaclfoundationDatatypesForm}}
+\begin{SaveVerbatim}{HOLaclfoundationDatatypesKripke}
+\HOLFreeVar{Kripke} =
+    \HOLConst{KS} ('aavar -> 'aaworld -> \HOLTyOp{bool})
+       ('apn -> 'aaworld -> 'aaworld -> \HOLTyOp{bool}) ('apn -> 'il)
+       ('apn -> 'sl)
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDatatypesKripke}{\UseVerbatim{HOLaclfoundationDatatypesKripke}}
+\begin{SaveVerbatim}{HOLaclfoundationDatatypesPrinc}
+\HOLFreeVar{Princ} =
+    \HOLConst{Name} 'apn
+  \HOLTokenBar{} (\HOLConst{meet}) ('apn \HOLTyOp{Princ}) ('apn \HOLTyOp{Princ})
+  \HOLTokenBar{} (\HOLConst{quoting}) ('apn \HOLTyOp{Princ}) ('apn \HOLTyOp{Princ}) ;
+
+\HOLFreeVar{IntLevel} = \HOLConst{iLab} 'il \HOLTokenBar{} \HOLConst{il} 'apn ;
+
+\HOLFreeVar{SecLevel} = \HOLConst{sLab} 'sl \HOLTokenBar{} \HOLConst{sl} 'apn
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDatatypesPrinc}{\UseVerbatim{HOLaclfoundationDatatypesPrinc}}
+\newcommand{\HOLaclfoundationDatatypes}{
+\HOLaclfoundationDatatypesForm\HOLaclfoundationDatatypesKripke\HOLaclfoundationDatatypesPrinc}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsimapKSXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}.
+     \HOLConst{imapKS} (\HOLConst{KS} \HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}) \HOLSymConst{=} \HOLBoundVar{ilmap}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsimapKSXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsimapKSXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsintpKSXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}.
+     \HOLConst{intpKS} (\HOLConst{KS} \HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}) \HOLSymConst{=} \HOLBoundVar{Intp}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsintpKSXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsintpKSXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsjKSXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}. \HOLConst{jKS} (\HOLConst{KS} \HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}) \HOLSymConst{=} \HOLBoundVar{Jfn}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsjKSXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsjKSXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsOOneXXdef}
+\HOLTokenTurnstile{} \HOLConst{O1} \HOLSymConst{=} \HOLConst{PO} \HOLConst{one_weakorder}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsOOneXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsOOneXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsoneXXweakorderXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x} \HOLBoundVar{y}. \HOLConst{one_weakorder} \HOLBoundVar{x} \HOLBoundVar{y} \HOLSymConst{\HOLTokenEquiv{}} \HOLConst{T}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsoneXXweakorderXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsoneXXweakorderXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionspoXXTYXXDEF}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{rep}. \HOLConst{TYPE_DEFINITION} \HOLConst{WeakOrder} \HOLBoundVar{rep}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionspoXXTYXXDEF}{\UseVerbatim{HOLaclfoundationDefinitionspoXXTYXXDEF}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionspoXXtybij}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a}. \HOLConst{PO} (\HOLConst{repPO} \HOLBoundVar{a}) \HOLSymConst{=} \HOLBoundVar{a}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r}. \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{repPO} (\HOLConst{PO} \HOLBoundVar{r}) \HOLSymConst{=} \HOLBoundVar{r})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionspoXXtybij}{\UseVerbatim{HOLaclfoundationDefinitionspoXXtybij}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsprodXXPOXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{PO\sb{\mathrm{1}}} \HOLBoundVar{PO\sb{\mathrm{2}}}.
+     \HOLConst{prod_PO} \HOLBoundVar{PO\sb{\mathrm{1}}} \HOLBoundVar{PO\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{PO} (\HOLConst{RPROD} (\HOLConst{repPO} \HOLBoundVar{PO\sb{\mathrm{1}}}) (\HOLConst{repPO} \HOLBoundVar{PO\sb{\mathrm{2}}}))
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsprodXXPOXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsprodXXPOXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionssmapKSXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}.
+     \HOLConst{smapKS} (\HOLConst{KS} \HOLBoundVar{Intp} \HOLBoundVar{Jfn} \HOLBoundVar{ilmap} \HOLBoundVar{slmap}) \HOLSymConst{=} \HOLBoundVar{slmap}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionssmapKSXXdef}{\UseVerbatim{HOLaclfoundationDefinitionssmapKSXXdef}}
+\begin{SaveVerbatim}{HOLaclfoundationDefinitionsSubsetXXPOXXdef}
+\HOLTokenTurnstile{} \HOLConst{Subset_PO} \HOLSymConst{=} \HOLConst{PO} (\HOLConst{\HOLTokenSubset{}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationDefinitionsSubsetXXPOXXdef}{\UseVerbatim{HOLaclfoundationDefinitionsSubsetXXPOXXdef}}
+\newcommand{\HOLaclfoundationDefinitions}{
+\HOLDfnTag{aclfoundation}{imapKS_def}\HOLaclfoundationDefinitionsimapKSXXdef
+\HOLDfnTag{aclfoundation}{intpKS_def}\HOLaclfoundationDefinitionsintpKSXXdef
+\HOLDfnTag{aclfoundation}{jKS_def}\HOLaclfoundationDefinitionsjKSXXdef
+\HOLDfnTag{aclfoundation}{O1_def}\HOLaclfoundationDefinitionsOOneXXdef
+\HOLDfnTag{aclfoundation}{one_weakorder_def}\HOLaclfoundationDefinitionsoneXXweakorderXXdef
+\HOLDfnTag{aclfoundation}{po_TY_DEF}\HOLaclfoundationDefinitionspoXXTYXXDEF
+\HOLDfnTag{aclfoundation}{po_tybij}\HOLaclfoundationDefinitionspoXXtybij
+\HOLDfnTag{aclfoundation}{prod_PO_def}\HOLaclfoundationDefinitionsprodXXPOXXdef
+\HOLDfnTag{aclfoundation}{smapKS_def}\HOLaclfoundationDefinitionssmapKSXXdef
+\HOLDfnTag{aclfoundation}{Subset_PO_def}\HOLaclfoundationDefinitionsSubsetXXPOXXdef
+}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsabsXXpoOneOne}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{r\sp{\prime}}.
+     \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenImp{}} \HOLConst{WeakOrder} \HOLBoundVar{r\sp{\prime}} \HOLSymConst{\HOLTokenImp{}} ((\HOLConst{PO} \HOLBoundVar{r} \HOLSymConst{=} \HOLConst{PO} \HOLBoundVar{r\sp{\prime}}) \HOLSymConst{\HOLTokenEquiv{}} (\HOLBoundVar{r} \HOLSymConst{=} \HOLBoundVar{r\sp{\prime}}))
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsabsXXpoOneOne}{\UseVerbatim{HOLaclfoundationTheoremsabsXXpoOneOne}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsabsPOXXfnXXonto}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a}. \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{r}. (\HOLBoundVar{a} \HOLSymConst{=} \HOLConst{PO} \HOLBoundVar{r}) \HOLSymConst{\HOLTokenConj{}} \HOLConst{WeakOrder} \HOLBoundVar{r}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsabsPOXXfnXXonto}{\UseVerbatim{HOLaclfoundationTheoremsabsPOXXfnXXonto}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsantisymXXprodXXantisym}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{s}.
+     \HOLConst{antisymmetric} \HOLBoundVar{r} \HOLSymConst{\HOLTokenConj{}} \HOLConst{antisymmetric} \HOLBoundVar{s} \HOLSymConst{\HOLTokenImp{}}
+     \HOLConst{antisymmetric} (\HOLConst{RPROD} \HOLBoundVar{r} \HOLBoundVar{s})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsantisymXXprodXXantisym}{\UseVerbatim{HOLaclfoundationTheoremsantisymXXprodXXantisym}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsEQXXWeakOrder}
+\HOLTokenTurnstile{} \HOLConst{WeakOrder} (\HOLSymConst{=})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsEQXXWeakOrder}{\UseVerbatim{HOLaclfoundationTheoremsEQXXWeakOrder}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsKSXXbij}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M}. \HOLBoundVar{M} \HOLSymConst{=} \HOLConst{KS} (\HOLConst{intpKS} \HOLBoundVar{M}) (\HOLConst{jKS} \HOLBoundVar{M}) (\HOLConst{imapKS} \HOLBoundVar{M}) (\HOLConst{smapKS} \HOLBoundVar{M})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsKSXXbij}{\UseVerbatim{HOLaclfoundationTheoremsKSXXbij}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsoneXXweakorderXXWO}
+\HOLTokenTurnstile{} \HOLConst{WeakOrder} \HOLConst{one_weakorder}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsoneXXweakorderXXWO}{\UseVerbatim{HOLaclfoundationTheoremsoneXXweakorderXXWO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsontoXXpo}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r}. \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenEquiv{}} \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{a}. \HOLBoundVar{r} \HOLSymConst{=} \HOLConst{repPO} \HOLBoundVar{a}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsontoXXpo}{\UseVerbatim{HOLaclfoundationTheoremsontoXXpo}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremspoXXbij}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a}. \HOLConst{PO} (\HOLConst{repPO} \HOLBoundVar{a}) \HOLSymConst{=} \HOLBoundVar{a}) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r}. \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{repPO} (\HOLConst{PO} \HOLBoundVar{r}) \HOLSymConst{=} \HOLBoundVar{r})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremspoXXbij}{\UseVerbatim{HOLaclfoundationTheoremspoXXbij}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsPOXXrepPO}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a}. \HOLConst{PO} (\HOLConst{repPO} \HOLBoundVar{a}) \HOLSymConst{=} \HOLBoundVar{a}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsPOXXrepPO}{\UseVerbatim{HOLaclfoundationTheoremsPOXXrepPO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsreflXXprodXXrefl}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{s}. \HOLConst{reflexive} \HOLBoundVar{r} \HOLSymConst{\HOLTokenConj{}} \HOLConst{reflexive} \HOLBoundVar{s} \HOLSymConst{\HOLTokenImp{}} \HOLConst{reflexive} (\HOLConst{RPROD} \HOLBoundVar{r} \HOLBoundVar{s})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsreflXXprodXXrefl}{\UseVerbatim{HOLaclfoundationTheoremsreflXXprodXXrefl}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsrepPOXXiPOXXpartialXXorder}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x}. \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{x} \HOLBoundVar{x}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x} \HOLBoundVar{y}. \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{x} \HOLBoundVar{y} \HOLSymConst{\HOLTokenConj{}} \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{y} \HOLBoundVar{x} \HOLSymConst{\HOLTokenImp{}} (\HOLBoundVar{x} \HOLSymConst{=} \HOLBoundVar{y})) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{x} \HOLBoundVar{y} \HOLBoundVar{z}. \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{x} \HOLBoundVar{y} \HOLSymConst{\HOLTokenConj{}} \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{y} \HOLBoundVar{z} \HOLSymConst{\HOLTokenImp{}} \HOLConst{repPO} \HOLFreeVar{iPO} \HOLBoundVar{x} \HOLBoundVar{z}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsrepPOXXiPOXXpartialXXorder}{\UseVerbatim{HOLaclfoundationTheoremsrepPOXXiPOXXpartialXXorder}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsrepPOXXOOne}
+\HOLTokenTurnstile{} \HOLConst{repPO} \HOLConst{O1} \HOLSymConst{=} \HOLConst{one_weakorder}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsrepPOXXOOne}{\UseVerbatim{HOLaclfoundationTheoremsrepPOXXOOne}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsrepPOXXprodXXPO}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{po\sb{\mathrm{1}}} \HOLBoundVar{po\sb{\mathrm{2}}}.
+     \HOLConst{repPO} (\HOLConst{prod_PO} \HOLBoundVar{po\sb{\mathrm{1}}} \HOLBoundVar{po\sb{\mathrm{2}}}) \HOLSymConst{=} \HOLConst{RPROD} (\HOLConst{repPO} \HOLBoundVar{po\sb{\mathrm{1}}}) (\HOLConst{repPO} \HOLBoundVar{po\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsrepPOXXprodXXPO}{\UseVerbatim{HOLaclfoundationTheoremsrepPOXXprodXXPO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsrepPOXXSubsetXXPO}
+\HOLTokenTurnstile{} \HOLConst{repPO} \HOLConst{Subset_PO} \HOLSymConst{=} (\HOLConst{\HOLTokenSubset{}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsrepPOXXSubsetXXPO}{\UseVerbatim{HOLaclfoundationTheoremsrepPOXXSubsetXXPO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsRPRODXXTHM}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{s} \HOLBoundVar{a} \HOLBoundVar{b}.
+     \HOLConst{RPROD} \HOLBoundVar{r} \HOLBoundVar{s} \HOLBoundVar{a} \HOLBoundVar{b} \HOLSymConst{\HOLTokenEquiv{}} \HOLBoundVar{r} (\HOLConst{FST} \HOLBoundVar{a}) (\HOLConst{FST} \HOLBoundVar{b}) \HOLSymConst{\HOLTokenConj{}} \HOLBoundVar{s} (\HOLConst{SND} \HOLBoundVar{a}) (\HOLConst{SND} \HOLBoundVar{b})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsRPRODXXTHM}{\UseVerbatim{HOLaclfoundationTheoremsRPRODXXTHM}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsSUBSETXXWO}
+\HOLTokenTurnstile{} \HOLConst{WeakOrder} (\HOLConst{\HOLTokenSubset{}})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsSUBSETXXWO}{\UseVerbatim{HOLaclfoundationTheoremsSUBSETXXWO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremstransXXprodXXtrans}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{s}. \HOLConst{transitive} \HOLBoundVar{r} \HOLSymConst{\HOLTokenConj{}} \HOLConst{transitive} \HOLBoundVar{s} \HOLSymConst{\HOLTokenImp{}} \HOLConst{transitive} (\HOLConst{RPROD} \HOLBoundVar{r} \HOLBoundVar{s})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremstransXXprodXXtrans}{\UseVerbatim{HOLaclfoundationTheoremstransXXprodXXtrans}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsWeakOrderXXExists}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{R}. \HOLConst{WeakOrder} \HOLBoundVar{R}
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsWeakOrderXXExists}{\UseVerbatim{HOLaclfoundationTheoremsWeakOrderXXExists}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsWOXXprodXXWO}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r} \HOLBoundVar{s}. \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenConj{}} \HOLConst{WeakOrder} \HOLBoundVar{s} \HOLSymConst{\HOLTokenImp{}} \HOLConst{WeakOrder} (\HOLConst{RPROD} \HOLBoundVar{r} \HOLBoundVar{s})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsWOXXprodXXWO}{\UseVerbatim{HOLaclfoundationTheoremsWOXXprodXXWO}}
+\begin{SaveVerbatim}{HOLaclfoundationTheoremsWOXXrepPO}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{r}. \HOLConst{WeakOrder} \HOLBoundVar{r} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{repPO} (\HOLConst{PO} \HOLBoundVar{r}) \HOLSymConst{=} \HOLBoundVar{r})
+\end{SaveVerbatim}
+\newcommand{\HOLaclfoundationTheoremsWOXXrepPO}{\UseVerbatim{HOLaclfoundationTheoremsWOXXrepPO}}
+\newcommand{\HOLaclfoundationTheorems}{
+\HOLThmTag{aclfoundation}{abs_po11}\HOLaclfoundationTheoremsabsXXpoOneOne
+\HOLThmTag{aclfoundation}{absPO_fn_onto}\HOLaclfoundationTheoremsabsPOXXfnXXonto
+\HOLThmTag{aclfoundation}{antisym_prod_antisym}\HOLaclfoundationTheoremsantisymXXprodXXantisym
+\HOLThmTag{aclfoundation}{EQ_WeakOrder}\HOLaclfoundationTheoremsEQXXWeakOrder
+\HOLThmTag{aclfoundation}{KS_bij}\HOLaclfoundationTheoremsKSXXbij
+\HOLThmTag{aclfoundation}{one_weakorder_WO}\HOLaclfoundationTheoremsoneXXweakorderXXWO
+\HOLThmTag{aclfoundation}{onto_po}\HOLaclfoundationTheoremsontoXXpo
+\HOLThmTag{aclfoundation}{po_bij}\HOLaclfoundationTheoremspoXXbij
+\HOLThmTag{aclfoundation}{PO_repPO}\HOLaclfoundationTheoremsPOXXrepPO
+\HOLThmTag{aclfoundation}{refl_prod_refl}\HOLaclfoundationTheoremsreflXXprodXXrefl
+\HOLThmTag{aclfoundation}{repPO_iPO_partial_order}\HOLaclfoundationTheoremsrepPOXXiPOXXpartialXXorder
+\HOLThmTag{aclfoundation}{repPO_O1}\HOLaclfoundationTheoremsrepPOXXOOne
+\HOLThmTag{aclfoundation}{repPO_prod_PO}\HOLaclfoundationTheoremsrepPOXXprodXXPO
+\HOLThmTag{aclfoundation}{repPO_Subset_PO}\HOLaclfoundationTheoremsrepPOXXSubsetXXPO
+\HOLThmTag{aclfoundation}{RPROD_THM}\HOLaclfoundationTheoremsRPRODXXTHM
+\HOLThmTag{aclfoundation}{SUBSET_WO}\HOLaclfoundationTheoremsSUBSETXXWO
+\HOLThmTag{aclfoundation}{trans_prod_trans}\HOLaclfoundationTheoremstransXXprodXXtrans
+\HOLThmTag{aclfoundation}{WeakOrder_Exists}\HOLaclfoundationTheoremsWeakOrderXXExists
+\HOLThmTag{aclfoundation}{WO_prod_WO}\HOLaclfoundationTheoremsWOXXprodXXWO
+\HOLThmTag{aclfoundation}{WO_repPO}\HOLaclfoundationTheoremsWOXXrepPO
+}

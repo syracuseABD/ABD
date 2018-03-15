@@ -1,0 +1,210 @@
+\documentclass[blue]{beamer}
+
+%In order for this file to compile correctly you must us pdfLatex to compile instead of the normal LaTeX.
+% In addition to that, all figures included must be *.pdf
+% To change the style of the slide show you just change the style name (example: \usepackage{beamerthemeilmenau} )
+% For more styles please visit http://mike.depalatis.net/beamerthemes/
+% This site shows the names of all the available styles as well as picture of each!
+%\documentclass[red]{beamer} changes the color. I know red and blue work (blue is default) However, I'm not sure
+% what other colors are available! Have Fun!!
+
+% \usepackage{beamerthemeHannover}
+%\usepackage{beamerthemeDresden}
+%\usepackage{beamerthemeBerlin}
+% \usepackage{beamerthemeIlmenau}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{frametitle}
+{
+  \begin{centering}
+    \vspace*{0.2in}
+    \color{blue}
+    \textbf{\insertframetitle}
+    \par
+  \end{centering}
+}
+
+% fancybox is included in case I want to change my slide frame or titles 
+% into something more interesting
+\usepackage{fancybox}
+\usepackage{shadow}
+
+\usepackage{amsmath}
+% \input{ac-macros.tex}
+% \usepackage[dvipsnames,usenames]{color}
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+
+% \newif\ifpdf
+%   \usepackage[pdftex]{graphicx}
+%   \pdfcompresslevel=9
+%   \pdfpagewidth=11truein %297truemm % your milage may vary....
+%   \pdfpageheight=8.5truein %210truemm
+%   \pdfhorigin=1truein     % default value(?), but doesn't work without
+%   \pdfvorigin=1truein     % default value(?), but doesn't work without
+% \else
+%   \usepackage{graphicx}
+% \fi
+\usebackgroundtemplate{
+\includegraphics[width=\paperwidth,height=\paperheight]{Figures/AFRLTitle.jpg}}
+
+\title{An Overview of the Access-Control Logic in Higher-Order Logic}
+\author[]{Shiu-Kai Chin, Ph.D.}
+\institute[Syracuse University/Serco North America] % (optional, but mostly needed)
+{Syracuse University\\
+ Department of Electrical Engineering and Computer Science\\
+ Syracuse, NY 13244\\
+\vspace{0.1in}
+ Serco North America\\
+ 7900 Turin Road\\
+ Rome, NY 13440}
+\date{\today}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\setbeamertemplate{background}
+{\includegraphics[width=\paperwidth,height=\paperheight]{Figures/AFRLBackground.jpg}}
+
+\frame{\frametitle{Motivation}
+% \vspace{0.2in}
+\begin{center}
+  \Large{\emph{Doveryai, no proveryai}}\\
+  \Large{(Trust, but verify)}\\
+\end{center}
+}
+
+% \frame{\frametitle{Attitude}
+%   \begin{center}
+%     \Large{\emph{With willing hearts and skillful hands, the difficult
+%         we do at once; the impossible takes a bit longer.}}\\
+% \vspace{0.1in}
+%     \footnotesize{-- Inscription on the memorial to the Seabees (U.S. Naval
+%     Construction Batallions), between Memorial Bridge and Arlington
+%     Cemetery}
+%   \end{center}
+% }
+
+\frame{\frametitle{Orientation: Elements of Trust}
+Trust has two components:
+\begin{enumerate}
+\item<2-> Verification
+  \begin{itemize}
+  \item<3-> Formal proofs using a logic with formal semantics
+  \end{itemize}
+
+\item<4-> Accountability to independent third-parties
+  \begin{itemize}
+  \item<5-> Auditable by independent third-parties
+  \item<6-> Easily inspected, reproducible, and reusable with trusted tools
+  \end{itemize}
+
+\end{enumerate}
+}
+
+\frame{\frametitle{Why?}
+  \begin{itemize}
+  \item<2-> Common Criteria evaluation assurance level 7 (EAL7)
+    \begin{itemize}
+    \item<3-> Designs and implementations are formally verified and tested
+    \end{itemize}
+  \item<4-> EAL7 is applicable to the development of security TOEs
+    (targets of evaluation) for application in extremely high risk
+    situations and/or where the high value of the assets justifies the
+    higher costs.
+    \begin{itemize}
+    \item<5-> Practical application of EAL7 is currently limited to
+      TOEs with tightly focused security functionality that is
+      amenable to extensive formal analysis.
+  \end{itemize}
+\item<6-> Must address formal description, verification, and tools
+  \begin{itemize}
+  \item<7-> This is a limiting factor to trustworthiness
+  \end{itemize}
+
+    \end{itemize}
+
+}
+
+\begin{frame}
+  \frametitle{Purpose}
+  Show how to provide assurance to engineers designing access-control
+  mechanisms such that:
+  \begin{itemize}
+  \item<2-> Trust assumptions, jurisdiction,  delegation, and policies are
+    explicitly formulated
+  \item<3-> Behavior of mechanisms and policies are theorems provable in an
+    access-control logic
+  \item<4-> Design verification is supported by automated tools
+  \item<5-> Design verification is auditable and reproducible by
+    independent third parties
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Roadmap}
+  \begin{enumerate}
+  \item<2-> What we're aiming for
+    \begin{itemize}
+    \item<3-> Common capabilities for design engineers, verification
+      engineers, and certifiers
+    \end{itemize}
+
+  \item<4-> Components
+    \begin{itemize}
+    \item<5-> Access-control logic (pencil and paper) based on Kripke semantics
+    \item<5-> Inference rules used by specifiers, designers, and verifiers
+    \item<5-> Higher-Order Logic (HOL) proof checker (theorem prover)
+    \end{itemize}
+  \item<6-> Rigorous connections among components that provide a sound
+    foundation for trustworthiness
+    \begin{itemize}
+    \item<7-> Establishing and preserving logical consistency
+    \end{itemize}
+  \item<8-> Applications and examples
+
+  \end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{1. What We're Aiming For}
+  \includegraphics[width=4in]{Figures/Expectations}
+  \begin{itemize}
+  \item<2-> Expectations of chip designers
+    \begin{itemize}
+    \item<3-> At any location in the chip: when given primary inputs
+      and register state, provide a formal derivation of whether the
+      output is a 0 or 1.
+    \end{itemize}
+  \item<4-> Expectations of security engineers
+    \begin{itemize}
+    \item<5-> For any protected resource: when given a request,
+      certificates, recognized authorties, jurisdictions, trust
+      assumptions, and access policies, provide a formal derivation of
+      whether or not the request is granted.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\frame{\frametitle{What are we talking about?}
+  \begin{center}
+    \includegraphics[width=4.0in]{Figures/semantics}
+  \end{center}
+
+}
+
+\frame{\frametitle{Example}
+  \begin{center}
+    \includegraphics[width=4.0in]{Figures/SecurityPolicy}
+  \end{center}
+}
+
+\frame{\frametitle{What it looks like in HOL}
+  \begin{center}
+    \includegraphics[width=2.7in]{Figures/Proof1}
+  \end{center}
+}
+
+\end{document}

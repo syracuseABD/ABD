@@ -1,0 +1,614 @@
+\newcommand{\HOLmessageCertificateDate}{20 August 2016}
+\newcommand{\HOLmessageCertificateTime}{12:36}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesAuthority}
+\HOLFreeVar{Authority} = \HOLConst{Auth} \HOLTyOp{missionStaff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesAuthority}{\UseVerbatim{HOLmessageCertificateDatatypesAuthority}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesDelegate}
+\HOLFreeVar{Delegate} = \HOLConst{For} \HOLTyOp{missionStaff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesDelegate}{\UseVerbatim{HOLmessageCertificateDatatypesDelegate}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesDestination}
+\HOLFreeVar{Destination} = \HOLConst{To} \HOLTyOp{missionStaff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesDestination}{\UseVerbatim{HOLmessageCertificateDatatypesDestination}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesIssuer}
+\HOLFreeVar{Issuer} = \HOLConst{CA} \HOLTyOp{missionCA}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesIssuer}{\UseVerbatim{HOLmessageCertificateDatatypesIssuer}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesKCertSignature}
+\HOLFreeVar{KCertSignature} =
+    \HOLConst{KCrtSig} (((\HOLTyOp{missionCA} \HOLTokenProd{} \HOLTyOp{missionStaffCA} \HOLTokenProd{} \HOLTyOp{missionStaffCA} \HOLTyOp{pKey})
+              \HOLTyOp{digest}, \HOLTyOp{missionStaffCA}) \HOLTyOp{asymMsg})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesKCertSignature}{\UseVerbatim{HOLmessageCertificateDatatypesKCertSignature}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesKeyCertificate}
+\HOLFreeVar{KeyCertificate} = \HOLConst{KCert} \HOLTyOp{Issuer} \HOLTyOp{Subject} \HOLTyOp{SubPubKey} \HOLTyOp{KCertSignature}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesKeyCertificate}{\UseVerbatim{HOLmessageCertificateDatatypesKeyCertificate}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesMessage}
+\HOLFreeVar{Message} =
+    \HOLConst{MSG} \HOLTyOp{Origin} \HOLTyOp{Role} \HOLTyOp{Destination} ((\HOLTyOp{SymKey}, \HOLTyOp{missionStaff}) \HOLTyOp{asymMsg})
+        (\HOLTyOp{Orders} \HOLTyOp{symMsg}) ((\HOLTyOp{Orders} \HOLTyOp{digest}, \HOLTyOp{missionStaff}) \HOLTyOp{asymMsg})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesMessage}{\UseVerbatim{HOLmessageCertificateDatatypesMessage}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesOrders}
+\HOLFreeVar{Orders} = \HOLConst{CMD} \HOLTyOp{Origin} \HOLTyOp{Role} \HOLTyOp{Destination} \HOLTyOp{commands}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesOrders}{\UseVerbatim{HOLmessageCertificateDatatypesOrders}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesOrigin}
+\HOLFreeVar{Origin} = \HOLConst{From} \HOLTyOp{missionStaff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesOrigin}{\UseVerbatim{HOLmessageCertificateDatatypesOrigin}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesRCertSignature}
+\HOLFreeVar{RCertSignature} =
+    \HOLConst{RCrtSig} (((\HOLTyOp{missionStaff} \HOLTokenProd{}
+               \HOLTyOp{missionRoles} \HOLTokenProd{}
+               \HOLTyOp{missionStaff} \HOLTokenProd{} \HOLTyOp{missionRoles} \HOLTokenProd{} \HOLTyOp{commands}) \HOLTyOp{digest},
+              \HOLTyOp{missionStaffCA}) \HOLTyOp{asymMsg})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesRCertSignature}{\UseVerbatim{HOLmessageCertificateDatatypesRCertSignature}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesRole}
+\HOLFreeVar{Role} = \HOLConst{As} \HOLTyOp{missionRoles}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesRole}{\UseVerbatim{HOLmessageCertificateDatatypesRole}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesRoleCertificate}
+\HOLFreeVar{RoleCertificate} =
+    \HOLConst{RCert} \HOLTyOp{Authority} \HOLTyOp{Role} \HOLTyOp{Delegate} \HOLTyOp{Role} \HOLTyOp{commands} \HOLTyOp{RCertSignature}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesRoleCertificate}{\UseVerbatim{HOLmessageCertificateDatatypesRoleCertificate}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesRootKeyCertificate}
+\HOLFreeVar{RootKeyCertificate} = \HOLConst{RootKCert} \HOLTyOp{Subject} \HOLTyOp{SubPubKey}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesRootKeyCertificate}{\UseVerbatim{HOLmessageCertificateDatatypesRootKeyCertificate}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesRootRoleCertificate}
+\HOLFreeVar{RootRoleCertificate} = \HOLConst{RootRCert} \HOLTyOp{Delegate} \HOLTyOp{Role} \HOLTyOp{commands}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesRootRoleCertificate}{\UseVerbatim{HOLmessageCertificateDatatypesRootRoleCertificate}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesSubject}
+\HOLFreeVar{Subject} = \HOLConst{Entity} \HOLTyOp{missionStaffCA}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesSubject}{\UseVerbatim{HOLmessageCertificateDatatypesSubject}}
+\begin{SaveVerbatim}{HOLmessageCertificateDatatypesSubPubKey}
+\HOLFreeVar{SubPubKey} = \HOLConst{SPubKey} (\HOLTyOp{missionStaffCA} \HOLTyOp{pKey})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDatatypesSubPubKey}{\UseVerbatim{HOLmessageCertificateDatatypesSubPubKey}}
+\newcommand{\HOLmessageCertificateDatatypes}{
+\HOLmessageCertificateDatatypesAuthority\HOLmessageCertificateDatatypesDelegate\HOLmessageCertificateDatatypesDestination\HOLmessageCertificateDatatypesIssuer\HOLmessageCertificateDatatypesKCertSignature\HOLmessageCertificateDatatypesKeyCertificate\HOLmessageCertificateDatatypesMessage\HOLmessageCertificateDatatypesOrders\HOLmessageCertificateDatatypesOrigin\HOLmessageCertificateDatatypesRCertSignature\HOLmessageCertificateDatatypesRole\HOLmessageCertificateDatatypesRoleCertificate\HOLmessageCertificateDatatypesRootKeyCertificate\HOLmessageCertificateDatatypesRootRoleCertificate\HOLmessageCertificateDatatypesSubject\HOLmessageCertificateDatatypesSubPubKey}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsksatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{kcert}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{ksat} \HOLBoundVar{kcert} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{Ekcrt} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{kcert} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsksatXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsksatXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsmsatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{msg}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{msat} \HOLBoundVar{msg} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{Emsg} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{msg} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsmsatXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsmsatXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsroleOriginXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{role}. \HOLConst{roleOrigin} (\HOLConst{As} \HOLBoundVar{role}) \HOLSymConst{=} \HOLBoundVar{role}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsroleOriginXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsroleOriginXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsrootksatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{rootkcert}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rootksat} \HOLBoundVar{rootkcert} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLConst{Erootkcrt} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{rootkcert} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsrootksatXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsrootksatXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsrootrsatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{rootrcert}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rootrsat} \HOLBoundVar{rootrcert} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLConst{Erootrcrt} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{rootrcert} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsrootrsatXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsrootrsatXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsrsatXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{rcert}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rsat} \HOLBoundVar{rcert} \HOLSymConst{\HOLTokenEquiv{}} (\HOLConst{Ercrt} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{rcert} \HOLSymConst{=} \ensuremath{\cal{U}}(:'world))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsrsatXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsrsatXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsstaffDestinationXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{staff}. \HOLConst{staffDestination} (\HOLConst{To} \HOLBoundVar{staff}) \HOLSymConst{=} \HOLBoundVar{staff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsstaffDestinationXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsstaffDestinationXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateDefinitionsstaffOriginXXdef}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{staff}. \HOLConst{staffOrigin} (\HOLConst{From} \HOLBoundVar{staff}) \HOLSymConst{=} \HOLBoundVar{staff}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateDefinitionsstaffOriginXXdef}{\UseVerbatim{HOLmessageCertificateDefinitionsstaffOriginXXdef}}
+\newcommand{\HOLmessageCertificateDefinitions}{
+\HOLDfnTag{messageCertificate}{ksat_def}\HOLmessageCertificateDefinitionsksatXXdef
+\HOLDfnTag{messageCertificate}{msat_def}\HOLmessageCertificateDefinitionsmsatXXdef
+\HOLDfnTag{messageCertificate}{roleOrigin_def}\HOLmessageCertificateDefinitionsroleOriginXXdef
+\HOLDfnTag{messageCertificate}{rootksat_def}\HOLmessageCertificateDefinitionsrootksatXXdef
+\HOLDfnTag{messageCertificate}{rootrsat_def}\HOLmessageCertificateDefinitionsrootrsatXXdef
+\HOLDfnTag{messageCertificate}{rsat_def}\HOLmessageCertificateDefinitionsrsatXXdef
+\HOLDfnTag{messageCertificate}{staffDestination_def}\HOLmessageCertificateDefinitionsstaffDestinationXXdef
+\HOLDfnTag{messageCertificate}{staffOrigin_def}\HOLmessageCertificateDefinitionsstaffOriginXXdef
+}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckKCertXXdef}
+\HOLTokenTurnstile{} \HOLConst{checkKCert}
+     (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} \HOLFreeVar{mStaffCA}) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+        (\HOLConst{KCrtSig} \HOLFreeVar{kcertSig})) \HOLSymConst{\HOLTokenEquiv{}}
+   \HOLConst{signVerify} (\HOLConst{KCA} \HOLFreeVar{mca}) \HOLFreeVar{kcertSig} (\HOLConst{plain} (\HOLFreeVar{mca}\HOLSymConst{,}\HOLFreeVar{mStaffCA}\HOLSymConst{,}\HOLFreeVar{pubKey}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckKCertXXdef}{\UseVerbatim{HOLmessageCertificateTheoremscheckKCertXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckKCertXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{mca} \HOLBoundVar{mStaffCA} \HOLBoundVar{pubKey} \HOLBoundVar{kcertSig}.
+        \HOLBoundVar{P}
+          (\HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} \HOLBoundVar{mStaffCA}) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+             (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckKCertXXind}{\UseVerbatim{HOLmessageCertificateTheoremscheckKCertXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckKCertOK}
+\HOLTokenTurnstile{} \HOLConst{checkKCert}
+     (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} \HOLFreeVar{mStaffCA}) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+        (\HOLConst{KCrtSig}
+           (\HOLConst{sign} (\HOLConst{KCA} \HOLFreeVar{mca})
+              (\HOLConst{hash} (\HOLConst{plain} (\HOLFreeVar{mca}\HOLSymConst{,}\HOLFreeVar{mStaffCA}\HOLSymConst{,}\HOLFreeVar{pubKey}))))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckKCertOK}{\UseVerbatim{HOLmessageCertificateTheoremscheckKCertOK}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckMSGXXdef}
+\HOLTokenTurnstile{} \HOLConst{checkMSG}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK} \HOLFreeVar{enCMDMsg}
+        \HOLFreeVar{CMDMsgSig}) \HOLSymConst{\HOLTokenEquiv{}}
+   (\HOLKeyword{let} \HOLBoundVar{dek} = \HOLConst{getMessage} (\HOLConst{deciphP} (\HOLConst{privK} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK}) \HOLKeyword{in}
+    \HOLKeyword{let} \HOLBoundVar{msgContents} = \HOLConst{deciphS} \HOLBoundVar{dek} \HOLFreeVar{enCMDMsg}
+    \HOLKeyword{in}
+      \HOLConst{signVerify} \HOLFreeVar{sender} \HOLFreeVar{CMDMsgSig} \HOLBoundVar{msgContents})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckMSGXXdef}{\UseVerbatim{HOLmessageCertificateTheoremscheckMSGXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckMSGXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{enDEK} \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig}.
+        \HOLBoundVar{P}
+          (\HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{enDEK}
+             \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckMSGXXind}{\UseVerbatim{HOLmessageCertificateTheoremscheckMSGXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckMSGOK}
+\HOLTokenTurnstile{} \HOLConst{checkMSG}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient})
+        (\HOLConst{Ea} (\HOLConst{pubK} \HOLFreeVar{recipient}) (\HOLConst{plain} (\HOLConst{sym} \HOLFreeVar{dek})))
+        (\HOLConst{Es} (\HOLConst{sym} \HOLFreeVar{dek}) (\HOLConst{plain} \HOLFreeVar{order}))
+        (\HOLConst{sign} \HOLFreeVar{sender} (\HOLConst{hash} (\HOLConst{plain} \HOLFreeVar{order}))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckMSGOK}{\UseVerbatim{HOLmessageCertificateTheoremscheckMSGOK}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckRCertXXdef}
+\HOLTokenTurnstile{} \HOLConst{checkRCert}
+     (\HOLConst{RCert} (\HOLConst{Auth} \HOLFreeVar{commander}) (\HOLConst{As} \HOLFreeVar{cmdRole}) (\HOLConst{For} \HOLFreeVar{delegate})
+        (\HOLConst{As} \HOLFreeVar{delegateRole}) \HOLFreeVar{order} (\HOLConst{RCrtSig} \HOLFreeVar{rcertSig})) \HOLSymConst{\HOLTokenEquiv{}}
+   \HOLConst{signVerify} (\HOLConst{KStaff} \HOLFreeVar{commander}) \HOLFreeVar{rcertSig}
+     (\HOLConst{plain} (\HOLFreeVar{commander}\HOLSymConst{,}\HOLFreeVar{cmdRole}\HOLSymConst{,}\HOLFreeVar{delegate}\HOLSymConst{,}\HOLFreeVar{delegateRole}\HOLSymConst{,}\HOLFreeVar{order}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckRCertXXdef}{\UseVerbatim{HOLmessageCertificateTheoremscheckRCertXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckRCertXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{commander} \HOLBoundVar{cmdRole} \HOLBoundVar{delegate} \HOLBoundVar{delegateRole} \HOLBoundVar{order} \HOLBoundVar{rcertSig}.
+        \HOLBoundVar{P}
+          (\HOLConst{RCert} (\HOLConst{Auth} \HOLBoundVar{commander}) (\HOLConst{As} \HOLBoundVar{cmdRole}) (\HOLConst{For} \HOLBoundVar{delegate})
+             (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order} (\HOLConst{RCrtSig} \HOLBoundVar{rcertSig}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckRCertXXind}{\UseVerbatim{HOLmessageCertificateTheoremscheckRCertXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremscheckRCertOK}
+\HOLTokenTurnstile{} \HOLConst{checkRCert}
+     (\HOLConst{RCert} (\HOLConst{Auth} \HOLFreeVar{commander}) (\HOLConst{As} \HOLFreeVar{cmdRole}) (\HOLConst{For} \HOLFreeVar{delegate})
+        (\HOLConst{As} \HOLFreeVar{delegateRole}) \HOLFreeVar{order}
+        (\HOLConst{RCrtSig}
+           (\HOLConst{sign} (\HOLConst{KStaff} \HOLFreeVar{commander})
+              (\HOLConst{hash}
+                 (\HOLConst{plain}
+                    (\HOLFreeVar{commander}\HOLSymConst{,}\HOLFreeVar{cmdRole}\HOLSymConst{,}\HOLFreeVar{delegate}\HOLSymConst{,}\HOLFreeVar{delegateRole}\HOLSymConst{,}
+                     \HOLFreeVar{order}))))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremscheckRCertOK}{\UseVerbatim{HOLmessageCertificateTheoremscheckRCertOK}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsEkcrtXXdef}
+\HOLTokenTurnstile{} (\HOLConst{Ekcrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+      (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLFreeVar{staff})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+         (\HOLConst{KCrtSig} \HOLFreeVar{kcertSig})) \HOLSymConst{=}
+    \HOLKeyword{if}
+      \HOLConst{checkKCert}
+        (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLFreeVar{staff})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+           (\HOLConst{KCrtSig} \HOLFreeVar{kcertSig}))
+    \HOLKeyword{then}
+      \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+        (\HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLFreeVar{mca}))) \HOLConst{says}
+         \HOLConst{Name} (\HOLConst{MKey} \HOLFreeVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MStaff} \HOLFreeVar{staff}))
+    \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLConst{Ekcrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+      (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLFreeVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+         (\HOLConst{KCrtSig} \HOLFreeVar{kcertSig})) \HOLSymConst{=}
+    \HOLKeyword{if}
+      \HOLConst{checkKCert}
+        (\HOLConst{KCert} (\HOLConst{CA} \HOLFreeVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLFreeVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})
+           (\HOLConst{KCrtSig} \HOLFreeVar{kcertSig}))
+    \HOLKeyword{then}
+      \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+        (\HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLFreeVar{mca}))) \HOLConst{says}
+         \HOLConst{Name} (\HOLConst{MKey} \HOLFreeVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MCA} \HOLFreeVar{ca\sb{\mathrm{2}}}))
+    \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsEkcrtXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsEkcrtXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsEkcrtXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{mca} \HOLBoundVar{staff} \HOLBoundVar{pubKey} \HOLBoundVar{kcertSig}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff}))
+             (\HOLConst{SPubKey} \HOLBoundVar{pubKey}) (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig}))) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{mca} \HOLBoundVar{ca\sb{\mathrm{2}}} \HOLBoundVar{pubKey} \HOLBoundVar{kcertSig}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+             (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsEkcrtXXind}{\UseVerbatim{HOLmessageCertificateTheoremsEkcrtXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsEmsgXXdef}
+\HOLTokenTurnstile{} \HOLConst{Emsg} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK} \HOLFreeVar{enCMD}
+        \HOLFreeVar{CMDsig}) \HOLSymConst{=}
+   \HOLKeyword{if}
+     \HOLConst{checkMSG}
+       (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK} \HOLFreeVar{enCMD}
+          \HOLFreeVar{CMDsig})
+   \HOLKeyword{then}
+     (\HOLKeyword{let} \HOLBoundVar{order} =
+            \HOLConst{getCommand}
+              (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK}
+                 \HOLFreeVar{enCMD} \HOLFreeVar{CMDsig})
+      \HOLKeyword{in}
+      \HOLKeyword{let} \HOLBoundVar{x} = \HOLConst{ordersParameters} \HOLBoundVar{order}
+      \HOLKeyword{in}
+        \HOLKeyword{if} \HOLBoundVar{x} \HOLSymConst{=} (\HOLFreeVar{sender}\HOLSymConst{,}\HOLFreeVar{role}\HOLSymConst{,}\HOLFreeVar{recipient}) \HOLKeyword{then}
+          \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+            (\HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLFreeVar{sender}))) \HOLConst{quoting}
+             \HOLConst{Name} (\HOLConst{MRole} \HOLFreeVar{role}) \HOLConst{says} \HOLConst{prop} (\HOLConst{ordersCommand} \HOLBoundVar{order}))
+        \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{})
+   \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsEmsgXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsEmsgXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsEmsgXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{enDEK} \HOLBoundVar{enCMD} \HOLBoundVar{CMDsig}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{enDEK}
+             \HOLBoundVar{enCMD} \HOLBoundVar{CMDsig})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsEmsgXXind}{\UseVerbatim{HOLmessageCertificateTheoremsEmsgXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErcrtXXdef}
+\HOLTokenTurnstile{} \HOLConst{Ercrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+     (\HOLConst{RCert} (\HOLConst{Auth} \HOLFreeVar{commander}) (\HOLConst{As} \HOLFreeVar{cmdRole}) (\HOLConst{For} \HOLFreeVar{delegate})
+        (\HOLConst{As} \HOLFreeVar{delegateRole}) \HOLFreeVar{order} (\HOLConst{RCrtSig} \HOLFreeVar{rcertSig})) \HOLSymConst{=}
+   \HOLKeyword{if}
+     \HOLConst{checkRCert}
+       (\HOLConst{RCert} (\HOLConst{Auth} \HOLFreeVar{commander}) (\HOLConst{As} \HOLFreeVar{cmdRole}) (\HOLConst{For} \HOLFreeVar{delegate})
+          (\HOLConst{As} \HOLFreeVar{delegateRole}) \HOLFreeVar{order} (\HOLConst{RCrtSig} \HOLFreeVar{rcertSig}))
+   \HOLKeyword{then}
+     \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+       (\HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLFreeVar{commander}))) \HOLConst{says}
+        \HOLConst{reps} (\HOLConst{Name} (\HOLConst{MStaff} \HOLFreeVar{delegate}))
+          (\HOLConst{Name} (\HOLConst{MRole} \HOLFreeVar{delegateRole})) (\HOLConst{prop} \HOLFreeVar{order}))
+   \HOLKeyword{else} \HOLTokenLeftbrace{}\HOLTokenRightbrace{}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErcrtXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsErcrtXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErcrtXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{commander} \HOLBoundVar{cmdRole} \HOLBoundVar{delegate} \HOLBoundVar{delegateRole} \HOLBoundVar{order}
+         \HOLBoundVar{rcertSig}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{RCert} (\HOLConst{Auth} \HOLBoundVar{commander}) (\HOLConst{As} \HOLBoundVar{cmdRole}) (\HOLConst{For} \HOLBoundVar{delegate})
+             (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order} (\HOLConst{RCrtSig} \HOLBoundVar{rcertSig}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErcrtXXind}{\UseVerbatim{HOLmessageCertificateTheoremsErcrtXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErootkcrtXXdef}
+\HOLTokenTurnstile{} (\HOLConst{Erootkcrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+      (\HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KStaff} \HOLFreeVar{staff})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})) \HOLSymConst{=}
+    \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+      (\HOLConst{Name} (\HOLConst{MKey} \HOLFreeVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MStaff} \HOLFreeVar{staff}))) \HOLSymConst{\HOLTokenConj{}}
+   (\HOLConst{Erootkcrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+      (\HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KCA} \HOLFreeVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLFreeVar{pubKey})) \HOLSymConst{=}
+    \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M} (\HOLConst{Name} (\HOLConst{MKey} \HOLFreeVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MCA} \HOLFreeVar{ca\sb{\mathrm{2}}})))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErootkcrtXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsErootkcrtXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErootkcrtXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{staff} \HOLBoundVar{pubKey}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff}))
+             (\HOLConst{SPubKey} \HOLBoundVar{pubKey}))) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{ca\sb{\mathrm{2}}} \HOLBoundVar{pubKey}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErootkcrtXXind}{\UseVerbatim{HOLmessageCertificateTheoremsErootkcrtXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErootrcrtXXdef}
+\HOLTokenTurnstile{} \HOLConst{Erootrcrt} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+     (\HOLConst{RootRCert} (\HOLConst{For} \HOLFreeVar{delegate}) (\HOLConst{As} \HOLFreeVar{delegateRole}) \HOLFreeVar{order}) \HOLSymConst{=}
+   \HOLConst{Efn} \HOLFreeVar{Oi} \HOLFreeVar{Os} \HOLFreeVar{M}
+     (\HOLConst{reps} (\HOLConst{Name} (\HOLConst{MStaff} \HOLFreeVar{delegate})) (\HOLConst{Name} (\HOLConst{MRole} \HOLFreeVar{delegateRole}))
+        (\HOLConst{prop} \HOLFreeVar{order}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErootrcrtXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsErootrcrtXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsErootrcrtXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M} \HOLBoundVar{delegate} \HOLBoundVar{delegateRole} \HOLBoundVar{order}.
+        \HOLBoundVar{P} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M}
+          (\HOLConst{RootRCert} (\HOLConst{For} \HOLBoundVar{delegate}) (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}. \HOLBoundVar{P} \HOLBoundVar{v} \HOLBoundVar{v\sb{\mathrm{1}}} \HOLBoundVar{v\sb{\mathrm{2}}} \HOLBoundVar{v\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsErootrcrtXXind}{\UseVerbatim{HOLmessageCertificateTheoremsErootrcrtXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsgetCommandXXdef}
+\HOLTokenTurnstile{} \HOLConst{getCommand}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK} \HOLFreeVar{enCMDMsg}
+        \HOLFreeVar{CMDMsgSig}) \HOLSymConst{=}
+   (\HOLKeyword{let} \HOLBoundVar{dek} = \HOLConst{getMessage} (\HOLConst{deciphP} (\HOLConst{privK} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK})
+    \HOLKeyword{in}
+      \HOLConst{getMessage} (\HOLConst{deciphS} \HOLBoundVar{dek} \HOLFreeVar{enCMDMsg}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsgetCommandXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsgetCommandXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsgetCommandXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{enDEK} \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig}.
+        \HOLBoundVar{P}
+          (\HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{enDEK}
+             \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsgetCommandXXind}{\UseVerbatim{HOLmessageCertificateTheoremsgetCommandXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsgetCommandXXthm}
+\HOLTokenTurnstile{} \HOLConst{getCommand}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient})
+        (\HOLConst{Ea} (\HOLConst{pubK} \HOLFreeVar{recipient}) (\HOLConst{plain} (\HOLConst{sym} \HOLFreeVar{dek})))
+        (\HOLConst{Es} (\HOLConst{sym} \HOLFreeVar{dek}) (\HOLConst{plain} \HOLFreeVar{order}))
+        (\HOLConst{sign} \HOLFreeVar{sender} (\HOLConst{hash} (\HOLConst{plain} \HOLFreeVar{order})))) \HOLSymConst{=}
+   \HOLFreeVar{order}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsgetCommandXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsgetCommandXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremskcertCASatXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{mca} \HOLBoundVar{ca\sb{\mathrm{2}}} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{mca}))) \HOLConst{says}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}}))) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MCA} \HOLBoundVar{ca\sb{\mathrm{2}}}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{ksat}
+     \HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}}))
+       (\HOLConst{SPubKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}})))
+       (\HOLConst{KCrtSig}
+          (\HOLConst{sign} (\HOLConst{KCA} \HOLBoundVar{mca})
+             (\HOLConst{hash} (\HOLConst{plain} (\HOLBoundVar{mca}\HOLSymConst{,}\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}}\HOLSymConst{,}\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}}))))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremskcertCASatXXthm}{\UseVerbatim{HOLmessageCertificateTheoremskcertCASatXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremskcertStaffSatXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{staff} \HOLBoundVar{mca} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{mca}))) \HOLConst{says}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{staff}))) \HOLConst{speaks_for}
+     \HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{staff}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{ksat}
+     \HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff}))
+       (\HOLConst{SPubKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{staff})))
+       (\HOLConst{KCrtSig}
+          (\HOLConst{sign} (\HOLConst{KCA} \HOLBoundVar{mca})
+             (\HOLConst{hash}
+                (\HOLConst{plain}
+                   (\HOLBoundVar{mca}\HOLSymConst{,}\HOLConst{KStaff} \HOLBoundVar{staff}\HOLSymConst{,}\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{staff}))))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremskcertStaffSatXXthm}{\UseVerbatim{HOLmessageCertificateTheoremskcertStaffSatXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremskcrtCAInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{pubKey} \HOLBoundVar{mca} \HOLBoundVar{kcertSig} \HOLBoundVar{ca\sb{\mathrm{2}}} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     \HOLConst{checkKCert}
+       (\HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+          (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig})) \HOLSymConst{\HOLTokenImp{}}
+     ((\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{ksat}
+      \HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca\sb{\mathrm{2}}})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+        (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig}) \HOLSymConst{\HOLTokenEquiv{}}
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+      \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{mca}))) \HOLConst{says}
+      \HOLConst{Name} (\HOLConst{MKey} \HOLBoundVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MCA} \HOLBoundVar{ca\sb{\mathrm{2}}}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremskcrtCAInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremskcrtCAInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremskcrtStaffInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{staff} \HOLBoundVar{pubKey} \HOLBoundVar{mca} \HOLBoundVar{kcertSig} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     \HOLConst{checkKCert}
+       (\HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+          (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig})) \HOLSymConst{\HOLTokenImp{}}
+     ((\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{ksat}
+      \HOLConst{KCert} (\HOLConst{CA} \HOLBoundVar{mca}) (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey})
+        (\HOLConst{KCrtSig} \HOLBoundVar{kcertSig}) \HOLSymConst{\HOLTokenEquiv{}}
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+      \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KCA} \HOLBoundVar{mca}))) \HOLConst{says}
+      \HOLConst{Name} (\HOLConst{MKey} \HOLBoundVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{staff}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremskcrtStaffInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremskcrtStaffInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsmsgInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{dek} \HOLBoundVar{action} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     \HOLConst{checkMSG}
+       (\HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+          (\HOLConst{Ea} (\HOLConst{pubK} \HOLBoundVar{recipient}) (\HOLConst{plain} (\HOLConst{sym} \HOLBoundVar{dek})))
+          (\HOLConst{Es} (\HOLConst{sym} \HOLBoundVar{dek})
+             (\HOLConst{plain}
+                (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                   \HOLBoundVar{action})))
+          (\HOLConst{sign} \HOLBoundVar{sender}
+             (\HOLConst{hash}
+                (\HOLConst{plain}
+                   (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                      \HOLBoundVar{action}))))) \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{msat}
+     \HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+       (\HOLConst{Ea} (\HOLConst{pubK} \HOLBoundVar{recipient}) (\HOLConst{plain} (\HOLConst{sym} \HOLBoundVar{dek})))
+       (\HOLConst{Es} (\HOLConst{sym} \HOLBoundVar{dek})
+          (\HOLConst{plain}
+             (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                \HOLBoundVar{action})))
+       (\HOLConst{sign} \HOLBoundVar{sender}
+          (\HOLConst{hash}
+             (\HOLConst{plain}
+                (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                   \HOLBoundVar{action})))) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{sender}))) \HOLConst{quoting}
+     \HOLConst{Name} (\HOLConst{MRole} \HOLBoundVar{role}) \HOLConst{says} \HOLConst{prop} \HOLBoundVar{action}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsmsgInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsmsgInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsmsgParametersXXdef}
+\HOLTokenTurnstile{} \HOLConst{msgParameters}
+     (\HOLConst{MSG} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{enDEK} \HOLFreeVar{enCMDMsg}
+        \HOLFreeVar{CMDMsgSig}) \HOLSymConst{=}
+   (\HOLFreeVar{sender}\HOLSymConst{,}\HOLFreeVar{role}\HOLSymConst{,}\HOLFreeVar{recipient}\HOLSymConst{,}\HOLFreeVar{enDEK}\HOLSymConst{,}\HOLFreeVar{enCMDMsg}\HOLSymConst{,}\HOLFreeVar{CMDMsgSig})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsmsgParametersXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsmsgParametersXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsmsgParametersXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{enDEK} \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig}.
+        \HOLBoundVar{P}
+          (\HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{enDEK}
+             \HOLBoundVar{enCMDMsg} \HOLBoundVar{CMDMsgSig})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsmsgParametersXXind}{\UseVerbatim{HOLmessageCertificateTheoremsmsgParametersXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsmsgSatXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{recipient} \HOLBoundVar{dek} \HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{order} \HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{sender}))) \HOLConst{quoting}
+     \HOLConst{Name} (\HOLConst{MRole} \HOLBoundVar{role}) \HOLConst{says} \HOLConst{prop} \HOLFreeVar{action} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{msat}
+     \HOLConst{MSG} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+       (\HOLConst{Ea} (\HOLConst{pubK} \HOLBoundVar{recipient}) (\HOLConst{plain} (\HOLConst{sym} \HOLBoundVar{dek})))
+       (\HOLConst{Es} (\HOLConst{sym} \HOLBoundVar{dek})
+          (\HOLConst{plain}
+             (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                \HOLFreeVar{action})))
+       (\HOLConst{sign} \HOLBoundVar{sender}
+          (\HOLConst{hash}
+             (\HOLConst{plain}
+                (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient})
+                   \HOLFreeVar{action}))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsmsgSatXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsmsgSatXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsordersCommandXXdef}
+\HOLTokenTurnstile{} \HOLConst{ordersCommand}
+     (\HOLConst{CMD} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{orders}) \HOLSymConst{=}
+   \HOLFreeVar{orders}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsordersCommandXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsordersCommandXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsordersCommandXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{orders}.
+        \HOLBoundVar{P} (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{orders})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsordersCommandXXind}{\UseVerbatim{HOLmessageCertificateTheoremsordersCommandXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsordersParametersXXdef}
+\HOLTokenTurnstile{} \HOLConst{ordersParameters}
+     (\HOLConst{CMD} (\HOLConst{From} \HOLFreeVar{sender}) (\HOLConst{As} \HOLFreeVar{role}) (\HOLConst{To} \HOLFreeVar{recipient}) \HOLFreeVar{orders}) \HOLSymConst{=}
+   (\HOLFreeVar{sender}\HOLSymConst{,}\HOLFreeVar{role}\HOLSymConst{,}\HOLFreeVar{recipient})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsordersParametersXXdef}{\UseVerbatim{HOLmessageCertificateTheoremsordersParametersXXdef}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsordersParametersXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{sender} \HOLBoundVar{role} \HOLBoundVar{recipient} \HOLBoundVar{orders}.
+        \HOLBoundVar{P} (\HOLConst{CMD} (\HOLConst{From} \HOLBoundVar{sender}) (\HOLConst{As} \HOLBoundVar{role}) (\HOLConst{To} \HOLBoundVar{recipient}) \HOLBoundVar{orders})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsordersParametersXXind}{\UseVerbatim{HOLmessageCertificateTheoremsordersParametersXXind}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsrcertStaffSatXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{order} \HOLBoundVar{delegateRole} \HOLBoundVar{delegate} \HOLBoundVar{commander} \HOLBoundVar{cmdRole} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{commander}))) \HOLConst{says}
+     \HOLConst{reps} (\HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{delegate})) (\HOLConst{Name} (\HOLConst{MRole} \HOLBoundVar{delegateRole}))
+       (\HOLConst{prop} \HOLBoundVar{order}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rsat}
+     \HOLConst{RCert} (\HOLConst{Auth} \HOLBoundVar{commander}) (\HOLConst{As} \HOLBoundVar{cmdRole}) (\HOLConst{For} \HOLBoundVar{delegate})
+       (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order}
+       (\HOLConst{RCrtSig}
+          (\HOLConst{sign} (\HOLConst{KStaff} \HOLBoundVar{commander})
+             (\HOLConst{hash}
+                (\HOLConst{plain}
+                   (\HOLBoundVar{commander}\HOLSymConst{,}\HOLBoundVar{cmdRole}\HOLSymConst{,}\HOLBoundVar{delegate}\HOLSymConst{,}\HOLBoundVar{delegateRole}\HOLSymConst{,}
+                    \HOLBoundVar{order})))))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsrcertStaffSatXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsrcertStaffSatXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsrcrtStaffInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{rcertSig} \HOLBoundVar{order} \HOLBoundVar{delegateRole} \HOLBoundVar{delegate} \HOLBoundVar{commander} \HOLBoundVar{cmdRole} \HOLBoundVar{Os} \HOLBoundVar{Oi}
+      \HOLBoundVar{M}.
+     \HOLConst{checkRCert}
+       (\HOLConst{RCert} (\HOLConst{Auth} \HOLBoundVar{commander}) (\HOLConst{As} \HOLBoundVar{cmdRole}) (\HOLConst{For} \HOLBoundVar{delegate})
+          (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order} (\HOLConst{RCrtSig} \HOLBoundVar{rcertSig})) \HOLSymConst{\HOLTokenImp{}}
+     ((\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rsat}
+      \HOLConst{RCert} (\HOLConst{Auth} \HOLBoundVar{commander}) (\HOLConst{As} \HOLBoundVar{cmdRole}) (\HOLConst{For} \HOLBoundVar{delegate})
+        (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order} (\HOLConst{RCrtSig} \HOLBoundVar{rcertSig}) \HOLSymConst{\HOLTokenEquiv{}}
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+      \HOLConst{Name} (\HOLConst{MKey} (\HOLConst{pubK} (\HOLConst{KStaff} \HOLBoundVar{commander}))) \HOLConst{says}
+      \HOLConst{reps} (\HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{delegate})) (\HOLConst{Name} (\HOLConst{MRole} \HOLBoundVar{delegateRole}))
+        (\HOLConst{prop} \HOLBoundVar{order}))
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsrcrtStaffInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsrcrtStaffInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsrootkcertCAInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{pubKey} \HOLBoundVar{ca} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rootksat}
+     \HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KCA} \HOLBoundVar{ca})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{Name} (\HOLConst{MKey} \HOLBoundVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MCA} \HOLBoundVar{ca})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsrootkcertCAInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsrootkcertCAInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsrootkcertStaffInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{staff} \HOLBoundVar{pubKey} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rootksat}
+     \HOLConst{RootKCert} (\HOLConst{Entity} (\HOLConst{KStaff} \HOLBoundVar{staff})) (\HOLConst{SPubKey} \HOLBoundVar{pubKey}) \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{Name} (\HOLConst{MKey} \HOLBoundVar{pubKey}) \HOLConst{speaks_for} \HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{staff})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsrootkcertStaffInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsrootkcertStaffInterpXXthm}}
+\begin{SaveVerbatim}{HOLmessageCertificateTheoremsrootrcertStaffInterpXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{order} \HOLBoundVar{delegateRole} \HOLBoundVar{delegate} \HOLBoundVar{Os} \HOLBoundVar{Oi} \HOLBoundVar{M}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{rootrsat}
+     \HOLConst{RootRCert} (\HOLConst{For} \HOLBoundVar{delegate}) (\HOLConst{As} \HOLBoundVar{delegateRole}) \HOLBoundVar{order} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{reps} (\HOLConst{Name} (\HOLConst{MStaff} \HOLBoundVar{delegate})) (\HOLConst{Name} (\HOLConst{MRole} \HOLBoundVar{delegateRole}))
+       (\HOLConst{prop} \HOLBoundVar{order})
+\end{SaveVerbatim}
+\newcommand{\HOLmessageCertificateTheoremsrootrcertStaffInterpXXthm}{\UseVerbatim{HOLmessageCertificateTheoremsrootrcertStaffInterpXXthm}}
+\newcommand{\HOLmessageCertificateTheorems}{
+\HOLThmTag{messageCertificate}{checkKCert_def}\HOLmessageCertificateTheoremscheckKCertXXdef
+\HOLThmTag{messageCertificate}{checkKCert_ind}\HOLmessageCertificateTheoremscheckKCertXXind
+\HOLThmTag{messageCertificate}{checkKCertOK}\HOLmessageCertificateTheoremscheckKCertOK
+\HOLThmTag{messageCertificate}{checkMSG_def}\HOLmessageCertificateTheoremscheckMSGXXdef
+\HOLThmTag{messageCertificate}{checkMSG_ind}\HOLmessageCertificateTheoremscheckMSGXXind
+\HOLThmTag{messageCertificate}{checkMSGOK}\HOLmessageCertificateTheoremscheckMSGOK
+\HOLThmTag{messageCertificate}{checkRCert_def}\HOLmessageCertificateTheoremscheckRCertXXdef
+\HOLThmTag{messageCertificate}{checkRCert_ind}\HOLmessageCertificateTheoremscheckRCertXXind
+\HOLThmTag{messageCertificate}{checkRCertOK}\HOLmessageCertificateTheoremscheckRCertOK
+\HOLThmTag{messageCertificate}{Ekcrt_def}\HOLmessageCertificateTheoremsEkcrtXXdef
+\HOLThmTag{messageCertificate}{Ekcrt_ind}\HOLmessageCertificateTheoremsEkcrtXXind
+\HOLThmTag{messageCertificate}{Emsg_def}\HOLmessageCertificateTheoremsEmsgXXdef
+\HOLThmTag{messageCertificate}{Emsg_ind}\HOLmessageCertificateTheoremsEmsgXXind
+\HOLThmTag{messageCertificate}{Ercrt_def}\HOLmessageCertificateTheoremsErcrtXXdef
+\HOLThmTag{messageCertificate}{Ercrt_ind}\HOLmessageCertificateTheoremsErcrtXXind
+\HOLThmTag{messageCertificate}{Erootkcrt_def}\HOLmessageCertificateTheoremsErootkcrtXXdef
+\HOLThmTag{messageCertificate}{Erootkcrt_ind}\HOLmessageCertificateTheoremsErootkcrtXXind
+\HOLThmTag{messageCertificate}{Erootrcrt_def}\HOLmessageCertificateTheoremsErootrcrtXXdef
+\HOLThmTag{messageCertificate}{Erootrcrt_ind}\HOLmessageCertificateTheoremsErootrcrtXXind
+\HOLThmTag{messageCertificate}{getCommand_def}\HOLmessageCertificateTheoremsgetCommandXXdef
+\HOLThmTag{messageCertificate}{getCommand_ind}\HOLmessageCertificateTheoremsgetCommandXXind
+\HOLThmTag{messageCertificate}{getCommand_thm}\HOLmessageCertificateTheoremsgetCommandXXthm
+\HOLThmTag{messageCertificate}{kcertCASat_thm}\HOLmessageCertificateTheoremskcertCASatXXthm
+\HOLThmTag{messageCertificate}{kcertStaffSat_thm}\HOLmessageCertificateTheoremskcertStaffSatXXthm
+\HOLThmTag{messageCertificate}{kcrtCAInterp_thm}\HOLmessageCertificateTheoremskcrtCAInterpXXthm
+\HOLThmTag{messageCertificate}{kcrtStaffInterp_thm}\HOLmessageCertificateTheoremskcrtStaffInterpXXthm
+\HOLThmTag{messageCertificate}{msgInterp_thm}\HOLmessageCertificateTheoremsmsgInterpXXthm
+\HOLThmTag{messageCertificate}{msgParameters_def}\HOLmessageCertificateTheoremsmsgParametersXXdef
+\HOLThmTag{messageCertificate}{msgParameters_ind}\HOLmessageCertificateTheoremsmsgParametersXXind
+\HOLThmTag{messageCertificate}{msgSat_thm}\HOLmessageCertificateTheoremsmsgSatXXthm
+\HOLThmTag{messageCertificate}{ordersCommand_def}\HOLmessageCertificateTheoremsordersCommandXXdef
+\HOLThmTag{messageCertificate}{ordersCommand_ind}\HOLmessageCertificateTheoremsordersCommandXXind
+\HOLThmTag{messageCertificate}{ordersParameters_def}\HOLmessageCertificateTheoremsordersParametersXXdef
+\HOLThmTag{messageCertificate}{ordersParameters_ind}\HOLmessageCertificateTheoremsordersParametersXXind
+\HOLThmTag{messageCertificate}{rcertStaffSat_thm}\HOLmessageCertificateTheoremsrcertStaffSatXXthm
+\HOLThmTag{messageCertificate}{rcrtStaffInterp_thm}\HOLmessageCertificateTheoremsrcrtStaffInterpXXthm
+\HOLThmTag{messageCertificate}{rootkcertCAInterp_thm}\HOLmessageCertificateTheoremsrootkcertCAInterpXXthm
+\HOLThmTag{messageCertificate}{rootkcertStaffInterp_thm}\HOLmessageCertificateTheoremsrootkcertStaffInterpXXthm
+\HOLThmTag{messageCertificate}{rootrcertStaffInterp_thm}\HOLmessageCertificateTheoremsrootrcertStaffInterpXXthm
+}

@@ -1,0 +1,14 @@
+# ===================================================
+# Makefile for ABD/HOL/ACL
+# ===================================================
+
+default: theory
+
+clean:
+	Holmake cleanAll
+
+theory:
+	Holmake cleanAll; Holmake
+
+update:
+	Holmake; 

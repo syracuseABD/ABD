@@ -1,0 +1,220 @@
+\newcommand{\HOLsosOneDate}{20 August 2016}
+\newcommand{\HOLsosOneTime}{12:51}
+\begin{SaveVerbatim}{HOLsosOneDefinitionsTROneXXdef}
+\HOLTokenTurnstile{} \HOLConst{TR1} \HOLSymConst{=}
+   (\HOLTokenLambda{}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}.
+      \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}}.
+        (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}.
+           (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYmlist}
+               \HOLBoundVar{STBYplist}.
+              (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{Messages} \HOLBoundVar{STBYmlist}) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=}
+               \HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist})
+                 (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=}
+               \HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+              \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+                (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist})
+                   (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})) \HOLSymConst{\HOLTokenDisj{}}
+           (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYmlist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist}
+               \HOLBoundVar{STBYplist}.
+              (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{Messages} \HOLBoundVar{RDYmlist}) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=}
+               \HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=}
+               \HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist})
+                 (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+              \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+                (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+              (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})) \HOLSymConst{\HOLTokenImp{}}
+           \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneDefinitionsTROneXXdef}{\UseVerbatim{HOLsosOneDefinitionsTROneXXdef}}
+\newcommand{\HOLsosOneDefinitions}{
+\HOLDfnTag{sos1}{TR1_def}\HOLsosOneDefinitionsTROneXXdef
+}
+\begin{SaveVerbatim}{HOLsosOneTheoremsabsOneXXdef}
+\HOLTokenTurnstile{} \HOLConst{abs1} (\HOLConst{CFG} \HOLFreeVar{mode} (\HOLConst{Certs} \HOLFreeVar{clist}) (\HOLConst{Policies} \HOLFreeVar{plist})) \HOLSymConst{=} \HOLFreeVar{mode}
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsabsOneXXdef}{\UseVerbatim{HOLsosOneTheoremsabsOneXXdef}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsabsOneXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{P}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{mode} \HOLBoundVar{clist} \HOLBoundVar{plist}.
+        \HOLBoundVar{P} (\HOLConst{CFG} \HOLBoundVar{mode} (\HOLConst{Certs} \HOLBoundVar{clist}) (\HOLConst{Policies} \HOLBoundVar{plist}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{v}. \HOLBoundVar{P} \HOLBoundVar{v}
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsabsOneXXind}{\UseVerbatim{HOLsosOneTheoremsabsOneXXind}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsRDYXXSTBYXXrule}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsRDYXXSTBYXXrule}{\UseVerbatim{HOLsosOneTheoremsRDYXXSTBYXXrule}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsRDYXXSTBYXXTRANSXXrule}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{blocksat}
+   \HOLConst{BLK} (\HOLConst{Messages} [\HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable})])
+     (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} [])
+        (\HOLConst{Policies}
+           [\HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable});
+            \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})])) \HOLSymConst{\HOLTokenImp{}}
+   \HOLConst{TR1} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{Messages} [\HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable})])
+     (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} [])
+        (\HOLConst{Policies}
+           [\HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable});
+            \HOLConst{prop} (\HOLConst{CMD} \HOLConst{disable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})]))
+     (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLFreeVar{STBYclist}) (\HOLConst{Policies} \HOLFreeVar{STBYplist}))
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsRDYXXSTBYXXTRANSXXrule}{\UseVerbatim{HOLsosOneTheoremsRDYXXSTBYXXTRANSXXrule}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsSOneImplementsSZeroXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}} \HOLBoundVar{mlist} \HOLBoundVar{clist\sb{\mathrm{1}}} \HOLBoundVar{clist\sb{\mathrm{2}}} \HOLBoundVar{plist\sb{\mathrm{1}}} \HOLBoundVar{plist\sb{\mathrm{2}}}.
+     \HOLConst{TR1} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{mlist})
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{1}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{1}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{1}}}))
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{2}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{2}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{2}}})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLConst{TR0} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})
+       (\HOLConst{abs1} (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{1}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{1}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{1}}})))
+       (\HOLConst{abs1} (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{2}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{2}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{2}}}))) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat}
+     \HOLConst{prop}
+       (\HOLConst{MODE} (\HOLConst{abs1} (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{2}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{2}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{2}}}))))
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsSOneImplementsSZeroXXthm}{\UseVerbatim{HOLsosOneTheoremsSOneImplementsSZeroXXthm}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsSecuritySimulationXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}} \HOLBoundVar{mlist} \HOLBoundVar{clist\sb{\mathrm{1}}} \HOLBoundVar{clist\sb{\mathrm{2}}} \HOLBoundVar{plist\sb{\mathrm{1}}} \HOLBoundVar{plist\sb{\mathrm{2}}}.
+     \HOLConst{TR1} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{mlist})
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{1}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{1}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{1}}}))
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{2}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{2}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{2}}})) \HOLSymConst{\HOLTokenImp{}}
+     \HOLConst{TR0} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}} \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLBoundVar{M\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsSecuritySimulationXXthm}{\UseVerbatim{HOLsosOneTheoremsSecuritySimulationXXthm}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsSOSOneXXSecurityXXthm}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{M\sb{\mathrm{1}}} \HOLBoundVar{M\sb{\mathrm{2}}} \HOLBoundVar{mlist} \HOLBoundVar{clist\sb{\mathrm{1}}} \HOLBoundVar{clist\sb{\mathrm{2}}} \HOLBoundVar{plist\sb{\mathrm{1}}} \HOLBoundVar{plist\sb{\mathrm{2}}}.
+     \HOLConst{TR1} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{mlist})
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{1}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{1}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{1}}}))
+       (\HOLConst{CFG} \HOLBoundVar{M\sb{\mathrm{2}}} (\HOLConst{Certs} \HOLBoundVar{clist\sb{\mathrm{2}}}) (\HOLConst{Policies} \HOLBoundVar{plist\sb{\mathrm{2}}})) \HOLSymConst{\HOLTokenImp{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLBoundVar{M\sb{\mathrm{2}}})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsSOSOneXXSecurityXXthm}{\UseVerbatim{HOLsosOneTheoremsSOSOneXXSecurityXXthm}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsSTBYXXRDYXXrule}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+   (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsSTBYXXRDYXXrule}{\UseVerbatim{HOLsosOneTheoremsSTBYXXRDYXXrule}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsSTBYXXRDYXXTRANSXXrule}
+\HOLTokenTurnstile{} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) \HOLConst{blocksat}
+   \HOLConst{BLK} (\HOLConst{Messages} [\HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable})])
+     (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} [])
+        (\HOLConst{Policies}
+           [\HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable});
+            \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})])) \HOLSymConst{\HOLTokenImp{}}
+   \HOLConst{TR1} (\HOLFreeVar{M}\HOLSymConst{,}\HOLFreeVar{Oi}\HOLSymConst{,}\HOLFreeVar{Os}) (\HOLConst{Messages} [\HOLConst{Name} \HOLConst{Owner} \HOLConst{says} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable})])
+     (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} [])
+        (\HOLConst{Policies}
+           [\HOLConst{Name} \HOLConst{Owner} \HOLConst{controls} \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable});
+            \HOLConst{prop} (\HOLConst{CMD} \HOLConst{enable}) \HOLConst{impf} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})]))
+     (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLFreeVar{RDYclist}) (\HOLConst{Policies} \HOLFreeVar{RDYplist}))
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsSTBYXXRDYXXTRANSXXrule}{\UseVerbatim{HOLsosOneTheoremsSTBYXXRDYXXTRANSXXrule}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsTROneXXcases}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}.
+     \HOLConst{TR1} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenEquiv{}}
+     (\HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYmlist} \HOLBoundVar{STBYplist}.
+        (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{Messages} \HOLBoundVar{STBYmlist}) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=} \HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+        \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY})) \HOLSymConst{\HOLTokenDisj{}}
+     \HOLSymConst{\HOLTokenExists{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYmlist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYplist}.
+       (\HOLBoundVar{a\sb{\mathrm{0}}} \HOLSymConst{=} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os})) \HOLSymConst{\HOLTokenConj{}} (\HOLBoundVar{a\sb{\mathrm{1}}} \HOLSymConst{=} \HOLConst{Messages} \HOLBoundVar{RDYmlist}) \HOLSymConst{\HOLTokenConj{}}
+       (\HOLBoundVar{a\sb{\mathrm{2}}} \HOLSymConst{=} \HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+       (\HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{=} \HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+       (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+       \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+         (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+       (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY})
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsTROneXXcases}{\UseVerbatim{HOLsosOneTheoremsTROneXXcases}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsTROneXXind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYmlist} \HOLBoundVar{STBYplist}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+        \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYmlist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYplist}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+        \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}. \HOLConst{TR1} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsTROneXXind}{\UseVerbatim{HOLsosOneTheoremsTROneXXind}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsTROneXXrules}
+\HOLTokenTurnstile{} (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYmlist} \HOLBoundVar{STBYplist}.
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+      \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+        (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+      (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+      \HOLConst{TR1} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+        (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))
+        (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))) \HOLSymConst{\HOLTokenConj{}}
+   \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYmlist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYplist}.
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+     \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+       (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+     \HOLConst{TR1} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+       (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))
+       (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsTROneXXrules}{\UseVerbatim{HOLsosOneTheoremsTROneXXrules}}
+\begin{SaveVerbatim}{HOLsosOneTheoremsTROneXXstrongind}
+\HOLTokenTurnstile{} \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}}.
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYmlist} \HOLBoundVar{STBYplist}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+        \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{RDY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{STBYmlist})
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))) \HOLSymConst{\HOLTokenConj{}}
+     (\HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{M} \HOLBoundVar{Oi} \HOLBoundVar{Os} \HOLBoundVar{RDYclist} \HOLBoundVar{RDYmlist} \HOLBoundVar{RDYplist} \HOLBoundVar{STBYclist} \HOLBoundVar{STBYplist}.
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{blocksat}
+        \HOLConst{BLK} (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist})) \HOLSymConst{\HOLTokenConj{}}
+        (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) \HOLConst{sat} \HOLConst{prop} (\HOLConst{MODE} \HOLConst{STBY}) \HOLSymConst{\HOLTokenImp{}}
+        \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} (\HOLBoundVar{M}\HOLSymConst{,}\HOLBoundVar{Oi}\HOLSymConst{,}\HOLBoundVar{Os}) (\HOLConst{Messages} \HOLBoundVar{RDYmlist})
+          (\HOLConst{CFG} \HOLConst{RDY} (\HOLConst{Certs} \HOLBoundVar{RDYclist}) (\HOLConst{Policies} \HOLBoundVar{RDYplist}))
+          (\HOLConst{CFG} \HOLConst{STBY} (\HOLConst{Certs} \HOLBoundVar{STBYclist}) (\HOLConst{Policies} \HOLBoundVar{STBYplist}))) \HOLSymConst{\HOLTokenImp{}}
+     \HOLSymConst{\HOLTokenForall{}}\HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}. \HOLConst{TR1} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}} \HOLSymConst{\HOLTokenImp{}} \HOLBoundVar{TR\sb{\mathrm{1}}\sp{\prime}} \HOLBoundVar{a\sb{\mathrm{0}}} \HOLBoundVar{a\sb{\mathrm{1}}} \HOLBoundVar{a\sb{\mathrm{2}}} \HOLBoundVar{a\sb{\mathrm{3}}}
+\end{SaveVerbatim}
+\newcommand{\HOLsosOneTheoremsTROneXXstrongind}{\UseVerbatim{HOLsosOneTheoremsTROneXXstrongind}}
+\newcommand{\HOLsosOneTheorems}{
+\HOLThmTag{sos1}{abs1_def}\HOLsosOneTheoremsabsOneXXdef
+\HOLThmTag{sos1}{abs1_ind}\HOLsosOneTheoremsabsOneXXind
+\HOLThmTag{sos1}{RDY_STBY_rule}\HOLsosOneTheoremsRDYXXSTBYXXrule
+\HOLThmTag{sos1}{RDY_STBY_TRANS_rule}\HOLsosOneTheoremsRDYXXSTBYXXTRANSXXrule
+\HOLThmTag{sos1}{S1ImplementsS0_thm}\HOLsosOneTheoremsSOneImplementsSZeroXXthm
+\HOLThmTag{sos1}{SecuritySimulation_thm}\HOLsosOneTheoremsSecuritySimulationXXthm
+\HOLThmTag{sos1}{SOS1_Security_thm}\HOLsosOneTheoremsSOSOneXXSecurityXXthm
+\HOLThmTag{sos1}{STBY_RDY_rule}\HOLsosOneTheoremsSTBYXXRDYXXrule
+\HOLThmTag{sos1}{STBY_RDY_TRANS_rule}\HOLsosOneTheoremsSTBYXXRDYXXTRANSXXrule
+\HOLThmTag{sos1}{TR1_cases}\HOLsosOneTheoremsTROneXXcases
+\HOLThmTag{sos1}{TR1_ind}\HOLsosOneTheoremsTROneXXind
+\HOLThmTag{sos1}{TR1_rules}\HOLsosOneTheoremsTROneXXrules
+\HOLThmTag{sos1}{TR1_strongind}\HOLsosOneTheoremsTROneXXstrongind
+}

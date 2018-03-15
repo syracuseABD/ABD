@@ -1,0 +1,67 @@
+\documentclass[11pt, twoside]{article}
+\usepackage{holtex}
+
+\makeindex
+
+\begin{document}
+
+\input{HOLmmFoundation}
+\input{HOLsubstitution}
+
+\tableofcontents
+\cleardoublepage
+\HOLpagestyle
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{mmFoundation Theory}
+\index{mmFoundation Theory@\textbf  {mmFoundation Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLmmFoundationDate \\[2pt]
+\textbf{Parent Theories:} fixedPoint, indexedLists, patternMatches
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{mmFoundation Theory@\textbf  {mmFoundation Theory}!Datatypes}
+% .....................................
+
+\HOLmmFoundationDatatypes
+
+\subsection{Definitions}
+\index{mmFoundation Theory@\textbf  {mmFoundation Theory}!Definitions}
+% .....................................
+
+\HOLmmFoundationDefinitions
+
+\subsection{Theorems}
+\index{mmFoundation Theory@\textbf  {mmFoundation Theory}!Theorems}
+% .....................................
+
+\HOLmmFoundationTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{substitution Theory}
+\index{substitution Theory@\textbf  {substitution Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLsubstitutionDate \\[2pt]
+\textbf{Parent Theories:} mmFoundation, res_quan
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{substitution Theory@\textbf  {substitution Theory}!Definitions}
+% .....................................
+
+\HOLsubstitutionDefinitions
+
+\subsection{Theorems}
+\index{substitution Theory@\textbf  {substitution Theory}!Theorems}
+% .....................................
+
+\HOLsubstitutionTheorems
+
+\HOLindex
+
+\end{document}

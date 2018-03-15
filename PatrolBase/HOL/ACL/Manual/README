@@ -1,0 +1,3 @@
+To build the ACL-HOL manual, in this subdirectory, execute in a terminal
+     make clean
+     make report

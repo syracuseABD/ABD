@@ -1,0 +1,241 @@
+\documentclass[10pt,twoside]{article}
+\usepackage{./LaTeX/engineeringAssurance}
+% \usepackage{./LaTeX/unclassFOUO}
+%Times for rm and math | Helvetica for ss | Courier for tt
+\usepackage{mathptmx} % rm & math
+\usepackage[scaled=0.90]{helvet} % ss
+\usepackage{courier} % tt
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+%  %listings is used for printing ML source code files
+\usepackage{listings}
+% %listings paramenters: ML is the source code, we want to print in scriptsize
+\lstset{language=ML,
+           basicstyle=\scriptsize,
+           breaklines=true}
+
+\normalfont
+\usepackage[T1]{fontenc}
+\newcommand{\action}[1]{\ensuremath{\langle #1 \rangle}}
+\input{our-content-macros.tex}
+\renewcommand{\infrule}[2]
+   {\ensuremath{{\textstyle #1}\over{\textstyle #2}}}
+
+\renewcommand{\infname}[1]{\textit{#1}}
+% \renewcommand{\irule}[3]
+%     {\ensuremath{\infname{#3}\quad {\displaystyle \frac{#1}{#2}}}}
+
+\ifx\pdfoutput\undefined
+\usepackage[dvips]{graphicx}
+\else
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\pdfcompresslevel=9
+\fi
+
+%Notes in text
+\newcommand{\chinbox}[1]{%
+  \fbox{\parbox[t]{6.0in}{\textsc{Note to Self:} 
+      \begin{center}
+        #1
+      \end{center}}}}
+
+\newcommand{\problembox}[1]
+{
+  \fbox{\begin{minipage}{0.9\linewidth}
+      \begin{center}
+        \redtext{\underline{\textbf{\textsc{Assignment}}}}
+      \end{center}
+      #1
+  \end{minipage}}
+}
+
+
+\usepackage{array}
+
+% ---------------------------------------------------------------------
+% Input defined macros and commands
+% ---------------------------------------------------------------------
+\input{./LaTeX/commands}
+\input{./LaTeX/pic-macros}
+\input{./LaTeX/ref-macros}
+
+\usepackage{url}
+\usepackage[line,arrow,frame,matrix]{xy}
+\usepackage{./LaTeX/proof}
+\usepackage{holtex}
+\usepackage{holtexbasic}
+
+% \usepackage[usenames,dvipsnames]{color}
+\definecolor{orange}{rgb}{1,0.5,0}
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\magtext}[1]{\textcolor{magenta}{#1}}
+\newcommand{\greentext}[1]{\textcolor{green}{#1}}
+\newcommand{\orangetext}[1]{\textcolor{orange}{#1}}
+\newcommand{\standout}[1]{\textcolor{orange}{#1}}
+
+\newcommand{\seq}[2]{\ensuremath{\set{#1} \vdash {#2}}}
+\newcommand{\seqs}[2]{\ensuremath{#1 \vdash {#2}}}
+\newcommand{\sq}[1]{\ensuremath{\vdash {#1}}}
+
+\newcommand{\goal}[2]{\ensuremath{\set{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\goals}[2]{\ensuremath{{#1}\;\text{ ?-- }\;{#2}}}
+\newcommand{\gls}[1]{\ensuremath{\text{ ?-- }\;{#1}}}
+
+\renewcommand{\irule}[3]
+    {\ensuremath{{\displaystyle \frac{#1}{#2}}\quad \infname{#3}}}
+\newcommand{\tac}[3]{
+  \ensuremath{\begin{tabular}{c}
+    {#1}\\\hline\hline{#2}
+  \end{tabular}\quad}{#3}}
+% HOL theories
+
+\title{\textsc{Assuring Integrity and Security of Transition Systems
+    Using Structural Operational Semantics and Access-Control Logic}}
+
+\author{Shiu-Kai Chin}
+
+\date{\today{}}
+
+\makeindex
+
+\begin{document}
+
+% ---------------------------------------------------------------------
+% Inputs for HOL reports
+% ---------------------------------------------------------------------
+\input{../HOLReports/HOLfoundation}
+\input{../HOLReports/HOLsosZero}
+\input{../HOLReports/HOLsosOne}
+
+\maketitle
+\thispagestyle{empty}
+\author{}
+\maketitle
+
+\begin{abstract}
+  Describing how systems change their behavior is required at all
+  levels of abstraction, from simple finite state machines in hardware
+  to abstract concepts of operations for accomplishing missions. These
+  descriptions entail the definition of transition relations, the
+  conditions under which transitions occur, and proofs of crucial
+  system properties that must be assured for all system states and
+  operating modes. For systems where integrity and security properties
+  are important, we can use a combination of structural operational
+  semantics and access-control logic to reason about a system's
+  behavior and security properties.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+\section{Background}
+\label{sec:background}
+
+\section{Rigorous Representations of Transition Systems and Concepts of Operations}
+\label{sec:conops}
+
+\section{Formal Description and Verification in HOL}
+\label{sec:hol}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+
+
+\bibliography{references}
+\bibliographystyle{alpha}
+
+\newpage{}
+\part*{Appendices}
+\label{part:appendices}
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{foundation Theory}
+\index{foundation Theory@\textbf  {foundation Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLfoundationDate \\[2pt]
+\textbf{Parent Theories:} aclDrules
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+\subsection{Datatypes}
+\index{foundation Theory@\textbf  {foundation Theory}!Datatypes}
+% .....................................
+
+\HOLfoundationDatatypes
+
+\index{foundation Theory@\textbf  {foundation Theory}!Definitions}
+% .....................................
+
+\subsection{Definitions}
+\index{foundation Theory@\textbf  {foundation Theory}!Definitions}
+% .....................................
+
+\HOLfoundationDefinitions
+
+% No theorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{sos0 Theory}
+\index{sos0 Theory@\textbf  {sos0 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLsosZeroDate \\[2pt]
+\textbf{Parent Theories:} foundation
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{sos0 Theory@\textbf  {sos0 Theory}!Definitions}
+% .....................................
+
+\HOLsosZeroDefinitions
+
+\subsection{Theorems}
+\index{sos0 Theory@\textbf  {sos0 Theory}!Theorems}
+% .....................................
+
+\HOLsosZeroTheorems
+
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\section{sos1 Theory}
+\index{sos1 Theory@\textbf  {sos1 Theory}}
+\begin{flushleft}
+\textbf{Built:} \HOLsosOneDate \\[2pt]
+\textbf{Parent Theories:} rich_list, sos0
+\end{flushleft}
+% ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+% No datatypes
+
+\subsection{Definitions}
+\index{sos1 Theory@\textbf  {sos1 Theory}!Definitions}
+% .....................................
+
+\HOLsosOneDefinitions
+
+\subsection{Theorems}
+\index{sos1 Theory@\textbf  {sos1 Theory}!Theorems}
+% .....................................
+
+\HOLsosOneTheorems
+
+\section{foundationScript.sml}
+\label{sec:foundationScript}
+
+\lstinputlisting{../foundationScript.sml}
+
+\section{sos0Script.sml}
+\label{sec:sos0Script}
+
+\lstinputlisting{../sos0Script.sml}
+
+\section{sos1Script.sml}
+\label{sec:sos1Script}
+
+\lstinputlisting{../sos1Script.sml}
+\end{document}

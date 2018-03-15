@@ -1,0 +1,6 @@
+To build the documentation for example1Theory in HOL do the following:
+1. in the parent subdirectory (ACL/Manual/HOLReports/ACL), execute in 
+   a terminal Holmake cleanAll followed by Holmake
+2. in this subdirectory, execute in a terminal
+     make clean
+     make report
