@@ -16,7 +16,7 @@ open TypeBase listTheory ssminfRules optionTheory acl_infRules satListTheory ssm
 app load ["TypeBase", "ssminfRules","listTheory","optionTheory","acl_infRules",
     	  "satListTheory"];
 open TypeBase listTheory ssminfRules optionTheory acl_infRules satListTheory
-     ssm1Theory
+     ssmTheory
  ==== end interactive mode ==== *)
 
 open HolKernel boolLib Parse bossLib
@@ -125,8 +125,8 @@ Define
 
 val extractPropCommand_def =
 Define
-`extractPropCommand (P says (prop (SOME cmd)):('command option,'principal,'d,'e)Form) =
-   ((prop (SOME cmd)):('command option,'principal,'d,'e)Form)`;
+`(extractPropCommand (P says (prop (SOME cmd)):('command option,'principal,'d,'e)Form) =
+   ((prop (SOME cmd)):('command option,'principal,'d,'e)Form))`;
 
 val propCommandList_def =
 Define
@@ -313,7 +313,7 @@ val _ = save_thm("TR_exec_cmd_rule",TR_exec_cmd_rule)
 (*     (CFG elementTest stateInterpret certList                               *)
 (*          ((P says (prop (CMD cmd)))::ins) s outs) ==>                      *)
 (*    ((M,Oi,Os) sat (prop TRAP)))                                            *)
-(* is a valid inference rule, then executing cmd the exec(CMD cmd) transition *)
+(* is a valid inference rule, then executing cmd the trap(CMD cmd) transition *)
 (* occurs if and only if prop TRAP, elementTest, and                          *)
 (* CFGInterpret (M,Oi,Os)                                                     *)
 (*  (CFG elementTest stateInterpret certList (P says prop (CMD cmd)::ins)     *)
