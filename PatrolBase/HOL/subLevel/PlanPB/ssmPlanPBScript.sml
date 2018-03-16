@@ -71,22 +71,21 @@ val planPBOut_def = Define
 (* -------------------------------------------------------------------------- *)
 (* Define authentication test                                                 *)
 (* -------------------------------------------------------------------------- *)
-val authenticationTest_def = Define
-`(authenticationTest
+val inputOK_def = Define
+`(inputOK
 	(((Name PlatoonLeader) says (prop  (cmd:((slCommand command)option))))
 	       :((slCommand command)option, stateRole, 'd,'e)Form) = T)  /\
-
-(authenticationTest
+(inputOK
 	(((Name PlatoonSergeant) says (prop  (cmd:((slCommand command)option))))
 	       :((slCommand command)option, stateRole, 'd,'e)Form) = T)  /\
-(authenticationTest _ = F)`
+(inputOK _ = F)`
 
-val authenticationTest_cmd_reject_lemma =
+val inputOK_cmd_reject_lemma =
 TAC_PROOF(
   ([],
-   ``!cmd. ~(authenticationTest
+   ``!cmd. ~(inputOK
    	   ((prop (SOME cmd)):((slCommand command)option, stateRole, 'd,'e)Form))``),
-  PROVE_TAC[authenticationTest_def])
+  PROVE_TAC[inputOK_def])
 
 
 (* -------------------------------------------------------------------------- *)
@@ -108,6 +107,25 @@ val secContext_def = Define
 	    :((slCommand command)option, stateRole, 'd,'e)Form]`
 
 (* ==== Testing here ====
+(* -------------------------------------------------------------------------- *)
+(* PlatoonLeader is authorized on any plCommand                               *)
+(* -------------------------------------------------------------------------- *)
+val PlatoonLeader_exec_plCommand =
+let
+  val th1 =
+  ISPECL
+  [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
+  ``secContext (plCommand:plCommand)(psgCommand:psgCommand):
+       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``stateInterp: slState ->
+       ((slCommand command)option, stateRole, 'd,'e)Form``,
+  ``[(Name PlatoonLeader) says (prop (SOME (plCommand:plCommand)))]``
+  ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
+  ``(s:slState)``,
+  ``outs:(slOutput output trType list)``     `,
+] 
+
+
  ==== End Testing Here ==== *)
 val _ = export_theory();
 
