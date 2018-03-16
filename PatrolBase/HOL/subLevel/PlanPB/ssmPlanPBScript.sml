@@ -66,7 +66,32 @@ val planPBOut_def = Define
 (planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
 (planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
 
+
+
+(* -------------------------------------------------------------------------- *)
+(* Define authentication test                                                 *)
+(* -------------------------------------------------------------------------- *)
+val authenticationTest_def = Define
+`(authenticationTest
+	(((Name PlatoonLeader) says (prop  (cmd:((slCommand command)option))))
+	       :((slCommand command)option, stateRole, 'd,'e)Form) = T)  /\
+
+(authenticationTest
+	(((Name PlatoonSergeant) says (prop  (cmd:((slCommand command)option))))
+	       :((slCommand command)option, stateRole, 'd,'e)Form) = T)  /\
+(authenticationTest _ = F)`
+
+val authenticationTest_cmd_reject_lemma =
+TAC_PROOF(
+  ([],
+   ``!cmd. ~(authenticationTest
+   	   ((prop (SOME cmd)):((slCommand command)option, stateRole, 'd,'e)Form))``),
+  PROVE_TAC[authenticationTest_def])
+
 (* ==== Testing here ====
+(* -------------------------------------------------------------------------- *)
+(* Define authentication test                                                 *)
+(* -------------------------------------------------------------------------- *)
  ==== End Testing Here ==== *)
 val _ = export_theory();
 

@@ -47,6 +47,8 @@ val _= Datatype `slCommand = PL plCommand
 val slCommand_distinct_clauses = distinct_of``:slCommand``
 val _= save_thm("slCommand_distinct_clauses",slCommand_distinct_clauses)
 
+val slCommand_one_one = one_one_of``:slCommand``
+val _= save_thm("slCommand_one_one",slCommand_one_one)
 
 val _= Datatype `slState = PLAN_PB
        			 | RECEIVE_MISSION
