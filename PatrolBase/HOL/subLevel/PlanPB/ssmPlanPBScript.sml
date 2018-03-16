@@ -88,10 +88,15 @@ TAC_PROOF(
    	   ((prop (SOME cmd)):((slCommand command)option, stateRole, 'd,'e)Form))``),
   PROVE_TAC[authenticationTest_def])
 
+
+(* -------------------------------------------------------------------------- *)
+(* state Interpretation function                                              *)
+(* -------------------------------------------------------------------------- *)
+val stateInterp_def = Define
+`stateInterp (slState:slState) =
+	     (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
+
 (* ==== Testing here ====
-(* -------------------------------------------------------------------------- *)
-(* Define authentication test                                                 *)
-(* -------------------------------------------------------------------------- *)
  ==== End Testing Here ==== *)
 val _ = export_theory();
 
