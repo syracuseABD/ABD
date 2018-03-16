@@ -96,6 +96,17 @@ val stateInterp_def = Define
 `stateInterp (slState:slState) =
 	     (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
 
+
+(* -------------------------------------------------------------------------- *)
+(* Security context                                                           *)
+(* -------------------------------------------------------------------------- *)
+val secContext_def = Define
+`secContext (plCommand:plCommand)(psgCommand:psgCommand) =
+	    [((Name PlatoonLeader) controls (prop (SOME (SLc (PL plCommand)))))
+	    :((slCommand command)option, stateRole, 'd,'e)Form;
+	    ((Name PlatoonSergeant) controls (prop (SOME (SLc (PSG psgCommand)))))
+	    :((slCommand command)option, stateRole, 'd,'e)Form]`
+
 (* ==== Testing here ====
  ==== End Testing Here ==== *)
 val _ = export_theory();
