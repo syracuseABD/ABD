@@ -24,6 +24,8 @@ val _ = new_theory "PlanPBType";
 
 val _= Datatype `plCommand = receiveMission
        			   | warno
+			   | tentativePlan
+			   | recon
 			   | report1
 			   | completePlan
 			   | opoid

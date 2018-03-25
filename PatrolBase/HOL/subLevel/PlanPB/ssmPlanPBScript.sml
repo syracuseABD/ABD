@@ -12,12 +12,12 @@ structure ssmPlanPBScript = struct
 app load  ["TypeBase", "listTheory","optionTheory",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
     	  "satListTheory","ssmTheory","ssminfRules",
-	  "OMNITypeTheory", "PlanPBTypeTheory"];
+	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory"];
 
 open TypeBase listTheory optionTheory
      acl_infRules aclDrulesTheory aclrulesTheory
      satListTheory ssmTheory ssminfRules
-     OMNITypeTheory PlanPBTypeTheory
+     OMNITypeTheory PlanPBTypeTheory ssmPlanPBTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
@@ -35,9 +35,13 @@ val planPBNS_def = Define
 `(* exec *)
 (planPBNS PLAN_PB         (exec ([PL receiveMission])) = RECEIVE_MISSION) /\
 (planPBNS RECEIVE_MISSION (exec ([PL warno]))          = WARNO)     /\ 
+(* this line should be corrected 
 (planPBNS WARNO           (exec ([PL tentativePlan;
 	  		  	 PSG initiateMovement;
-				 PL recon]))           = REPORT1)   /\
+				 PL recon;
+				 PL report1]))         = REPORT1)   /\
+*)
+(planPBNS WARNO           (exec ([PL report1]))        = REPORT1)   /\
 (planPBNS REPORT1         (exec ([PL completePlan]))   = COMPLETE_PLAN) /\
 (planPBNS COMPLETE_PLAN   (exec ([PL opoid]))          = OPOID)     /\
 (planPBNS OPOID           (exec ([PL supervise]))      = SUPERVISE) /\
@@ -65,8 +69,6 @@ val planPBOut_def = Define
 (planPBOut (s:slState)     (trap ([PSG psgCommand]))    = unAuthorized) /\
 (planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
 (planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
-
-
 
 (* -------------------------------------------------------------------------- *)
 (* Define authentication test                                                 *)
@@ -99,6 +101,7 @@ val stateInterp_def = Define
 (* -------------------------------------------------------------------------- *)
 (* Security context                                                           *)
 (* -------------------------------------------------------------------------- *)
+(* === Old way of doing this ====
 val secContext_def = Define
 `secContext (plCommand:plCommand)(psgCommand:psgCommand) =
 	    [((Name PlatoonLeader) controls (prop (SOME (SLc (PL plCommand)))))
@@ -106,7 +109,80 @@ val secContext_def = Define
 	    ((Name PlatoonSergeant) controls (prop (SOME (SLc (PSG psgCommand)))))
 	    :((slCommand command)option, stateRole, 'd,'e)Form]`
 
-(* ==== Testing here ====
+ ==== End old way of doing this ==== *)
+
+
+(* Make a function to check for elements in the list *)
+val getRecon_def = Define `
+    (getRecon ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE]) /\
+    (getRecon (x::xs) = if (x = (Name PlatoonLeader) says (prop (SOME (SLc (PL recon)))))
+    	      	        then [SOME (SLc (PL recon))]
+			else getRecon xs)`
+
+val getTenativePlan_def = Define `
+    (getTenativePlan ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE]) /\
+    (getTenativePlan (x::xs) = if (x = (Name PlatoonLeader) says (prop (SOME (SLc (PL tentativePlan)))))
+    	      	        then [SOME (SLc (PL tentativePlan))]
+			else getTenativePlan xs)`
+
+val getReport_def = Define `
+    (getReport ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE]) /\
+    (getReport (x::xs) = if (x = (Name PlatoonLeader) says (prop (SOME (SLc (PL report1)))))
+    	      	        then [SOME (SLc (PL report1))]
+			else getReport xs)`
+
+val getInitMove_def = Define `
+    (getInitMove ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE]) /\
+    (getInitMove (x::xs) = if (x = (Name PlatoonLeader) says (prop (SOME (SLc (PSG initiateMovement)))))
+    	      	        then [SOME (SLc (PSG initiateMovement))]
+			else getInitMove xs)`
+
+
+val getPlCom_def = Define `
+    (getPlCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE])
+    /\
+    (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))::xs) =
+    	      	      [SOME (SLc (PL cmd))])
+    /\
+    (getPlCom (_::xs) = getPlCom xs)`
+
+val getPsgCom_def = Define `
+    (getPsgCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    	      [NONE])
+    /\
+    (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))::xs) =
+    	      	      [SOME (SLc (PSG cmd))])
+    /\
+    (getPsgCom (_::xs) = getPsgCom xs)`
+
+(* ==== New way of doing this ====
+val secContext_def = Define `
+secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    if (s = WARNO) then
+        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
+	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+            (getReport        x = [SOME (SLc (PL report1))]) /\
+	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
+         then [(Name PlatoonLeader) controls prop (SOME (SLc (PL report1)))
+	       :((slCommand command)option, stateRole, 'd,'e)Form]
+	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
+    else
+    if (getPlCom x = [SOME (SLc (PL cmd)):((slCommand command) option)])
+          then [(Name PlatoonLeader) controls prop (SOME (SLc (PL cmd)))]
+    else
+    if (getPsgCom x = [SOME (SLc (PSG cmd)):((slCommand command) option)])
+          then [(Name PlatoonSergeant) controls prop (SOME (SLc (PSG cmd)))]
+    else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form]`
+     
+
+ === End new way of doing this ==== *)
+
+(* === Start testing here ====
 (* -------------------------------------------------------------------------- *)
 (* PlatoonLeader is authorized on any plCommand                               *)
 (* -------------------------------------------------------------------------- *)
@@ -117,13 +193,12 @@ let
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContext (plCommand:plCommand)(psgCommand:psgCommand):
        ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``stateInterp: slState ->
+  ``stateInterp: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form``,
-  ``[(Name PlatoonLeader) says (prop (SOME (plCommand:plCommand)))]``
+  ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand):(slCommand command))))]``,
   ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
   ``(s:slState)``,
-  ``outs:(slOutput output trType list)``     `,
-] 
+  ``outs:(slOutput output list)``] TR_exec_cmd_rule
 
 
  ==== End Testing Here ==== *)
