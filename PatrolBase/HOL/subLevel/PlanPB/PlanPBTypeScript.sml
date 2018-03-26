@@ -31,7 +31,8 @@ val _= Datatype `plCommand = receiveMission
 			   | opoid
 			   | supervise
 			   | report2
-			   | complete`
+			   | complete
+			   | plIncomplete`
 
 val plCommand_distinct_clauses = distinct_of``:plCommand``
 val _= save_thm("plCommand_distinct_clauses",plCommand_distinct_clauses)

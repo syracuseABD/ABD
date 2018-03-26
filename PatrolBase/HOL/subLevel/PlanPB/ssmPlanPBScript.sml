@@ -102,14 +102,13 @@ val stateInterp_def = Define
 (* Security context                                                           *)
 (* -------------------------------------------------------------------------- *)
 (* === Old way of doing this ====
-val secContext_def = Define
-`secContext (plCommand:plCommand)(psgCommand:psgCommand) =
+ ==== End old way of doing this ==== *)
+val secList_def = Define
+`secList (plCommand:plCommand)(psgCommand:psgCommand) =
 	    [((Name PlatoonLeader) controls (prop (SOME (SLc (PL plCommand)))))
 	    :((slCommand command)option, stateRole, 'd,'e)Form;
 	    ((Name PlatoonSergeant) controls (prop (SOME (SLc (PSG psgCommand)))))
 	    :((slCommand command)option, stateRole, 'd,'e)Form]`
-
- ==== End old way of doing this ==== *)
 
 
 (* Make a function to check for elements in the list *)
@@ -141,26 +140,25 @@ val getInitMove_def = Define `
     	      	        then [SOME (SLc (PSG initiateMovement))]
 			else getInitMove xs)`
 
-
 val getPlCom_def = Define `
     (getPlCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE])
+    	      plIncomplete)
     /\
     (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))::xs) =
-    	      	      [SOME (SLc (PL cmd))])
+    	      	      cmd)
     /\
     (getPlCom (_::xs) = getPlCom xs)`
 
 val getPsgCom_def = Define `
     (getPsgCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE])
+    	      psgIncomplete)
     /\
     (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))::xs) =
-    	      	      [SOME (SLc (PSG cmd))])
+    	      	      cmd)
     /\
     (getPsgCom (_::xs) = getPsgCom xs)`
 
-(* ==== New way of doing this ====
+(* ==== Failed attempt ====
 val secContext_def = Define `
 secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
     if (s = WARNO) then
@@ -171,16 +169,28 @@ secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list
          then [(Name PlatoonLeader) controls prop (SOME (SLc (PL report1)))
 	       :((slCommand command)option, stateRole, 'd,'e)Form]
 	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
-    else
-    if (getPlCom x = [SOME (SLc (PL cmd)):((slCommand command) option)])
-          then [(Name PlatoonLeader) controls prop (SOME (SLc (PL cmd)))]
-    else
-    if (getPsgCom x = [SOME (SLc (PSG cmd)):((slCommand command) option)])
-          then [(Name PlatoonSergeant) controls prop (SOME (SLc (PSG cmd)))]
-    else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form]`
-     
+    else (! (plCommand:plCommand) (psgCommand:psgCommand).
+        [((Name PlatoonLeader) controls (prop (SOME (SLc (PL plCommand)))))
+	    :((slCommand command)option, stateRole, 'd,'e)Form;
+         ((Name PlatoonSergeant) controls (prop (SOME (SLc (PSG psgCommand)))))
+	    :((slCommand command)option, stateRole, 'd,'e)Form])`
+ ==== End Failed Attempt ==== *)
+ 
+val secContext_def = Define `
+secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    if (s = WARNO) then
+        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
+	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+            (getReport        x = [SOME (SLc (PL report1))]) /\
+	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
+         then [(Name PlatoonLeader) controls prop (SOME (SLc (PL report1)))
+	       :((slCommand command)option, stateRole, 'd,'e)Form]
+	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
+    else secList (getPlCom x) (getPsgCom x)`
 
- === End new way of doing this ==== *)
+
+(* ==== New way of doing this ====
+=== End new way of doing this ==== *)
 
 (* === Start testing here ====
 (* -------------------------------------------------------------------------- *)
