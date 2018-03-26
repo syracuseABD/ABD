@@ -104,7 +104,7 @@ val stateInterp_def = Define
 (* theorems.                                                                 *)
 val secContextNull_def = Define `
     secContextNull (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-        (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
+        [(TT:((slCommand command)option, stateRole, 'd,'e)Form)]`
 
 
 (* -------------------------------------------------------------------------- *)
@@ -211,11 +211,11 @@ let
   val th1 =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
-  ``secCon :(slState) ->
-      ((slCommand command)option, stateRole, 'd,'e)Form list ->
+  ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
       ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``stateInterp: (slState) ->
-       ((slCommand command)option, stateRole, 'd,'e)Form``,
+  ``secContext: (slState) ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list ->
+      ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand):(slCommand command))))]``,
   ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
   ``(s:slState)``,
