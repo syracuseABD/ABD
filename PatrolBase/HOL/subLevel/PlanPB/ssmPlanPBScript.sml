@@ -93,13 +93,23 @@ TAC_PROOF(
 (* -------------------------------------------------------------------------- *)
 (* state Interpretation function                                              *)
 (* -------------------------------------------------------------------------- *)
+(* ==== old stateInterp function ===
 val stateInterp_def = Define
 `stateInterp (slState:slState) =
 	     (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
+ === End old stateInterp function === *)
+
+
+(* This function doesn't do anything but is necessary to specialize other    *)
+(* theorems.                                                                 *)
+val secContextNull_def = Define `
+    secContextNull (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+        (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
 
 
 (* -------------------------------------------------------------------------- *)
 (* Security context                                                           *)
+(* This is actually a state interpretation function...confused!               *)
 (* -------------------------------------------------------------------------- *)
 (* === Old way of doing this ====
  ==== End old way of doing this ==== *)
@@ -201,8 +211,9 @@ let
   val th1 =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
-  ``secContext (plCommand:plCommand)(psgCommand:psgCommand):
-       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``secCon :(slState) ->
+      ((slCommand command)option, stateRole, 'd,'e)Form list ->
+      ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``stateInterp: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form``,
   ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand):(slCommand command))))]``,
