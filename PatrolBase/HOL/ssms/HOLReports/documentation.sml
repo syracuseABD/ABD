@@ -1,0 +1,9 @@
+app load [ "ssm11Theory", "ssmTheory",
+    	  "satListTheory","ssminfRules",
+          "EmitTeX"];
+
+open EmitTeX;
+
+print_theories_as_tex_doc
+["ssm11", "ssm",
+ "satList","ssminfRules"] "Report";
