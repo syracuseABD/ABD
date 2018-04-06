@@ -1,5 +1,5 @@
 # ===================================================
-# Makefile for example1 Theory 
+# Makefile for conductORP Theory 
 # ===================================================
 
 PDFLATEX=pdflatex
@@ -14,7 +14,7 @@ clean:
 
 report:
 	hol<documentation.sml
-	${PDFLATEX} aclReport
-	${MAKEINDEX} aclReport
-	${PDFLATEX} aclReport
+	${PDFLATEX} Report
+	${MAKEINDEX} Report
+	${PDFLATEX} Report
 
