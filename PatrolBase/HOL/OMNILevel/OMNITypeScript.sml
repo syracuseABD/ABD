@@ -36,13 +36,13 @@ Datatype `escCommand = returnToBase
 	 	     | resupply
 		     | reactToContact`
 
+val escCommand_distinct_clauses = distinct_of``:escCommand``
+val _ = save_thm("escCommand_distinct_clauses",escCommand_distinct_clauses)
+
+
 val _=
 Datatype `command = ESCc escCommand (* Constructor for escape command *)
  	 	  | SLc  'slCommand` (* Constructor for state level cmd *)
-
-
-val escCommand_distinct_clauses = distinct_of``:escCommand``
-val _ = save_thm("escCommand_distinct_clauses",escCommand_distinct_clauses)
 
 val command_distinct_clauses = distinct_of``:'slCommand command``
 val _ = save_thm("command_distinct_clauses",command_distinct_clauses)
