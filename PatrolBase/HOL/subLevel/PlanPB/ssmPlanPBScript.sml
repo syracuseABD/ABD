@@ -11,11 +11,13 @@ structure ssmPlanPBScript = struct
 (* ===== Interactive Mode ====
 app load  ["TypeBase", "listTheory","optionTheory",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
+	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
 	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory"];
 
 open TypeBase listTheory optionTheory
      acl_infRules aclDrulesTheory aclrulesTheory
+     aclsemanticsTheory aclfoundationTheory
      satListTheory ssmTheory ssminfRules uavUtilities
      OMNITypeTheory PlanPBTypeTheory ssmPlanPBTheory
  ==== end Interactive Mode ==== *)
@@ -39,8 +41,6 @@ val planPBNS_def = Define
 	  		  	 PL tentativePlan;
 				 PSG initiateMovement;
 				 PL report1]))         = REPORT1)   /\
-
-(*(planPBNS WARNO           (exec ([PL report1]))        = REPORT1)   /\*)
 (planPBNS REPORT1         (exec ([PL completePlan]))   = COMPLETE_PLAN) /\
 (planPBNS COMPLETE_PLAN   (exec ([PL opoid]))          = OPOID)     /\
 (planPBNS OPOID           (exec ([PL supervise]))      = SUPERVISE) /\
@@ -69,8 +69,49 @@ val planPBOut_def = Define
 (planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
 (planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
 
+(*  Version 2, using if-then statements *)
+(* ==== this would be easier with sequential statements used
+;
+val planPBNS_def = Define `
+(planPBNS WARNO (exec x) =
+   if ((getRecon        x = [SOME (SLc (PL recon))] )        /\
+      (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+      (getReport        x = [SOME (SLc (PL report1))])       /\
+      (getInitMove      x = [SOME (SLc (PSG initiateMovement))] ))
+   then REPORT1
+   else WARNO) /\
+(planPBNS PLAN_PB         (exec ([(PL receiveMission)])) = RECEIVE_MISSION) /\
+(planPBNS RECEIVE_MISSION (exec ([ (PL warno)]))          = WARNO)          /\ 
+(planPBNS REPORT1         (exec ([ (PL completePlan)]))   = COMPLETE_PLAN)  /\
+(planPBNS COMPLETE_PLAN   (exec ([ (PL opoid)]))          = OPOID)          /\
+(planPBNS OPOID           (exec ([(PL supervise)]))      = SUPERVISE)       /\
+(planPBNS SUPERVISE       (exec ([ (PL report2)]))        = REPORT2)   /\
+(planPBNS REPORT2         (exec ([ (PL complete)]))       = COMPLETE)  /\
+(planPBNS (s:slState)     (trap ([ (PL  plCommand)]))     = s)         /\
+(planPBNS (s:slState)     (trap ([ (PSG psgCommand)]))    = s)         /\
+(planPBNS (s:slState)     (discard ([ (PL  plCommand)]))  = s)         /\
+(planPBNS (s:slState)     (discard ([ (PSG psgCommand)])) = s)`
+
+
+val planPBOut_def = Define
+`(* exec *)
+(planPBOut PLAN_PB         (exec ([PL receiveMission])) = ReceiveMission) /\
+(planPBOut RECEIVE_MISSION (exec ([PL warno]))          = Warno)     /\ 
+(planPBOut WARNO           (exec ([PL tentativePlan;
+	  		  	 PSG initiateMovement;
+				 PL recon]))            = Report1)   /\
+(planPBOut REPORT1         (exec ([PL completePlan]))   = CompletePlan) /\
+(planPBOut COMPLETE_PLAN   (exec ([PL opoid]))          = Opoid)     /\
+(planPBOut OPOID           (exec ([PL supervise]))      = Supervise) /\
+(planPBOut SUPERVISE       (exec ([PL report2]))        = Report2)   /\
+(planPBOut REPORT2         (exec ([PL complete]))       = Complete)  /\
+(planPBOut (s:slState)     (trap ([PL  plCommand]))     = unAuthorized) /\
+(planPBOut (s:slState)     (trap ([PSG psgCommand]))    = unAuthorized) /\
+(planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
+(planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
+ === This would be easier with sequential statements used ==== *)
 (* -------------------------------------------------------------------------- *)
-(* Define authentication test                                                 *)
+(* authentication test function                                               *)
 (* -------------------------------------------------------------------------- *)
 val inputOK_def = Define
 `(inputOK
@@ -81,6 +122,7 @@ val inputOK_def = Define
 	       :((slCommand command)option, stateRole, 'd,'e)Form) = T)  /\
 (inputOK _ = F)`
 
+(* Any unauthorized command is rejected                                       *)
 val inputOK_cmd_reject_lemma =
 TAC_PROOF(
   ([],
@@ -92,34 +134,16 @@ TAC_PROOF(
 (* -------------------------------------------------------------------------- *)
 (* state Interpretation function                                              *)
 (* -------------------------------------------------------------------------- *)
-(* ==== old stateInterp function ===
-val stateInterp_def = Define
-`stateInterp (slState:slState) =
-	     (TT:((slCommand command)option, stateRole, 'd,'e)Form)`
- === End old stateInterp function === *)
-
-
-(* This function doesn't do anything but is necessary to specialize other    *)
-(* theorems.                                                                 *)
+(* This function doesn't do anything but is necessary to specialize other     *)
+(* theorems.                                                                  *)
 val secContextNull_def = Define `
     secContextNull (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
         [(TT:((slCommand command)option, stateRole, 'd,'e)Form)]`
 
 
 (* -------------------------------------------------------------------------- *)
-(* Security context                                                           *)
-(* This is actually a state interpretation function...confused!               *)
+(* Security context                                                           *)           
 (* -------------------------------------------------------------------------- *)
-(* === Old way of doing this ====
- ==== End old way of doing this ==== *)
-val secList_def = Define
-`secList (plCommand:plCommand)(psgCommand:psgCommand) =
-	    [((Name PlatoonLeader) controls (prop (SOME (SLc (PL plCommand)))))
-	    :((slCommand command)option, stateRole, 'd,'e)Form;
-	    ((Name PlatoonSergeant) controls (prop (SOME (SLc (PSG psgCommand)))))
-	    :((slCommand command)option, stateRole, 'd,'e)Form]`
-
-
 (* mimick Prof. Chin's C2_L1R1_RB_Auth_def *)
 val PL_WARNO_Auth_def = Define `
     PL_WARNO_Auth =
@@ -134,22 +158,16 @@ val PL_WARNO_Auth_def = Define `
          :((slCommand command)option, stateRole, 'd,'e)Form``]
      ``:((slCommand command)option, stateRole, 'd,'e)Form``)`
 
-
-
 val PL_notWARNO_Auth_def = Define `
     PL_notWARNO_Auth (cmd:plCommand) =
-    if (cmd = report1)
+    if (cmd = report1) (* report1 exits WARNO state *)
     then
       (prop NONE):((slCommand command)option, stateRole, 'd,'e)Form
     else
-      ((prop (SOME (SLc (PL cmd)))
+      ((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))
        :((slCommand command)option, stateRole, 'd,'e)Form) impf
       (((Name PlatoonLeader) controls prop (SOME (SLc (PL cmd))))
       :((slCommand command)option, stateRole, 'd,'e)Form)) `
-
-(* ===== Working section =====
-===== End working section ==== *)
-
 
 
 (* Make a function to check for elements in the list *)
@@ -199,7 +217,7 @@ val getPsgCom_def = Define `
     /\
     (getPsgCom (_::xs) = getPsgCom xs)`
 
- 
+(* ==== Older version.  Note, secList has been deleted. ==== 
 val secContext_def = Define `
 secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
     if (s = WARNO) then
@@ -211,7 +229,7 @@ secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list
 	       :((slCommand command)option, stateRole, 'd,'e)Form]
 	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
     else secList (getPlCom x) (getPsgCom x)`
-
+ ==== End older version.  Note, secList has been deleted. ==== *)
 
 val context_def = Define `
 context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
@@ -224,25 +242,24 @@ context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
 	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
     else [PL_notWARNO_Auth (getPlCom x)]`
 
-(* ==== New way of doing this ====
-
-=== End new way of doing this ==== *)
 
 (* === Start testing here ====
 (* -------------------------------------------------------------------------- *)
 (* PlatoonLeader is authorized on any plCommand if not in WARNO state         *)
 (* -------------------------------------------------------------------------- *)
+val try2 = set_goal ([Term `(~((s:slState) = WARNO))`,
+            Term `(~((plCommand:plCommand) = report1))`],
+            Term `(~((s:slState) = WARNO)) ==>
+	          (~((plCommand:plCommand) = report1)) ==> ^temp`)
 
-val tg = ([],fst(dest_imp(concl th1)))
-val tgg = set_goal ([], fst(dest_imp(concl th1)))
-val PlatoonLeader_notWARNO_exec_plCommand =
-let
+val PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma =
+let 
   val th1 =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
       ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``secContext: (slState) ->
+  ``context: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form list ->
       ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``[((Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand)))))
@@ -250,32 +267,22 @@ let
   ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
   ``(s:slState)``,
   ``outs:slOutput output list trType list``] TR_exec_cmd_rule
+  val temp = fst(dest_imp(concl th1))
 in
-TAC_PROOF(([], fst(dest_imp(concl th1))),
-REWRITE_TAC
-[CFGInterpret_def, secContext_def, secContextNull_def,
+TAC_PROOF(
+           ([Term `(~((s:slState) = WARNO))`,
+            Term `(~((plCommand:plCommand) = report1))`],
+            Term `(~((s:slState) = WARNO)) ==>
+	          (~((plCommand:plCommand) = report1)) ==> ^temp`),
+ASM_REWRITE_TAC
+ [CFGInterpret_def, context_def, secContextNull_def,
   getRecon_def, getTenativePlan_def, getReport_def, getInitMove_def,
-  getPlCom_def, getPsgCom_def, secList_def,
+  getPlCom_def, getPsgCom_def, PL_notWARNO_Auth_def ,
   inputList_def, extractInput_def, MAP,
-  extractPropCommand_def, satList_CONS, satList_nil, GSYM satList_conj]
-
+  propCommandList_def, extractPropCommand_def, satList_CONS,
+  satList_nil, GSYM satList_conj]
 THEN
-REWRITE_TAC
-[NOT_NONE_SOME, NOT_SOME_NONE, SOME_11, slCommand_one_one,
- slCommand_distinct_clauses, plCommand_distinct_clauses,
- psgCommand_distinct_clauses, slState_distinct_clauses,
- slOutput_distinct_clauses, slRole_distinct_clauses,
- GSYM slState_distinct_clauses,
- GSYM slOutput_distinct_clauses,
- GSYM slRole_distinct_clauses]
-
-THEN
-REWRITE_TAC[satList_CONS, satList_nil]
-THEN
-PROVE_TAC[Controls, Modus_Ponens]
-
-
-
+PROVE_TAC[Controls, Modus_Ponens])
 
 
 (* -------------------------------------------------------------------------- *)
@@ -285,14 +292,14 @@ PROVE_TAC[Controls, Modus_Ponens]
 (*   PlatoonSergeant says initiateMovement /\				      *)
 (*   PlatoonLeader says report1						      *)
 (* -------------------------------------------------------------------------- *)
-val PlatoonLeader_WARNO_exec_report1 =
+val PlatoonLeader_WARNO_exec_report1_lemma =
 let
   val th1w =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
                     ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``secContext: (slState) ->
+  ``context: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form list ->
        ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL recon))))
@@ -304,9 +311,32 @@ let
      (Name PlatoonLeader) says (prop (SOME (SLc (PL report1))))
       :((slCommand command)option, stateRole, 'd,'e)Form]``,
   ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
-  ``(s:slState)``,
+  ``(WARNO)``,
   ``outs:slOutput output list trType list``] TR_exec_cmd_rule
 in
+TAC_PROOF(
+  ([], fst(dest_imp(concl th1w))),
+ ASM_REWRITE_TAC
+ [CFGInterpret_def, context_def, secContextNull_def,
+  getRecon_def, getTenativePlan_def, getReport_def, getInitMove_def,
+  getPlCom_def, getPsgCom_def, PL_WARNO_Auth_def ,
+  inputList_def, extractInput_def, MAP,
+  propCommandList_def, extractPropCommand_def, satList_CONS,
+  satList_nil, GSYM satList_conj]
+THEN
+PROVE_TAC[Controls, Modus_Ponens])
+
+REWRITE_TAC
+[NOT_NONE_SOME,NOT_SOME_NONE,SOME_11,slCommand_one_one,
+ slCommand_distinct_clauses,plCommand_distinct_clauses,
+ psgCommand_distinct_clauses,slState_distinct_clauses,
+ GSYM slState_distinct_clauses,
+ GSYM slCommand_distinct_clauses,
+ GSYM plCommand_distinct_clauses,
+ GSYM psgCommand_distinct_clauses]
+
+set_goal ([], fst(dest_imp(concl th1w)))
+
  ==== End Testing Here ==== *)
 val _ = export_theory();
 
