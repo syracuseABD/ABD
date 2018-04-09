@@ -292,7 +292,7 @@ THEN
 PROVE_TAC[Controls, Modus_Ponens])
 
 
-(* === Start testing here ====
+
 (* -------------------------------------------------------------------------- *)
 (* PlatoonLeader is authorized on any report1 if this is the WARNO state and  *)
 (*   PlatoonLeader says recon /\      	      	      	     	   	      *)
@@ -300,8 +300,7 @@ PROVE_TAC[Controls, Modus_Ponens])
 (*   PlatoonSergeant says initiateMovement /\				      *)
 (*   PlatoonLeader says report1						      *)
 (* -------------------------------------------------------------------------- *)
-val PlatoonLeader_WARNO_exec_report1_lemma =
-let
+
   val th1w =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
@@ -321,21 +320,21 @@ let
   ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
   ``(WARNO)``,
   ``outs:slOutput output list trType list``] TR_exec_cmd_rule
-in
-TAC_PROOF(
-  set_goal([], fst(dest_imp(concl th1w))),
 
-set_goal([], fst(dest_imp(concl th1w)))
-(* 1 *)
+
+val PlatoonLeader_WARNO_exec_report1_lemma =
+TAC_PROOF(
+  ([], fst(dest_imp(concl th1w))),
 ASM_REWRITE_TAC
 [CFGInterpret_def, secContextNull_def, context_def,
  propCommandList_def, MAP,extractPropCommand_def ,
  satList_CONS, satList_nil, GSYM satList_conj,
  getRecon_def, getTenativePlan_def, getReport_def, getInitMove_def,
   getPlCom_def, getPsgCom_def, PL_WARNO_Auth_def]
-
 THEN
 PROVE_TAC[Controls, Modus_Ponens])
+
+(* === Start testing here ====
 (* 2 *)
 ASM_REWRITE_TAC
 [NOT_NONE_SOME,NOT_SOME_NONE,SOME_11,slCommand_one_one,
