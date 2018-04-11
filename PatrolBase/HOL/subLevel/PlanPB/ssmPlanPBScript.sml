@@ -108,8 +108,9 @@ TAC_PROOF(
   PROVE_TAC[inputOK_def])
 
 (* -------------------------------------------------------------------------- *)
-(* Lemma: PlatoonLeader is authorized on any plCommand if not in WARNO state  *)
-(*    and the plCommand is not report1.                                       *)
+(* Theorem: PlatoonLeader is authorized on any plCommand                      *)
+(*      iff not in WARNO state and                                            *)
+(*       the plCommand is not report1.                                        *)
 (* -------------------------------------------------------------------------- *)
 (* Helper functions *)
 val th1 =
@@ -146,7 +147,28 @@ ASM_REWRITE_TAC
 THEN
 PROVE_TAC[Controls, Modus_Ponens])
 
+(* helper functions *)
+val temp2 = snd(dest_imp(concl th1))
 
+(* lemma *)
+val PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_lemma =
+TAC_PROOF(
+         ([],
+            Term `(~((s:slState) = WARNO)) ==>
+	          (~((plCommand:plCommand) = report1)) ==> ^temp2`),
+PROVE_TAC
+    [PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma,
+     TR_exec_cmd_rule])
+
+
+(* Main theorem *)
+val PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm =
+REWRITE_RULE
+[propCommandList_def, inputList_def, extractPropCommand_def,
+ extractInput_def, MAP] PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_lemma 
+
+val _= save_thm("PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm",
+          PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm)
 
 (* -------------------------------------------------------------------------- *)
 (* PlatoonLeader is authorized on any report1 if this is the WARNO state and  *)
@@ -155,7 +177,6 @@ PROVE_TAC[Controls, Modus_Ponens])
 (*   PlatoonSergeant says initiateMovement /\				      *)
 (*   PlatoonLeader says report1						      *)
 (* -------------------------------------------------------------------------- *)
-
   val th1w =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
@@ -177,6 +198,7 @@ PROVE_TAC[Controls, Modus_Ponens])
   ``outs:slOutput output list trType list``] TR_exec_cmd_rule
 
 
+(* lemma *)
 val PlatoonLeader_WARNO_exec_report1_lemma =
 TAC_PROOF(
   ([], fst(dest_imp(concl th1w))),
@@ -189,20 +211,26 @@ ASM_REWRITE_TAC
 THEN
 PROVE_TAC[Controls, Modus_Ponens])
 
-(* === Start testing here ====
-(* 2 *)
-ASM_REWRITE_TAC
-[NOT_NONE_SOME,NOT_SOME_NONE,SOME_11,slCommand_one_one,
- slCommand_distinct_clauses,plCommand_distinct_clauses,
- psgCommand_distinct_clauses,slState_distinct_clauses,
- GSYM slState_distinct_clauses,
- GSYM slCommand_distinct_clauses,
- GSYM plCommand_distinct_clauses,
- GSYM psgCommand_distinct_clauses]
 
-set_goal ([], fst(dest_imp(concl th1w)))
 
- ==== End Testing Here ==== *)
+(* lemma *)
+val PlatoonLeader_WARNO_exec_report1_justified_lemma =
+TAC_PROOF(
+ ([], snd(dest_imp(concl th1w))),
+ PROVE_TAC
+ [PlatoonLeader_WARNO_exec_report1_lemma,
+  TR_exec_cmd_rule])
+
+(* Main theorem *)
+val PlatoonLeader_WARNO_exec_report1_justified_thm =
+REWRITE_RULE
+[propCommandList_def, inputList_def, extractPropCommand_def,
+ extractInput_def, MAP]
+PlatoonLeader_WARNO_exec_report1_justified_lemma
+
+val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_thm",
+         PlatoonLeader_WARNO_exec_report1_justified_thm)
+(*  ==== End Testing Here ==== *)
 val _ = export_theory();
 
 end
