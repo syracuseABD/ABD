@@ -13,65 +13,28 @@ app load  ["TypeBase", "listTheory","optionTheory",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
-	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory"];
+	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory",
+	  "PlanPBDefTheory"];
 
 open TypeBase listTheory optionTheory
      acl_infRules aclDrulesTheory aclrulesTheory
      aclsemanticsTheory aclfoundationTheory
      satListTheory ssmTheory ssminfRules uavUtilities
      OMNITypeTheory PlanPBTypeTheory ssmPlanPBTheory
+     PlanPBDefTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
 open TypeBase listTheory optionTheory
 open acl_infRules aclDrulesTheory aclrulesTheory
 open satListTheory ssmTheory ssminfRules uavUtilities
-open OMNITypeTheory PlanPBTypeTheory
+open OMNITypeTheory PlanPBTypeTheory PlanPBDefTheory
 
 val _ = new_theory "ssmPlanPB";
 
 (* -------------------------------------------------------------------------- *)
-(* Define the next state function for the state machine.                      *)
+(* Define the next-state & next-output functions for the state machine.       *)
 (* -------------------------------------------------------------------------- *)
-val planPBNS_def = Define
-`(* exec *)
-(planPBNS PLAN_PB         (exec ([PL receiveMission])) = RECEIVE_MISSION) /\
-(planPBNS RECEIVE_MISSION (exec ([PL warno]))          = WARNO)     /\ 
-(planPBNS WARNO           (exec ([PL recon;
-	  		  	 PL tentativePlan;
-				 PSG initiateMovement;
-				 PL report1]))         = REPORT1)   /\
-(planPBNS REPORT1         (exec ([PL completePlan]))   = COMPLETE_PLAN) /\
-(planPBNS COMPLETE_PLAN   (exec ([PL opoid]))          = OPOID)     /\
-(planPBNS OPOID           (exec ([PL supervise]))      = SUPERVISE) /\
-(planPBNS SUPERVISE       (exec ([PL report2]))        = REPORT2)   /\
-(planPBNS REPORT2         (exec ([PL complete]))       = COMPLETE)  /\
-(planPBNS (s:slState)     (trap ([PL  plCommand]))     = s)         /\
-(planPBNS (s:slState)     (trap ([PSG psgCommand]))    = s)         /\
-(planPBNS (s:slState)     (discard ([PL  plCommand]))  = s)         /\
-(planPBNS (s:slState)     (discard ([PSG psgCommand])) = s)`
-
-
-val planPBOut_def = Define
-`(* exec *)
-(planPBOut PLAN_PB         (exec ([PL receiveMission])) = ReceiveMission) /\
-(planPBOut RECEIVE_MISSION (exec ([PL warno]))          = Warno)     /\ 
-(planPBOut WARNO           (exec ([PL tentativePlan;
-	  		  	 PSG initiateMovement;
-				 PL recon]))            = Report1)   /\
-(planPBOut REPORT1         (exec ([PL completePlan]))   = CompletePlan) /\
-(planPBOut COMPLETE_PLAN   (exec ([PL opoid]))          = Opoid)     /\
-(planPBOut OPOID           (exec ([PL supervise]))      = Supervise) /\
-(planPBOut SUPERVISE       (exec ([PL report2]))        = Report2)   /\
-(planPBOut REPORT2         (exec ([PL complete]))       = Complete)  /\
-(planPBOut (s:slState)     (trap ([PL  plCommand]))     = unAuthorized) /\
-(planPBOut (s:slState)     (trap ([PSG psgCommand]))    = unAuthorized) /\
-(planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
-(planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
-
-(*  Version 2, using if-then statements *)
-(* ==== this would be easier with sequential statements used
-;
 val planPBNS_def = Define `
 (planPBNS WARNO (exec x) =
    if ((getRecon        x = [SOME (SLc (PL recon))] )        /\
@@ -80,38 +43,52 @@ val planPBNS_def = Define `
       (getInitMove      x = [SOME (SLc (PSG initiateMovement))] ))
    then REPORT1
    else WARNO) /\
-(planPBNS PLAN_PB         (exec ([(PL receiveMission)])) = RECEIVE_MISSION) /\
-(planPBNS RECEIVE_MISSION (exec ([ (PL warno)]))          = WARNO)          /\ 
-(planPBNS REPORT1         (exec ([ (PL completePlan)]))   = COMPLETE_PLAN)  /\
-(planPBNS COMPLETE_PLAN   (exec ([ (PL opoid)]))          = OPOID)          /\
-(planPBNS OPOID           (exec ([(PL supervise)]))      = SUPERVISE)       /\
-(planPBNS SUPERVISE       (exec ([ (PL report2)]))        = REPORT2)   /\
-(planPBNS REPORT2         (exec ([ (PL complete)]))       = COMPLETE)  /\
-(planPBNS (s:slState)     (trap ([ (PL  plCommand)]))     = s)         /\
-(planPBNS (s:slState)     (trap ([ (PSG psgCommand)]))    = s)         /\
-(planPBNS (s:slState)     (discard ([ (PL  plCommand)]))  = s)         /\
-(planPBNS (s:slState)     (discard ([ (PSG psgCommand)])) = s)`
+(planPBNS PLAN_PB         (exec x) = if (getPlCom x = receiveMission)
+	  	  	    then RECEIVE_MISSION else PLAN_PB)   /\
+(planPBNS RECEIVE_MISSION (exec x) =  if (getPlCom x = warno)
+	  	  	     then  WARNO else RECEIVE_MISSION)   /\ 
+(planPBNS REPORT1         (exec x) =  if (getPlCom x = completePlan)
+	  		    then COMPLETE_PLAN else REPORT1)     /\
+(planPBNS COMPLETE_PLAN   (exec x) =  if (getPlCom x = opoid)
+	  		    then OPOID else COMPLETE_PLAN) /\
+(planPBNS OPOID           (exec x) =  if (getPlCom x = supervise)
+	  		    then SUPERVISE else OPOID)     /\
+(planPBNS SUPERVISE       (exec x) =  if (getPlCom x = report2)
+	  		    then REPORT2 else SUPERVISE)   /\
+(planPBNS REPORT2         (exec x) =  if (getPlCom x = complete)
+	  		    then COMPLETE else REPORT2)    /\
+(planPBNS (s:slState)     (trap _)     = s)                /\
+(planPBNS (s:slState)     (discard _)  = s) `
 
 
-val planPBOut_def = Define
-`(* exec *)
-(planPBOut PLAN_PB         (exec ([PL receiveMission])) = ReceiveMission) /\
-(planPBOut RECEIVE_MISSION (exec ([PL warno]))          = Warno)     /\ 
-(planPBOut WARNO           (exec ([PL tentativePlan;
-	  		  	 PSG initiateMovement;
-				 PL recon]))            = Report1)   /\
-(planPBOut REPORT1         (exec ([PL completePlan]))   = CompletePlan) /\
-(planPBOut COMPLETE_PLAN   (exec ([PL opoid]))          = Opoid)     /\
-(planPBOut OPOID           (exec ([PL supervise]))      = Supervise) /\
-(planPBOut SUPERVISE       (exec ([PL report2]))        = Report2)   /\
-(planPBOut REPORT2         (exec ([PL complete]))       = Complete)  /\
-(planPBOut (s:slState)     (trap ([PL  plCommand]))     = unAuthorized) /\
-(planPBOut (s:slState)     (trap ([PSG psgCommand]))    = unAuthorized) /\
-(planPBOut (s:slState)     (discard ([PL  plCommand]))  = unAuthenticated) /\
-(planPBOut (s:slState)     (discard ([PSG psgCommand])) = unAuthenticated)`
- === This would be easier with sequential statements used ==== *)
+val planPBOut_def = Define `
+(planPBOut WARNO (exec x) =
+   if ((getRecon        x = [SOME (SLc (PL recon))] )        /\
+      (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+      (getReport        x = [SOME (SLc (PL report1))])       /\
+      (getInitMove      x = [SOME (SLc (PSG initiateMovement))] ))
+   then Report1
+   else unAuthorized) /\
+(planPBOut PLAN_PB         (exec x) = if (getPlCom x = receiveMission)
+	  	  	    then ReceiveMission else unAuthorized)   /\
+(planPBOut RECEIVE_MISSION (exec x) =  if (getPlCom x = warno)
+	  	  	     then  Warno else unAuthorized)   /\ 
+(planPBOut REPORT1         (exec x) =  if (getPlCom x = completePlan)
+	  		    then CompletePlan else unAuthorized)     /\
+(planPBOut COMPLETE_PLAN   (exec x) =  if (getPlCom x = opoid)
+	  		    then Opoid else unAuthorized) /\
+(planPBOut OPOID           (exec x) =  if (getPlCom x = supervise)
+	  		    then Supervise else unAuthorized)     /\
+(planPBOut SUPERVISE       (exec x) =  if (getPlCom x = report2)
+	  		    then Report2 else unAuthorized)   /\
+(planPBOut REPORT2         (exec x) =  if (getPlCom x = complete)
+	  		    then Complete else unAuthorized)    /\
+(planPBOut (s:slState)     (trap _)     = unAuthorized)                /\
+(planPBOut (s:slState)     (discard _)  = unAuthenticated) `
+
+
 (* -------------------------------------------------------------------------- *)
-(* authentication test function                                               *)
+(* inputOK: authentication test function                                      *)
 (* -------------------------------------------------------------------------- *)
 val inputOK_def = Define
 `(inputOK
@@ -130,131 +107,8 @@ TAC_PROOF(
    	   ((prop (SOME cmd)):((slCommand command)option, stateRole, 'd,'e)Form))``),
   PROVE_TAC[inputOK_def])
 
-
 (* -------------------------------------------------------------------------- *)
-(* state Interpretation function                                              *)
-(* -------------------------------------------------------------------------- *)
-(* This function doesn't do anything but is necessary to specialize other     *)
-(* theorems.                                                                  *)
-val secContextNull_def = Define `
-    secContextNull (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-        [(TT:((slCommand command)option, stateRole, 'd,'e)Form)]`
-
-
-(* -------------------------------------------------------------------------- *)
-(* Security context                                                           *)           
-(* -------------------------------------------------------------------------- *)
-(* mimick Prof. Chin's C2_L1R1_RB_Auth_def *)
-val PL_WARNO_Auth_def = Define `
-    PL_WARNO_Auth =
-    ^(impfTermList
-    [``(prop (SOME (SLc (PL recon))))
-         :((slCommand command)option, stateRole, 'd,'e)Form``,
-     ``(prop (SOME (SLc (PL tentativePlan))))
-         :((slCommand command)option, stateRole, 'd,'e)Form``,
-     ``(prop (SOME (SLc (PSG initiateMovement))))
-         :((slCommand command)option, stateRole, 'd,'e)Form``,
-     ``(Name PlatoonLeader) controls prop (SOME (SLc (PL report1)))
-         :((slCommand command)option, stateRole, 'd,'e)Form``]
-     ``:((slCommand command)option, stateRole, 'd,'e)Form``)`
-
-val PL_notWARNO_Auth_def = Define `
-    PL_notWARNO_Auth (cmd:plCommand) =
-    if (cmd = report1) (* report1 exits WARNO state *)
-    then
-      (prop NONE):((slCommand command)option, stateRole, 'd,'e)Form
-    else
-      ((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))
-       :((slCommand command)option, stateRole, 'd,'e)Form) impf
-      (((Name PlatoonLeader) controls prop (SOME (SLc (PL cmd))))
-      :((slCommand command)option, stateRole, 'd,'e)Form)) `
-
-
-(* Make a function to check for elements in the list *)
-val getRecon_def = Define `
-    (getRecon ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE]) /\
-    (getRecon ((Name PlatoonLeader) says (prop (SOME (SLc (PL recon))))::xs)
-    	      	        = [SOME (SLc (PL recon))]) /\
-    (getRecon (_::xs) = getRecon xs)`
-
-val getTenativePlan_def = Define `
-    (getTenativePlan ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE]) /\
-    (getTenativePlan ((Name PlatoonLeader) says (prop (SOME (SLc (PL tentativePlan))))::xs)
-    	      	        = [SOME (SLc (PL tentativePlan))]) /\
-    (getTenativePlan (_::xs) =  getTenativePlan xs)`
-
-val getReport_def = Define `
-    (getReport ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE]) /\
-    (getReport (((Name PlatoonLeader) says (prop (SOME (SLc (PL report1)))))::xs)
-    	      	       =  [SOME (SLc (PL report1))]) /\
-    (getReport (_::xs) = getReport xs)`
-
-val getInitMove_def = Define `
-    (getInitMove ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      [NONE]) /\
-    (getInitMove ((Name Sergeant) says (prop (SOME (SLc (PSG initiateMovement))))::xs)
-    	      	     = [SOME (SLc (PSG initiateMovement))]) /\
-    (getInitMove (_::xs) = getInitMove xs)`
-
-val getPlCom_def = Define `
-    (getPlCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      plIncomplete)
-    /\
-    (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))::xs) =
-    	      	      cmd)
-    /\
-    (getPlCom (_::xs) = getPlCom xs)`
-
-val getPsgCom_def = Define `
-    (getPsgCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      psgIncomplete)
-    /\
-    (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))::xs) =
-    	      	      cmd)
-    /\
-    (getPsgCom (_::xs) = getPsgCom xs)`
-
-
-val context_def = Define `
-context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    if (s = WARNO) then
-        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
-	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
-            (getReport        x = [SOME (SLc (PL report1))]) /\
-	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
-         then [
-	       PL_WARNO_Auth
-	        :((slCommand command)option, stateRole, 'd,'e)Form;
-		(Name PlatoonLeader) controls prop (SOME (SLc (PL recon)));
-		(Name PlatoonLeader) controls prop (SOME (SLc (PL tentativePlan)));
-	       (Name PlatoonSergeant) controls prop (SOME (SLc (PSG initiateMovement)))]
-	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
-    else [PL_notWARNO_Auth (getPlCom x)]`
-
-
-(* ==== Old way of doing things
-(Name PlatoonLeader) controls prop (SOME (SLc (PL recon))),
-	       (Name PlatoonLeader) controls prop (SOME (SLc (PL tentativePlan))),
-	       (Name PlatoonSergeant) controls prop (SOME (SLc (PSG initiateMovement))),
-
-val context_def = Define `
-context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    if (s = WARNO) then
-        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
-	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
-            (getReport        x = [SOME (SLc (PL report1))]) /\
-	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
-         then [PL_WARNO_Auth:((slCommand command)option, stateRole, 'd,'e)Form]
-	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
-    else [PL_notWARNO_Auth (getPlCom x)]`
-
- ==== End old way of doing things ===== *)
-
-(* -------------------------------------------------------------------------- *)
-(* PlatoonLeader is authorized on any plCommand if not in WARNO state         *)
+(* Lemma: PlatoonLeader is authorized on any plCommand if not in WARNO state  *)
 (*    and the plCommand is not report1.                                       *)
 (* -------------------------------------------------------------------------- *)
 (* Helper functions *)
@@ -274,6 +128,7 @@ val th1 =
 
 val temp = fst(dest_imp(concl th1))
 
+(* lemma *)
 val PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma =
 TAC_PROOF(
            ([],
