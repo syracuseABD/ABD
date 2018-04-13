@@ -9,14 +9,14 @@
 structure ssmPlanPBScript = struct
 
 (* ===== Interactive Mode ====
-app load  ["TypeBase", "listTheory","optionTheory",
+app load  ["TypeBase", "listTheory","optionTheory","listSyntax",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
 	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory",
 	  "PlanPBDefTheory"];
 
-open TypeBase listTheory optionTheory
+open TypeBase listTheory optionTheory listSyntax
      acl_infRules aclDrulesTheory aclrulesTheory
      aclsemanticsTheory aclfoundationTheory
      satListTheory ssmTheory ssminfRules uavUtilities
@@ -25,7 +25,7 @@ open TypeBase listTheory optionTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
-open TypeBase listTheory optionTheory
+open TypeBase listTheory optionTheory listSyntax
 open acl_infRules aclDrulesTheory aclrulesTheory
 open satListTheory ssmTheory ssminfRules uavUtilities
 open OMNITypeTheory PlanPBTypeTheory PlanPBDefTheory
@@ -118,7 +118,7 @@ val th1 =
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
       ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``context: (slState) ->
+  ``secContext: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form list ->
       ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``[((Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand)))))
@@ -138,7 +138,7 @@ TAC_PROOF(
 DISCH_TAC THEN
 DISCH_TAC THEN
 ASM_REWRITE_TAC
- [CFGInterpret_def, context_def, secContextNull_def,
+ [CFGInterpret_def, secContext_def, secContextNull_def,
   getRecon_def, getTenativePlan_def, getReport_def, getInitMove_def,
   getPlCom_def, getPsgCom_def, PL_notWARNO_Auth_def ,
   inputList_def, extractInput_def, MAP,
@@ -147,6 +147,8 @@ ASM_REWRITE_TAC
 THEN
 PROVE_TAC[Controls, Modus_Ponens])
 
+val _= save_thm ("PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma",
+       		  PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma)
 (* helper functions *)
 val temp2 = snd(dest_imp(concl th1))
 
@@ -156,10 +158,13 @@ TAC_PROOF(
          ([],
             Term `(~((s:slState) = WARNO)) ==>
 	          (~((plCommand:plCommand) = report1)) ==> ^temp2`),
+
 PROVE_TAC
     [PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma,
      TR_exec_cmd_rule])
 
+val _= save_thm ("PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_lemma",
+       		  PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_lemma)
 
 (* Main theorem *)
 val PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm =
@@ -182,7 +187,7 @@ val _= save_thm("PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm"
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
                     ((slCommand command)option, stateRole, 'd,'e)Form list``,
-  ``context: (slState) ->
+  ``secContext: (slState) ->
        ((slCommand command)option, stateRole, 'd,'e)Form list ->
        ((slCommand command)option, stateRole, 'd,'e)Form list``,
   ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL recon))))
@@ -203,7 +208,7 @@ val PlatoonLeader_WARNO_exec_report1_lemma =
 TAC_PROOF(
   ([], fst(dest_imp(concl th1w))),
 ASM_REWRITE_TAC
-[CFGInterpret_def, secContextNull_def, context_def,
+[CFGInterpret_def, secContextNull_def, secContext_def,
  propCommandList_def, MAP,extractPropCommand_def ,
  satList_CONS, satList_nil, GSYM satList_conj,
  getRecon_def, getTenativePlan_def, getReport_def, getInitMove_def,
@@ -211,7 +216,8 @@ ASM_REWRITE_TAC
 THEN
 PROVE_TAC[Controls, Modus_Ponens])
 
-
+val _= save_thm("PlatoonLeader_WARNO_exec_report1_lemma",
+		 PlatoonLeader_WARNO_exec_report1_lemma)
 
 (* lemma *)
 val PlatoonLeader_WARNO_exec_report1_justified_lemma =
@@ -221,6 +227,9 @@ TAC_PROOF(
  [PlatoonLeader_WARNO_exec_report1_lemma,
   TR_exec_cmd_rule])
 
+val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_lemma",
+		 PlatoonLeader_WARNO_exec_report1_justified_lemma)
+		 
 (* Main theorem *)
 val PlatoonLeader_WARNO_exec_report1_justified_thm =
 REWRITE_RULE
@@ -230,7 +239,94 @@ PlatoonLeader_WARNO_exec_report1_justified_lemma
 
 val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_thm",
          PlatoonLeader_WARNO_exec_report1_justified_thm)
-(*  ==== End Testing Here ==== *)
+
+(* -------------------------------------------------------------------------- *)
+(* Theorem: PlatoonLeader is not discarded any psgCommand.                    *)
+(* Note that this is just meant to demonstrate the authenticated inputs are   *)
+(* not discarded.  Instead, they should be trapped. This is because of how    *)
+(* how the inputOK (authentication) was defined.  Note, this proof would also *)
+(* be valid for PlatoonLeader on any plCommand.  It is not necessary to prove *)
+(* this.                                                                      *)
+(* -------------------------------------------------------------------------- *)
+
+val th1d =
+GENL
+[``(elementTest :((slCommand command)option, stateRole, 'd,'e)Form  -> bool)``,
+ ``(context :
+        :((slCommand command)option, stateRole, 'd,'e)Form  list ->
+        ((slCommand command)option, stateRole, 'd,'e)Form  list)``,
+ ``(stateInterp :
+        slState ->
+        ((slCommand command)option, stateRole, 'd,'e)Form  list ->
+        ((slCommand command)option, stateRole, 'd,'e)Form  list)``,
+ ``(x :((slCommand command)option, stateRole, 'd,'e)Form  list)``,
+ ``(ins :((slCommand command)option, stateRole, 'd,'e)Form list list)``,
+ ``(s :slState)``,
+ ``(outs :slOutput list)``,
+ ``(NS :slState -> (slCommand command) option list trType -> 'state)``,
+ ``(Out :'state -> (slCommand command) option list trType -> 'output)``,
+ ``(M :((slCommand command)option, stateRole, 'd,'e) Kripke)``,
+ ``(Oi :'d po)``,``(Os :'e po)``]
+TR_discard_cmd_rule
+
+(* Should we put this rule in the TR_discard_cmd_rule? *)
+val th1d =
+GENL
+[``(elementTest :('command option, 'principal, 'd, 'e) Form -> bool)``,
+ ``(context :
+        ('command option, 'principal, 'd, 'e) Form list ->
+        ('command option, 'principal, 'd, 'e) Form list)``,
+ ``(stateInterp :
+        'state ->
+        ('command option, 'principal, 'd, 'e) Form list ->
+        ('command option, 'principal, 'd, 'e) Form list)``,
+ ``(x :('command option, 'principal, 'd, 'e) Form list)``,
+ ``(ins :('command option, 'principal, 'd, 'e) Form list list)``,
+ ``(s :'state)``,
+ ``(outs :'output list)``,
+ ``(NS :'state -> 'command option list trType -> 'state)``,
+ ``(Out :'state -> 'command option list trType -> 'output)``,
+ ``(M :('command option, 'b, 'principal, 'd, 'e) Kripke)``,
+ ``(Oi :'d po)``,``(Os :'e po)``]
+TR_discard_cmd_rule
+
+val th2d =
+ISPECL
+  [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
+  ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
+                    ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``secContext: (slState) ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``[(Name PlatoonLeader) says (prop (SOME (SLc (PSG psgCommand))))
+      :((slCommand command)option, stateRole, 'd,'e)Form]``,
+  ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
+  ``(s:slState)``,
+  ``outs:slOutput output list trType list``] th1d
+
+val th3d = LIST_BETA_CONV (Term `(\p q. p /\ q) F ((\p q. p/\q) T ((\p q. p /\ q) T T))`)
+val th3d2 = LIST_BETA_CONV (Term `(\p q. p/\q) T T`)
+
+val PlatoonLeader_psgCommand_notDiscard_thm = REWRITE_RULE
+[authenticationTest_def, MAP, inputOK_def, FOLDR, th3d, th3d2] th2d
+
+val _= save_thm("PlatoonLeader_psgCommand_notDiscard_thm",
+                 PlatoonLeader_psgCommand_notDiscard_thm)
+
+(* ==== Start testing here ====
+
+(* -------------------------------------------------------------------------- *)
+(* Theorem: PlatoonLeader is not discarded any psgCommand.                    *)
+(* Note that this is just meant to demonstrate the authenticated inputs are   *)
+(* not discarded.  Instead, they should be trapped. This is because of how    *)
+(* how the inputOK (authentication) was defined.  Note, this proof would also *)
+(* be valid for PlatoonLeader on any plCommand.  It is not necessary to prove *)
+(* this.                                                                      *)
+(* -------------------------------------------------------------------------- *)
+
+
+
+==== End Testing Here ==== *)
 val _ = export_theory();
 
 end
