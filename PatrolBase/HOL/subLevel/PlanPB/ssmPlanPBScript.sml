@@ -13,19 +13,19 @@ app load  ["TypeBase", "listTheory","optionTheory","listSyntax",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
-	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory",
-	  "PlanPBDefTheory"];
+	  "OMNITypeTheory", "PlanPBTypeTheory","PlanPBDefTheory"]
+	  "ssmPlanPBTheory"];
 
 open TypeBase listTheory optionTheory listSyntax
      acl_infRules aclDrulesTheory aclrulesTheory
      aclsemanticsTheory aclfoundationTheory
      satListTheory ssmTheory ssminfRules uavUtilities
-     OMNITypeTheory PlanPBTypeTheory ssmPlanPBTheory
-     PlanPBDefTheory
+     OMNITypeTheory PlanPBTypeTheory PlanPBDefTheory
+     ssmPlanPBTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
-open TypeBase listTheory optionTheory listSyntax
+open TypeBase listTheory optionTheory 
 open acl_infRules aclDrulesTheory aclrulesTheory
 open satListTheory ssmTheory ssminfRules uavUtilities
 open OMNITypeTheory PlanPBTypeTheory PlanPBDefTheory
@@ -112,6 +112,7 @@ TAC_PROOF(
 (*      iff not in WARNO state and                                            *)
 (*       the plCommand is not report1.                                        *)
 (* -------------------------------------------------------------------------- *)
+
 (* Helper functions *)
 val th1 =
   ISPECL
@@ -158,7 +159,8 @@ TAC_PROOF(
          ([],
             Term `(~((s:slState) = WARNO)) ==>
 	          (~((plCommand:plCommand) = report1)) ==> ^temp2`),
-
+DISCH_TAC THEN
+DISCH_TAC THEN
 PROVE_TAC
     [PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma,
      TR_exec_cmd_rule])
@@ -182,7 +184,7 @@ val _= save_thm("PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_thm"
 (*   PlatoonSergeant says initiateMovement /\				      *)
 (*   PlatoonLeader says report1						      *)
 (* -------------------------------------------------------------------------- *)
-  val th1w =
+val th1w =
   ISPECL
   [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
   ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
@@ -252,7 +254,7 @@ val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_thm",
 val th1d =
 GENL
 [``(elementTest :((slCommand command)option, stateRole, 'd,'e)Form  -> bool)``,
- ``(context :
+ ``(context 
         :((slCommand command)option, stateRole, 'd,'e)Form  list ->
         ((slCommand command)option, stateRole, 'd,'e)Form  list)``,
  ``(stateInterp :
@@ -265,7 +267,7 @@ GENL
  ``(outs :slOutput list)``,
  ``(NS :slState -> (slCommand command) option list trType -> 'state)``,
  ``(Out :'state -> (slCommand command) option list trType -> 'output)``,
- ``(M :((slCommand command)option, stateRole, 'd,'e) Kripke)``,
+ ``(M :((slCommand command)option, 'b,stateRole, 'd,'e) Kripke)``,
  ``(Oi :'d po)``,``(Os :'e po)``]
 TR_discard_cmd_rule
 
