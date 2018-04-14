@@ -14,6 +14,7 @@ app load  ["TypeBase", "listTheory","optionTheory","listSyntax",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
 	  "OMNITypeTheory", "PlanPBTypeTheory","PlanPBDefTheory"]
+	  ,
 	  "ssmPlanPBTheory"];
 
 open TypeBase listTheory optionTheory listSyntax
@@ -133,9 +134,11 @@ val temp = fst(dest_imp(concl th1))
 (* lemma *)
 val PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma =
 TAC_PROOF(
-           ([],
+          ([],
             Term `(~((s:slState) = WARNO)) ==>
+	          (~((plCommand:plCommand) = invalidPlCommand)) ==>
 	          (~((plCommand:plCommand) = report1)) ==> ^temp`),
+DISCH_TAC THEN
 DISCH_TAC THEN
 DISCH_TAC THEN
 ASM_REWRITE_TAC
@@ -150,6 +153,7 @@ PROVE_TAC[Controls, Modus_Ponens])
 
 val _= save_thm ("PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma",
        		  PlatoonLeader_notWARNO_notreport1_exec_plCommand_lemma)
+
 (* helper functions *)
 val temp2 = snd(dest_imp(concl th1))
 
@@ -158,7 +162,9 @@ val PlatoonLeader_notWARNO_notreport1_exec_plCommand_justified_lemma =
 TAC_PROOF(
          ([],
             Term `(~((s:slState) = WARNO)) ==>
+	    	  (~((plCommand:plCommand) = invalidPlCommand)) ==>
 	          (~((plCommand:plCommand) = report1)) ==> ^temp2`),
+DISCH_TAC THEN
 DISCH_TAC THEN
 DISCH_TAC THEN
 PROVE_TAC
@@ -250,28 +256,7 @@ val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_thm",
 (* be valid for PlatoonLeader on any plCommand.  It is not necessary to prove *)
 (* this.                                                                      *)
 (* -------------------------------------------------------------------------- *)
-
-val th1d =
-GENL
-[``(elementTest :((slCommand command)option, stateRole, 'd,'e)Form  -> bool)``,
- ``(context 
-        :((slCommand command)option, stateRole, 'd,'e)Form  list ->
-        ((slCommand command)option, stateRole, 'd,'e)Form  list)``,
- ``(stateInterp :
-        slState ->
-        ((slCommand command)option, stateRole, 'd,'e)Form  list ->
-        ((slCommand command)option, stateRole, 'd,'e)Form  list)``,
- ``(x :((slCommand command)option, stateRole, 'd,'e)Form  list)``,
- ``(ins :((slCommand command)option, stateRole, 'd,'e)Form list list)``,
- ``(s :slState)``,
- ``(outs :slOutput list)``,
- ``(NS :slState -> (slCommand command) option list trType -> 'state)``,
- ``(Out :'state -> (slCommand command) option list trType -> 'output)``,
- ``(M :((slCommand command)option, 'b,stateRole, 'd,'e) Kripke)``,
- ``(Oi :'d po)``,``(Os :'e po)``]
-TR_discard_cmd_rule
-
-(* Should we put this rule in the TR_discard_cmd_rule? *)
+(* Should we put this GENL  in the TR_discard_cmd_rule? *)
 val th1d =
 GENL
 [``(elementTest :('command option, 'principal, 'd, 'e) Form -> bool)``,
@@ -318,16 +303,36 @@ val _= save_thm("PlatoonLeader_psgCommand_notDiscard_thm",
 (* ==== Start testing here ====
 
 (* -------------------------------------------------------------------------- *)
-(* Theorem: PlatoonLeader is not discarded any psgCommand.                    *)
-(* Note that this is just meant to demonstrate the authenticated inputs are   *)
-(* not discarded.  Instead, they should be trapped. This is because of how    *)
-(* how the inputOK (authentication) was defined.  Note, this proof would also *)
-(* be valid for PlatoonLeader on any plCommand.  It is not necessary to prove *)
-(* this.                                                                      *)
+(* Theorem: PlatoonLeader is trapped on any psgCommand.                       *)
 (* -------------------------------------------------------------------------- *)
+val th1t =
+ISPECL
+  [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
+  ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
+                    ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``secContext: (slState) ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``[(Name PlatoonLeader) says (prop (SOME (SLc (PSG psgCommand))))
+      :((slCommand command)option, stateRole, 'd,'e)Form]``,
+  ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
+  ``(s:slState)``,
+  ``outs:slOutput output list trType list``]
+  TR_trap_cmd_rule
 
+val temp = fst(dest_imp(concl th1t))
+val t = set_goal ([],
+                  fst(dest_imp(concl th1t)))
 
-
+ASM_REWRITE_TAC
+[CFGInterpret_def, inputOK_def, secContext_def, secContextNull_def]
+THEN
+ASM_REWRITE_TAC
+[getRecon_def,getTenativePlan_def, getReport_def, getInitMove_def,
+ PL_notWARNO_Auth_def, getPlCom_def]
+REPEAT STRIP_TAC
+ASM_REWRITE_TAC
+[getInitMove_def, satList_def, NOT_NONE_SOME]
 ==== End Testing Here ==== *)
 val _ = export_theory();
 

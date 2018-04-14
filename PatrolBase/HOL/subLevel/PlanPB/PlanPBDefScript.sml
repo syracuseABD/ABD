@@ -2,16 +2,13 @@ structure PlanPBDefScript = struct
 
 (* ===== Interactive Mode ====
 app load  ["TypeBase", "listTheory","optionTheory",
-          "acl_infRules","aclDrulesTheory","aclrulesTheory",
-	  "aclsemanticsTheory", "aclfoundationTheory",
-    	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
-	  "OMNITypeTheory", "PlanPBTypeTheory","ssmPlanPBTheory"];
+           "uavUtilities",
+	  "OMNITypeTheory", "PlanPBTypeTheory"];
 
 open TypeBase listTheory optionTheory
-     acl_infRules aclDrulesTheory aclrulesTheory
      aclsemanticsTheory aclfoundationTheory
-     satListTheory ssmTheory ssminfRules uavUtilities
-     OMNITypeTheory PlanPBTypeTheory ssmPlanPBTheory
+     uavUtilities
+     OMNITypeTheory PlanPBTypeTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
@@ -87,13 +84,13 @@ val getReport_def = Define `
 val getInitMove_def = Define `
     (getInitMove ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      [NONE]) /\
-    (getInitMove ((Name Sergeant) says (prop (SOME (SLc (PSG initiateMovement))))::xs)
+    (getInitMove ((Name PlatoonSergeant) says (prop (SOME (SLc (PSG initiateMovement))))::xs)
     	      	     = [SOME (SLc (PSG initiateMovement))]) /\
     (getInitMove (_::xs) = getInitMove xs)`
 
 val getPlCom_def = Define `
     (getPlCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      plIncomplete)
+    	      invalidPlCommand)
     /\
     (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))::xs) =
     	      	      cmd)
@@ -102,7 +99,7 @@ val getPlCom_def = Define `
 
 val getPsgCom_def = Define `
     (getPsgCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
-    	      psgIncomplete)
+    	      invalidPsgCommand)
     /\
     (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))::xs) =
     	      	      cmd)
@@ -110,8 +107,80 @@ val getPsgCom_def = Define `
     (getPsgCom (_::xs) = getPsgCom xs)`
 
 
-val context_def = Define `
-context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+val secContext_def = Define `
+secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    if (s = WARNO) then
+        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
+	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+            (getReport        x = [SOME (SLc (PL report1))]) /\
+	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
+         then [
+	       PL_WARNO_Auth
+	        :((slCommand command)option, stateRole, 'd,'e)Form;
+		(Name PlatoonLeader) controls prop (SOME (SLc (PL recon)));
+		(Name PlatoonLeader) controls prop (SOME (SLc (PL tentativePlan)));
+	       (Name PlatoonSergeant) controls prop (SOME (SLc (PSG initiateMovement)))]
+	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
+    else if ((getPlCom x) = invalidPlCommand)
+    	 then [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form]
+	 else [PL_notWARNO_Auth (getPlCom x)]`
+
+(* ==== Back-up copy ====
+
+val secContext_def = Define `
+secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+    if (s = WARNO) then
+        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
+	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
+            (getReport        x = [SOME (SLc (PL report1))]) /\
+	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
+         then [
+	       PL_WARNO_Auth
+	        :((slCommand command)option, stateRole, 'd,'e)Form;
+		(Name PlatoonLeader) controls prop (SOME (SLc (PL recon)));
+		(Name PlatoonLeader) controls prop (SOME (SLc (PL tentativePlan)));
+	       (Name PlatoonSergeant) controls prop (SOME (SLc (PSG initiateMovement)))]
+	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
+    else if ((getPlCom x) = invalidPlCommand)
+    	 then [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form]
+	 else [PL_notWARNO_Auth (getPlCom x)]`
+
+val sec_def = Define `
+ sec x = ^type_of (Term(`report1`)) = ^type_of (Term(`recon`)) `
+
+
+val plList =
+  [``receiveMission``,
+   `` warno``,
+   ``tentativePlan``,
+   ``recon``,
+   ``report1``,
+   ``completePlan``,
+   ``opoid``,
+   ``supervise``,
+   ``report2``,
+   ``complete``,
+   ``plIncomplete``]
+   
+val isPlCom_def = Define`
+  (isPlCom x []      = (1 = 2)) /\ (* How to represent false in HOL? *)
+  (isPlCom x (y::ys) = (x = y) \/ (isPlCom x ys))`
+
+val isPlCommand_def = Define`
+  (isPlCommand x = FOLDR (\p q. (p = q) \/ q) x plList)`
+
+val isPlCom_def = Define`
+ (isPlCom_def ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
+     false) /\
+ (isPlCom ((Name PlatoonLeader) says (prop (SOME (SLc (PL plCommand))))::xs) =
+      if ^type_of plCommand = ^type_of recon then true else false) /\
+ (isPlCom (_::xs) = isPlCom xs)`
+
+(* This is an older version that worked! *)
+
+
+val secContext_def = Define `
+secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
     if (s = WARNO) then
         (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
 	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
@@ -126,6 +195,8 @@ context (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
 	 else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form])
     else [PL_notWARNO_Auth (getPlCom x)]`
 
+
+ ==== End back-up copy ==== *)
 
 val _= export_theory();
 end

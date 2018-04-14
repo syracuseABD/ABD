@@ -12,7 +12,7 @@ structure PlanPBTypeScript = struct
 
 (* ===== Interactive Mode ====
 app load ["TypeBase"];
-open TypeBase 
+open TypeBase
  ==== end Interactive Mode ==== *)
 
 
@@ -32,14 +32,16 @@ val _= Datatype `plCommand = receiveMission
 			   | supervise
 			   | report2
 			   | complete
-			   | plIncomplete`
+			   | plIncomplete
+			   | invalidPlCommand`
 
 val plCommand_distinct_clauses = distinct_of``:plCommand``
 val _= save_thm("plCommand_distinct_clauses",plCommand_distinct_clauses)
 
 
 val _= Datatype `psgCommand = initiateMovement
-       			    | psgIncomplete`
+       			    | psgIncomplete
+			    | invalidPsgCommand`
 
 val psgCommand_distinct_clauses = distinct_of``:psgCommand``
 val _= save_thm("psgCommand_distinct_clauses", psgCommand_distinct_clauses)
