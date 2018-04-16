@@ -432,6 +432,54 @@ val _= save_thm("PlatoonSergeant_trap_plCommand_justified_thm",
 		 PlatoonSergeant_trap_plCommand_justified_thm)
 
 
+(* -------------------------------------------------------------------------- *)
+(* Theorem: if state = WARNO and not					      *)
+(*      (PlatoonLeader says recon and					      *)
+(*	PlatoonLeader says tentativePlan and				      *)
+(* 	PlatoonSergeant says initiateMovement) then			      *)
+(*      PlatoonLeader says report1 is trapped. 				      *)
+(* -------------------------------------------------------------------------- *)
+val th1tw =
+  ISPECL
+  [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
+  ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
+                    ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``secContext: (slState) ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``[(Name PlatoonLeader) says (prop (SOME (SLc (PL report1))))
+      :((slCommand command)option, stateRole, 'd,'e)Form]``,
+  ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
+  ``(s:slState)``,
+  ``outs:slOutput output list trType list``] TR_exec_cmd_rule
+
+set_goal ([],
+		fst(dest_imp(concl th1tw)))
+      	       
+ASM_REWRITE_TAC
+[CFGInterpret_def, inputOK_def, secContext_def, secContextNull_def]
+THEN
+ASM_REWRITE_TAC
+[getRecon_def,getTenativePlan_def, getReport_def, getInitMove_def,
+ getPlCom_def,satList_CONS, satList_nil, GSYM satList_conj,PL_notWARNO_Auth_def]
+THEN
+ASM_REWRITE_TAC
+[NOT_NONE_SOME,NOT_SOME_NONE, SOME_11, list_11,
+ slCommand_one_one, slCommand_distinct_clauses,
+ plCommand_distinct_clauses, psgCommand_distinct_clauses,
+ GSYM slCommand_distinct_clauses,
+ GSYM plCommand_distinct_clauses,
+ GSYM psgCommand_distinct_clauses,
+ satList_CONS, satList_nil]
+THEN
+ASM_REWRITE_TAC
+[propCommandList_def, inputList_def, MAP, extractPropCommand_def,
+ extractInput_def, satList_CONS, satList_nil,GSYM satList_conj, sat_TT,
+ satList_CONS, IF_EQUALS_OPTION, IF_NONE_EQUALS_OPTION,
+ NOT_NONE_SOME,NOT_SOME_NONE, SOME_11, list_11]
+
+
+
 
 
 (* ==== Start testing here ====
