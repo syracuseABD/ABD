@@ -13,8 +13,7 @@ app load  ["TypeBase", "listTheory","optionTheory","listSyntax",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
-	  "OMNITypeTheory", "PlanPBTypeTheory","PlanPBDefTheory"]
-	  ,
+	  "OMNITypeTheory", "PlanPBTypeTheory","PlanPBDefTheory",
 	  "ssmPlanPBTheory"];
 
 open TypeBase listTheory optionTheory listSyntax
@@ -237,12 +236,18 @@ TAC_PROOF(
 
 val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_lemma",
 		 PlatoonLeader_WARNO_exec_report1_justified_lemma)
-		 
+
+
+val th23 = REWRITE_RULE
+[PlatoonLeader_WARNO_exec_report1_lemma,
+ PlatoonLeader_WARNO_exec_report1_justified_lemma] th1w
+
 (* Main theorem *)
+
 val PlatoonLeader_WARNO_exec_report1_justified_thm =
 REWRITE_RULE
 [propCommandList_def, inputList_def, extractPropCommand_def,
- extractInput_def, MAP]
+ extractInput_def, MAP]  
 PlatoonLeader_WARNO_exec_report1_justified_lemma
 
 val _= save_thm("PlatoonLeader_WARNO_exec_report1_justified_thm",
@@ -300,8 +305,6 @@ val PlatoonLeader_psgCommand_notDiscard_thm = REWRITE_RULE
 val _= save_thm("PlatoonLeader_psgCommand_notDiscard_thm",
                  PlatoonLeader_psgCommand_notDiscard_thm)
 
-(* ==== Start testing here ====
-
 (* -------------------------------------------------------------------------- *)
 (* Theorem: PlatoonLeader is trapped on any psgCommand.                       *)
 (* -------------------------------------------------------------------------- *)
@@ -320,19 +323,51 @@ ISPECL
   ``outs:slOutput output list trType list``]
   TR_trap_cmd_rule
 
-val temp = fst(dest_imp(concl th1t))
-val t = set_goal ([],
-                  fst(dest_imp(concl th1t)))
 
+val PlatoonLeader_trap_psgCommand_lemma =
+TAC_PROOF(
+	([],
+         fst(dest_imp(concl th1t))), 
 ASM_REWRITE_TAC
 [CFGInterpret_def, inputOK_def, secContext_def, secContextNull_def]
 THEN
 ASM_REWRITE_TAC
 [getRecon_def,getTenativePlan_def, getReport_def, getInitMove_def,
- PL_notWARNO_Auth_def, getPlCom_def]
-REPEAT STRIP_TAC
+ getPlCom_def,satList_CONS, satList_nil, GSYM satList_conj]
+THEN
 ASM_REWRITE_TAC
-[getInitMove_def, satList_def, NOT_NONE_SOME]
+[NOT_NONE_SOME,NOT_SOME_NONE, SOME_11, list_11,
+ slCommand_one_one, slCommand_distinct_clauses,
+ plCommand_distinct_clauses, psgCommand_distinct_clauses,
+ GSYM slCommand_distinct_clauses,
+ GSYM plCommand_distinct_clauses,
+ GSYM psgCommand_distinct_clauses]
+THEN
+PROVE_TAC[satList_CONS, satList_nil])
+
+val _= save_thm("PlatoonLeader_trap_psgCommand_lemma",
+		 PlatoonLeader_trap_psgCommand_lemma)
+
+val PlatoonLeader_trap_psgCommand_justified_lemma =
+TAC_PROOF(
+	([],
+	snd(dest_imp(concl th1t))),
+PROVE_TAC
+[PlatoonLeader_trap_psgCommand_lemma, TR_trap_cmd_rule])
+	
+val _= save_thm("PlatoonLeader_trap_psgCommand_justified_lemma",
+		 PlatoonLeader_trap_psgCommand_justified_lemma)
+
+
+val PlatoonLeader_trap_psgCommand_justified_thm =
+REWRITE_RULE
+[propCommandList_def, inputList_def, extractPropCommand_def,
+ extractInput_def, MAP]
+ PlatoonLeader_trap_psgCommand_justified_lemma
+
+val _= save_thm("PlatoonLeader_trap_psgCommand_justified_lemma",
+		 PlatoonLeader_trap_psgCommand_justified_lemma)
+(* ==== Start testing here ====
 ==== End Testing Here ==== *)
 val _ = export_theory();
 

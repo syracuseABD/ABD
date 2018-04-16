@@ -63,36 +63,41 @@ val PL_notWARNO_Auth_def = Define `
 val getRecon_def = Define `
     (getRecon ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      [NONE]) /\
-    (getRecon ((Name PlatoonLeader) says (prop (SOME (SLc (PL recon))))::xs)
-    	      	        = [SOME (SLc (PL recon))]) /\
+    (getRecon ((Name PlatoonLeader) says (prop (SOME (SLc (PL recon))))
+               :((slCommand command)option, stateRole, 'd,'e)Form::xs)
+    	      	        = [SOME (SLc (PL recon)):(slCommand command)option]) /\
     (getRecon (_::xs) = getRecon xs)`
 
 val getTenativePlan_def = Define `
     (getTenativePlan ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      [NONE]) /\
-    (getTenativePlan ((Name PlatoonLeader) says (prop (SOME (SLc (PL tentativePlan))))::xs)
-    	      	        = [SOME (SLc (PL tentativePlan))]) /\
+    (getTenativePlan ((Name PlatoonLeader) says (prop (SOME (SLc (PL tentativePlan))))
+    		       :((slCommand command)option, stateRole, 'd,'e)Form::xs)
+    	      	        = [SOME (SLc (PL tentativePlan)):(slCommand command)option]) /\
     (getTenativePlan (_::xs) =  getTenativePlan xs)`
 
 val getReport_def = Define `
     (getReport ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      [NONE]) /\
-    (getReport (((Name PlatoonLeader) says (prop (SOME (SLc (PL report1)))))::xs)
-    	      	       =  [SOME (SLc (PL report1))]) /\
+    (getReport (((Name PlatoonLeader) says (prop (SOME (SLc (PL report1)))))
+    	          :((slCommand command)option, stateRole, 'd,'e)Form::xs)
+    	      	       =  [SOME (SLc (PL report1)):(slCommand command)option]) /\
     (getReport (_::xs) = getReport xs)`
 
 val getInitMove_def = Define `
     (getInitMove ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      [NONE]) /\
-    (getInitMove ((Name PlatoonSergeant) says (prop (SOME (SLc (PSG initiateMovement))))::xs)
-    	      	     = [SOME (SLc (PSG initiateMovement))]) /\
+    (getInitMove (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG initiateMovement)))))
+    		   :((slCommand command)option, stateRole, 'd,'e)Form::xs)
+    	      	     = [SOME (SLc (PSG initiateMovement)):(slCommand command)option]) /\
     (getInitMove (_::xs) = getInitMove xs)`
 
 val getPlCom_def = Define `
     (getPlCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      invalidPlCommand)
     /\
-    (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))::xs) =
+    (getPlCom (((Name PlatoonLeader) says (prop (SOME (SLc (PL cmd)))))
+    	         :((slCommand command)option, stateRole, 'd,'e)Form::xs) =
     	      	      cmd)
     /\
     (getPlCom (_::xs) = getPlCom xs)`
@@ -101,7 +106,8 @@ val getPsgCom_def = Define `
     (getPsgCom ([]:((slCommand command)option, stateRole, 'd,'e)Form list) =
     	      invalidPsgCommand)
     /\
-    (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))::xs) =
+    (getPsgCom (((Name PlatoonSergeant) says (prop (SOME (SLc (PSG cmd)))))
+    	          :((slCommand command)option, stateRole, 'd,'e)Form::xs) =
     	      	      cmd)
     /\
     (getPsgCom (_::xs) = getPsgCom xs)`
@@ -110,10 +116,14 @@ val getPsgCom_def = Define `
 val secContext_def = Define `
 secContext (s:slState) (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
     if (s = WARNO) then
-        (if (getRecon         x = [SOME (SLc (PL recon))] ) /\
-	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))]) /\
-            (getReport        x = [SOME (SLc (PL report1))]) /\
-	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))])
+        (if (getRecon         x = [SOME (SLc (PL recon))
+	    		           :(slCommand command)option] ) /\
+	    (getTenativePlan  x = [SOME (SLc (PL tentativePlan))
+	    		      	   :(slCommand command)option]) /\
+            (getReport        x = [SOME (SLc (PL report1))
+	    		      	   :(slCommand command)option]) /\
+	    (getInitMove      x = [SOME (SLc (PSG initiateMovement))
+	    		      	   :(slCommand command)option])
          then [
 	       PL_WARNO_Auth
 	        :((slCommand command)option, stateRole, 'd,'e)Form;
