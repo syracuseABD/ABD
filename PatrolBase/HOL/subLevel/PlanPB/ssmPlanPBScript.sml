@@ -367,6 +367,73 @@ REWRITE_RULE
 
 val _= save_thm("PlatoonLeader_trap_psgCommand_justified_lemma",
 		 PlatoonLeader_trap_psgCommand_justified_lemma)
+
+(* -------------------------------------------------------------------------- *)
+(* Theorem: PlatoonSergeant is trapped on any plCommand.                      *)
+(* -------------------------------------------------------------------------- *)
+val th1tt =
+ISPECL
+  [``inputOK:((slCommand command)option, stateRole, 'd,'e)Form -> bool``,
+  ``secContextNull :((slCommand command)option, stateRole, 'd,'e)Form list ->
+                    ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``secContext: (slState) ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list ->
+       ((slCommand command)option, stateRole, 'd,'e)Form list``,
+  ``[(Name PlatoonSergeant) says (prop (SOME (SLc (PL plCommand))))
+      :((slCommand command)option, stateRole, 'd,'e)Form]``,
+  ``ins:((slCommand command)option, stateRole, 'd,'e)Form list list``,
+  ``(s:slState)``,
+  ``outs:slOutput output list trType list``]
+  TR_trap_cmd_rule
+
+
+val PlatoonSergeant_trap_plCommand_lemma =
+TAC_PROOF(
+	([],
+         fst(dest_imp(concl th1tt))), 
+ASM_REWRITE_TAC
+[CFGInterpret_def, inputOK_def, secContext_def, secContextNull_def]
+THEN
+ASM_REWRITE_TAC
+[getRecon_def,getTenativePlan_def, getReport_def, getInitMove_def,
+ getPlCom_def,satList_CONS, satList_nil, GSYM satList_conj]
+THEN
+ASM_REWRITE_TAC
+[NOT_NONE_SOME,NOT_SOME_NONE, SOME_11, list_11,
+ slCommand_one_one, slCommand_distinct_clauses,
+ plCommand_distinct_clauses, psgCommand_distinct_clauses,
+ GSYM slCommand_distinct_clauses,
+ GSYM plCommand_distinct_clauses,
+ GSYM psgCommand_distinct_clauses]
+THEN
+PROVE_TAC[satList_CONS, satList_nil])
+
+val _= save_thm("PlatoonSergeant_trap_plCommand_lemma",
+		 PlatoonSergeant_trap_plCommand_lemma)
+
+val PlatoonSergeant_trap_plCommand_justified_lemma =
+TAC_PROOF(
+	([],
+	snd(dest_imp(concl th1tt))),
+PROVE_TAC
+[PlatoonSergeant_trap_plCommand_lemma, TR_trap_cmd_rule])
+	
+val _= save_thm("PlatoonSergeant_trap_plCommand_justified_lemma",
+		 PlatoonSergeant_trap_plCommand_justified_lemma)
+
+
+val PlatoonSergeant_trap_plCommand_justified_thm =
+REWRITE_RULE
+[propCommandList_def, inputList_def, extractPropCommand_def,
+ extractInput_def, MAP]
+ PlatoonSergeant_trap_plCommand_justified_lemma
+
+val _= save_thm("PlatoonSergeant_trap_plCommand_justified_thm",
+		 PlatoonSergeant_trap_plCommand_justified_thm)
+
+
+
+
 (* ==== Start testing here ====
 ==== End Testing Here ==== *)
 val _ = export_theory();
