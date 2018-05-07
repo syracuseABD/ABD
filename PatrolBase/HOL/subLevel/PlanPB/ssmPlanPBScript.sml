@@ -431,6 +431,7 @@ REWRITE_RULE
 val _= save_thm("PlatoonSergeant_trap_plCommand_justified_thm",
 		 PlatoonSergeant_trap_plCommand_justified_thm)
 
+(* ==== Start testing here ====
 
 (* -------------------------------------------------------------------------- *)
 (* Theorem: if state = WARNO and not					      *)
@@ -482,7 +483,6 @@ ASM_REWRITE_TAC
 
 
 
-(* ==== Start testing here ====
 ==== End Testing Here ==== *)
 val _ = export_theory();
 
