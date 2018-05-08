@@ -10,7 +10,6 @@ clean:
 	cd OMNILevel; make clean; cd ..
 	cd topLevel; make clean; cd ..
 	cd subLevel; make clean; cd ..
-	cd subsubLevel; make clean; cd ..
 	cd HOLReportsOMNI; make clean; cd ..
 
 theory:
