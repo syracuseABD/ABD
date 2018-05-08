@@ -18,5 +18,4 @@ theory:
 	cd OMNILevel; make; cd ..
 	cd topLevel; make; cd ..
 	cd subLevel; make; cd ..
-	cd subsubLevel; make; cd ..
 	cd HOLReportsOMNI; make; cd ..
