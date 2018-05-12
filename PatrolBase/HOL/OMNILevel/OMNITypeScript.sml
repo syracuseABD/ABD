@@ -41,21 +41,8 @@ val _ = save_thm("escCommand_distinct_clauses",escCommand_distinct_clauses)
 
 
 val _=
-Datatype `omniCommand = ssmPlanPBComplete
-	 	    | ssmMoveToORPComplete
-		    | ssmConductORPComplete
-		    | ssmMoveToPBComplete
-		    | ssmConductPBComplete`
-
-
-val omniCommand_distinct_clauses = distinct_of``:omniCommand``
-val _= save_thm("omniCommand_distinct_clauses",
-	         omniCommand_distinct_clauses)
-
-val _=
 Datatype `command = ESCc escCommand (* Constructor for escape command *)
- 	 	  | SLc  'slCommand (* Constructor for state level cmd *)
-		  | OMNI omniCommand` (* OMNI level command *)
+ 	 	  | SLc  'slCommand` (* Constructor for state level cmd *)
 
 
 
