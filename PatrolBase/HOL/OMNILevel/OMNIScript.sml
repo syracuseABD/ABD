@@ -31,6 +31,7 @@ val _ = new_theory "OMNI";
 (******************************************************************************)
 (* Define slCommands for OMNI.						      *)
 (******************************************************************************)
+(* ==== Area 52 ===========
 
 val _=
 Datatype `stateRole = Omni`
@@ -53,11 +54,37 @@ Datatype `slCommand = OMNI omniCommand`
 val omniAuthentication_def = 
 Define
 `(omniAuthentication
-	(Name Omni controls prop (cmd:((slCommand command) option))
+	(Name Omni says prop (cmd:((slCommand command) option))
 	:((slCommand command) option, stateRole, 'd,'e)Form) = T) /\
  (omniAuthentication _ = F)`
 
-(* ==== Area 52 ===========
+val omniAuthorization_def =
+Define
+`(omniAuthorization
+	(Name Omni controls prop (cmd:((slCommand command) option))
+	:((slCommand command) option, stateRole, 'd,'e)Form) = T) /\
+ (omniAuthorization _ = F)`
+
+	
+
+This may not be necessary...But, it is interesting.  Save for a later time.
+(******************************************************************************)
+(* Prove that								      *)
+(*  Omni says omniCommand ==> omniCommand				      *)
+(******************************************************************************)
+
+set_goal([],
+    ``(Name Omni says prop (cmd:((slCommand command) option))
+	:((slCommand command) option, stateRole, 'd,'e)Form) ==>
+		     prop (cmd:((slCommand command) option))``)
+
+
+
+
+val th1 = ASSUME``(Name Omni says prop (cmd:((slCommand command) option))
+	:((slCommand command) option, stateRole, 'd,'e)Form) = TT``
+val th2 = REWRITE_RULE[omniAuthentication_def]th1
+
  ========= End Area 52 ==== *)
 
 val _= export_theory();
