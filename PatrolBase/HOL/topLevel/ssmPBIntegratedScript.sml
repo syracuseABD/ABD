@@ -24,25 +24,61 @@ app load  ["TypeBase", "listTheory","optionTheory","listSyntax",
           "acl_infRules","aclDrulesTheory","aclrulesTheory",
 	  "aclsemanticsTheory", "aclfoundationTheory",
     	  "satListTheory","ssmTheory","ssminfRules","uavUtilities",
-	  "OMNITypeTheory", "PBTypeTheory",
-	  "ssmPlanPBIntegrated"];
+	  "OMNITypeTheory", "PBTypeIntegratedTheory","PBIntegratedDefTheory",
+	  "ssmPBIntegratedTheory"];
 
 open TypeBase listTheory optionTheory listSyntax
      acl_infRules aclDrulesTheory aclrulesTheory
      aclsemanticsTheory aclfoundationTheory
      satListTheory ssmTheory ssminfRules uavUtilities
-     OMNITypeTheory PBTypeTheory
-     ssmPlanPBIntegrated
+     OMNITypeTheory PBTypeIntegratedTheory PBIntegratedDefTheory
+     ssmPBIntegratedTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
 open TypeBase listTheory optionTheory 
 open acl_infRules aclDrulesTheory aclrulesTheory
 open satListTheory ssmTheory ssminfRules uavUtilities
-open OMNITypeTheory
+open OMNITypeTheory PBTypeIntegratedTheory PBIntegratedDefTheory
 
 
 val _ = new_theory  "ssmPBIntegrated";
+
+
+(******************************************************************************)
+(* Define next-state and next-output functions                                *)
+(******************************************************************************)
+val PBNS_def =
+Define`
+(PBNS PLAN_PB     (exec [SOME (SLc (PL crossLD))])    = MOVE_TO_ORP) /\
+(PBNS MOVE_TO_ORP (exec [SOME (SLc (PL conductORP))]) = CONDUCT_ORP) /\
+(PBNS CONDUCT_ORP (exec [SOME (SLc (PL moveToPB))])   = MOVE_TO_PB)  /\
+(PBNS MOVE_TO_PB  (exec [SOME (SLc (PL conductPB))]) =  CONDUCT_PB)  /\
+(PBNS CONDUCT_PB  (exec [SOME (SLc (PL completePB))]) = COMPLETE_PB) /\
+(PBNS (s:slState) (trap _)    = s) /\
+(PBNS (s:slState) (discard _) = s)`
+
+val PBOut_def =
+Define`
+(PBOut PLAN_PB     (exec [SOME (SLc (PL crossLD))])    = MoveToORP) /\
+(PBOut MOVE_TO_ORP (exec [SOME (SLc (PL conductORP))]) = ConductORP) /\
+(PBOut CONDUCT_ORP (exec [SOME (SLc (PL moveToPB))])   = MoveToPB)  /\
+(PBOut MOVE_TO_PB  (exec [SOME (SLc (PL conductPB))]) =  ConductPB)  /\
+(PBOut CONDUCT_PB  (exec [SOME (SLc (PL completePB))]) = CompletePB) /\
+(PBOut (s:slState) (trap _)    = unAuthorized) /\
+(PBOut (s:slState) (discard _) = unAuthenticated)`
+
+(******************************************************************************)
+(* Define authentication function                                             *)
+(******************************************************************************)
+val inputOK_def =
+Define`
+(inputOK (((Name PlatoonLeader) says prop (cmd:((slCommand command)option)))
+	   :((slCommand command)option, stateRole,'d,'e)Form) = T) /\
+(inputOK (((Name Omni)          says prop (cmd:((slCommand command)option)))
+	   :((slCommand command)option, stateRole,'d,'e)Form) = T) /\
+(inputOK _ = F)`
+
 
 
 
