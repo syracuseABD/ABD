@@ -80,6 +80,16 @@ Define`
 (inputOK _ = F)`
 
 
+(******************************************************************************)
+(* Prove that commands are rejected unless that are requested by a properly   *)
+(* authenticated principal. 	    	   	    	      	   	      *)
+(******************************************************************************)
+
+val inputOK_cmd_reject_lemma =
+Q.prove(`!cmd. ~(inputOK
+	         ((prop (SOME cmd))))`,
+		 	      (PROVE_TAC[inputOK_def]))
+
 
 
 
