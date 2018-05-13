@@ -1,7 +1,8 @@
-app load [ "PBTypeTheory", "ssmPBTheory",
+app load [ "PBTypeIntegratedTheory", "ssmPBTheory",
+    	   "PBIntegratedDefTheory",
           "EmitTeX"];
 
 open EmitTeX;
 
 print_theories_as_tex_doc
-["PBType", "ssmPB"] "Report";
+["PBTypeIntegrated", "ssmPB","PBIntegratedDef"] "Report";
