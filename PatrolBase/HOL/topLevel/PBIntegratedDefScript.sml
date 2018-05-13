@@ -10,19 +10,19 @@ structure PBIntegratedDefScript = struct
 app load  ["TypeBase", "listTheory","optionTheory",
            "uavUtilities",
 	  "OMNITypeTheory",
-	  "PBTypeTheory","PBIntegratedDefTheory","PBTypeIntegratedTheory"];
+	  "PBIntegratedDefTheory","PBTypeIntegratedTheory"];
 
 open TypeBase listTheory optionTheory
      aclsemanticsTheory aclfoundationTheory
      uavUtilities
      OMNITypeTheory
-     PBTypeTheory PBIntegratedDefTheory PBTypeIntegratedTheory
+     PBIntegratedDefTheory PBTypeIntegratedTheory
  ==== end Interactive Mode ==== *)
 
 open HolKernel Parse boolLib bossLib;
 open TypeBase listTheory optionTheory
 open  uavUtilities
-open OMNITypeTheory PBTypeTheory PBTypeIntegratedTheory
+open OMNITypeTheory  PBTypeIntegratedTheory
 
 val _ = new_theory "PBIntegratedDef";
 (* -------------------------------------------------------------------------- *)
@@ -31,11 +31,29 @@ val _ = new_theory "PBIntegratedDef";
 (* This function doesn't do anything but is necessary to specialize other     *)
 (* theorems.                                                                  *)
 (* -------------------------------------------------------------------------- *)
-val secContextNull_def = Define `
-    secContextNull (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+val secContext_def = Define `
+    secContext (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
         [(TT:((slCommand command)option, stateRole, 'd,'e)Form)]`
 
-(* ===== Area 52 ====
+val secHelper =
+Define`
+  (secHelper (cmd:omniCommand) =
+     [(Name Omni) controls prop (SOME (SLc (OMNI (cmd:omniCommand))))])`
+
+val getOmniCommand_def =
+Define`
+  (getOmniCommand ([]:((slCommand command)option, stateRole, 'd,'e)Form list)
+  		      = invalidOmniCommand:omniCommand) /\
+  (getOmniCommand (((Name Omni) controls prop (SOME (SLc (OMNI cmd))))::xs)
+  		      = (cmd:omniCommand)) /\
+  (getOmniCommand ((x:((slCommand command)option, stateRole, 'd,'e)Form)::xs)
+  		      =  (getOmniCommand xs))`
+
+val secAuthorization_def =
+Define`
+  (secAuthorization (xs:((slCommand command)option, stateRole,'d,'e)Form list)
+  		  = secHelper (getOmniCommand xs)) `
+
 
 val secContext_def =
 Define`
@@ -43,7 +61,7 @@ Define`
  	[(prop (SOME (SLc (OMNI (ssmPlanPBComplete))))
 	 :((slCommand command)option, stateRole, 'd,'e)Form) impf
 	 (Name PlatoonLeader) controls prop (SOME (SLc (PL crossLD)))
-	  :((slCommand command)option, stateRole, 'd,'e)Form]) /\
+	  :((slCommand command)option, stateRole, 'd,'e)Form])          /\
  (secContext (MOVE_TO_ORP) ((x:((slCommand command)option, stateRole, 'd,'e)Form)::xs) =
  	[prop (SOME (SLc  (OMNI (ssmMoveToORPComplete)))) impf
 	 (Name PlatoonLeader) controls prop (SOME (SLc (PL conductORP)))]) /\
@@ -57,54 +75,9 @@ Define`
  	[prop (SOME (SLc (OMNI (ssmConductPBComplete)))) impf
 	 (Name PlatoonLeader) controls prop (SOME (SLc (PL completePB)))])`
 
-
-val (secAuthorization_rules, secAuthorization_ind, secAuthorization_cases) =
-Hol_reln
-``(! (cmd:omniCommand).
-  (secAuthorization (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-     [(Name Omni) controls prop (SOME (SLc (OMNI cmd)))
-     :((slCommand command)option, stateRole, 'd,'e)Form]))``
- 
-
-val secHelper =
-Define`
-  (secHelper (cmd:omniCommand) =
-     [(Name Omni) controls prop (SOME (SLc (OMNI cmd)))
-   :((slCommand command)option, stateRole, 'd,'e)Form])`
-
-
-val secAuthorization_def =
-Define`
-  (secAuthorization _  = secHelper (cmd:omniCommand)) `
-    
-
-
-
-
-
-These are necessary
-val getOmniCommand_def =
-Define`
-  (getOmniCommand ([]:((slCommand command)option, stateRole, 'd,'e)Form list)
-  		      = [NONE]) /\
-  (getOmniCommand ((x:((slCommand command)option, stateRole, 'd,'e)Form)::xs)
-  		      = if (x = (Name Omni says prop (SOME (SLc (OMNI cmd)))))
-			  then [SOME (SLc (OMNI cmd))]
-			  else (getOmniCommand xs))`
-
-val getPLCommand_def =
-Define`
-  (getPLCommand ([]:((slCommand command)option, stateRole, 'd,'e)Form list)
-  		      = [NONE]) /\
-  (getPLCommand ((x:((slCommand command)option, stateRole, 'd,'e)Form)::xs)
-  		      = if (x = (Name Omni says prop (SOME (SLc (PL cmd)))))
-			  then [SOME (SLc (PL cmd))]
-			  else (getPLCommand xs))`
+(* ===== Area 52 ====
 
  ==== End Area 52 ==== *)
-
-
-
 
 val _= export_theory();
 end
