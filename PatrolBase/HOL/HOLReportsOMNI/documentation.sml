@@ -1,7 +1,7 @@
 app load ["OMNITypeTheory", "ssm11Theory", "ssmTheory",
     	  "satListTheory","ssminfRules",
     	  "ssmPBTheory",
-	  "PBTypeTheory",
+	  "PBTypeIntegratedTheory","PBIntegratedDefTheory",
           "ssmConductORPTheory", "ConductORPTypeTheory",
 	  "ssmConductPBTheory","ConductPBTypeTheory",
 	  "ssmMoveToORPTheory","MoveToORPTypeTheory",
@@ -15,7 +15,7 @@ print_theories_as_tex_doc
 ["OMNIType","ssm11", "ssm",
  "satList","ssminfRules",
  "ssmPB",
- "PBType",
+ "PBTypeIntegrated","PBIntegratedDef",
  "ssmConductORP","ConductORPType",
  "ssmConductPB","ConductPBType","ssmMoveToORP","MoveToORPType",
  "ssmMoveToPB","MoveToPBType","ssmPlanPB","PlanPBType" ] "OMNIReport";
