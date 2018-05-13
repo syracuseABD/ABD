@@ -58,14 +58,31 @@ Define`
 	 (Name PlatoonLeader) controls prop (SOME (SLc (PL completePB)))])`
 
 
+val (secAuthorization_rules, secAuthorization_ind, secAuthorization_cases) =
+Hol_reln
+``(! (cmd:omniCommand).
+  (secAuthorization (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
+     [(Name Omni) controls prop (SOME (SLc (OMNI cmd)))
+     :((slCommand command)option, stateRole, 'd,'e)Form]))``
+ 
+
+val secHelper =
+Define`
+  (secHelper (cmd:omniCommand) =
+     [(Name Omni) controls prop (SOME (SLc (OMNI cmd)))
+   :((slCommand command)option, stateRole, 'd,'e)Form])`
+
+
+val secAuthorization_def =
+Define`
+  (secAuthorization _  = secHelper (cmd:omniCommand)) `
+    
 
 
 
 
 
-
-
-
+These are necessary
 val getOmniCommand_def =
 Define`
   (getOmniCommand ([]:((slCommand command)option, stateRole, 'd,'e)Form list)
@@ -83,18 +100,6 @@ Define`
   		      = if (x = (Name Omni says prop (SOME (SLc (PL cmd)))))
 			  then [SOME (SLc (PL cmd))]
 			  else (getPLCommand xs))`
-
-
-val secContext_def =
-Define`
-  (secContext (PLAN_PB)  (x:((slCommand command)option, stateRole, 'd,'e)Form list) =
-  (if (getOmniCommand x = [SOME (SLc (OMNI ssmPlanPBComplete))] /\
-       getPLCommand   x = [SOME (SLc (PL crossLD))])
-      then [(Name PlatoonLeader) controls prop (SOME (SLc (PL crossLD)))
-            :((slCommand command)option, stateRole, 'd,'e)Form]
-      else [(prop NONE):((slCommand command)option, stateRole, 'd,'e)Form)])
-  
-	
 
  ==== End Area 52 ==== *)
 
