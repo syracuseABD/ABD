@@ -92,6 +92,17 @@ Q.prove(`!cmd. ~(inputOK
 
 
 
+(* ===== Just playing around with this ====
+val inputOK_not_reject_lemma =
+Q.prove(`!cmd.
+        ~(
+	  (inputOK (((Name PlatoonLeader) says prop (cmd:((slCommand command)option)))
+	   :((slCommand command)option, stateRole,'d,'e)Form)) \/
+	  (inputOK (((Name Omni)          says prop (cmd:((slCommand command)option)))
+	   :((slCommand command)option, stateRole,'d,'e)Form)))
+
+ ==== OK, done fooling around ==== *)
+
 
 val _ = export_theory();
 
